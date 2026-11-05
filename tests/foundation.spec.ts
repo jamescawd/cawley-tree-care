@@ -70,6 +70,19 @@ for (const path of PAGES) {
   });
 }
 
+test('layout spacing does not leak into nested primitives', async ({ page }) => {
+  await page.goto('/styleguide');
+  const { outer, inner } = await page.evaluate(() => {
+    const outerStack = document.querySelector<HTMLElement>('main .stack')!;
+    const innerStack = outerStack.querySelector<HTMLElement>('.stack')!;
+    return {
+      outer: getComputedStyle(outerStack).rowGap,
+      inner: getComputedStyle(innerStack).rowGap,
+    };
+  });
+  expect(inner).not.toBe(outer);
+});
+
 test('internal styleguide is never indexable', async ({ page }) => {
   await page.goto('/styleguide');
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);

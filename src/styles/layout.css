@@ -9,6 +9,36 @@
  *   80em (1280px) desktop
  */
 
+/*
+ * Layout settings are per-element: a nested .stack must not inherit its
+ * parent's spacing. Registering them as non-inheriting custom properties
+ * keeps each primitive independent.
+ */
+@property --stack-space {
+  syntax: '*';
+  inherits: false;
+}
+
+@property --cluster-space {
+  syntax: '*';
+  inherits: false;
+}
+
+@property --cluster-align {
+  syntax: '*';
+  inherits: false;
+}
+
+@property --grid-space {
+  syntax: '*';
+  inherits: false;
+}
+
+@property --grid-min {
+  syntax: '*';
+  inherits: false;
+}
+
 .container {
   width: 100%;
   max-width: calc(var(--container-max) + var(--gutter) * 2);

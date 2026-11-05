@@ -89,6 +89,7 @@ const classes = ['btn', `btn--${variant}`, `btn--${size}`, className];
   }
 
   .btn--text {
+    align-self: flex-start; /* never stretch inside a .stack */
     min-height: auto;
     padding: 0.25em 0;
     color: var(--color-text);
