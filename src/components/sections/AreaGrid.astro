@@ -1,44 +1,63 @@
 ---
-/** Counties and their towns, from config/areas.ts. */
-import { serviceAreas, countyLabel } from '@/config/areas';
+/**
+ * Service areas as an editorial index: one row per county with a large
+ * serif name and its towns. Data from config/areas.ts.
+ */
+import { serviceAreas } from '@/config/areas';
 import { provided } from '@/lib/placeholder';
 
-const areas = serviceAreas
-  .map((a) => ({ id: a.id, county: provided(a.county), towns: a.towns.map(provided) }))
-  .filter((a): a is { id: string; county: string; towns: (string | undefined)[] } => !!a.county);
+const areas = serviceAreas.flatMap((a) => {
+  const county = provided(a.county);
+  if (!county) return [];
+  return [{ id: a.id, county, towns: a.towns.map(provided).filter((t): t is string => !!t) }];
+});
 ---
 
-<ul class="areas" role="list">
-  {areas.map((area) => (
-    <li class="areas__county">
+<ol class="areas" role="list">
+  {areas.map((area, i) => (
+    <li class="areas__row reveal">
+      <span class="areas__n" aria-hidden="true">
+        {String(i + 1).padStart(2, '0')}
+      </span>
       <h3 class="areas__name">
         <span class="areas__co">Co.</span> {area.county}
-        <span class="visually-hidden">({countyLabel(area.county)})</span>
       </h3>
-      <ul class="areas__towns" role="list" aria-label={`Towns in County ${area.county}`}>
-        {area.towns.filter(Boolean).map((town) => (
+      <ul class="areas__towns" role="list" aria-label={`Towns we serve in County ${area.county}`}>
+        {area.towns.map((town) => (
           <li>{town}</li>
         ))}
       </ul>
     </li>
   ))}
-</ul>
+</ol>
 
 <style>
   .areas {
-    display: grid;
     border-block-start: 1px solid var(--color-border);
   }
 
-  .areas__county {
+  .areas__row {
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    column-gap: var(--space-s);
+    row-gap: var(--space-xs);
     padding-block: var(--space-m);
     border-block-end: 1px solid var(--color-border);
     max-width: none;
   }
 
+  .areas__n {
+    padding-block-start: 0.9em;
+    font-family: var(--font-serif);
+    font-size: var(--text-base);
+    color: var(--color-text-muted);
+  }
+
   .areas__name {
-    margin-block-end: var(--space-xs);
-    font-size: var(--text-2xl);
+    font-size: var(--text-4xl);
+    line-height: 1;
+    letter-spacing: var(--tracking-display);
+    transition: color var(--duration-base) var(--ease-out);
   }
 
   .areas__co {
@@ -47,9 +66,10 @@ const areas = serviceAreas
   }
 
   .areas__towns {
+    grid-column: 2;
     display: flex;
     flex-wrap: wrap;
-    gap: 0.4em 1em;
+    gap: 0.35em 0;
     font-size: var(--text-sm);
     color: var(--color-text-secondary);
   }
@@ -58,34 +78,29 @@ const areas = serviceAreas
     max-width: none;
   }
 
-  @media (min-width: 48em) {
-    .areas {
-      grid-template-columns: repeat(2, 1fr);
-      column-gap: var(--space-l);
-    }
+  .areas__towns li:not(:last-child)::after {
+    content: '·';
+    margin-inline: 0.65em;
+    color: var(--color-accent-decorative);
+  }
+
+  .areas__row:hover .areas__name {
+    color: var(--color-accent-text);
   }
 
   @media (min-width: 64em) {
-    .areas {
-      grid-template-columns: repeat(5, 1fr);
-      column-gap: 0;
-      border-block-start: 0;
-    }
-
-    .areas__county {
-      padding: var(--space-m) var(--space-m) var(--space-s) 0;
-      border-block: 1px solid var(--color-border) 0;
-      border-block-end: 0;
-    }
-
-    .areas__county + .areas__county {
-      padding-inline-start: var(--space-m);
-      border-inline-start: 1px solid var(--color-border);
+    .areas__row {
+      grid-template-columns: 3rem minmax(0, 5fr) minmax(0, 6fr);
+      align-items: center;
+      column-gap: var(--space-l);
+      padding-block: var(--space-l);
     }
 
     .areas__towns {
-      flex-direction: column;
-      gap: 0.55em;
+      grid-column: 3;
+      justify-content: flex-end;
+      text-align: end;
+      font-size: var(--text-base);
     }
   }
 </style>

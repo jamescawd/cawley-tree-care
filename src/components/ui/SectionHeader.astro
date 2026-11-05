@@ -10,12 +10,21 @@ interface Props {
   level?: 'h2' | 'h3';
   /** Split heading and lead into two columns on wide screens. */
   split?: boolean;
+  /** "xl" = display-scale heading for a section's main statement. */
+  size?: 'lg' | 'xl';
 }
 
-const { id, eyebrow, index, level: Heading = 'h2', split = false } = Astro.props;
+const { id, eyebrow, index, level: Heading = 'h2', split = false, size = 'lg' } = Astro.props;
 ---
 
-<header class:list={['section-header', { 'section-header--split': split }]}>
+<header
+  class:list={[
+    'section-header',
+    'reveal',
+    `section-header--${size}`,
+    { 'section-header--split': split },
+  ]}
+>
   <div class="section-header__title">
     {index ? (
       <p class="section-index">
@@ -42,6 +51,12 @@ const { id, eyebrow, index, level: Heading = 'h2', split = false } = Astro.props
   .section-header {
     display: grid;
     gap: var(--space-m);
+  }
+
+  .section-header--xl :global(h2) {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-display);
   }
 
   .section-header__title {

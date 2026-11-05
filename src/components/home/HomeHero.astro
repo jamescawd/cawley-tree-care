@@ -1,6 +1,11 @@
 ---
+/**
+ * Cinematic hero: full-bleed photograph under a translucent header, with
+ * the headline set over a deep charcoal gradient. On phones the photo
+ * fills the top of the screen and the headline overlaps its lower edge.
+ */
+import { Picture } from 'astro:assets';
 import Button from '@/components/ui/Button.astro';
-import PhotoFrame from '@/components/ui/PhotoFrame.astro';
 import TrustList from '@/components/ui/TrustList.astro';
 import { media } from '@/config/media';
 import { quoteHref } from '@/config/navigation';
@@ -9,18 +14,33 @@ import { serviceAreas } from '@/config/areas';
 const counties = serviceAreas.map((a) => a.county as string);
 const countyList = `${counties.slice(0, -1).join(', ')} and ${counties.at(-1)}`;
 const intro = `Professional tree care and tree surgery, with landscaping to complete the picture, across ${countyList}.`;
+const hero = media.homeHero;
+const widths = [480, 720, 960, 1280, hero.src.width].filter(
+  (w, i, a) => w <= hero.src.width && a.indexOf(w) === i,
+);
 ---
 
 <section class="hero surface-dark" aria-labelledby="hero-title">
-  <div class="container hero__top">
-    <div class="hero__headline">
-      <p class="eyebrow">Tree Care · Tree Surgery · Landscaping</p>
-      <h1 id="hero-title" class="text-display">
-        Specialist tree care, <em>rooted</em> in experience.
-      </h1>
-    </div>
-    <div class="hero__intro">
-      <p class="lead">{intro}</p>
+  <div class="hero__media">
+    <Picture
+      src={hero.src}
+      alt={hero.alt}
+      widths={widths}
+      sizes="100vw"
+      formats={['avif', 'webp']}
+      priority
+      layout="none"
+    />
+    {hero.illustrative && <span class="hero__note">Illustrative image</span>}
+  </div>
+
+  <div class="container hero__content">
+    <p class="eyebrow">Tree Care · Tree Surgery · Landscaping</p>
+    <h1 id="hero-title" class="text-display hero__title">
+      Specialist tree care, <em>rooted</em> in experience.
+    </h1>
+    <div class="hero__row">
+      <p class="lead hero__lead">{intro}</p>
       <div class="cluster hero__ctas">
         <Button href={quoteHref} size="lg" arrow>
           Request a quote
@@ -30,84 +50,179 @@ const intro = `Professional tree care and tree surgery, with landscaping to comp
         </Button>
       </div>
     </div>
-  </div>
-
-  <div class="hero__media">
-    <PhotoFrame
-      image={media.homeHero.src}
-      alt={media.homeHero.alt}
-      illustrative={media.homeHero.illustrative}
-      ratio="4 / 5"
-      ratioWide="21 / 9"
-      focus="56% 50%"
-      sizes="(min-width: 90em) 1440px, 100vw"
-      priority
-      tone="dark"
-    />
-  </div>
-
-  <div class="container">
     <TrustList class="hero__trust" />
   </div>
 </section>
 
 <style>
   .hero {
-    padding-block-start: var(--space-xl);
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    /* Slide under the sticky, translucent header. */
+    margin-block-start: calc(var(--header-height) * -1);
   }
 
-  .hero__top {
+  .hero__media {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 78svh;
+    z-index: -1;
+  }
+
+  .hero__media :global(picture),
+  .hero__media :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero__media :global(img) {
+    object-fit: cover;
+    object-position: 58% 30%;
+  }
+
+  /* Charcoal gradient: keeps text readable and melts the photo into the page. */
+  .hero__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgb(23 23 23 / 0.55) 0%,
+      rgb(23 23 23 / 0) 22%,
+      rgb(23 23 23 / 0) 40%,
+      rgb(23 23 23 / 0.85) 75%,
+      var(--charcoal-900) 100%
+    );
+  }
+
+  .hero__note {
+    position: absolute;
+    inset-block-start: calc(var(--header-height) + var(--space-xs));
+    inset-inline-end: var(--space-xs);
+    z-index: 1;
+    padding: 0.35em 0.65em;
+    font-size: 0.6875rem;
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.04em;
+    color: var(--ivory-100);
+    background: rgb(23 23 23 / 0.6);
+    border-radius: var(--radius-sm);
+  }
+
+  .hero__content {
     display: grid;
-    gap: var(--space-l);
-    padding-block-end: var(--space-xl);
+    gap: var(--space-m);
+    padding-block: calc(50svh) var(--space-l);
   }
 
-  .hero__headline {
+  .hero__content > :global(.eyebrow) {
+    text-shadow: 0 1px 12px rgb(23 23 23 / 0.9);
+  }
+
+  .hero__title {
+    max-width: 11ch;
+    text-shadow: 0 2px 30px rgb(23 23 23 / 0.35);
+  }
+
+  .hero__row {
     display: grid;
     gap: var(--space-m);
   }
 
-  .hero__headline h1 {
-    max-width: 13ch;
-  }
-
-  .hero__intro {
-    display: grid;
-    gap: var(--space-m);
-    align-content: end;
-  }
-
-  .hero__intro .lead {
-    max-width: 44ch;
-  }
-
-  .hero__media :global(.frame) {
-    border-radius: 0;
+  .hero__lead {
+    max-width: 46ch;
+    color: var(--ivory-100);
   }
 
   .hero :global(.hero__trust) {
-    padding-block: var(--space-m) var(--space-l);
+    margin-block-start: var(--space-m);
+    padding-block-start: var(--space-m);
+    border-block-start: 1px solid rgb(242 238 230 / 0.2);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero__media :global(img) {
+      animation: hero-settle 2.6s var(--ease-out) both;
+    }
+
+    .hero__content > :global(*) {
+      animation: hero-rise 1s var(--ease-out) both;
+    }
+
+    .hero__content > :global(:nth-child(2)) {
+      animation-delay: 0.1s;
+    }
+
+    .hero__content > :global(:nth-child(3)) {
+      animation-delay: 0.25s;
+    }
+
+    .hero__content > :global(:nth-child(4)) {
+      animation-delay: 0.4s;
+    }
+  }
+
+  @keyframes hero-settle {
+    from {
+      transform: scale(1.08);
+    }
+  }
+
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(1.25rem);
+    }
   }
 
   @media (min-width: 64em) {
     .hero {
-      padding-block-start: var(--space-2xl);
-    }
-
-    .hero__top {
-      grid-template-columns: 1.3fr 1fr;
-      gap: var(--space-2xl);
-      align-items: end;
+      display: flex;
+      align-items: flex-end;
+      min-height: max(40rem, min(100svh, 64rem));
     }
 
     .hero__media {
-      max-width: calc(var(--container-wide) + var(--gutter) * 2);
-      margin-inline: auto;
-      padding-inline: var(--gutter);
+      inset: 0;
+      height: auto;
     }
 
-    .hero__media :global(.frame) {
-      border-radius: var(--radius-md);
+    .hero__media :global(img) {
+      object-position: 60% 40%;
+    }
+
+    .hero__media::after {
+      background:
+        linear-gradient(
+          to right,
+          rgb(23 23 23 / 0.78) 0%,
+          rgb(23 23 23 / 0.35) 45%,
+          rgb(23 23 23 / 0) 70%
+        ),
+        linear-gradient(
+          to bottom,
+          rgb(23 23 23 / 0.6) 0%,
+          rgb(23 23 23 / 0.15) 20%,
+          rgb(23 23 23 / 0.1) 50%,
+          rgb(23 23 23 / 0.92) 100%
+        );
+    }
+
+    .hero__content {
+      width: 100%;
+      padding-block: calc(var(--header-height) + var(--space-3xl)) var(--space-l);
+    }
+
+    .hero__title {
+      font-size: clamp(4rem, 1rem + 6vw, 7.5rem);
+    }
+
+    .hero__row {
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: var(--space-2xl);
     }
   }
 </style>

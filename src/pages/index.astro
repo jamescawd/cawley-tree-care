@@ -14,9 +14,12 @@ import HomeAbout from '@/components/home/HomeAbout.astro';
 import HomeAreas from '@/components/home/HomeAreas.astro';
 import HomeTestimonials from '@/components/home/HomeTestimonials.astro';
 import HomeEnquiry from '@/components/home/HomeEnquiry.astro';
+import Marquee from '@/components/ui/Marquee.astro';
 import { media } from '@/config/media';
+import { serviceAreas } from '@/config/areas';
 import { getImage } from 'astro:assets';
 
+const places = serviceAreas.flatMap((a) => [`Co. ${a.county as string}`, ...(a.towns as string[])]);
 const shareImage = await getImage({ src: media.homeHero.src, width: 1200, format: 'jpg' });
 ---
 
@@ -27,6 +30,7 @@ const shareImage = await getImage({ src: media.homeHero.src, width: 1200, format
   image={{ src: shareImage.src, alt: media.homeHero.alt, width: 1200, height: 673 }}
 >
   <HomeHero />
+  <Marquee items={places} duration={90} />
   <HomeTreeCare />
   <HomeLandscaping />
   <HomeWhy />

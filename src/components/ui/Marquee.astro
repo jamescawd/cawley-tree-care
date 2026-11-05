@@ -1,0 +1,93 @@
+---
+/**
+ * Slow, continuous band of words (e.g. towns served). Decorative: the same
+ * information appears as real content elsewhere, so it is hidden from
+ * assistive technology. Static (wrapping) for reduced-motion users.
+ */
+interface Props {
+  items: string[];
+  /** Seconds for one full loop. */
+  duration?: number;
+}
+
+const { items, duration = 60 } = Astro.props;
+---
+
+<div class="marquee surface-accent" aria-hidden="true" style={`--duration: ${duration}s`}>
+  <div class="marquee__track">
+    {[0, 1].map(() => (
+      <ul class="marquee__group" role="list">
+        {items.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    padding-block: var(--space-s);
+    border-block: 1px solid var(--charcoal-900);
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+  }
+
+  .marquee__group {
+    display: flex;
+    flex-shrink: 0;
+  }
+
+  .marquee__group li {
+    display: flex;
+    align-items: center;
+    max-width: none;
+    font-family: var(--font-serif);
+    font-size: var(--text-2xl);
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .marquee__group li::after {
+    content: '';
+    width: 0.4rem;
+    height: 0.4rem;
+    margin-inline: var(--space-l);
+    background: var(--charcoal-900);
+    border-radius: 50%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .marquee__track {
+      animation: marquee var(--duration) linear infinite;
+    }
+
+    .marquee:hover .marquee__track {
+      animation-play-state: paused;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__group + .marquee__group {
+      display: none;
+    }
+
+    .marquee__track,
+    .marquee__group {
+      width: auto;
+      flex-wrap: wrap;
+      justify-content: center;
+      row-gap: var(--space-xs);
+    }
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>

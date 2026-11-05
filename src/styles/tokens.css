@@ -112,6 +112,8 @@
   --duration-base: 250ms;
   --duration-slow: 500ms;
 
+  --header-height: 4.5rem;
+
   --z-header: 100;
   --z-overlay: 200;
   --z-modal: 300;

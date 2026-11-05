@@ -31,9 +31,9 @@ const figures: Figure[] = [
 ];
 ---
 
-<section id="why" class="section-lg why surface-dark" aria-labelledby="why-title">
+<section id="why" class="section-lg why surface-accent texture" aria-labelledby="why-title">
   <div class="container why__inner">
-    <SectionHeader id="why-title" eyebrow="Why Cawley's" split>
+    <SectionHeader id="why-title" eyebrow="Why Cawley's" size="xl" split>
       <Fragment slot="title">
         Experience you can <em>rely on</em>
       </Fragment>
@@ -42,7 +42,9 @@ const figures: Figure[] = [
         experience, full insurance and a specialist's focus on trees.
       </p>
     </SectionHeader>
-    <CredentialFigures figures={figures} />
+    <div class="reveal">
+      <CredentialFigures figures={figures} />
+    </div>
   </div>
 </section>
 
@@ -50,5 +52,9 @@ const figures: Figure[] = [
   .why__inner {
     display: grid;
     gap: var(--space-2xl);
+  }
+
+  .why :global(.figures__value) {
+    font-size: clamp(3.5rem, 2rem + 6vw, 8rem);
   }
 </style>

@@ -28,9 +28,9 @@ const slots = [
 ---
 
 {show && (
-  <section id="work" class="section-lg work" aria-labelledby="work-title">
+  <section id="work" class="section-lg work surface-dark texture" aria-labelledby="work-title">
     <div class="container work__inner">
-      <SectionHeader id="work-title" eyebrow="Featured work" split>
+      <SectionHeader id="work-title" eyebrow="Featured work" size="xl" split>
         <Fragment slot="title">
           Work we’re <em>proud of</em>
         </Fragment>
@@ -51,7 +51,7 @@ const slots = [
           </p>
           <div class="work__grid">
             {slots.map((needed) => (
-              <PhotoFrame needed={needed} ratio="4 / 3" />
+              <PhotoFrame needed={needed} ratio="4 / 3" tone="dark" class="reveal" />
             ))}
           </div>
         </>

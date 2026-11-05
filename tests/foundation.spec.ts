@@ -15,6 +15,11 @@ for (const path of PAGES) {
     });
 
     test('has no WCAG 2.2 AA accessibility violations', async ({ page }) => {
+      // Audit the settled design: entrance animations briefly fade elements,
+      // which axe would otherwise measure mid-transition.
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await page.reload();
+      await page.evaluate(() => document.fonts.ready);
       const results = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
         .analyze();

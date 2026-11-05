@@ -1,6 +1,5 @@
 ---
 import SectionHeader from '@/components/ui/SectionHeader.astro';
-import PhotoFrame from '@/components/ui/PhotoFrame.astro';
 import Button from '@/components/ui/Button.astro';
 import ServiceIndex from '@/components/sections/ServiceIndex.astro';
 import { landscaping } from '@/config/services';
@@ -8,56 +7,26 @@ import { quoteHref } from '@/config/navigation';
 ---
 
 <section id="landscaping" class="section-lg landscaping" aria-labelledby="landscaping-title">
-  <div class="container landscaping__grid">
-    <PhotoFrame
-      class="landscaping__photo"
-      needed="A finished landscaping project by Cawley's (garden, planting or paving)"
-      ratio="4 / 3"
-      ratioWide="4 / 5"
-    />
-    <div class="landscaping__body">
-      <SectionHeader id="landscaping-title" index="02" eyebrow="Landscaping">
-        <Fragment slot="title">
-          Gardens &amp; grounds, <em>finished well</em>
-        </Fragment>
-        <p>
-          The same care and standards we bring to trees, applied to the wider garden: from new
-          planting and lawns to paving, boundaries and ongoing upkeep.
-        </p>
-      </SectionHeader>
-      <ServiceIndex
-        services={landscaping.services}
-        variant="compact"
-        label="Landscaping services"
-      />
-      <Button href={quoteHref} variant="text" arrow>
-        Plan your landscaping
-      </Button>
-    </div>
+  <div class="container landscaping__inner">
+    <SectionHeader id="landscaping-title" index="02" eyebrow="Landscaping" size="xl" split>
+      <Fragment slot="title">
+        Gardens &amp; grounds, <em>finished well</em>
+      </Fragment>
+      <p>
+        The same care and standards we bring to trees, applied to the wider garden: from new
+        planting and lawns to paving, boundaries and ongoing upkeep.
+      </p>
+    </SectionHeader>
+    <ServiceIndex services={landscaping.services} variant="cards" label="Landscaping services" />
+    <Button href={quoteHref} variant="secondary" arrow>
+      Plan your landscaping
+    </Button>
   </div>
 </section>
 
 <style>
-  .landscaping {
-    background-color: var(--color-bg-raised);
-  }
-
-  .landscaping__grid {
+  .landscaping__inner {
     display: grid;
     gap: var(--space-xl);
-  }
-
-  .landscaping__body {
-    display: grid;
-    gap: var(--space-l);
-    align-content: center;
-  }
-
-  @media (min-width: 64em) {
-    .landscaping__grid {
-      grid-template-columns: 5fr 7fr;
-      gap: var(--space-3xl);
-      align-items: center;
-    }
   }
 </style>
