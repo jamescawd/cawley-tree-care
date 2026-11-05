@@ -1,0 +1,16 @@
+---
+/** Standard page: BaseLayout + site header + site footer. */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import SiteHeader from '@/components/layout/SiteHeader.astro';
+import SiteFooter from '@/components/layout/SiteFooter.astro';
+import type { ComponentProps } from 'astro/types';
+
+type Props = ComponentProps<typeof BaseLayout>;
+const props = Astro.props;
+---
+
+<BaseLayout {...props}>
+  <SiteHeader slot="header" />
+  <slot />
+  <SiteFooter slot="footer" />
+</BaseLayout>

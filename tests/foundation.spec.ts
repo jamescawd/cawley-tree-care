@@ -5,7 +5,7 @@ import AxeBuilder from '@axe-core/playwright';
  * Foundation checks. Every future page should be added to PAGES so it
  * inherits the same accessibility, SEO and responsiveness guarantees.
  */
-const PAGES = ['/styleguide'];
+const PAGES = ['/', '/styleguide'];
 
 for (const path of PAGES) {
   test.describe(path, () => {
@@ -18,7 +18,11 @@ for (const path of PAGES) {
       const results = await new AxeBuilder({ page })
         .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
         .analyze();
-      expect(results.violations.map((v) => `${v.id}: ${v.help} (${v.nodes.length})`)).toEqual([]);
+      // Report each failing element so problems are quick to locate.
+      const failures = results.violations.flatMap((v) =>
+        v.nodes.map((n) => `${v.id}: ${n.target.join(' ')}: ${n.failureSummary ?? v.help}`),
+      );
+      expect(failures).toEqual([]);
     });
 
     test('does not scroll horizontally', async ({ page }) => {
@@ -33,7 +37,8 @@ for (const path of PAGES) {
       await expect(page).toHaveTitle(/Cawley's Tree Care & Landscaping/);
       await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /.{50,}/);
       const canonical = await page.locator('link[rel="canonical"]').getAttribute('href');
-      expect(canonical).not.toMatch(/\.html$|\/$/);
+      // One canonical form: no ".html", no trailing slash (except the root "/").
+      expect(new URL(canonical!).pathname).toBe(path);
       await expect(page.locator('h1')).toHaveCount(1);
     });
 

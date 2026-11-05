@@ -1,0 +1,156 @@
+---
+/**
+ * Quote enquiry form. Plain HTML: works without JavaScript, native
+ * validation, autocomplete hints, ≥44px targets.
+ *
+ * Until `business.enquiryEndpoint` is configured, the form is shown but
+ * cannot submit, with a visible notice (no personal data goes anywhere).
+ */
+import Button from '@/components/ui/Button.astro';
+import Pending from '@/components/ui/Pending.astro';
+import { business } from '@/config/business';
+import { serviceAreas } from '@/config/areas';
+import { provided } from '@/lib/placeholder';
+
+interface Props {
+  id?: string;
+}
+
+const { id = 'quote-form' } = Astro.props;
+const endpoint = provided(business.enquiryEndpoint);
+const privacy = provided(business.links.privacyPolicy);
+---
+
+<form
+  class="form enquiry"
+  id={id}
+  method="post"
+  action={endpoint}
+  aria-describedby={endpoint ? undefined : `${id}-offline`}
+>
+  {!endpoint && (
+    <p class="enquiry__offline" id={`${id}-offline`} role="note">
+      <strong>Placeholder:</strong> this form is not connected yet, so enquiries cannot be sent from
+      this preview.
+    </p>
+  )}
+
+  <div class="form-row">
+    <div class="field">
+      <label class="field__label" for={`${id}-name`}>
+        Your name
+      </label>
+      <input class="input" id={`${id}-name`} name="name" type="text" autocomplete="name" required />
+    </div>
+    <div class="field">
+      <label class="field__label" for={`${id}-phone`}>
+        Phone number
+      </label>
+      <input
+        class="input"
+        id={`${id}-phone`}
+        name="phone"
+        type="tel"
+        autocomplete="tel"
+        inputmode="tel"
+        required
+      />
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="field">
+      <label class="field__label" for={`${id}-email`}>
+        Email <span class="field__optional">(optional)</span>
+      </label>
+      <input class="input" id={`${id}-email`} name="email" type="email" autocomplete="email" />
+    </div>
+    <div class="field">
+      <label class="field__label" for={`${id}-location`}>
+        Where is the job?
+      </label>
+      <select class="select" id={`${id}-location`} name="location" required>
+        <option value="">Choose a town</option>
+        {serviceAreas.map((area) => (
+          <optgroup label={`Co. ${area.county as string}`}>
+            {area.towns.map((town) => (
+              <option>{town as string}</option>
+            ))}
+            <option value={`Elsewhere in Co. ${area.county as string}`}>
+              Elsewhere in Co. {area.county as string}
+            </option>
+          </optgroup>
+        ))}
+        <option value="Other">Somewhere else</option>
+      </select>
+    </div>
+  </div>
+
+  <fieldset class="fieldset">
+    <legend class="fieldset__legend">What do you need help with?</legend>
+    <div class="choices">
+      <label class="choice">
+        <input type="radio" name="service" value="Tree care" required /> Tree care / surgery
+      </label>
+      <label class="choice">
+        <input type="radio" name="service" value="Landscaping" /> Landscaping
+      </label>
+      <label class="choice">
+        <input type="radio" name="service" value="Not sure" /> Not sure yet
+      </label>
+    </div>
+  </fieldset>
+
+  <div class="field">
+    <label class="field__label" for={`${id}-message`}>
+      Tell us about the job
+    </label>
+    <textarea
+      class="textarea"
+      id={`${id}-message`}
+      name="message"
+      rows="5"
+      required
+      aria-describedby={`${id}-message-hint`}
+    ></textarea>
+    <p class="field__hint" id={`${id}-message-hint`}>
+      For example: the type and size of tree, what you'd like done, and any access details.
+    </p>
+  </div>
+
+  <div class="form__trap" aria-hidden="true">
+    <label for={`${id}-website`}>Leave this field empty</label>
+    <input id={`${id}-website`} name="website" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <div class="enquiry__submit">
+    <Button type="submit" size="lg" arrow disabled={!endpoint}>
+      Send enquiry
+    </Button>
+    <p class="field__hint">
+      We use your details only to reply to your enquiry.{' '}
+      {privacy ? (
+        <a href={privacy}>Privacy notice</a>
+      ) : (
+        <Pending value={business.links.privacyPolicy} compact />
+      )}
+    </p>
+  </div>
+</form>
+
+<style>
+  .enquiry__offline {
+    padding: var(--space-xs) var(--space-s);
+    font-size: var(--text-sm);
+    color: var(--color-text);
+    border: 1px dashed var(--color-text-muted);
+    border-radius: var(--radius-sm);
+    max-width: none;
+  }
+
+  .enquiry__submit {
+    display: grid;
+    gap: var(--space-xs);
+    justify-items: start;
+  }
+</style>

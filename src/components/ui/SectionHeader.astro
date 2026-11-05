@@ -1,0 +1,85 @@
+---
+/**
+ * Standard section opening: optional index number ("01"), eyebrow label,
+ * heading (slot "title"; use <em> for the italic signature word), and lead.
+ */
+interface Props {
+  id: string;
+  eyebrow: string;
+  index?: string;
+  level?: 'h2' | 'h3';
+  /** Split heading and lead into two columns on wide screens. */
+  split?: boolean;
+}
+
+const { id, eyebrow, index, level: Heading = 'h2', split = false } = Astro.props;
+---
+
+<header class:list={['section-header', { 'section-header--split': split }]}>
+  <div class="section-header__title">
+    {index ? (
+      <p class="section-index">
+        <span class="section-index__n" aria-hidden="true">
+          {index}
+        </span>
+        <span>{eyebrow}</span>
+      </p>
+    ) : (
+      <p class="eyebrow">{eyebrow}</p>
+    )}
+    <Heading id={id}>
+      <slot name="title" />
+    </Heading>
+  </div>
+  {Astro.slots.has('default') && (
+    <div class="section-header__lead lead">
+      <slot />
+    </div>
+  )}
+</header>
+
+<style>
+  .section-header {
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  .section-header__title {
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .section-header__lead :global(p) {
+    max-width: 48ch;
+  }
+
+  @media (min-width: 64em) {
+    .section-header--split {
+      grid-template-columns: 1.15fr 1fr;
+      align-items: end;
+      gap: var(--space-2xl);
+    }
+  }
+
+  .section-index {
+    display: flex;
+    align-items: center;
+    gap: 0.9em;
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--color-accent-text);
+  }
+
+  .section-index__n {
+    font-family: var(--font-serif);
+    font-size: 1.625rem;
+    font-weight: var(--weight-regular);
+    letter-spacing: 0;
+    line-height: 1;
+    color: var(--color-text);
+    padding-inline-end: 0.9em;
+    border-inline-end: 1px solid var(--color-border-strong);
+  }
+</style>

@@ -1,0 +1,103 @@
+---
+/**
+ * Featured work. Shows real projects from the `projects` collection
+ * (each requires client permission). Until there are any, preview builds
+ * show labelled photo frames; production builds omit the section.
+ */
+import { getCollection } from 'astro:content';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import PhotoFrame from '@/components/ui/PhotoFrame.astro';
+import ProjectCard from '@/components/sections/ProjectCard.astro';
+import { site } from '@/config/site';
+
+const projects = (await getCollection('projects', ({ data }) => !data.draft))
+  .sort(
+    (a, b) =>
+      Number(b.data.featured) - Number(a.data.featured) || +b.data.completed - +a.data.completed,
+  )
+  .slice(0, 5);
+
+const show = projects.length > 0 || site.showPreviewContent;
+const slots = [
+  'Large tree surgery or crown reduction project',
+  'Before-and-after of a tree job',
+  'Tree felling or dismantling in a tight space',
+  'Completed landscaping: planting or lawn',
+  'Hard landscaping: patio or paving',
+];
+---
+
+{show && (
+  <section id="work" class="section-lg work" aria-labelledby="work-title">
+    <div class="container work__inner">
+      <SectionHeader id="work-title" eyebrow="Featured work" split>
+        <Fragment slot="title">
+          Work we’re <em>proud of</em>
+        </Fragment>
+        <p>A selection of tree care and landscaping projects completed by the Cawley's team.</p>
+      </SectionHeader>
+
+      {projects.length > 0 ? (
+        <div class="work__grid">
+          {projects.map((project) => (
+            <ProjectCard project={project} />
+          ))}
+        </div>
+      ) : (
+        <>
+          <p class="work__notice" role="note">
+            <strong>Placeholder gallery:</strong> genuine Cawley's projects will appear here, with
+            clients' permission. Stock or AI imagery will never be shown as our work.
+          </p>
+          <div class="work__grid">
+            {slots.map((needed) => (
+              <PhotoFrame needed={needed} ratio="4 / 3" />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  </section>
+)}
+
+<style>
+  .work__inner {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .work__notice {
+    padding: var(--space-xs) var(--space-s);
+    font-size: var(--text-sm);
+    border: 1px dashed var(--color-text-muted);
+    border-radius: var(--radius-sm);
+    max-width: none;
+  }
+
+  .work__grid {
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  @media (min-width: 40em) {
+    .work__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (min-width: 64em) {
+    .work__grid {
+      grid-template-columns: repeat(6, 1fr);
+      gap: var(--space-l);
+    }
+
+    /* Editorial rhythm: two large, then three smaller. */
+    .work__grid > :global(:nth-child(-n + 2)) {
+      grid-column: span 3;
+    }
+
+    .work__grid > :global(:nth-child(n + 3)) {
+      grid-column: span 2;
+    }
+  }
+</style>

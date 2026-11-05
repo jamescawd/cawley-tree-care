@@ -1,0 +1,40 @@
+---
+/** Text wordmark, used until the logo artwork is supplied. */
+import { business } from '@/config/business';
+
+interface Props {
+  href?: string;
+}
+const { href = '/' } = Astro.props;
+---
+
+<!-- Accessible name = visible text (WCAG 2.5.3 Label in Name). -->
+<a class="wordmark" href={href}>
+  <span class="wordmark__name">{business.shortName}</span>
+  <span class="wordmark__sub">Tree Care &amp; Landscaping</span>
+</a>
+
+<style>
+  .wordmark {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    line-height: 1;
+    text-decoration: none;
+    color: var(--color-text);
+  }
+
+  .wordmark__name {
+    font-family: var(--font-serif);
+    font-size: clamp(1.625rem, 1.5rem + 0.5vw, 2rem);
+    letter-spacing: -0.01em;
+  }
+
+  .wordmark__sub {
+    font-size: 0.625rem;
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+  }
+</style>

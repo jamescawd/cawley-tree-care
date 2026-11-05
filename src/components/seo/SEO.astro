@@ -9,6 +9,8 @@ import { canonicalUrl, formatTitle, DESCRIPTION_MAX } from '@/lib/seo';
 export interface SEOProps {
   /** Page title without the brand suffix. Omit on the home page. */
   title?: string;
+  /** Use `title` exactly as given, with no brand suffix (e.g. the home page). */
+  absoluteTitle?: boolean;
   /** Unique, specific summary for search results (≤160 characters). */
   description: string;
   /** Social share image: an imported image's URL or an absolute URL. */
@@ -22,7 +24,15 @@ export interface SEOProps {
 
 type Props = SEOProps;
 
-const { title, description, image, noindex = false, type = 'website', canonicalPath } = Astro.props;
+const {
+  title,
+  absoluteTitle = false,
+  description,
+  image,
+  noindex = false,
+  type = 'website',
+  canonicalPath,
+} = Astro.props;
 
 if (import.meta.env.DEV && description.length > DESCRIPTION_MAX) {
   console.warn(
@@ -30,7 +40,7 @@ if (import.meta.env.DEV && description.length > DESCRIPTION_MAX) {
   );
 }
 
-const fullTitle = formatTitle(title);
+const fullTitle = absoluteTitle && title ? title : formatTitle(title);
 const canonical = canonicalUrl(canonicalPath ?? Astro.url.pathname, Astro.site ?? Astro.url);
 const robots =
   !site.allowIndexing || noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large';

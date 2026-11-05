@@ -1,0 +1,122 @@
+---
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import EnquiryForm from '@/components/sections/EnquiryForm.astro';
+import PhoneLink from '@/components/ui/PhoneLink.astro';
+import Pending from '@/components/ui/Pending.astro';
+import TrustList from '@/components/ui/TrustList.astro';
+import { business } from '@/config/business';
+import { isPlaceholder, provided } from '@/lib/placeholder';
+
+const email = provided(business.contact.email);
+const hours = business.openingHours;
+---
+
+<section
+  id="enquiry"
+  class="section-lg enquiry-section surface-accent"
+  aria-labelledby="enquiry-title"
+>
+  <div class="container enquiry-section__grid">
+    <div class="enquiry-section__intro">
+      <SectionHeader id="enquiry-title" eyebrow="Request a quote">
+        <Fragment slot="title">
+          Tell us what <em>you need</em>
+        </Fragment>
+        <p>
+          Send us a few details about the job and where you are, and we’ll be in touch to arrange
+          your quote.
+        </p>
+      </SectionHeader>
+
+      <dl class="contact-list">
+        <div>
+          <dt>Call</dt>
+          <dd>
+            <PhoneLink />
+          </dd>
+        </div>
+        <div>
+          <dt>Email</dt>
+          <dd>
+            {email ? (
+              <a href={`mailto:${email}`}>{email}</a>
+            ) : (
+              <Pending value={business.contact.email} compact />
+            )}
+          </dd>
+        </div>
+        <div>
+          <dt>Hours</dt>
+          <dd>{isPlaceholder(hours) ? <Pending value={hours} compact /> : hours.join(', ')}</dd>
+        </div>
+      </dl>
+
+      <TrustList stacked />
+    </div>
+
+    <div class="enquiry-section__panel surface-light">
+      <EnquiryForm />
+    </div>
+  </div>
+</section>
+
+<style>
+  .enquiry-section__grid {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .enquiry-section__intro {
+    display: grid;
+    gap: var(--space-l);
+    align-content: start;
+  }
+
+  .contact-list {
+    display: grid;
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .contact-list > div {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: var(--space-s);
+    padding-block: var(--space-xs);
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  .contact-list dt {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    padding-block-start: 0.2em;
+  }
+
+  .contact-list dd {
+    font-weight: var(--weight-medium);
+  }
+
+  .enquiry-section__panel {
+    padding: var(--space-l) var(--space-m);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lifted);
+  }
+
+  @media (min-width: 64em) {
+    .enquiry-section__grid {
+      grid-template-columns: 5fr 7fr;
+      gap: var(--space-3xl);
+    }
+
+    .enquiry-section__intro {
+      position: sticky;
+      inset-block-start: calc(4.5rem + var(--space-l));
+      align-self: start;
+    }
+
+    .enquiry-section__panel {
+      padding: var(--space-xl);
+    }
+  }
+</style>

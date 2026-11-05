@@ -1,0 +1,51 @@
+---
+/**
+ * Renders a value that may still be a placeholder.
+ * Confirmed values render as plain text. Placeholders render their example
+ * (or label) with a visible "To confirm" marker, so nobody can mistake
+ * sample content for a real business claim.
+ */
+import { isPlaceholder, type Maybe } from '@/lib/placeholder';
+
+interface Props {
+  value: Maybe<string>;
+  /** Hide the marker text (e.g. inside very small UI); the dashed style remains. */
+  compact?: boolean;
+}
+
+const { value, compact = false } = Astro.props;
+---
+
+{isPlaceholder(value) ? (
+  <span class="pending" data-placeholder title={`Placeholder: ${value.label}`}>
+    {value.example ?? `[${value.label}]`}
+    {!compact && <span class="pending__tag">To confirm</span>}
+  </span>
+) : (
+  value
+)}
+
+<style>
+  .pending {
+    text-decoration: underline dashed var(--color-text-muted) 1px;
+    text-underline-offset: 0.25em;
+  }
+
+  .pending__tag {
+    display: inline-block;
+    margin-inline-start: 0.6em;
+    padding: 0.2em 0.5em;
+    font-family: var(--font-sans);
+    font-size: 0.625rem;
+    font-style: normal;
+    font-weight: var(--weight-semibold);
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    vertical-align: 0.35em;
+    color: var(--color-text-secondary);
+    border: 1px dashed var(--color-text-muted);
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+  }
+</style>

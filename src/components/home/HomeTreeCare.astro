@@ -1,0 +1,60 @@
+---
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import PhotoFrame from '@/components/ui/PhotoFrame.astro';
+import Button from '@/components/ui/Button.astro';
+import ServiceIndex from '@/components/sections/ServiceIndex.astro';
+import { treeCare } from '@/config/services';
+import { quoteHref } from '@/config/navigation';
+---
+
+<section id="tree-care" class="section-lg tree-care" aria-labelledby="tree-care-title">
+  <div class="container tree-care__grid">
+    <div class="tree-care__intro">
+      <SectionHeader id="tree-care-title" index="01" eyebrow="Our specialism">
+        <Fragment slot="title">
+          Tree care &amp; <em>tree surgery</em>
+        </Fragment>
+        <p>
+          Trees are our specialism and the core of our business. From a single garden tree to larger
+          jobs, every tree is approached with care for its health, its surroundings and your
+          property.
+        </p>
+      </SectionHeader>
+      <Button href={quoteHref} variant="text" arrow>
+        Discuss your trees
+      </Button>
+      <PhotoFrame
+        needed="Close detail of pruning or climbing work by the Cawley's team"
+        ratio="3 / 2"
+      />
+    </div>
+
+    <ServiceIndex services={treeCare.services} label="Tree care services" />
+  </div>
+</section>
+
+<style>
+  .tree-care__grid {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .tree-care__intro {
+    display: grid;
+    gap: var(--space-l);
+    align-content: start;
+  }
+
+  @media (min-width: 64em) {
+    .tree-care__grid {
+      grid-template-columns: 5fr 7fr;
+      gap: var(--space-3xl);
+    }
+
+    .tree-care__intro {
+      position: sticky;
+      inset-block-start: calc(4.5rem + var(--space-l));
+      align-self: start;
+    }
+  }
+</style>

@@ -59,15 +59,15 @@ export const business = {
 
   contact: {
     /** International format for tel: links and structured data, e.g. +353 87 000 0000. */
-    phone: placeholder('Main phone number'),
-    email: placeholder('Enquiries email address'),
+    phone: placeholder('Main phone number', 'Phone number'),
+    email: placeholder('Enquiries email address', 'Email address'),
   },
 
   /** Base / registered location. Must match the Google Business Profile. */
   address: {
     streetAddress: placeholder('Street address (or omit if a service-area business)'),
-    locality: placeholder('Base town'),
-    region: placeholder('Base county'),
+    locality: placeholder('Base town', 'Base town'),
+    region: placeholder('Base county', 'county'),
     postalCode: placeholder('Eircode'),
     country: 'IE',
   } satisfies PostalAddress,
@@ -79,7 +79,7 @@ export const business = {
   }>,
 
   /** schema.org format, e.g. "Mo-Fr 08:00-18:00". */
-  openingHours: placeholder('Opening hours') as Maybe<string[]>,
+  openingHours: placeholder<string[]>('Opening hours', 'Opening hours'),
 
   /** Verified qualifications and memberships only. Leave empty until confirmed. */
   credentials: [] as Credential[],
@@ -94,7 +94,25 @@ export const business = {
     label: 'Fully Insured',
   },
 
+  /**
+   * About-section story. Must come from the business: who runs it, where it
+   * is based, how it started. Nothing here may be written on their behalf.
+   */
+  about: placeholder(
+    'About the business: who runs it, where it is based and how it started',
+    "This is where the story of Cawley's will go: who runs the business, where it is based and how it began. It will be written with you, from your own words.",
+  ),
+
+  /** Where quote enquiries are delivered. Until set, the form cannot submit. */
+  enquiryEndpoint: placeholder(
+    'Enquiry form delivery: Cloudflare function and email service, plus the inbox that receives enquiries',
+  ),
+
   links: {
+    privacyPolicy: placeholder(
+      'Privacy notice page (required before the enquiry form goes live)',
+      'Privacy notice',
+    ),
     googleBusinessProfile: placeholder('Google Business Profile URL'),
     facebook: placeholder('Facebook page URL (remove if not used)'),
     instagram: placeholder('Instagram profile URL (remove if not used)'),

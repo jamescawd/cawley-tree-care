@@ -1,0 +1,92 @@
+---
+/**
+ * Numbered service list in an editorial "index" style.
+ * `variant="index"` = large rows (primary services);
+ * `variant="compact"` = two-column list (secondary services).
+ */
+import Pending from '@/components/ui/Pending.astro';
+import type { ServiceSummary } from '@/config/services';
+
+interface Props {
+  services: ServiceSummary[];
+  variant?: 'index' | 'compact';
+  label: string;
+}
+
+const { services, variant = 'index', label } = Astro.props;
+---
+
+<ol class:list={['services', `services--${variant}`]} role="list" aria-label={label}>
+  {services.map((service, i) => (
+    <li class="services__item">
+      <span class="services__n" aria-hidden="true">
+        {String(i + 1).padStart(2, '0')}
+      </span>
+      <h3 class="services__name">
+        <Pending value={service.name} />
+      </h3>
+      <p class="services__desc">
+        <Pending value={service.description} compact />
+      </p>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .services {
+    border-block-start: 1px solid var(--color-border-strong);
+  }
+
+  .services__item {
+    display: grid;
+    grid-template-columns: 2.25rem 1fr;
+    column-gap: var(--space-s);
+    row-gap: var(--space-3xs);
+    padding-block: var(--space-m);
+    border-block-end: 1px solid var(--color-border);
+    max-width: none;
+  }
+
+  .services__n {
+    grid-row: span 2;
+    padding-block-start: 0.35em;
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    line-height: 1;
+    color: var(--color-text-muted);
+  }
+
+  .services__name {
+    font-size: var(--text-2xl);
+    line-height: 1.1;
+  }
+
+  .services__desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .services--compact .services__name {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .services--compact .services__n {
+    font-size: var(--text-base);
+    padding-block-start: 0.1em;
+  }
+
+  .services--compact .services__item {
+    padding-block: var(--space-s);
+  }
+
+  @media (min-width: 48em) {
+    .services--compact {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      column-gap: var(--space-l);
+    }
+  }
+</style>

@@ -14,19 +14,29 @@ export interface Placeholder {
   readonly __placeholder: true;
   /** What information is needed, written for the business owner. */
   readonly label: string;
+  /**
+   * Optional sample text shown in previews so layouts can be judged with
+   * realistic content. Always rendered with a visible "To confirm" marker.
+   */
+  readonly example?: string;
 }
 
 /** A value that may still be awaiting confirmation from the business. */
 export type Maybe<T> = T | Placeholder;
 
-export const placeholder = (label: string): Placeholder => ({ __placeholder: true, label });
+/**
+ * Marks a value as awaiting confirmation. Typed as `Maybe<T>` (default
+ * string) so code handling it must cope with both states.
+ */
+export const placeholder = <T = string>(label: string, example?: string): Maybe<T> =>
+  example === undefined ? { __placeholder: true, label } : { __placeholder: true, label, example };
 
 export const isPlaceholder = (value: unknown): value is Placeholder =>
   typeof value === 'object' && value !== null && '__placeholder' in value;
 
 /** Returns the real value, or `undefined` if it is still a placeholder. */
-export const provided = <T>(value: Maybe<T>): T | undefined =>
-  isPlaceholder(value) ? undefined : value;
+export const provided = <T>(value: T): Exclude<T, Placeholder> | undefined =>
+  isPlaceholder(value) ? undefined : (value as Exclude<T, Placeholder>);
 
 /** Text for visible rendering during development, e.g. "[Phone number]". */
 export const display = (value: Maybe<string>): string =>

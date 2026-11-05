@@ -22,8 +22,7 @@ production until all are resolved** (or deliberately removed).
 
 ## Service areas (`src/config/areas.ts`)
 
-- [x] Westmeath, Roscommon, Longford, Offaly, Galway, with major towns (confirmed)
-- [ ] Sixth county: the brief says six, but five were named
+- [x] Westmeath, Roscommon, Longford, Offaly, Galway, with major towns (confirmed; complete area)
 - [ ] Any areas covered for larger jobs only
 
 ## Brand assets

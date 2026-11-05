@@ -1,0 +1,91 @@
+---
+/** Counties and their towns, from config/areas.ts. */
+import { serviceAreas, countyLabel } from '@/config/areas';
+import { provided } from '@/lib/placeholder';
+
+const areas = serviceAreas
+  .map((a) => ({ id: a.id, county: provided(a.county), towns: a.towns.map(provided) }))
+  .filter((a): a is { id: string; county: string; towns: (string | undefined)[] } => !!a.county);
+---
+
+<ul class="areas" role="list">
+  {areas.map((area) => (
+    <li class="areas__county">
+      <h3 class="areas__name">
+        <span class="areas__co">Co.</span> {area.county}
+        <span class="visually-hidden">({countyLabel(area.county)})</span>
+      </h3>
+      <ul class="areas__towns" role="list" aria-label={`Towns in County ${area.county}`}>
+        {area.towns.filter(Boolean).map((town) => (
+          <li>{town}</li>
+        ))}
+      </ul>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .areas {
+    display: grid;
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .areas__county {
+    padding-block: var(--space-m);
+    border-block-end: 1px solid var(--color-border);
+    max-width: none;
+  }
+
+  .areas__name {
+    margin-block-end: var(--space-xs);
+    font-size: var(--text-2xl);
+  }
+
+  .areas__co {
+    font-style: italic;
+    color: var(--color-accent-text);
+  }
+
+  .areas__towns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4em 1em;
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .areas__towns li {
+    max-width: none;
+  }
+
+  @media (min-width: 48em) {
+    .areas {
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: var(--space-l);
+    }
+  }
+
+  @media (min-width: 64em) {
+    .areas {
+      grid-template-columns: repeat(5, 1fr);
+      column-gap: 0;
+      border-block-start: 0;
+    }
+
+    .areas__county {
+      padding: var(--space-m) var(--space-m) var(--space-s) 0;
+      border-block: 1px solid var(--color-border) 0;
+      border-block-end: 0;
+    }
+
+    .areas__county + .areas__county {
+      padding-inline-start: var(--space-m);
+      border-inline-start: 1px solid var(--color-border);
+    }
+
+    .areas__towns {
+      flex-direction: column;
+      gap: 0.55em;
+    }
+  }
+</style>

@@ -1,0 +1,40 @@
+---
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import AreaGrid from '@/components/sections/AreaGrid.astro';
+import Button from '@/components/ui/Button.astro';
+import { quoteHref } from '@/config/navigation';
+---
+
+<section id="areas" class="section-lg areas-section surface-dark" aria-labelledby="areas-title">
+  <div class="container areas-section__inner">
+    <SectionHeader id="areas-title" eyebrow="Areas we serve" split>
+      <Fragment slot="title">
+        Across the <em>Midlands</em> &amp; West
+      </Fragment>
+      <p>
+        We work throughout five counties, including the major towns below. If your town isn’t
+        listed, ask us: we may still be able to help.
+      </p>
+    </SectionHeader>
+    <AreaGrid />
+    <Button href={quoteHref} variant="secondary" arrow>
+      Check we cover your area
+    </Button>
+  </div>
+</section>
+
+<style>
+  .areas-section__inner {
+    display: grid;
+    gap: var(--space-xl);
+    justify-items: start;
+  }
+
+  .areas-section__inner > :global(*) {
+    width: 100%;
+  }
+
+  .areas-section__inner > :global(.btn) {
+    width: auto;
+  }
+</style>

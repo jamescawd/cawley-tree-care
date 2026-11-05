@@ -13,4 +13,10 @@ export const site = {
   themeColor: '#171717',
   /** Master switch: false → every page noindex + robots.txt disallows all. */
   allowIndexing: ALLOW_INDEXING,
+  /**
+   * Preview builds show clearly marked placeholder sections (sample
+   * testimonials, gallery frames) so the design can be reviewed. Production
+   * hides any section that has no genuine content yet.
+   */
+  showPreviewContent: !ALLOW_INDEXING,
 } as const;

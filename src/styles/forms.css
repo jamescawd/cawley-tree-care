@@ -1,0 +1,138 @@
+/*
+ * Form controls. Shared by every enquiry/contact form.
+ * Labels are always visible (never placeholder-only), controls are ≥44px
+ * tall, errors appear only after the user has interacted (:user-invalid).
+ */
+
+.form {
+  display: grid;
+  gap: var(--space-m);
+}
+
+.form-row {
+  display: grid;
+  gap: var(--space-m);
+}
+
+@media (min-width: 40em) {
+  .form-row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.field {
+  display: grid;
+  gap: var(--space-2xs);
+}
+
+.field__label,
+.fieldset__legend {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text);
+}
+
+.field__optional {
+  font-weight: var(--weight-regular);
+  color: var(--color-text-muted);
+}
+
+.field__hint {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  min-height: var(--tap-target);
+  padding: 0.7em 0.9em;
+  font-size: var(--text-base); /* ≥16px prevents iOS zoom on focus */
+  line-height: 1.4;
+  color: var(--color-text);
+  background-color: var(--color-bg-raised);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+.select {
+  appearance: none;
+  padding-inline-end: 2.5em;
+  background-image:
+    linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position:
+    calc(100% - 1.15em) 55%,
+    calc(100% - 0.8em) 55%;
+  background-size: 0.35em 0.35em;
+  background-repeat: no-repeat;
+}
+
+:is(.input, .select, .textarea):user-invalid {
+  border-color: var(--color-error);
+  border-width: 2px;
+}
+
+.fieldset {
+  display: grid;
+  gap: var(--space-xs);
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+/* Choice "cards": large tap targets for radio / checkbox options. */
+.choices {
+  display: grid;
+  gap: var(--space-2xs);
+}
+
+@media (min-width: 40em) {
+  .choices {
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  }
+}
+
+.choice {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.7em;
+  min-height: var(--tap-target);
+  padding: 0.7em 0.9em;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  background-color: var(--color-bg-raised);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.choice:has(input:checked) {
+  box-shadow: inset 0 0 0 1px var(--color-border-strong);
+  background-color: var(--color-bg-subtle);
+}
+
+.choice input {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin: 0;
+  accent-color: var(--charcoal-900);
+  flex-shrink: 0;
+}
+
+/* Spam trap: hidden from people and assistive tech, visible to bots. */
+.form__trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

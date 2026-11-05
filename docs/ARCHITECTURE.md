@@ -74,6 +74,14 @@ Tests run against the production build on phone (360px), tablet and desktop:
 axe WCAG 2.2 AA, no horizontal scroll, SEO metadata, fonts, no third-party
 requests, skip link, noindex safeguards. CI runs the same on every push.
 
+## 11. Preview vs production content
+
+`site.showPreviewContent` (true whenever `ALLOW_INDEXING` is not `"true"`)
+shows clearly labelled placeholder sections (review cards, gallery frames) so
+designs can be judged in previews. In production, the reviews and gallery
+sections render only genuine entries from their collections and disappear
+otherwise; navigation drops "Our Work" until projects exist.
+
 ## Planned, not yet built
 
 - Quote / contact form: Cloudflare Pages Function → email (e.g. Resend),

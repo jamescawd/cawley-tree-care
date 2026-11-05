@@ -1,0 +1,58 @@
+---
+/**
+ * Customer reviews: genuine, verified entries only (`testimonials`
+ * collection). Preview builds show explicit placeholders; production
+ * builds omit the section until real reviews exist.
+ */
+import { getCollection } from 'astro:content';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import TestimonialCard from '@/components/sections/TestimonialCard.astro';
+import { site } from '@/config/site';
+
+const reviews = (await getCollection('testimonials'))
+  .sort((a, b) => +b.data.date - +a.data.date)
+  .slice(0, 3);
+const show = reviews.length > 0 || site.showPreviewContent;
+---
+
+{show && (
+  <section id="reviews" class="section-lg reviews" aria-labelledby="reviews-title">
+    <div class="container reviews__inner">
+      <SectionHeader id="reviews-title" eyebrow="Customer reviews" split>
+        <Fragment slot="title">
+          In our customers’ <em>words</em>
+        </Fragment>
+        {reviews.length === 0 && (
+          <p>
+            Placeholder section: genuine reviews will be added here, with each customer’s permission
+            and a link to the original where possible.
+          </p>
+        )}
+      </SectionHeader>
+      <div class="reviews__grid">
+        {reviews.length > 0
+          ? reviews.map((r) => <TestimonialCard review={r.data} />)
+          : [1, 2, 3].map(() => <TestimonialCard />)}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .reviews__inner {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .reviews__grid {
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  @media (min-width: 64em) {
+    .reviews__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-l);
+    }
+  }
+</style>

@@ -1,0 +1,105 @@
+---
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import PhotoFrame from '@/components/ui/PhotoFrame.astro';
+import Pending from '@/components/ui/Pending.astro';
+import Button from '@/components/ui/Button.astro';
+import { business } from '@/config/business';
+import { quoteHref } from '@/config/navigation';
+
+const facts = [
+  business.experience.label,
+  business.insurance.label,
+  'Tree care & tree surgery specialists',
+  'Landscaping for gardens and grounds',
+];
+---
+
+<section id="about" class="section-lg about" aria-labelledby="about-title">
+  <div class="container about__grid">
+    <div class="about__body">
+      <SectionHeader id="about-title" eyebrow="About Cawley's">
+        <Fragment slot="title">
+          A specialist business, <em>built</em> on experience
+        </Fragment>
+      </SectionHeader>
+      <p class="about__story">
+        <Pending value={business.about} />
+      </p>
+      <ul class="about__facts" role="list">
+        {facts.map((fact) => (
+          <li>{fact}</li>
+        ))}
+      </ul>
+      <Button href={quoteHref} variant="secondary" arrow>
+        Get in touch
+      </Button>
+    </div>
+    <PhotoFrame
+      class="about__photo"
+      needed="Portrait of the Cawley's team, or the owner on site"
+      ratio="4 / 5"
+    />
+  </div>
+</section>
+
+<style>
+  .about {
+    background-color: var(--color-bg-raised);
+  }
+
+  .about__grid {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .about__body {
+    display: grid;
+    gap: var(--space-l);
+    align-content: center;
+    justify-items: start;
+  }
+
+  .about__story {
+    font-size: var(--text-lg);
+    line-height: 1.6;
+  }
+
+  .about__facts {
+    display: grid;
+    width: 100%;
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .about__facts li {
+    display: flex;
+    align-items: center;
+    gap: 0.85em;
+    padding-block: var(--space-xs);
+    font-weight: var(--weight-medium);
+    border-block-end: 1px solid var(--color-border);
+    max-width: none;
+  }
+
+  .about__facts li::before {
+    content: '';
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 2px;
+    background: var(--color-accent-decorative);
+  }
+
+  @media (min-width: 48em) {
+    .about__facts {
+      grid-template-columns: 1fr 1fr;
+      column-gap: var(--space-l);
+    }
+  }
+
+  @media (min-width: 64em) {
+    .about__grid {
+      grid-template-columns: 7fr 5fr;
+      gap: var(--space-3xl);
+      align-items: center;
+    }
+  }
+</style>

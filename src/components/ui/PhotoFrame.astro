@@ -1,0 +1,165 @@
+---
+/**
+ * Photograph slot. With `image`, renders an optimised responsive <picture>
+ * (AVIF + WebP). Without one, renders a clearly labelled placeholder frame
+ * describing the photograph needed.
+ *
+ * `illustrative` marks temporary stock/AI imagery: it adds a visible
+ * "Illustrative image" note so it is never presented as Cawley's own work.
+ */
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  image?: ImageMetadata;
+  /** Required with `image`. Describe the scene; never claim it shows our work unless it does. */
+  alt?: string;
+  /** Shown in the placeholder frame, e.g. "the team at work". */
+  needed?: string;
+  /** CSS aspect-ratio for phones (mobile-first). */
+  ratio?: string;
+  /** Aspect ratio from 64em (1024px) up. Defaults to `ratio`. */
+  ratioWide?: string;
+  /** object-position, e.g. "56% 50%". */
+  focus?: string;
+  sizes?: string;
+  priority?: boolean;
+  illustrative?: boolean;
+  tone?: 'light' | 'dark';
+  class?: string;
+}
+
+const {
+  image,
+  alt = '',
+  needed = 'a photograph',
+  ratio = '4 / 3',
+  ratioWide,
+  focus = '50% 50%',
+  sizes = '(min-width: 64em) 50vw, 100vw',
+  priority = false,
+  illustrative = false,
+  tone = 'light',
+  class: className,
+} = Astro.props;
+
+const widths = image ? [480, 720, 960, 1280, 1600, 2000].filter((w) => w <= image.width) : [];
+if (image && !widths.includes(image.width)) widths.push(image.width);
+---
+
+<figure
+  class:list={['frame', `frame--${tone}`, { 'frame--empty': !image }, className]}
+  style={`--ratio: ${ratio}; --ratio-wide: ${ratioWide ?? ratio}; --focus: ${focus}`}
+>
+  {image ? (
+    <Picture
+      src={image}
+      alt={alt}
+      widths={widths}
+      sizes={sizes}
+      formats={['avif', 'webp']}
+      priority={priority}
+      layout="none"
+    />
+  ) : (
+    <div class="frame__placeholder">
+      <span class="frame__kicker">Photograph to supply</span>
+      <span class="frame__needed">{needed}</span>
+    </div>
+  )}
+  {image && illustrative && <figcaption class="frame__note">Illustrative image</figcaption>}
+</figure>
+
+<style>
+  .frame {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    aspect-ratio: var(--ratio);
+    border-radius: var(--radius-md);
+    background-color: var(--color-bg-subtle);
+  }
+
+  @media (min-width: 64em) {
+    .frame {
+      aspect-ratio: var(--ratio-wide);
+    }
+  }
+
+  .frame :global(picture) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .frame :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--focus);
+  }
+
+  .frame--empty.frame--light {
+    background: repeating-linear-gradient(
+      135deg,
+      var(--ivory-200) 0 14px,
+      color-mix(in srgb, var(--ivory-200), var(--ivory-50) 50%) 14px 28px
+    );
+    border: 1px solid var(--ivory-300);
+  }
+
+  .frame--empty.frame--dark {
+    background: repeating-linear-gradient(
+      135deg,
+      var(--charcoal-800) 0 14px,
+      color-mix(in srgb, var(--charcoal-800), var(--charcoal-900) 50%) 14px 28px
+    );
+    border: 1px solid var(--charcoal-600);
+  }
+
+  .frame__placeholder {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    gap: var(--space-3xs);
+    padding: var(--space-s);
+    text-align: center;
+  }
+
+  .frame__kicker {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+  }
+
+  .frame__needed {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+    max-width: 30ch;
+    margin-inline: auto;
+  }
+
+  .frame--dark .frame__kicker {
+    color: var(--charcoal-300);
+  }
+
+  .frame--dark .frame__needed {
+    color: var(--charcoal-400);
+  }
+
+  .frame__note {
+    position: absolute;
+    inset-block-end: var(--space-2xs);
+    inset-inline-end: var(--space-2xs);
+    padding: 0.35em 0.65em;
+    font-size: 0.6875rem;
+    font-weight: var(--weight-medium);
+    letter-spacing: 0.04em;
+    color: var(--ivory-100);
+    background: rgb(23 23 23 / 0.72);
+    border-radius: var(--radius-sm);
+  }
+</style>

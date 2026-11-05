@@ -1,0 +1,54 @@
+---
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import CredentialFigures, { type Figure } from '@/components/sections/CredentialFigures.astro';
+import { business } from '@/config/business';
+import { serviceAreas, townCount } from '@/config/areas';
+
+// Confirmed facts only (see config/business.ts and config/areas.ts).
+const figures: Figure[] = [
+  {
+    value: business.experience.figure,
+    label: business.experience.label,
+    detail: 'More than fifteen years caring for trees, gardens and grounds.',
+  },
+  {
+    value: 'Insured',
+    word: true,
+    label: business.insurance.label,
+    detail: 'Fully insured for the work we carry out.',
+  },
+  {
+    value: String(serviceAreas.length),
+    label: `${serviceAreas.length} counties served`,
+    detail: `Including ${townCount} major towns across the Midlands & West.`,
+  },
+  {
+    value: 'Trees',
+    word: true,
+    label: 'Tree specialists first',
+    detail: 'Tree care and tree surgery are our core specialism.',
+  },
+];
+---
+
+<section id="why" class="section-lg why surface-dark" aria-labelledby="why-title">
+  <div class="container why__inner">
+    <SectionHeader id="why-title" eyebrow="Why Cawley's" split>
+      <Fragment slot="title">
+        Experience you can <em>rely on</em>
+      </Fragment>
+      <p>
+        Choosing who works on your trees matters. Cawley's brings more than fifteen years of
+        experience, full insurance and a specialist's focus on trees.
+      </p>
+    </SectionHeader>
+    <CredentialFigures figures={figures} />
+  </div>
+</section>
+
+<style>
+  .why__inner {
+    display: grid;
+    gap: var(--space-2xl);
+  }
+</style>

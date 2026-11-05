@@ -1,4 +1,4 @@
-import { placeholder, type Maybe } from '@/lib/placeholder';
+import type { Maybe } from '@/lib/placeholder';
 
 /**
  * Service areas: counties and their major towns.
@@ -7,9 +7,8 @@ import { placeholder, type Maybe } from '@/lib/placeholder';
  * structured data (`areaServed`) and, later, local landing pages.
  * Location pages are deliberately NOT generated yet.
  *
- * CONFIRMED by the business (Nov 2026): the five counties below, listed in
- * the order supplied. The brief refers to six counties, but only five were
- * named, so slot 6 stays a placeholder until confirmed (or is removed).
+ * CONFIRMED by the business (Nov 2026): the complete service area is the
+ * five counties below, with their major towns, in the order supplied.
  */
 
 export interface ServiceArea {
@@ -70,13 +69,10 @@ export const serviceAreas: ServiceArea[] = [
       'Clifden',
     ],
   },
-  {
-    id: 'county-6',
-    county: placeholder('Sixth county: brief says six counties, five were named'),
-    coverage: 'full',
-    towns: [placeholder('Major towns in the sixth county')],
-  },
 ];
 
 /** Formatted county name, e.g. "Co. Westmeath". */
 export const countyLabel = (county: string): string => `Co. ${county}`;
+
+/** Total confirmed towns across all counties. */
+export const townCount = serviceAreas.reduce((n, area) => n + area.towns.length, 0);

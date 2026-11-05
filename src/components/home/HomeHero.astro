@@ -1,0 +1,113 @@
+---
+import Button from '@/components/ui/Button.astro';
+import PhotoFrame from '@/components/ui/PhotoFrame.astro';
+import TrustList from '@/components/ui/TrustList.astro';
+import { media } from '@/config/media';
+import { quoteHref } from '@/config/navigation';
+import { serviceAreas } from '@/config/areas';
+
+const counties = serviceAreas.map((a) => a.county as string);
+const countyList = `${counties.slice(0, -1).join(', ')} and ${counties.at(-1)}`;
+const intro = `Professional tree care and tree surgery, with landscaping to complete the picture, across ${countyList}.`;
+---
+
+<section class="hero surface-dark" aria-labelledby="hero-title">
+  <div class="container hero__top">
+    <div class="hero__headline">
+      <p class="eyebrow">Tree Care · Tree Surgery · Landscaping</p>
+      <h1 id="hero-title" class="text-display">
+        Specialist tree care, <em>rooted</em> in experience.
+      </h1>
+    </div>
+    <div class="hero__intro">
+      <p class="lead">{intro}</p>
+      <div class="cluster hero__ctas">
+        <Button href={quoteHref} size="lg" arrow>
+          Request a quote
+        </Button>
+        <Button href="#tree-care" variant="secondary" size="lg">
+          Explore tree care
+        </Button>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero__media">
+    <PhotoFrame
+      image={media.homeHero.src}
+      alt={media.homeHero.alt}
+      illustrative={media.homeHero.illustrative}
+      ratio="4 / 5"
+      ratioWide="21 / 9"
+      focus="56% 50%"
+      sizes="(min-width: 90em) 1440px, 100vw"
+      priority
+      tone="dark"
+    />
+  </div>
+
+  <div class="container">
+    <TrustList class="hero__trust" />
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-block-start: var(--space-xl);
+  }
+
+  .hero__top {
+    display: grid;
+    gap: var(--space-l);
+    padding-block-end: var(--space-xl);
+  }
+
+  .hero__headline {
+    display: grid;
+    gap: var(--space-m);
+  }
+
+  .hero__headline h1 {
+    max-width: 13ch;
+  }
+
+  .hero__intro {
+    display: grid;
+    gap: var(--space-m);
+    align-content: end;
+  }
+
+  .hero__intro .lead {
+    max-width: 44ch;
+  }
+
+  .hero__media :global(.frame) {
+    border-radius: 0;
+  }
+
+  .hero :global(.hero__trust) {
+    padding-block: var(--space-m) var(--space-l);
+  }
+
+  @media (min-width: 64em) {
+    .hero {
+      padding-block-start: var(--space-2xl);
+    }
+
+    .hero__top {
+      grid-template-columns: 1.3fr 1fr;
+      gap: var(--space-2xl);
+      align-items: end;
+    }
+
+    .hero__media {
+      max-width: calc(var(--container-wide) + var(--gutter) * 2);
+      margin-inline: auto;
+      padding-inline: var(--gutter);
+    }
+
+    .hero__media :global(.frame) {
+      border-radius: var(--radius-md);
+    }
+  }
+</style>
