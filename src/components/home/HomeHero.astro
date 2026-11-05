@@ -13,7 +13,7 @@ import { serviceAreas } from '@/config/areas';
 
 const counties = serviceAreas.map((a) => a.county as string);
 const countyList = `${counties.slice(0, -1).join(', ')} and ${counties.at(-1)}`;
-const intro = `Professional tree care and tree surgery, with landscaping to complete the picture, across ${countyList}.`;
+const intro = `Professional tree care and tree surgery across ${countyList}.`;
 const hero = media.homeHero;
 const widths = [480, 720, 960, 1280, hero.src.width].filter(
   (w, i, a) => w <= hero.src.width && a.indexOf(w) === i,
