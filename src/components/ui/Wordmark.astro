@@ -1,40 +1,72 @@
 ---
-/** Text wordmark, used until the logo artwork is supplied. */
+/**
+ * Brand logo, linking home.
+ *  - "horizontal": tree mark beside the wordmark (header, mobile menu)
+ *  - "stacked":    the full logo as supplied (footer, large placements)
+ * Transparent versions are derived from the supplied artwork by
+ * scripts/brand/make-logo-variants.py. Designed for dark surfaces.
+ */
+import { Image } from 'astro:assets';
 import { business } from '@/config/business';
+import horizontal from '@/assets/brand/logo-horizontal.png';
+import stacked from '@/assets/brand/logo-stacked.png';
 
 interface Props {
   href?: string;
+  variant?: 'horizontal' | 'stacked';
+  /** Load eagerly (the header logo is above the fold). */
+  priority?: boolean;
 }
-const { href = '/' } = Astro.props;
+
+const { href = '/', variant = 'horizontal', priority = false } = Astro.props;
+const src = variant === 'stacked' ? stacked : horizontal;
+// Display width in CSS px; the "fixed" layout also generates a 2x file for sharp edges.
+const width = 240;
 ---
 
-<!-- Accessible name = visible text (WCAG 2.5.3 Label in Name). -->
-<a class="wordmark" href={href}>
-  <span class="wordmark__name">{business.shortName}</span>
-  <span class="wordmark__sub">Tree Care &amp; Landscaping</span>
+<a class:list={['wordmark', `wordmark--${variant}`]} href={href}>
+  <Image
+    src={src}
+    alt={business.tradingName}
+    width={width}
+    format="webp"
+    quality={90}
+    loading={priority ? 'eager' : 'lazy'}
+    layout="fixed"
+  />
 </a>
 
 <style>
   .wordmark {
     display: inline-flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    line-height: 1;
-    text-decoration: none;
-    color: var(--color-text);
+    flex-shrink: 0;
+    line-height: 0;
   }
 
-  .wordmark__name {
-    font-family: var(--font-serif);
-    font-size: clamp(1.625rem, 1.5rem + 0.5vw, 2rem);
-    letter-spacing: -0.01em;
+  .wordmark :global(img) {
+    width: auto;
+    max-width: none;
   }
 
-  .wordmark__sub {
-    font-size: 0.625rem;
-    font-weight: var(--weight-medium);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--color-text-secondary);
+  /* Header lockup: 30px on the smallest phones, 34px on phones, 42px from tablet up. */
+  .wordmark--horizontal :global(img) {
+    height: 1.875rem;
+  }
+
+  @media (min-width: 23.5em) {
+    .wordmark--horizontal :global(img) {
+      height: 2.125rem;
+    }
+  }
+
+  @media (min-width: 40em) {
+    .wordmark--horizontal :global(img) {
+      height: 2.625rem;
+    }
+  }
+
+  .wordmark--stacked :global(img) {
+    width: min(15rem, 100%);
+    height: auto;
   }
 </style>

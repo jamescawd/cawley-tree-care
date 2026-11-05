@@ -18,6 +18,9 @@
 - **Orange is never text or essential UI on ivory** (2.2:1). On charcoal it is fine.
 - Mobile-first; fluid tokens from `src/styles/tokens.css`. No horizontal scroll at 360px.
 
+- Logo: `Wordmark` component only (`horizontal` in header/menu, `stacked` in footer). The artwork is
+  ivory and orange, designed for **dark surfaces**: never place it on ivory or orange.
+
 ## Engineering
 
 - Static output; ship zero client JS unless a feature needs it.

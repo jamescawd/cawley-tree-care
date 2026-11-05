@@ -2,6 +2,10 @@
  * Photography register. Every image used on the site is listed here with
  * its status, so temporary imagery can never be mistaken for real work.
  *
+ * Brand artwork (logo) lives in src/assets/brand/: logo-original.webp is
+ * the file as supplied; the transparent variants and the icons in public/
+ * are generated from it by scripts/brand/*.py.
+ *
  * illustrative: true  → temporary stock/AI image. Shown with an
  *                       "Illustrative image" note; alt text describes the
  *                       scene only and never claims it shows Cawley's work.

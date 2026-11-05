@@ -27,7 +27,8 @@ production until all are resolved** (or deliberately removed).
 
 ## Brand assets
 
-- [ ] Logo (SVG preferred) for header, favicon and social share image
+- [x] Logo supplied (raster). Transparent header/footer versions, favicons and share image generated
+- [ ] Vector (SVG/PDF) version of the logo from its designer, for print, signage and vehicles
 - [ ] Professional photography of real jobs, team and equipment
 
 ## Content (later)
