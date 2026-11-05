@@ -95,3 +95,11 @@ otherwise; navigation drops "Our Work" until projects exist.
 `@emnapi/runtime@1.11.3` is a direct dev dependency so `astro check` resolves a
 stable runtime instead of a pre-release one pulled in by rolldown (crash in
 `@astrojs/astro2tsx`). Remove once upstream resolves it.
+
+## Known workaround: scroll-driven animations and the CSS minifier
+
+The build's CSS minifier folds `animation-timeline` into the `animation`
+shorthand, which browsers reject, silently dropping the whole declaration.
+Always set `animation-timeline` / `animation-range` in a **separate, more
+specific rule** (see `.reveal` in `utilities.css` and `.scroll-progress` in
+`SiteHeader.astro`), and confirm in `dist/` that the timeline survives.

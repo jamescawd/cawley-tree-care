@@ -92,7 +92,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     background: var(--color-accent-decorative);
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform var(--duration-slow) var(--ease-out);
+    transition: transform var(--duration-base) var(--ease-out);
   }
 
   .services__link:is(:hover, :focus-visible)::before {
@@ -187,7 +187,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     border-radius: var(--radius-md) var(--radius-md) 0 0;
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform var(--duration-slow) var(--ease-out);
+    transition: transform var(--duration-base) var(--ease-out);
   }
 
   .services--cards .services__item:hover {

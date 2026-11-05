@@ -53,6 +53,11 @@
   @supports (animation-timeline: view()) {
     .reveal {
       animation: reveal linear both;
+    }
+
+    /* Kept in a separate, more specific rule: the CSS minifier would
+       otherwise fold the timeline into the shorthand, which browsers reject. */
+    :root .reveal {
       animation-timeline: view();
       animation-range: entry 0% entry 60%;
     }

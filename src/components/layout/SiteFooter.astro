@@ -97,6 +97,23 @@ const primaryNav = await getNavigation();
     text-decoration: none;
   }
 
+  /* WCAG 2.2 target size: ≥24px everywhere, 44px on touch screens. */
+  .site-footer__col a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 1.5rem;
+  }
+
+  @media (pointer: coarse) {
+    .site-footer__col a {
+      min-height: var(--tap-target);
+    }
+
+    .site-footer__col ul {
+      gap: 0;
+    }
+  }
+
   .site-footer a:hover {
     text-decoration: underline;
     text-decoration-color: var(--color-accent-decorative);

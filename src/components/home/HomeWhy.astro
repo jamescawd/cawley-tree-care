@@ -1,5 +1,7 @@
 ---
 import SectionHeader from '@/components/ui/SectionHeader.astro';
+import Button from '@/components/ui/Button.astro';
+import { quoteHref } from '@/config/navigation';
 import CredentialFigures, { type Figure } from '@/components/sections/CredentialFigures.astro';
 import { business } from '@/config/business';
 import { serviceAreas, townCount } from '@/config/areas';
@@ -45,6 +47,9 @@ const figures: Figure[] = [
     <div class="reveal">
       <CredentialFigures figures={figures} />
     </div>
+    <Button href={quoteHref} size="lg" arrow>
+      Request a quote
+    </Button>
   </div>
 </section>
 

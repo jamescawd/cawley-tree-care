@@ -8,6 +8,8 @@ import { getCollection } from 'astro:content';
 import SectionHeader from '@/components/ui/SectionHeader.astro';
 import PhotoFrame from '@/components/ui/PhotoFrame.astro';
 import ProjectCard from '@/components/sections/ProjectCard.astro';
+import Button from '@/components/ui/Button.astro';
+import { quoteHref } from '@/config/navigation';
 import { site } from '@/config/site';
 
 const projects = (await getCollection('projects', ({ data }) => !data.draft))
@@ -56,6 +58,9 @@ const slots = [
           </div>
         </>
       )}
+      <Button href={quoteHref} variant="secondary" arrow>
+        Discuss your project
+      </Button>
     </div>
   </section>
 )}
