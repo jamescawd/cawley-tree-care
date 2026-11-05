@@ -1,0 +1,80 @@
+/*
+ * Layout primitives (composition, not decoration). Mobile-first:
+ * single column by default, enhanced with intrinsic sizing rather than
+ * device breakpoints wherever possible.
+ *
+ * Breakpoints, when genuinely needed (keep consistent):
+ *   40em (640px)  large phone / small tablet
+ *   64em (1024px) tablet landscape / small laptop
+ *   80em (1280px) desktop
+ */
+
+.container {
+  width: 100%;
+  max-width: calc(var(--container-max) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.container-wide {
+  max-width: calc(var(--container-wide) + var(--gutter) * 2);
+}
+
+.container-prose {
+  max-width: calc(var(--container-prose) + var(--gutter) * 2);
+}
+
+.section {
+  padding-block: var(--section-space);
+}
+
+.section-lg {
+  padding-block: var(--section-space-lg);
+}
+
+/* Vertical flow with consistent spacing between children. */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-space, var(--space-s));
+}
+
+/* Horizontal group that wraps (buttons, tags, meta). */
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: var(--cluster-align, center);
+  gap: var(--cluster-space, var(--space-s));
+}
+
+/* Responsive grid with no media queries: columns appear as space allows. */
+.auto-grid {
+  display: grid;
+  gap: var(--grid-space, var(--space-l));
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--grid-min, 18rem), 100%), 1fr));
+}
+
+/* Rich text from Markdown content. */
+.prose > * + * {
+  margin-block-start: var(--space-s);
+}
+
+.prose > :is(h2, h3) {
+  margin-block-start: var(--space-xl);
+}
+
+.prose > :is(h4, h5, h6) {
+  margin-block-start: var(--space-l);
+}
+
+.prose :is(ul, ol) {
+  padding-inline-start: 1.25em;
+}
+
+.prose li + li {
+  margin-block-start: var(--space-2xs);
+}
+
+.prose li::marker {
+  color: var(--color-accent-decorative);
+}

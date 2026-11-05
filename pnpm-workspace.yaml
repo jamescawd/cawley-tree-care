@@ -1,0 +1,6 @@
+# pnpm settings (single-package project, not a monorepo).
+
+# Only these packages may run install scripts.
+onlyBuiltDependencies:
+  - esbuild
+  - sharp

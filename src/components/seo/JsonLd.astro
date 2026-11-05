@@ -1,0 +1,15 @@
+---
+/** Renders one or more schema.org objects as JSON-LD. */
+interface Props {
+  data: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const { data } = Astro.props;
+const items = Array.isArray(data) ? data : [data];
+// Escape "<" so content can never close the script element.
+const serialise = (item: Record<string, unknown>) => JSON.stringify(item).replace(/</g, '\\u003c');
+---
+
+{items.map((item) => (
+  <script type="application/ld+json" set:html={serialise(item)} />
+))}

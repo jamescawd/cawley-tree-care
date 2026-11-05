@@ -1,0 +1,190 @@
+---
+/**
+ * INTERNAL design-system reference: not a website page.
+ * Always noindex, excluded from the sitemap and disallowed in robots.txt.
+ * Used to review tokens visually and as the target of automated
+ * accessibility / responsiveness tests.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Button from '@/components/ui/Button.astro';
+
+const colours = [
+  { name: 'Orange', token: '--orange-500', hex: '#F58216', note: 'Brand accent' },
+  { name: 'Charcoal', token: '--charcoal-900', hex: '#171717', note: 'Brand dark' },
+  { name: 'Ivory', token: '--ivory-100', hex: '#F2EEE6', note: 'Brand light' },
+];
+
+const supporting = [
+  ['--charcoal-800', 'Raised dark'],
+  ['--charcoal-600', 'Border on dark'],
+  ['--charcoal-400', 'Muted text on dark'],
+  ['--ivory-50', 'Raised light'],
+  ['--ivory-300', 'Border on light'],
+  ['--ivory-600', 'Muted text on light'],
+];
+
+const typeScale = [
+  ['text-display', 'Display · Instrument Serif', '--text-5xl'],
+  ['h1', 'H1 · Instrument Serif', '--text-4xl'],
+  ['h2', 'H2 · Instrument Serif', '--text-3xl'],
+  ['h3', 'H3 · Instrument Serif', '--text-2xl'],
+  ['h4', 'H4 · Inter Semibold', '--text-xl'],
+  ['h5', 'H5 · Inter Semibold', '--text-lg'],
+] as const;
+
+const surfaces = ['light', 'dark', 'accent'] as const;
+---
+
+<BaseLayout
+  title="Design system"
+  description="Internal reference for the Cawley's Tree Care & Landscaping design tokens, typography and components."
+  noindex
+>
+  <div class="container section stack" style="--stack-space: var(--space-2xl)">
+    <header class="stack">
+      <p class="eyebrow">Internal · Design system</p>
+      <h1>
+        Foundation <em>reference</em>
+      </h1>
+      <p class="lead">Tokens, typography and core components. Not a website page; never indexed.</p>
+    </header>
+
+    <section class="stack" aria-labelledby="sg-colour">
+      <h2 id="sg-colour">Colour</h2>
+      <ul class="swatches auto-grid" role="list" style="--grid-min: 14rem">
+        {colours.map((c) => (
+          <li class="swatch">
+            <span class="swatch__chip" style={`background: var(${c.token})`} />
+            <strong>{c.name}</strong>
+            <code>{c.hex}</code>
+            <span class="text-muted text-sm">{c.note}</span>
+          </li>
+        ))}
+      </ul>
+      <ul class="swatches auto-grid" role="list" style="--grid-min: 10rem">
+        {supporting.map(([token, note]) => (
+          <li class="swatch">
+            <span class="swatch__chip swatch__chip--sm" style={`background: var(${token})`} />
+            <code>{token}</code>
+            <span class="text-muted text-sm">{note}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="stack" aria-labelledby="sg-type">
+      <h2 id="sg-type">Typography</h2>
+      <div class="stack" style="--stack-space: var(--space-l)">
+        {typeScale.map(([cls, label, token]) => (
+          <div class="type-row">
+            <span class="text-muted text-sm">
+              {label} · <code>{token}</code>
+            </span>
+            <p
+              class={
+                cls === 'text-display'
+                  ? 'text-display'
+                  : `${cls} heading-${cls.match(/h[123]/) ? 'serif' : 'sans'}`
+              }
+            >
+              Expert tree care, <em>rooted</em> in craft
+            </p>
+          </div>
+        ))}
+        <div class="type-row">
+          <span class="text-muted text-sm">Eyebrow · Inter Semibold, uppercase</span>
+          <p class="eyebrow">Arboriculture · Tree Surgery · Landscaping</p>
+        </div>
+        <div class="type-row">
+          <span class="text-muted text-sm">Lead · Inter</span>
+          <p class="lead">
+            A larger introductory paragraph that sets the tone of a section before the detail.
+          </p>
+        </div>
+        <div class="type-row">
+          <span class="text-muted text-sm">
+            Body · Inter · <code>--text-base</code>
+          </span>
+          <p>
+            Body copy is set in Inter at 16–18px with generous line height and a comfortable
+            65-character measure. Irish place names render correctly: Dún Laoghaire, Cill Mhantáin,
+            Port Láirge, Béal Átha Cliath. <a href="#sg-type">Inline links</a> use an orange
+            underline that darkens on hover.
+          </p>
+        </div>
+        <div class="type-row">
+          <span class="text-muted text-sm">Figure · Instrument Serif (confirmed figures only)</span>
+          <p class="figure">
+            00<span aria-hidden="true">+</span>
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="stack" aria-labelledby="sg-surfaces">
+      <h2 id="sg-surfaces">Surfaces &amp; buttons</h2>
+      <div class="auto-grid" style="--grid-min: 20rem; --grid-space: var(--space-s)">
+        {surfaces.map((s) => (
+          <div class={`surface-${s} panel stack`}>
+            <p class="eyebrow">surface-{s}</p>
+            <h3>
+              Crown <em>reduction</em>
+            </h3>
+            <p>Semantic tokens re-map automatically, keeping every element above AA contrast.</p>
+            <div class="cluster">
+              <Button href="#sg-surfaces">Request a quote</Button>
+              <Button variant="secondary">Secondary</Button>
+            </div>
+            <Button variant="text" href="#sg-surfaces" arrow>
+              Text link
+            </Button>
+          </div>
+        ))}
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .swatch {
+    display: grid;
+    gap: var(--space-3xs);
+  }
+
+  .swatch__chip {
+    display: block;
+    aspect-ratio: 3 / 2;
+    border: var(--border-thin) solid var(--color-border);
+    border-radius: var(--radius-md);
+    margin-block-end: var(--space-2xs);
+  }
+
+  .swatch__chip--sm {
+    aspect-ratio: 2 / 1;
+  }
+
+  .type-row {
+    display: grid;
+    gap: var(--space-2xs);
+    padding-block-start: var(--space-s);
+    border-block-start: var(--border-thin) solid var(--color-border);
+  }
+
+  .type-row > p {
+    max-width: none;
+  }
+
+  .type-row > p.lead,
+  .type-row > p:not([class]) {
+    max-width: var(--measure);
+  }
+
+  .panel {
+    padding: var(--space-l);
+    border-radius: var(--radius-md);
+  }
+
+  code {
+    font-size: 0.875em;
+  }
+</style>

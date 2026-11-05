@@ -1,0 +1,15 @@
+/*
+ * Global stylesheet entry point. Imported once, by BaseLayout.
+ *
+ * Cascade layers make precedence explicit and predictable:
+ *   reset < tokens < base < layout < utilities
+ * Component styles (scoped <style> in .astro files) are unlayered, so they
+ * always win over these globals without specificity battles.
+ */
+@layer reset, tokens, base, layout, utilities;
+
+@import './reset.css' layer(reset);
+@import './tokens.css' layer(tokens);
+@import './base.css' layer(base);
+@import './layout.css' layer(layout);
+@import './utilities.css' layer(utilities);

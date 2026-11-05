@@ -1,0 +1,201 @@
+/*
+ * Base element styles and typographic roles.
+ *
+ * Typeface roles (agreed brand decision, use consistently):
+ *   Instrument Serif: display, h1, h2, h3, large figures (.text-display, .figure)
+ *   Inter: everything else: h4–h6, body, navigation, buttons, forms, labels
+ *
+ * Instrument Serif ships ONE weight (400) + italic. Never bold it: hierarchy
+ * comes from size, spacing and contrast. Faux bold/italic is disabled.
+ */
+
+html {
+  font-family: var(--font-sans);
+  font-size: 100%; /* respect the user's browser setting */
+  line-height: var(--leading-body);
+  scroll-behavior: smooth;
+  hanging-punctuation: first last;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  font-size: var(--text-base);
+  font-weight: var(--weight-regular);
+  font-variant-numeric: lining-nums proportional-nums;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+}
+
+/* ---------- Headings ---------- */
+
+h1,
+h2,
+h3,
+.text-display,
+.heading-serif {
+  font-family: var(--font-serif);
+  font-weight: var(--weight-regular);
+  font-synthesis: none;
+  line-height: var(--leading-snug);
+  letter-spacing: var(--tracking-heading);
+  text-wrap: balance;
+}
+
+.text-display {
+  font-size: var(--text-5xl);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+}
+
+h1,
+.h1 {
+  font-size: var(--text-4xl);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+}
+
+h2,
+.h2 {
+  font-size: var(--text-3xl);
+}
+
+h3,
+.h3 {
+  font-size: var(--text-2xl);
+}
+
+h4,
+h5,
+h6,
+.heading-sans {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+}
+
+h4,
+.h4 {
+  font-size: var(--text-xl);
+}
+
+h5,
+.h5 {
+  font-size: var(--text-lg);
+}
+
+h6,
+.h6 {
+  font-size: var(--text-base);
+}
+
+/* Signature device: an italic serif word, optionally in the accent colour.
+   Use sparingly: one per heading at most. */
+:is(h1, h2, h3, .text-display) em {
+  font-style: italic;
+  color: var(--color-accent-text);
+}
+
+/* ---------- Text ---------- */
+
+p,
+li,
+dd,
+blockquote {
+  max-width: var(--measure);
+  text-wrap: pretty;
+}
+
+.lead {
+  font-size: var(--text-lg);
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-accent-text);
+}
+
+/* Large statistics. Only for real, confirmed figures. */
+.figure {
+  font-family: var(--font-serif);
+  font-size: var(--text-4xl);
+  font-synthesis: none;
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+}
+
+small,
+.text-sm {
+  font-size: var(--text-sm);
+}
+
+strong,
+b {
+  font-weight: var(--weight-semibold);
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Links ---------- */
+
+a {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-color: var(--color-accent-decorative);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color var(--duration-fast) var(--ease-out);
+}
+
+a:hover {
+  text-decoration-color: currentColor;
+}
+
+/* ---------- Focus (WCAG 2.2: visible, ≥3:1, not obscured) ---------- */
+
+:focus-visible {
+  outline: var(--border-thick) solid var(--color-focus);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 6px var(--color-focus-halo);
+  border-radius: var(--radius-sm);
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ---------- Misc ---------- */
+
+::selection {
+  background-color: var(--orange-500);
+  color: var(--charcoal-900);
+}
+
+hr {
+  border: 0;
+  border-block-start: var(--border-thin) solid var(--color-border);
+}
+
+address {
+  font-style: normal;
+}
+
+/* <main> receives focus from the skip link; no ring on the whole page. */
+main:focus {
+  outline: none;
+  box-shadow: none;
+}

@@ -1,0 +1,60 @@
+---
+/**
+ * Per-page meta tags: title, description, canonical, robots, Open Graph,
+ * Twitter. Rendered by BaseLayout; pages pass props through the layout.
+ */
+import { site } from '@/config/site';
+import { canonicalUrl, formatTitle, DESCRIPTION_MAX } from '@/lib/seo';
+
+export interface SEOProps {
+  /** Page title without the brand suffix. Omit on the home page. */
+  title?: string;
+  /** Unique, specific summary for search results (≤160 characters). */
+  description: string;
+  /** Social share image: an imported image's URL or an absolute URL. */
+  image?: { src: string; alt: string; width?: number; height?: number };
+  /** Exclude this page from search results. */
+  noindex?: boolean;
+  type?: 'website' | 'article';
+  /** Override the canonical path (defaults to the current URL). */
+  canonicalPath?: string;
+}
+
+type Props = SEOProps;
+
+const { title, description, image, noindex = false, type = 'website', canonicalPath } = Astro.props;
+
+if (import.meta.env.DEV && description.length > DESCRIPTION_MAX) {
+  console.warn(
+    `[seo] Description on ${Astro.url.pathname} is ${description.length} chars (max ${DESCRIPTION_MAX}).`,
+  );
+}
+
+const fullTitle = formatTitle(title);
+const canonical = canonicalUrl(canonicalPath ?? Astro.url.pathname, Astro.site ?? Astro.url);
+const robots =
+  !site.allowIndexing || noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large';
+const imageUrl = image ? new URL(image.src, Astro.site ?? Astro.url).href : undefined;
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+<meta name="robots" content={robots} />
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:locale" content={site.ogLocale} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+{image && imageUrl && (
+  <>
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={image.alt} />
+    {image.width && <meta property="og:image:width" content={String(image.width)} />}
+    {image.height && <meta property="og:image:height" content={String(image.height)} />}
+  </>
+)}
+<meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+<link rel="sitemap" href="/sitemap-index.xml" />

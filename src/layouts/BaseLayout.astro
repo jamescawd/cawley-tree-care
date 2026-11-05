@@ -1,0 +1,50 @@
+---
+/**
+ * Root HTML document for every page. Owns: <head>, fonts, global CSS,
+ * SEO meta, site-wide structured data, and the skip link.
+ * Header/footer are passed in via named slots once they are designed.
+ */
+import { Font } from 'astro:assets';
+import '@/styles/global.css';
+import { site } from '@/config/site';
+import SEO, { type SEOProps } from '@/components/seo/SEO.astro';
+import JsonLd from '@/components/seo/JsonLd.astro';
+import SkipLink from '@/components/ui/SkipLink.astro';
+import { localBusinessSchema, websiteSchema } from '@/lib/schema';
+
+interface Props extends SEOProps {
+  /** Extra page-level schema.org objects (Service, BreadcrumbList, FAQPage…). */
+  schema?: Record<string, unknown>[];
+  /** Surface theme for the page background. */
+  surface?: 'light' | 'dark';
+}
+
+const { schema = [], surface = 'light', ...seo } = Astro.props;
+const siteUrl = Astro.site ?? Astro.url;
+---
+
+<!doctype html>
+<html lang={site.lang} dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content={site.themeColor} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Preload only the faces used above the fold. -->
+    <Font cssVariable="--font-heading" preload={[{ style: 'normal' }]} />
+    <Font cssVariable="--font-body" preload={[{ style: 'normal' }]} />
+
+    <SEO {...seo} />
+    <JsonLd data={[websiteSchema(siteUrl), localBusinessSchema(siteUrl), ...schema]} />
+    <slot name="head" />
+  </head>
+  <body class={`surface-${surface}`}>
+    <SkipLink />
+    <slot name="header" />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <slot name="footer" />
+  </body>
+</html>
