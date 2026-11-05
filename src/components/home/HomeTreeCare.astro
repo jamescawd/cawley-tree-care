@@ -73,6 +73,10 @@ import { business } from '@/config/business';
     gap: var(--space-xl);
   }
 
+  .tree-care__grid > * {
+    min-width: 0;
+  }
+
   .tree-care__intro {
     display: grid;
     gap: var(--space-l);
@@ -83,9 +87,10 @@ import { business } from '@/config/business';
   .tree-care__card {
     display: flex;
     align-items: center;
-    gap: var(--space-m);
+    flex-wrap: wrap;
+    gap: var(--space-s) var(--space-m);
     width: 100%;
-    padding: var(--space-m) var(--space-l);
+    padding: var(--space-m);
     border-radius: var(--radius-md);
   }
 

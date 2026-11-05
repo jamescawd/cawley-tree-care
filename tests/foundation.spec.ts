@@ -51,12 +51,12 @@ for (const path of PAGES) {
       const families = await page.evaluate(() =>
         [...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family),
       );
-      expect(families.some((f) => f.includes('Instrument Serif'))).toBe(true);
+      expect(families.some((f) => f.includes('Fraunces'))).toBe(true);
       expect(families.some((f) => f.includes('Inter'))).toBe(true);
 
       const heading = await page.locator('h1').evaluate((el) => getComputedStyle(el).fontFamily);
       const body = await page.locator('body').evaluate((el) => getComputedStyle(el).fontFamily);
-      expect(heading).toContain('Instrument Serif');
+      expect(heading).toContain('Fraunces');
       expect(body).toContain('Inter');
     });
 

@@ -12,7 +12,7 @@ import { placeholderReport } from './scripts/placeholder-report-integration.mjs'
  *                 makes every page `noindex` and robots.txt `Disallow: /`.
  */
 const FONTS = {
-  serif: './node_modules/@fontsource/instrument-serif/files',
+  serif: './node_modules/@fontsource-variable/fraunces/files',
   sans: './node_modules/@fontsource-variable/inter/files',
 };
 
@@ -29,7 +29,7 @@ export default defineConfig({
   },
 
   // Self-hosted fonts (agreed brand decision):
-  //   Instrument Serif: headings      Inter: body, navigation, buttons
+  //   Fraunces: headings      Inter: body, navigation, buttons
   // Files come from the pinned @fontsource packages in node_modules, Latin
   // subset (includes Irish fadas). Astro copies them into the build, writes
   // the @font-face rules, generates metric-matched fallbacks to minimise
@@ -37,19 +37,19 @@ export default defineConfig({
   // No third-party font requests, at build time or in the browser (GDPR).
   fonts: [
     {
-      name: 'Instrument Serif',
+      name: 'Fraunces',
       cssVariable: '--font-heading',
       provider: fontProviders.local(),
       options: {
         variants: [
           {
-            src: [`${FONTS.serif}/instrument-serif-latin-400-normal.woff2`],
-            weight: 400,
+            src: [`${FONTS.serif}/fraunces-latin-wght-normal.woff2`],
+            weight: '100 900',
             style: 'normal',
           },
           {
-            src: [`${FONTS.serif}/instrument-serif-latin-400-italic.woff2`],
-            weight: 400,
+            src: [`${FONTS.serif}/fraunces-latin-wght-italic.woff2`],
+            weight: '100 900',
             style: 'italic',
           },
         ],

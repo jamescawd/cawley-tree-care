@@ -21,7 +21,7 @@ precedence explicit.
 
 ## 3. Self-hosted fonts via the Astro Fonts API
 
-Instrument Serif + Inter from pinned `@fontsource` packages. Astro copies the
+Fraunces + Inter from pinned `@fontsource` packages. Astro copies the
 files into the build, generates `@font-face`, size-adjusted fallbacks (less
 layout shift) and preloads. No request to Google: avoids the EU GDPR issue
 with remotely loaded Google Fonts and removes a third-party connection.

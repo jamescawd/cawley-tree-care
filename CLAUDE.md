@@ -11,8 +11,8 @@
 
 ## Design system
 
-- Fonts: **Instrument Serif** for display/h1–h3/large figures only (single weight:
-  never bold it); **Inter** for everything else (h4–h6, body, nav, buttons, forms).
+- Fonts: **Fraunces** for display/h1–h3/large figures only (replaced Fraunces,
+  which was hard to read); **Inter** for everything else (h4–h6, body, nav, buttons, forms).
 - Colours: use semantic tokens (`--color-*`) and surface classes
   (`surface-light|dark|accent`), never raw hex in components.
 - **Orange is never text or essential UI on ivory** (2.2:1). On charcoal it is fine.

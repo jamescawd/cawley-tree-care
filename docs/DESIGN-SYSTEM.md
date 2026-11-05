@@ -36,20 +36,20 @@ re-map automatically, so components stay correct on any surface.
 
 | Role                       | Typeface                          | Token                                                   |
 | -------------------------- | --------------------------------- | ------------------------------------------------------- |
-| Display                    | Instrument Serif                  | `.text-display` · `--text-5xl` (52→100px)               |
-| H1                         | Instrument Serif                  | `--text-4xl` (44→76px)                                  |
-| H2                         | Instrument Serif                  | `--text-3xl` (36→56px)                                  |
-| H3                         | Instrument Serif                  | `--text-2xl` (28→36px)                                  |
+| Display                    | Fraunces                          | `.text-display` · `--text-5xl` (52→100px)               |
+| H1                         | Fraunces                          | `--text-4xl` (44→76px)                                  |
+| H2                         | Fraunces                          | `--text-3xl` (36→56px)                                  |
+| H3                         | Fraunces                          | `--text-2xl` (28→36px)                                  |
 | H4–H6                      | Inter Semibold                    | `--text-xl` / `--text-lg` / `--text-base`               |
 | Body                       | Inter                             | `--text-base` (16→18px), line height 1.65, 65ch measure |
 | Lead                       | Inter                             | `.lead` · `--text-lg`                                   |
 | Eyebrow / labels           | Inter Semibold, uppercase, 0.14em | `.eyebrow` · `--text-xs`                                |
 | Navigation, buttons, forms | Inter                             | `--text-sm` / `--text-base`                             |
-| Large figures              | Instrument Serif                  | `.figure` (confirmed figures only)                      |
+| Large figures              | Fraunces                          | `.figure` (confirmed figures only)                      |
 
 Rules:
 
-- Instrument Serif has **one weight**. Never bold it (faux bold is disabled).
+- Fraunces has **one weight**. Never bold it (faux bold is disabled).
   Hierarchy comes from size, space and contrast.
 - **Signature device:** one italic word in a serif heading (`<em>`); it takes
   the accent colour on dark surfaces. Use sparingly.

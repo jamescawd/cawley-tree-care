@@ -21,7 +21,7 @@ interface Props {
 const { href = '/', variant = 'horizontal', priority = false } = Astro.props;
 const src = variant === 'stacked' ? stacked : horizontal;
 // Display width in CSS px; the "fixed" layout also generates a 2x file for sharp edges.
-const width = 240;
+const width = variant === 'stacked' ? 320 : 300;
 ---
 
 <a class:list={['wordmark', `wordmark--${variant}`]} href={href}>
@@ -48,25 +48,25 @@ const width = 240;
     max-width: none;
   }
 
-  /* Header lockup: 30px on the smallest phones, 34px on phones, 42px from tablet up. */
+  /* Header lockup: 38px on the smallest phones, 44px on phones, 54px from tablet up. */
   .wordmark--horizontal :global(img) {
-    height: 1.875rem;
+    height: 2.375rem;
   }
 
   @media (min-width: 23.5em) {
     .wordmark--horizontal :global(img) {
-      height: 2.125rem;
+      height: 2.75rem;
     }
   }
 
   @media (min-width: 40em) {
     .wordmark--horizontal :global(img) {
-      height: 2.625rem;
+      height: 3.375rem;
     }
   }
 
   .wordmark--stacked :global(img) {
-    width: min(15rem, 100%);
+    width: min(20rem, 100%);
     height: auto;
   }
 </style>

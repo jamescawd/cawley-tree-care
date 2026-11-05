@@ -7,15 +7,15 @@ positioning, with landscaping second.
 
 ## Stack
 
-| Concern   | Choice                                                                       |
-| --------- | ---------------------------------------------------------------------------- |
-| Framework | [Astro 7](https://astro.build), static output, zero JS by default            |
-| Language  | TypeScript (strictest)                                                       |
-| Styling   | Hand-written CSS with design tokens and cascade layers (no CSS framework)    |
-| Fonts     | Instrument Serif (headings) + Inter (body, navigation, buttons), self-hosted |
-| Content   | Markdown content collections with build-time schema validation               |
-| Hosting   | Cloudflare Pages                                                             |
-| Quality   | ESLint (incl. accessibility), Prettier, `astro check`, Playwright + axe      |
+| Concern   | Choice                                                                    |
+| --------- | ------------------------------------------------------------------------- |
+| Framework | [Astro 7](https://astro.build), static output, zero JS by default         |
+| Language  | TypeScript (strictest)                                                    |
+| Styling   | Hand-written CSS with design tokens and cascade layers (no CSS framework) |
+| Fonts     | Fraunces (headings) + Inter (body, navigation, buttons), self-hosted      |
+| Content   | Markdown content collections with build-time schema validation            |
+| Hosting   | Cloudflare Pages                                                          |
+| Quality   | ESLint (incl. accessibility), Prettier, `astro check`, Playwright + axe   |
 
 ## Getting started
 

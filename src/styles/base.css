@@ -2,11 +2,11 @@
  * Base element styles and typographic roles.
  *
  * Typeface roles (agreed brand decision, use consistently):
- *   Instrument Serif: display, h1, h2, h3, large figures (.text-display, .figure)
+ *   Fraunces: display, h1, h2, h3, large figures (.text-display, .figure)
  *   Inter: everything else: h4–h6, body, navigation, buttons, forms, labels
  *
- * Instrument Serif ships ONE weight (400) + italic. Never bold it: hierarchy
- * comes from size, spacing and contrast. Faux bold/italic is disabled.
+ * Fraunces is a variable font (100–900): headings use 400–500 for a
+ * confident, legible weight.
  */
 
 html {
