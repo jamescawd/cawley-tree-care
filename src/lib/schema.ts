@@ -30,6 +30,23 @@ const withContext = (data: JsonLd): JsonLd => ({
   ...((clean(data) as JsonLd | undefined) ?? {}),
 });
 
+/** Confirmed counties, each containing its confirmed towns. */
+const areaServed = () =>
+  serviceAreas.flatMap((area) => {
+    const county = provided(area.county);
+    if (!county) return [];
+    return [
+      {
+        '@type': 'AdministrativeArea',
+        name: `County ${county}`,
+        containsPlace: area.towns
+          .map(provided)
+          .filter(Boolean)
+          .map((name) => ({ '@type': 'Place', name })),
+      },
+    ];
+  });
+
 export const businessId = (site: URL) => new URL('/#business', site).href;
 
 export const localBusinessSchema = (site: URL): JsonLd => {
@@ -47,7 +64,6 @@ export const localBusinessSchema = (site: URL): JsonLd => {
     url: site.href,
     telephone: provided(contact.phone),
     email: provided(contact.email),
-    foundingDate: provided(business.foundingYear)?.toString(),
     address:
       street || locality
         ? {
@@ -61,10 +77,7 @@ export const localBusinessSchema = (site: URL): JsonLd => {
         : undefined,
     geo: geo ? { '@type': 'GeoCoordinates', ...geo } : undefined,
     openingHours: provided(business.openingHours),
-    areaServed: serviceAreas
-      .map((area) => provided(area.county))
-      .filter(Boolean)
-      .map((name) => ({ '@type': 'AdministrativeArea', name })),
+    areaServed: areaServed(),
     hasCredential: business.credentials.map((c) => ({
       '@type': 'EducationalOccupationalCredential',
       name: c.name,
@@ -113,10 +126,7 @@ export const serviceSchema = (
     description: service.description,
     url: new URL(service.path, site).href,
     provider: { '@id': businessId(site) },
-    areaServed: serviceAreas
-      .map((area) => provided(area.county))
-      .filter(Boolean)
-      .map((name) => ({ '@type': 'AdministrativeArea', name })),
+    areaServed: areaServed(),
   });
 
 export const faqSchema = (items: { question: string; answer: string }[]): JsonLd =>

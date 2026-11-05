@@ -9,21 +9,21 @@ production until all are resolved** (or deliberately removed).
 - [ ] Registered business name (CRO / Revenue)
 - [ ] Tagline / strapline
 - [ ] Short business description (search results & social sharing)
-- [ ] Year established
+- [x] Experience: **over 15 years** (confirmed; exact founding year not needed)
 - [ ] Main phone number
 - [ ] Enquiries email address
 - [ ] Base address (or confirm service-area business with no public address), town, county, Eircode
 - [ ] Map coordinates of the base
 - [ ] Opening hours
-- [ ] Insurance: type and level of cover (only as confirmed in writing)
+- [x] **Fully insured** (confirmed). Insurer, cover types and amounts are not stated unless confirmed.
 - [ ] Qualifications & memberships: name, awarding body, verification link
 - [ ] Google Business Profile URL
 - [ ] Facebook / Instagram URLs (or confirm not used)
 
 ## Service areas (`src/config/areas.ts`)
 
-- [ ] The six counties, in priority order
-- [ ] Major towns in each county
+- [x] Westmeath, Roscommon, Longford, Offaly, Galway, with major towns (confirmed)
+- [ ] Sixth county: the brief says six, but five were named
 - [ ] Any areas covered for larger jobs only
 
 ## Brand assets

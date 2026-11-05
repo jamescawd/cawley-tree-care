@@ -44,7 +44,18 @@ export const business = {
     { id: 'tree-care', name: 'Tree Care & Tree Surgery', priority: 'primary' },
     { id: 'landscaping', name: 'Landscaping', priority: 'secondary' },
   ],
-  foundingYear: placeholder('Year the business was established') as Maybe<number>,
+
+  /**
+   * CONFIRMED by the business (Nov 2026): over 15 years in business.
+   * The exact founding year is not confirmed. Claim only "over 15 years";
+   * never derive a year or a larger number from it.
+   */
+  experience: {
+    years: 15,
+    /** Large-figure form, e.g. for a credentials band. */
+    figure: '15+',
+    label: 'Over 15 Years of Experience',
+  },
 
   contact: {
     /** International format for tel: links and structured data, e.g. +353 87 000 0000. */
@@ -73,8 +84,15 @@ export const business = {
   /** Verified qualifications and memberships only. Leave empty until confirmed. */
   credentials: [] as Credential[],
 
-  /** Only state cover that is confirmed in writing. */
-  insurance: placeholder('Insurance details (type and level of cover)'),
+  /**
+   * CONFIRMED by the business (Nov 2026): fully insured.
+   * Do not name an insurer, cover types (e.g. public liability) or amounts
+   * unless those details are separately confirmed.
+   */
+  insurance: {
+    fullyInsured: true,
+    label: 'Fully Insured',
+  },
 
   links: {
     googleBusinessProfile: placeholder('Google Business Profile URL'),

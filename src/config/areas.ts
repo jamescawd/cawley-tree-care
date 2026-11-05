@@ -1,66 +1,82 @@
 import { placeholder, type Maybe } from '@/lib/placeholder';
 
 /**
- * Service areas: six counties, each with its major towns.
+ * Service areas: counties and their major towns.
  *
- * Stored here (not as pages) so the same data can drive copy, structured data
- * (`areaServed`) and, later, one local landing page per county / town.
+ * Stored here (not as pages) so the same data drives homepage copy,
+ * structured data (`areaServed`) and, later, local landing pages.
  * Location pages are deliberately NOT generated yet.
  *
- * Order = priority. `coverage: 'selected'` marks areas served for larger jobs only.
- *
- * TODO(business): the six counties and their towns have not been recorded in
- * this project yet. Replace each placeholder with the confirmed county and towns.
+ * CONFIRMED by the business (Nov 2026): the five counties below, listed in
+ * the order supplied. The brief refers to six counties, but only five were
+ * named, so slot 6 stays a placeholder until confirmed (or is removed).
  */
 
-export interface Town {
-  name: Maybe<string>;
-}
-
 export interface ServiceArea {
-  /** Stable id; becomes the URL slug for a future county page, e.g. "kildare". */
+  /** Stable id; becomes the URL slug for a future county page, e.g. "westmeath". */
   id: string;
-  /** Display name, e.g. "County Kildare". */
+  /** County name without prefix, e.g. "Westmeath". Display as "Co. Westmeath". */
   county: Maybe<string>;
   coverage: 'full' | 'selected';
-  towns: Town[];
+  towns: Maybe<string>[];
 }
 
 export const serviceAreas: ServiceArea[] = [
   {
-    id: 'county-1', // TODO: replace with county slug, e.g. 'kildare'
-    county: placeholder('County 1 of 6 (1st priority)'),
+    id: 'westmeath',
+    county: 'Westmeath',
     coverage: 'full',
-    towns: [{ name: placeholder('Major towns in county 1') }],
+    towns: [
+      'Mullingar',
+      'Athlone',
+      'Moate',
+      'Kinnegad',
+      'Castlepollard',
+      'Kilbeggan',
+      'Rochfortbridge',
+    ],
   },
   {
-    id: 'county-2', // TODO: replace with county slug, e.g. 'kildare'
-    county: placeholder('County 2 of 6 (2nd priority)'),
+    id: 'roscommon',
+    county: 'Roscommon',
     coverage: 'full',
-    towns: [{ name: placeholder('Major towns in county 2') }],
+    towns: ['Roscommon Town', 'Boyle', 'Castlerea', 'Ballaghaderreen', 'Strokestown', 'Elphin'],
   },
   {
-    id: 'county-3', // TODO: replace with county slug, e.g. 'kildare'
-    county: placeholder('County 3 of 6 (3rd priority)'),
+    id: 'longford',
+    county: 'Longford',
     coverage: 'full',
-    towns: [{ name: placeholder('Major towns in county 3') }],
+    towns: ['Longford Town', 'Edgeworthstown', 'Granard', 'Ballymahon', 'Lanesborough'],
   },
   {
-    id: 'county-4', // TODO: replace with county slug, e.g. 'kildare'
-    county: placeholder('County 4 of 6 (4th priority)'),
+    id: 'offaly',
+    county: 'Offaly',
     coverage: 'full',
-    towns: [{ name: placeholder('Major towns in county 4') }],
+    towns: ['Tullamore', 'Birr', 'Edenderry', 'Clara', 'Kilcormac', 'Banagher', 'Ferbane'],
   },
   {
-    id: 'county-5', // TODO: replace with county slug, e.g. 'kildare'
-    county: placeholder('County 5 of 6 (5th priority)'),
+    id: 'galway',
+    county: 'Galway',
     coverage: 'full',
-    towns: [{ name: placeholder('Major towns in county 5') }],
+    towns: [
+      'Galway City',
+      'Tuam',
+      'Ballinasloe',
+      'Loughrea',
+      'Athenry',
+      'Oranmore',
+      'Gort',
+      'Portumna',
+      'Clifden',
+    ],
   },
   {
-    id: 'county-6', // TODO: replace with county slug, e.g. 'kildare'
-    county: placeholder('County 6 of 6 (6th priority)'),
+    id: 'county-6',
+    county: placeholder('Sixth county: brief says six counties, five were named'),
     coverage: 'full',
-    towns: [{ name: placeholder('Major towns in county 6') }],
+    towns: [placeholder('Major towns in the sixth county')],
   },
 ];
+
+/** Formatted county name, e.g. "Co. Westmeath". */
+export const countyLabel = (county: string): string => `Co. ${county}`;
