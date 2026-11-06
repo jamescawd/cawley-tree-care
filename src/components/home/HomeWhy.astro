@@ -1,65 +1,178 @@
 ---
-import SectionHeader from '@/components/ui/SectionHeader.astro';
+/**
+ * Why choose Cawley's: two confirmed headline facts, then the working
+ * principles the business has stated. No qualifications, accreditations
+ * or guarantees are claimed.
+ */
 import Button from '@/components/ui/Button.astro';
-import { quoteHref } from '@/config/navigation';
-import CredentialFigures, { type Figure } from '@/components/sections/CredentialFigures.astro';
 import { business } from '@/config/business';
-import { serviceAreas, townCount } from '@/config/areas';
+import { quoteHref } from '@/config/navigation';
 
-// Confirmed facts only (see config/business.ts and config/areas.ts).
-const figures: Figure[] = [
+const principles = [
   {
-    value: business.experience.figure,
-    label: business.experience.label,
-    detail: 'More than fifteen years caring for trees, gardens and grounds.',
+    title: 'Experienced workmanship',
+    text: 'More than fifteen years of tree surgery and garden work, carried out properly and to a high standard.',
   },
   {
-    value: 'Insured',
-    word: true,
-    label: business.insurance.label,
-    detail: 'Fully insured for the work we carry out.',
+    title: 'Reliable service',
+    text: 'We keep you informed, turn up as arranged and see every job through to the finish.',
   },
   {
-    value: String(serviceAreas.length),
-    label: `${serviceAreas.length} counties served`,
-    detail: `Including ${townCount} major towns across the Midlands & West.`,
+    title: 'Clear, honest quotations',
+    text: 'You know what will be done and what it will cost before any work begins.',
   },
   {
-    value: 'Trees',
-    word: true,
-    label: 'Tree specialists first',
-    detail: 'Tree care and tree surgery are our core specialism.',
+    title: 'Respect for your property',
+    text: 'Gardens, drives, buildings and boundaries are protected while we work.',
+  },
+  {
+    title: 'Tidy, responsible finish',
+    text: 'Work areas are left clean and tidy, with green waste taken away where agreed.',
   },
 ];
 ---
 
 <section id="why" class="section-lg why surface-accent texture" aria-labelledby="why-title">
-  <div class="container why__inner">
-    <SectionHeader id="why-title" eyebrow="Why Cawley's" size="xl" split>
-      <Fragment slot="title">
-        Experience you can <em>rely on</em>
-      </Fragment>
-      <p>
-        Choosing who works on your trees matters. Cawley's brings more than fifteen years of
-        experience, full insurance and a specialist's focus on trees.
+  <div class="container why__grid">
+    <div class="why__lead reveal">
+      <p class="eyebrow">Why choose Cawley's</p>
+      <h2 id="why-title">
+        The tree surgeon you can <em>rely on</em>
+      </h2>
+      <p class="why__intro">
+        Choosing who works on your trees and around your home matters. Here is what you can expect
+        from us on every job, large or small.
       </p>
-    </SectionHeader>
-    <div class="reveal">
-      <CredentialFigures figures={figures} />
+      <dl class="why__facts">
+        <div>
+          <dt class="visually-hidden">Experience</dt>
+          <dd class="why__fig" aria-hidden="true">
+            {business.experience.figure}
+          </dd>
+          <dd>{business.experience.label}</dd>
+        </div>
+        <div>
+          <dt class="visually-hidden">Insurance</dt>
+          <dd class="why__fig why__fig--word" aria-hidden="true">
+            Insured
+          </dd>
+          <dd>{business.insurance.label}</dd>
+        </div>
+      </dl>
+      <Button href={quoteHref} size="lg" arrow>
+        Request a free quote
+      </Button>
     </div>
-    <Button href={quoteHref} size="lg" arrow>
-      Request a quote
-    </Button>
+
+    <ol class="why__list" role="list">
+      {principles.map((p, i) => (
+        <li class="reveal">
+          <span class="why__n" aria-hidden="true">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <h3>{p.title}</h3>
+          <p>{p.text}</p>
+        </li>
+      ))}
+    </ol>
   </div>
 </section>
 
 <style>
-  .why__inner {
+  .why__grid {
     display: grid;
     gap: var(--space-2xl);
   }
 
-  .why :global(.figures__value) {
-    font-size: clamp(3.5rem, 2rem + 6vw, 8rem);
+  .why__lead {
+    display: grid;
+    gap: var(--space-m);
+    align-content: start;
+    justify-items: start;
+  }
+
+  .why__lead h2 {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-tight);
+    max-width: 12ch;
+  }
+
+  .why__lead :global(em) {
+    color: var(--charcoal-900);
+  }
+
+  .why__intro {
+    font-size: var(--text-lg);
+    max-width: 40ch;
+  }
+
+  .why__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-m) var(--space-xl);
+    padding-block: var(--space-s);
+    border-block: 1px solid var(--charcoal-900);
+    width: 100%;
+  }
+
+  .why__facts dd {
+    font-weight: var(--weight-semibold);
+    font-size: var(--text-sm);
+  }
+
+  .why__fig {
+    font-family: var(--font-serif);
+    font-size: clamp(3.5rem, 2.2rem + 5vw, 6rem) !important;
+    font-weight: var(--weight-regular) !important;
+    line-height: 0.95;
+    letter-spacing: var(--tracking-display);
+  }
+
+  .why__fig--word {
+    font-style: italic;
+  }
+
+  .why__list {
+    display: grid;
+    border-block-start: 1px solid var(--charcoal-900);
+  }
+
+  .why__list li {
+    display: grid;
+    grid-template-columns: 2.75rem 1fr;
+    column-gap: var(--space-s);
+    row-gap: var(--space-3xs);
+    padding-block: var(--space-m);
+    border-block-end: 1px solid rgb(23 23 23 / 0.35);
+    max-width: none;
+  }
+
+  .why__n {
+    grid-row: span 2;
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    line-height: 1.2;
+  }
+
+  .why__list h3 {
+    font-size: var(--text-2xl);
+    line-height: 1.15;
+  }
+
+  .why__list p {
+    max-width: 46ch;
+  }
+
+  @media (min-width: 64em) {
+    .why__grid {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      gap: var(--space-3xl);
+      align-items: start;
+    }
+
+    .why__lead {
+      position: sticky;
+      inset-block-start: calc(var(--header-height) + var(--space-l));
+    }
   }
 </style>

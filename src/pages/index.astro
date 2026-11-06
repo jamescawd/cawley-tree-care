@@ -6,8 +6,8 @@
  */
 import PageLayout from '@/layouts/PageLayout.astro';
 import HomeHero from '@/components/home/HomeHero.astro';
-import HomeTreeCare from '@/components/home/HomeTreeCare.astro';
-import HomeLandscaping from '@/components/home/HomeLandscaping.astro';
+import HomeTrust from '@/components/home/HomeTrust.astro';
+import HomeServices from '@/components/home/HomeServices.astro';
 import HomeWhy from '@/components/home/HomeWhy.astro';
 import HomeWork from '@/components/home/HomeWork.astro';
 import HomeAbout from '@/components/home/HomeAbout.astro';
@@ -32,12 +32,12 @@ const places = serviceAreas.flatMap((a) => [`Co. ${a.county as string}`, ...(a.t
   }}
 >
   <HomeHero />
-  <Marquee items={places} duration={90} />
-  <HomeTreeCare />
-  <HomeLandscaping />
-  <HomeWhy />
+  <HomeTrust />
+  <HomeServices />
   <HomeWork />
+  <HomeWhy />
   <HomeAbout />
+  <Marquee items={places} duration={90} />
   <HomeAreas />
   <HomeTestimonials />
   <HomeEnquiry />

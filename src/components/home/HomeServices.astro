@@ -1,0 +1,334 @@
+---
+/**
+ * Service chapters: alternating full-bleed photograph and text panels.
+ * Tree care leads; landscaping closes the sequence; stump grinding sits
+ * as a compact supporting panel (no genuine photo yet).
+ */
+import { Picture } from 'astro:assets';
+import ArrowIcon from '@/components/ui/ArrowIcon.astro';
+import { serviceChapters, stumpGrinding } from '@/config/homeServices';
+import { quoteHref } from '@/config/navigation';
+---
+
+<section id="services" class="services surface-dark" aria-labelledby="services-title">
+  <div class="container services__intro reveal">
+    <p class="eyebrow">What we do</p>
+    <h2 id="services-title">
+      Tree surgery first. <em>Landscaping</em> to finish.
+    </h2>
+    <p class="lead">
+      Specialist tree work is the core of our business, backed by a full landscaping service for the
+      garden around it.
+    </p>
+  </div>
+
+  <div class="chapters">
+    {serviceChapters.map((c, i) => (
+      <article
+        id={c.id}
+        class:list={['chapter', { 'chapter--flip': i % 2 === 1 }]}
+        aria-labelledby={`${c.id}-title`}
+      >
+        <div class="chapter__media">
+          {c.image && (
+            <Picture
+              src={c.image.src}
+              alt={c.image.alt}
+              widths={[480, 720, 960, 1280, 1600].filter((w) => w <= c.image!.src.width)}
+              sizes="(min-width: 64em) 58vw, 100vw"
+              formats={['avif', 'webp']}
+              layout="none"
+              style={c.image.focus ? `object-position: ${c.image.focus}` : undefined}
+            />
+          )}
+        </div>
+        <div class="chapter__body reveal">
+          <p class="chapter__label">
+            <span class="chapter__n">{String(i + 1).padStart(2, '0')}</span>
+            {c.label}
+          </p>
+          <h3 id={`${c.id}-title`}>
+            {c.title} <em>{c.accent}</em>
+          </h3>
+          <p class="chapter__desc">{c.description}</p>
+          <p class="chapter__benefit">{c.benefit}</p>
+          {c.includes && (
+            <ul class="chapter__list" role="list">
+              {c.includes.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          )}
+          <a class="chapter__link" href={quoteHref}>
+            <span>{c.cta}</span>
+            <span class="chapter__link-icon" aria-hidden="true">
+              <ArrowIcon />
+            </span>
+          </a>
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <div class="container">
+    <aside id={stumpGrinding.id} class="extra reveal" aria-labelledby="stump-title">
+      <p class="chapter__label">{stumpGrinding.label}</p>
+      <h3 id="stump-title">{stumpGrinding.title}</h3>
+      <p>{stumpGrinding.description}</p>
+      <a class="chapter__link" href={quoteHref}>
+        <span>{stumpGrinding.cta}</span>
+        <span class="chapter__link-icon" aria-hidden="true">
+          <ArrowIcon />
+        </span>
+      </a>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .services {
+    padding-block: var(--section-space-lg) var(--section-space);
+  }
+
+  .services__intro {
+    display: grid;
+    gap: var(--space-s);
+    padding-block-end: var(--space-2xl);
+  }
+
+  .services__intro h2 {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-tight);
+    max-width: 14ch;
+  }
+
+  .services__intro .lead {
+    max-width: 46ch;
+  }
+
+  .chapters {
+    display: grid;
+    gap: var(--space-3xs);
+  }
+
+  .chapter {
+    display: grid;
+    background: var(--charcoal-800);
+  }
+
+  .chapter__media {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3.3;
+    background: var(--charcoal-700);
+  }
+
+  /* Photos fill their panel; the text, not the photo, sets the height. */
+  .chapter__media :global(picture) {
+    position: absolute;
+    inset: 0;
+  }
+
+  .chapter__media :global(picture),
+  .chapter__media :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .chapter__media :global(img) {
+    object-fit: cover;
+    transition:
+      transform 900ms var(--ease-out),
+      filter 600ms var(--ease-out);
+    filter: saturate(0.96);
+  }
+
+  .chapter:hover .chapter__media :global(img) {
+    transform: scale(1.035);
+    filter: saturate(1.05);
+  }
+
+  .chapter__body {
+    position: relative;
+    display: grid;
+    gap: var(--space-s);
+    align-content: center;
+    padding: var(--space-xl) var(--gutter) var(--space-2xl);
+  }
+
+  /* Orange accent rule on the edge facing the photo. */
+  .chapter__body::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: var(--gutter);
+    width: 3.5rem;
+    height: 3px;
+    background: var(--orange-500);
+  }
+
+  .chapter__label {
+    display: flex;
+    align-items: center;
+    gap: 0.9em;
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--color-accent-text);
+  }
+
+  .chapter__n {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+    color: var(--color-text);
+    padding-inline-end: 0.9em;
+    border-inline-end: 1px solid var(--color-border);
+  }
+
+  .chapter h3 {
+    font-size: var(--text-3xl);
+    line-height: 1.06;
+    max-width: 14ch;
+  }
+
+  .chapter__desc {
+    font-size: var(--text-lg);
+    line-height: 1.55;
+    color: var(--color-text);
+    max-width: 40ch;
+  }
+
+  .chapter__benefit {
+    color: var(--color-text-secondary);
+    max-width: 44ch;
+  }
+
+  .chapter__list {
+    display: grid;
+    gap: var(--space-3xs);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .chapter__list li {
+    display: flex;
+    align-items: center;
+    gap: 0.8em;
+  }
+
+  .chapter__list li::before {
+    content: '';
+    flex-shrink: 0;
+    width: 1.1rem;
+    height: 1px;
+    background: var(--orange-500);
+  }
+
+  .chapter__link {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-s);
+    min-height: var(--tap-target);
+    margin-block-start: var(--space-2xs);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .chapter__link span:first-child {
+    border-block-end: 1px solid var(--orange-500);
+    padding-block-end: 0.2em;
+  }
+
+  .chapter__link-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--color-border);
+    border-radius: 50%;
+    transition:
+      background-color var(--duration-base) var(--ease-out),
+      border-color var(--duration-base) var(--ease-out),
+      color var(--duration-base) var(--ease-out),
+      transform var(--duration-base) var(--ease-out);
+  }
+
+  .chapter__link:is(:hover, :focus-visible) .chapter__link-icon {
+    color: var(--charcoal-900);
+    background: var(--orange-500);
+    border-color: var(--orange-500);
+    transform: translateX(4px);
+  }
+
+  @media (min-width: 64em) {
+    .chapter {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      min-height: min(44rem, 88svh);
+    }
+
+    .chapter--flip {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    }
+
+    .chapter--flip .chapter__media {
+      order: 2;
+    }
+
+    .chapter__media {
+      aspect-ratio: auto;
+    }
+
+    .chapter__body {
+      padding: var(--space-2xl) clamp(2rem, 5vw, 5.5rem);
+    }
+
+    .chapter__body::before {
+      inset-block-start: 50%;
+      inset-inline-start: 0;
+      width: 3px;
+      height: 4.5rem;
+      transform: translateY(-50%);
+    }
+
+    .chapter--flip .chapter__body::before {
+      inset-inline-start: auto;
+      inset-inline-end: 0;
+    }
+  }
+
+  /* Stump grinding: typographic panel. */
+  .extra {
+    display: grid;
+    gap: var(--space-xs);
+    margin-block-start: var(--space-2xl);
+    padding-block: var(--space-l);
+    border-block: 1px solid var(--color-border);
+  }
+
+  .extra h3 {
+    font-size: var(--text-2xl);
+  }
+
+  .extra p:not(.chapter__label) {
+    color: var(--color-text-secondary);
+    max-width: 52ch;
+  }
+
+  @media (min-width: 64em) {
+    .extra {
+      grid-template-columns: 12rem minmax(0, 1fr) minmax(0, 1.4fr) auto;
+      align-items: center;
+      gap: var(--space-l);
+    }
+
+    .extra .chapter__link {
+      margin: 0;
+    }
+  }
+</style>

@@ -1,7 +1,6 @@
 ---
 import SectionHeader from '@/components/ui/SectionHeader.astro';
 import EnquiryForm from '@/components/sections/EnquiryForm.astro';
-import PhoneLink from '@/components/ui/PhoneLink.astro';
 import Pending from '@/components/ui/Pending.astro';
 import TrustList from '@/components/ui/TrustList.astro';
 import { business } from '@/config/business';
@@ -13,28 +12,27 @@ const hours = business.openingHours;
 
 <section
   id="enquiry"
-  class="section-lg enquiry-section surface-accent texture"
+  class="section-lg enquiry-section surface-dark texture"
   aria-labelledby="enquiry-title"
 >
   <div class="container enquiry-section__grid">
     <div class="enquiry-section__intro">
-      <SectionHeader id="enquiry-title" eyebrow="Get in touch" size="xl">
+      <SectionHeader id="enquiry-title" eyebrow="Free, friendly advice" size="xl">
         <Fragment slot="title">
-          Request your <em>quote</em>
+          Request a <em>free quote</em>
         </Fragment>
         <p>
-          Send us a few details about the job and where you are, and we’ll be in touch to arrange
-          your quote.
+          Not sure exactly what you need? That’s fine. Tell us a little about the job and where you
+          are, or give us a call to talk it through, and we’ll take it from there.
         </p>
       </SectionHeader>
 
+      <a class="call-card" href={`tel:${business.contact.phone}`}>
+        <span class="call-card__label">Prefer to talk? Call us</span>
+        <span class="call-card__number">{business.contact.phoneDisplay}</span>
+      </a>
+
       <dl class="contact-list">
-        <div>
-          <dt>Call</dt>
-          <dd>
-            <PhoneLink />
-          </dd>
-        </div>
         <div>
           <dt>Email</dt>
           <dd>
@@ -66,10 +64,43 @@ const hours = business.openingHours;
     gap: var(--space-xl);
   }
 
+  .enquiry-section__grid > * {
+    min-width: 0;
+  }
+
   .enquiry-section__intro {
     display: grid;
     gap: var(--space-l);
     align-content: start;
+  }
+
+  .call-card {
+    display: grid;
+    gap: var(--space-3xs);
+    padding: var(--space-m);
+    color: var(--charcoal-900);
+    text-decoration: none;
+    background: var(--orange-500);
+    transition: background-color var(--duration-base) var(--ease-out);
+  }
+
+  .call-card:hover {
+    background: var(--orange-400);
+  }
+
+  .call-card__label {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+  }
+
+  .call-card__number {
+    font-family: var(--font-serif);
+    font-size: clamp(1.9rem, 1.2rem + 3.4vw, 3.5rem);
+    white-space: nowrap;
+    line-height: 1;
+    font-variant-numeric: lining-nums tabular-nums;
   }
 
   .contact-list {

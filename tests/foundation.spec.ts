@@ -113,3 +113,82 @@ test('structured data never contains placeholder values', async ({ page }) => {
     expect(block).not.toContain('__placeholder');
   }
 });
+
+test.describe('homepage conversion paths', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+  });
+
+  test('every in-page link points at a section that exists', async ({ page }) => {
+    const broken = await page.evaluate(() =>
+      [...document.querySelectorAll<HTMLAnchorElement>('a[href*="#"]')]
+        .map((a) => new URL(a.href))
+        .filter((u) => u.pathname === location.pathname && u.hash.length > 1)
+        .map((u) => decodeURIComponent(u.hash.slice(1)))
+        .filter((id) => !document.getElementById(id)),
+    );
+    expect(broken).toEqual([]);
+  });
+
+  test('phone links dial the confirmed number', async ({ page }) => {
+    const tels = await page
+      .locator('a[href^="tel:"]')
+      .evaluateAll((els) => els.map((e) => e.getAttribute('href')));
+    expect(tels.length).toBeGreaterThanOrEqual(3);
+    for (const href of tels) expect(href).toBe('tel:+353871199816');
+  });
+
+  test('quote buttons lead to the quote form', async ({ page }) => {
+    const quotes = page.getByRole('link', { name: /request a free quote/i });
+    expect(await quotes.count()).toBeGreaterThanOrEqual(3);
+    await expect(page.locator('#enquiry form')).toHaveCount(1);
+  });
+
+  test('quote form asks only for useful information', async ({ page }) => {
+    const form = page.locator('#enquiry form');
+    await expect(form.getByLabel('Your name')).toHaveAttribute('required', '');
+    await expect(form.getByLabel('Phone number')).toHaveAttribute('type', 'tel');
+    await expect(form.getByLabel(/Email/)).not.toHaveAttribute('required', '');
+    await expect(form.getByLabel('Type of work')).toHaveAttribute('required', '');
+    await expect(form.getByLabel('Where is the job?')).toHaveAttribute('required', '');
+    await expect(form.getByLabel('Tell us about the job')).toHaveAttribute('required', '');
+    await expect(form.getByLabel(/Photos of the job/)).toHaveAttribute('type', 'file');
+    await expect(form).toHaveAttribute('enctype', 'multipart/form-data');
+  });
+
+  test('portfolio filters show only the chosen category', async ({ page }) => {
+    await page.locator('label[for="wf-hedges"]').click();
+    const visible = await page
+      .locator('.tile')
+      .evaluateAll((els) =>
+        els.filter((e) => (e as HTMLElement).offsetParent).map((e) => e.getAttribute('data-cat')),
+      );
+    expect(visible.length).toBeGreaterThan(0);
+    expect(new Set(visible)).toEqual(new Set(['hedges']));
+  });
+
+  test('mobile menu opens and its links close it', async ({ page, isMobile }) => {
+    test.skip(!isMobile, 'Menu button is shown on small screens only');
+    await page.getByRole('button', { name: 'Open menu' }).click();
+    const menu = page.locator('#mobile-menu');
+    await expect(menu).toBeVisible();
+    await menu.getByRole('link', { name: 'Areas' }).click();
+    await expect(menu).toBeHidden();
+  });
+
+  test('every image has descriptive alt text or is marked decorative', async ({ page }) => {
+    const missing = await page.locator('img:not([alt])').count();
+    expect(missing).toBe(0);
+    const content = await page.locator('main img[alt=""]').count();
+    expect(content).toBe(0);
+  });
+
+  test('one h1, and no heading levels skipped', async ({ page }) => {
+    const levels = await page
+      .locator('main :is(h1,h2,h3,h4,h5,h6)')
+      .evaluateAll((els) => els.map((e) => Number(e.tagName[1])));
+    expect(levels.filter((l) => l === 1)).toHaveLength(1);
+    for (let i = 1; i < levels.length; i++)
+      expect(levels[i]! - levels[i - 1]!).toBeLessThanOrEqual(1);
+  });
+});

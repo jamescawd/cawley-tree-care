@@ -11,6 +11,7 @@ import Pending from '@/components/ui/Pending.astro';
 import { business } from '@/config/business';
 import { serviceAreas } from '@/config/areas';
 import { provided } from '@/lib/placeholder';
+import { serviceChapters, stumpGrinding } from '@/config/homeServices';
 
 interface Props {
   id?: string;
@@ -19,12 +20,18 @@ interface Props {
 const { id = 'quote-form' } = Astro.props;
 const endpoint = provided(business.enquiryEndpoint);
 const privacy = provided(business.links.privacyPolicy);
+const workTypes = [
+  ...serviceChapters.map((c) => `${c.title} ${c.accent}`.replace(/,$/, '')),
+  stumpGrinding.title,
+  'Not sure yet',
+];
 ---
 
 <form
   class="form enquiry"
   id={id}
   method="post"
+  enctype="multipart/form-data"
   action={endpoint}
   aria-describedby={endpoint ? undefined : `${id}-offline`}
 >
@@ -86,20 +93,17 @@ const privacy = provided(business.links.privacyPolicy);
     </div>
   </div>
 
-  <fieldset class="fieldset">
-    <legend class="fieldset__legend">What do you need help with?</legend>
-    <div class="choices">
-      <label class="choice">
-        <input type="radio" name="service" value="Tree care" required /> Tree care / surgery
-      </label>
-      <label class="choice">
-        <input type="radio" name="service" value="Landscaping" /> Landscaping
-      </label>
-      <label class="choice">
-        <input type="radio" name="service" value="Not sure" /> Not sure yet
-      </label>
-    </div>
-  </fieldset>
+  <div class="field">
+    <label class="field__label" for={`${id}-service`}>
+      Type of work
+    </label>
+    <select class="select" id={`${id}-service`} name="service" required>
+      <option value="">Choose the type of work</option>
+      {workTypes.map((t) => (
+        <option>{t}</option>
+      ))}
+    </select>
+  </div>
 
   <div class="field">
     <label class="field__label" for={`${id}-message`}>
@@ -118,6 +122,24 @@ const privacy = provided(business.links.privacyPolicy);
     </p>
   </div>
 
+  <div class="field">
+    <label class="field__label" for={`${id}-photos`}>
+      Photos of the job <span class="field__optional">(optional)</span>
+    </label>
+    <input
+      class="input input--file"
+      id={`${id}-photos`}
+      name="photos"
+      type="file"
+      accept="image/*"
+      multiple
+      aria-describedby={`${id}-photos-hint`}
+    />
+    <p class="field__hint" id={`${id}-photos-hint`}>
+      A photo or two of the tree or hedge helps us understand the job. Up to 3 images.
+    </p>
+  </div>
+
   <div class="form__trap" aria-hidden="true">
     <label for={`${id}-website`}>Leave this field empty</label>
     <input id={`${id}-website`} name="website" type="text" tabindex="-1" autocomplete="off" />
@@ -125,7 +147,7 @@ const privacy = provided(business.links.privacyPolicy);
 
   <div class="enquiry__submit">
     <Button type="submit" size="lg" arrow disabled={!endpoint}>
-      Send enquiry
+      Send my quote request
     </Button>
     <p class="field__hint">
       We use your details only to reply to your enquiry.{' '}

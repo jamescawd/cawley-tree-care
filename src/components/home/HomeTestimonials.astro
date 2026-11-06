@@ -8,6 +8,11 @@ import { getCollection } from 'astro:content';
 import SectionHeader from '@/components/ui/SectionHeader.astro';
 import TestimonialCard from '@/components/sections/TestimonialCard.astro';
 import { site } from '@/config/site';
+import Button from '@/components/ui/Button.astro';
+import { business } from '@/config/business';
+import { provided } from '@/lib/placeholder';
+
+const googleProfile = provided(business.links.googleBusinessProfile);
 
 const reviews = (await getCollection('testimonials'))
   .sort((a, b) => +b.data.date - +a.data.date)
@@ -34,6 +39,11 @@ const show = reviews.length > 0 || site.showPreviewContent;
           ? reviews.map((r) => <TestimonialCard review={r.data} />)
           : [1, 2, 3].map(() => <TestimonialCard />)}
       </div>
+      {googleProfile && (
+        <Button href={googleProfile} variant="secondary" arrow target="_blank" rel="noopener">
+          Read our reviews on Google
+        </Button>
+      )}
     </div>
   </section>
 )}

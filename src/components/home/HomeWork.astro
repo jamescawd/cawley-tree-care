@@ -6,17 +6,20 @@ import Button from '@/components/ui/Button.astro';
 import { quoteHref } from '@/config/navigation';
 ---
 
-<section id="work" class="section-lg work surface-dark texture" aria-labelledby="work-title">
+<section id="work" class="section-lg work" aria-labelledby="work-title">
   <div class="container work__inner">
     <SectionHeader id="work-title" eyebrow="Featured work" size="xl" split>
       <Fragment slot="title">
         Work we’re <em>proud of</em>
       </Fragment>
-      <p>Storm clear-ups, tree removals and hedge work carried out by the Cawley's team.</p>
+      <p>
+        A selection of tree surgery, removals, storm clear-ups, hedge and garden work carried out by
+        the Cawley's team.
+      </p>
     </SectionHeader>
     <WorkGallery />
-    <Button href={quoteHref} variant="secondary" arrow>
-      Discuss your project
+    <Button href={quoteHref} size="lg" arrow>
+      Request a free quote
     </Button>
   </div>
 </section>
@@ -25,5 +28,10 @@ import { quoteHref } from '@/config/navigation';
   .work__inner {
     display: grid;
     gap: var(--space-xl);
+  }
+
+  /* Let the scrollable filter row shrink instead of widening the page. */
+  .work__inner > :global(*) {
+    min-width: 0;
   }
 </style>

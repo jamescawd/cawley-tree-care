@@ -1,0 +1,111 @@
+---
+/** Trust band directly under the hero. Confirmed facts only. */
+const items = [
+  {
+    title: '15+ Years in Business',
+    text: 'Over 15 years of experience serving customers.',
+    icon: 'clock',
+  },
+  { title: 'Fully Insured', text: 'Fully insured for your peace of mind.', icon: 'shield' },
+  {
+    title: 'Professional & Reliable',
+    text: 'Clear quotes, tidy sites and reliable workmanship.',
+    icon: 'check',
+  },
+] as const;
+---
+
+<section class="trust surface-dark" aria-label="Why customers trust Cawley's">
+  <ul class="container trust__list" role="list">
+    {items.map((item) => (
+      <li class="trust__item">
+        <svg class="trust__icon" viewBox="0 0 48 48" aria-hidden="true">
+          {item.icon === 'clock' && (
+            <>
+              <circle cx="24" cy="24" r="18.5" />
+              <path d="M24 13.5V24l7 4.5" />
+            </>
+          )}
+          {item.icon === 'shield' && (
+            <>
+              <path d="M24 5.5 38.5 11v10.5c0 9.6-6.2 16.9-14.5 20.5C15.7 38.4 9.5 31.1 9.5 21.5V11z" />
+              <path d="m17.5 23.5 4.5 4.5 9-9.5" />
+            </>
+          )}
+          {item.icon === 'check' && (
+            <>
+              <path d="M7 25.5 17.5 36 41 12.5" />
+            </>
+          )}
+        </svg>
+        <div>
+          <p class="trust__title">{item.title}</p>
+          <p class="trust__text">{item.text}</p>
+        </div>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .trust {
+    border-block: 1px solid var(--color-border);
+  }
+
+  .trust__list {
+    display: grid;
+  }
+
+  .trust__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-s);
+    padding-block: var(--space-m);
+    max-width: none;
+  }
+
+  .trust__item + .trust__item {
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .trust__icon {
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    fill: none;
+    stroke: var(--orange-500);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .trust__title {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    line-height: 1.15;
+  }
+
+  .trust__text {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  @media (min-width: 56em) {
+    .trust__list {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .trust__item {
+      padding: var(--space-l) var(--space-l);
+    }
+
+    .trust__item:first-child {
+      padding-inline-start: 0;
+    }
+
+    .trust__item + .trust__item {
+      border-block-start: 0;
+      border-inline-start: 1px solid var(--color-border);
+    }
+  }
+</style>

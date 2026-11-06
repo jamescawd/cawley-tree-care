@@ -14,7 +14,7 @@ const phone = provided(business.contact.phone);
 
 <div class="action-bar surface-dark" role="region" aria-label="Quick contact">
   <Button href={quoteHref} size="lg" arrow class="action-bar__quote">
-    Request a quote
+    Request a free quote
   </Button>
   {phone && (
     <Button href={`tel:${phone.replace(/[^\d+]/g, '')}`} variant="secondary" size="lg">

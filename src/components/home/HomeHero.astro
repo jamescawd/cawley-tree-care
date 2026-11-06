@@ -1,12 +1,13 @@
 ---
 /**
- * Cinematic hero: full-bleed photograph under a translucent header, with
- * the headline set over a deep charcoal gradient. On phones the photo
- * fills the top of the screen and the headline overlaps its lower edge.
+ * Cinematic hero: a genuine job photograph, full-bleed under the sticky
+ * header, with the headline set over a left-and-bottom charcoal overlay.
+ * Phones: the photo fills the top of the screen and the headline overlaps
+ * its lower edge, so both get room.
  */
 import { Picture } from 'astro:assets';
 import Button from '@/components/ui/Button.astro';
-import TrustList from '@/components/ui/TrustList.astro';
+import { business } from '@/config/business';
 import { media } from '@/config/media';
 import { quoteHref } from '@/config/navigation';
 import { serviceAreas } from '@/config/areas';
@@ -15,7 +16,8 @@ const counties = serviceAreas.map((a) => a.county as string);
 const countyList = `${counties.slice(0, -1).join(', ')} and ${counties.at(-1)}`;
 const intro = `Professional tree care and tree surgery across ${countyList}.`;
 const hero = media.homeHero;
-const widths = [480, 720, 960, 1280, hero.src.width].filter(
+const phoneHref = `tel:${business.contact.phone}`;
+const widths = [480, 720, 960, hero.src.width].filter(
   (w, i, a) => w <= hero.src.width && a.indexOf(w) === i,
 );
 ---
@@ -31,29 +33,22 @@ const widths = [480, 720, 960, 1280, hero.src.width].filter(
       priority
       layout="none"
     />
-    {hero.illustrative && <span class="hero__note">Illustrative image</span>}
   </div>
 
   <div class="container hero__content">
-    <p class="eyebrow">Tree Care · Tree Surgery · Landscaping</p>
+    <p class="eyebrow hero__eyebrow">Tree Surgery · Tree Care · Landscaping</p>
     <h1 id="hero-title" class="text-display hero__title">
       Specialist tree care, <em>rooted</em> in experience.
     </h1>
-    <div class="hero__row">
-      <p class="lead hero__lead">{intro}</p>
-      <div class="hero__cta-block">
-        <div class="cluster hero__ctas">
-          <Button href={quoteHref} size="lg" arrow>
-            Request a quote
-          </Button>
-          <Button href="#tree-care" variant="secondary" size="lg">
-            Explore tree care
-          </Button>
-        </div>
-        <p class="hero__cta-note">A short form: tell us about the job and where you are.</p>
-      </div>
+    <p class="lead hero__lead">{intro}</p>
+    <div class="hero__ctas">
+      <Button href={quoteHref} size="lg" arrow>
+        Request a free quote
+      </Button>
+      <Button href={phoneHref} variant="secondary" size="lg" class="hero__call">
+        Call {business.contact.phoneDisplay}
+      </Button>
     </div>
-    <TrustList class="hero__trust" />
   </div>
 </section>
 
@@ -62,14 +57,13 @@ const widths = [480, 720, 960, 1280, hero.src.width].filter(
     position: relative;
     isolation: isolate;
     overflow: hidden;
-    /* Slide under the sticky, translucent header. */
     margin-block-start: calc(var(--header-height) * -1);
   }
 
   .hero__media {
     position: absolute;
     inset: 0 0 auto;
-    height: 78svh;
+    height: 72svh;
     z-index: -1;
   }
 
@@ -82,82 +76,71 @@ const widths = [480, 720, 960, 1280, hero.src.width].filter(
 
   .hero__media :global(img) {
     object-fit: cover;
-    object-position: 58% 55%;
+    object-position: 62% 58%;
   }
 
-  /* Charcoal gradient: keeps text readable and melts the photo into the page. */
   .hero__media::after {
     content: '';
     position: absolute;
     inset: 0;
     background: linear-gradient(
       to bottom,
-      rgb(23 23 23 / 0.55) 0%,
-      rgb(23 23 23 / 0) 22%,
-      rgb(23 23 23 / 0) 40%,
-      rgb(23 23 23 / 0.85) 75%,
+      rgb(17 17 17 / 0.6) 0%,
+      rgb(17 17 17 / 0) 24%,
+      rgb(17 17 17 / 0) 46%,
+      rgb(23 23 23 / 0.88) 78%,
       var(--charcoal-900) 100%
     );
   }
 
-  .hero__note {
-    position: absolute;
-    inset-block-start: calc(var(--header-height) + var(--space-xs));
-    inset-inline-end: var(--space-xs);
-    z-index: 1;
-    padding: 0.35em 0.65em;
-    font-size: 0.6875rem;
-    font-weight: var(--weight-medium);
-    letter-spacing: 0.04em;
-    color: var(--ivory-100);
-    background: rgb(23 23 23 / 0.6);
-    border-radius: var(--radius-sm);
-  }
-
   .hero__content {
     display: grid;
-    gap: var(--space-m);
-    padding-block: calc(50svh) var(--space-l);
+    gap: var(--space-s);
+    padding-block: calc(54svh) var(--space-xl);
   }
 
-  .hero__content > :global(.eyebrow) {
-    text-shadow: 0 1px 12px rgb(23 23 23 / 0.9);
+  .hero__eyebrow,
+  .hero__title {
+    text-shadow: 0 2px 24px rgb(17 17 17 / 0.55);
   }
 
   .hero__title {
-    max-width: 12ch;
-    text-shadow: 0 2px 30px rgb(23 23 23 / 0.35);
-  }
-
-  .hero__row {
-    display: grid;
-    gap: var(--space-m);
-  }
-
-  .hero__cta-block {
-    display: grid;
-    gap: var(--space-xs);
-  }
-
-  .hero__cta-note {
-    font-size: var(--text-sm);
-    color: var(--charcoal-300);
+    max-width: 10ch;
+    margin-block: var(--space-3xs) var(--space-2xs);
+    font-size: clamp(2.75rem, 1.6rem + 5.2vw, 4.25rem);
   }
 
   .hero__lead {
-    max-width: 46ch;
+    max-width: 40ch;
     color: var(--ivory-100);
   }
 
-  .hero :global(.hero__trust) {
-    margin-block-start: var(--space-m);
-    padding-block-start: var(--space-m);
-    border-block-start: 1px solid rgb(242 238 230 / 0.2);
+  .hero__ctas {
+    display: grid;
+    gap: var(--space-2xs);
+    margin-block-start: var(--space-xs);
+  }
+
+  .hero__ctas :global(.btn) {
+    justify-self: stretch;
+  }
+
+  .hero__ctas :global(.hero__call) {
+    background-color: rgb(23 23 23 / 0.35);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  @media (min-width: 30em) {
+    .hero__ctas {
+      grid-template-columns: auto auto;
+      justify-content: start;
+    }
   }
 
   @media (prefers-reduced-motion: no-preference) {
     .hero__media :global(img) {
-      animation: hero-settle 2.6s var(--ease-out) both;
+      animation: hero-settle 2.8s var(--ease-out) both;
     }
 
     .hero__content > :global(*) {
@@ -165,21 +148,21 @@ const widths = [480, 720, 960, 1280, hero.src.width].filter(
     }
 
     .hero__content > :global(:nth-child(2)) {
-      animation-delay: 0.1s;
+      animation-delay: 0.08s;
     }
 
     .hero__content > :global(:nth-child(3)) {
-      animation-delay: 0.25s;
+      animation-delay: 0.2s;
     }
 
     .hero__content > :global(:nth-child(4)) {
-      animation-delay: 0.4s;
+      animation-delay: 0.32s;
     }
   }
 
   @keyframes hero-settle {
     from {
-      transform: scale(1.08);
+      transform: scale(1.07);
     }
   }
 
@@ -194,7 +177,7 @@ const widths = [480, 720, 960, 1280, hero.src.width].filter(
     .hero {
       display: flex;
       align-items: flex-end;
-      min-height: max(40rem, min(100svh, 64rem));
+      min-height: max(42rem, min(100svh, 62rem));
     }
 
     .hero__media {
@@ -203,39 +186,32 @@ const widths = [480, 720, 960, 1280, hero.src.width].filter(
     }
 
     .hero__media :global(img) {
-      object-position: 60% 62%;
+      object-position: 62% 60%;
     }
 
     .hero__media::after {
       background:
         linear-gradient(
           to right,
-          rgb(23 23 23 / 0.78) 0%,
-          rgb(23 23 23 / 0.35) 45%,
-          rgb(23 23 23 / 0) 70%
+          rgb(17 17 17 / 0.9) 0%,
+          rgb(17 17 17 / 0.62) 36%,
+          rgb(17 17 17 / 0) 64%
         ),
-        linear-gradient(
-          to bottom,
-          rgb(23 23 23 / 0.6) 0%,
-          rgb(23 23 23 / 0.15) 20%,
-          rgb(23 23 23 / 0.1) 50%,
-          rgb(23 23 23 / 0.92) 100%
-        );
+        linear-gradient(to top, rgb(17 17 17 / 0.9) 0%, rgb(17 17 17 / 0) 36%),
+        linear-gradient(to bottom, rgb(17 17 17 / 0.55) 0%, rgb(17 17 17 / 0) 18%);
     }
 
     .hero__content {
       width: 100%;
-      padding-block: calc(var(--header-height) + var(--space-3xl)) var(--space-l);
+      padding-block: calc(var(--header-height) + var(--space-2xl)) var(--space-2xl);
     }
 
     .hero__title {
-      font-size: clamp(3.75rem, 1rem + 4.6vw, 6.25rem);
+      font-size: clamp(4rem, 1rem + 5vw, 6.5rem);
     }
 
-    .hero__row {
-      grid-template-columns: minmax(0, 1fr) auto;
-      align-items: end;
-      gap: var(--space-2xl);
+    .hero__lead {
+      font-size: var(--text-xl);
     }
   }
 </style>

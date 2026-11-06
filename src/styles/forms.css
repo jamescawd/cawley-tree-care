@@ -136,3 +136,20 @@
   height: 1px;
   overflow: hidden;
 }
+
+.input--file {
+  padding: 0.55em 0.7em;
+  font-size: var(--text-sm);
+}
+
+.input--file::file-selector-button {
+  margin-inline-end: 0.9em;
+  padding: 0.55em 1em;
+  font: inherit;
+  font-weight: var(--weight-semibold);
+  color: var(--button-primary-text);
+  background: var(--button-primary-bg);
+  border: 0;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}

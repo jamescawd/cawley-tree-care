@@ -1,12 +1,22 @@
 ---
 /**
- * Gallery of the business's own work, with category filters.
- * Filters are radio buttons styled as chips; CSS :has() hides other
- * categories, so no JavaScript is needed. Without :has() support, all
- * items simply stay visible.
+ * Portfolio mosaic of the business's own work.
+ * - Varied tile sizes on desktop (12-column grid); an even 2-column grid
+ *   on phones. Before/after pairs show both photos side by side.
+ * - Category filters are radio buttons styled as chips; CSS :has()
+ *   filters the tiles, so no JavaScript is needed. Without :has()
+ *   support, every tile stays visible.
  */
 import { Picture } from 'astro:assets';
 import { workCategories, workItems } from '@/config/gallery';
+
+const label = Object.fromEntries(workCategories.map((c) => [c.id, c.label]));
+const sizes: Record<string, string> = {
+  feature: '(min-width: 64em) 33vw, 50vw',
+  wide: '(min-width: 64em) 33vw, 50vw',
+  tall: '(min-width: 64em) 33vw, 50vw',
+  standard: '(min-width: 64em) 33vw, 50vw',
+};
 ---
 
 <div class="gallery">
@@ -35,30 +45,33 @@ import { workCategories, workItems } from '@/config/gallery';
     ))}
   </fieldset>
 
-  <ul class="gallery__grid" role="list">
+  <ul class="mosaic" role="list">
     {workItems.map((item) => (
       <li
-        class:list={['work-card', { 'work-card--pair': item.photos.length === 2 }]}
+        class:list={['tile', `tile--${item.size}`, { 'tile--pair': item.photos.length === 2 }]}
         data-cat={item.category}
       >
         <figure>
-          <div class="work-card__media">
+          <div class="tile__media">
             {item.photos.map((p) => (
-              <div class="work-card__photo">
+              <div class="tile__photo">
                 <Picture
                   src={p.src}
                   alt={p.alt}
                   widths={[400, 640, 960, 1280].filter((w) => w <= p.src.width)}
-                  sizes="(min-width: 64em) 33vw, (min-width: 40em) 50vw, 100vw"
+                  sizes={sizes[item.size]}
                   formats={['avif', 'webp']}
                   layout="none"
                   style={p.focus ? `object-position: ${p.focus}` : undefined}
                 />
-                {p.tag && <span class="work-card__tag">{p.tag}</span>}
+                {p.tag && <span class="tile__tag">{p.tag}</span>}
               </div>
             ))}
           </div>
-          <figcaption>{item.title}</figcaption>
+          <figcaption class="tile__caption">
+            <span class="tile__cat">{label[item.category]}</span>
+            <span class="tile__title">{item.title}</span>
+          </figcaption>
         </figure>
       </li>
     ))}
@@ -68,32 +81,52 @@ import { workCategories, workItems } from '@/config/gallery';
 <style>
   .gallery {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     gap: var(--space-l);
   }
 
+  /* ---------- Filters ---------- */
   .gallery__filters {
     display: flex;
-    flex-wrap: wrap;
     gap: var(--space-2xs);
-    margin: 0;
-    padding: 0;
+    margin: 0 calc(var(--gutter) * -1);
+    padding: 0 var(--gutter) var(--space-3xs);
     border: 0;
+    min-inline-size: 0; /* fieldsets default to min-content width */
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .gallery__filters::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: 48em) {
+    .gallery__filters {
+      flex-wrap: wrap;
+      margin: 0;
+      padding: 0;
+      overflow: visible;
+    }
   }
 
   .gallery__filters label {
+    flex-shrink: 0;
     display: inline-flex;
     align-items: center;
     min-height: var(--tap-target);
-    padding-inline: 1.1em;
+    padding-inline: 1.15em;
     font-size: var(--text-sm);
     font-weight: var(--weight-semibold);
+    white-space: nowrap;
     color: var(--color-text);
     border: 1px solid var(--color-border);
-    border-radius: var(--radius-pill);
+    border-radius: var(--radius-sm);
     cursor: pointer;
     transition:
       background-color var(--duration-fast) var(--ease-out),
-      border-color var(--duration-fast) var(--ease-out);
+      border-color var(--duration-fast) var(--ease-out),
+      color var(--duration-fast) var(--ease-out);
   }
 
   .gallery__filters label:hover {
@@ -111,105 +144,164 @@ import { workCategories, workItems } from '@/config/gallery';
     outline-offset: 3px;
   }
 
-  .gallery__grid {
+  /* ---------- Mosaic ---------- */
+  .mosaic {
     display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 9.5rem;
     grid-auto-flow: dense;
-    gap: var(--space-m);
+    gap: var(--space-3xs);
+  }
+
+  .tile {
+    grid-row: span 2;
+    max-width: none;
+  }
+
+  .tile--pair,
+  .tile--feature {
+    grid-column: span 2;
   }
 
   @media (min-width: 40em) {
-    .gallery__grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .work-card--pair {
-      grid-column: span 2;
+    .mosaic {
+      grid-auto-rows: 11rem;
     }
   }
 
   @media (min-width: 64em) {
-    .gallery__grid {
-      grid-template-columns: repeat(3, 1fr);
+    .mosaic {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      grid-auto-rows: clamp(8rem, 9vw, 10rem);
+      gap: var(--space-2xs);
+    }
+
+    .tile--feature {
+      grid-column: span 8;
+      grid-row: span 4;
+    }
+
+    .tile--tall {
+      grid-column: span 4;
+      grid-row: span 4;
+    }
+
+    .tile--wide {
+      grid-column: span 8;
+      grid-row: span 3;
+    }
+
+    .tile--standard {
+      grid-column: span 4;
+      grid-row: span 3;
     }
   }
 
-  /* Filtering (CSS only). */
-  .gallery:has(#wf-storm:checked) .work-card:not([data-cat='storm']),
-  .gallery:has(#wf-removal:checked) .work-card:not([data-cat='removal']),
-  .gallery:has(#wf-hedges:checked) .work-card:not([data-cat='hedges']) {
+  /* Filtered views: an even grid so no gaps appear. */
+  .gallery:has(input:not(#wf-all):checked) .tile {
+    grid-row: span 2;
+  }
+
+  @media (min-width: 64em) {
+    .gallery:has(input:not(#wf-all):checked) .tile {
+      grid-column: span 6;
+      grid-row: span 3;
+    }
+  }
+
+  .gallery:has(#wf-surgery:checked) .tile:not([data-cat='surgery']),
+  .gallery:has(#wf-removal:checked) .tile:not([data-cat='removal']),
+  .gallery:has(#wf-storm:checked) .tile:not([data-cat='storm']),
+  .gallery:has(#wf-hedges:checked) .tile:not([data-cat='hedges']),
+  .gallery:has(#wf-landscaping:checked) .tile:not([data-cat='landscaping']) {
     display: none;
   }
 
-  .work-card {
-    max-width: none;
-  }
-
-  .work-card figure {
-    display: grid;
-    gap: var(--space-2xs);
+  /* ---------- Tile ---------- */
+  .tile figure {
+    position: relative;
+    height: 100%;
     margin: 0;
+    overflow: hidden;
+    background: var(--charcoal-800);
   }
 
-  .work-card__media {
+  .tile__media {
     display: grid;
-    gap: var(--space-3xs);
+    height: 100%;
+    gap: 2px;
   }
 
-  .work-card--pair .work-card__media {
+  .tile--pair .tile__media {
     grid-template-columns: 1fr 1fr;
   }
 
-  .work-card__photo {
+  .tile__photo {
     position: relative;
-    aspect-ratio: 4 / 3;
     overflow: hidden;
-    border-radius: var(--radius-md);
-    background: var(--color-bg-subtle);
+    min-height: 0;
   }
 
-  .work-card--pair .work-card__photo {
-    aspect-ratio: 3 / 4;
-  }
-
-  @media (min-width: 40em) {
-    .work-card--pair .work-card__photo {
-      aspect-ratio: 4 / 3;
-    }
-  }
-
-  .work-card__photo :global(picture),
-  .work-card__photo :global(img) {
+  .tile__photo :global(picture),
+  .tile__photo :global(img) {
     display: block;
     width: 100%;
     height: 100%;
   }
 
-  .work-card__photo :global(img) {
+  .tile__photo :global(img) {
     object-fit: cover;
-    transition: transform var(--duration-slow) var(--ease-out);
+    transition: transform 900ms var(--ease-out);
   }
 
-  .work-card:hover .work-card__photo :global(img) {
-    transform: scale(1.03);
+  .tile:hover .tile__photo :global(img) {
+    transform: scale(1.04);
   }
 
-  .work-card__tag {
+  .tile__tag {
     position: absolute;
     inset-block-start: var(--space-2xs);
     inset-inline-start: var(--space-2xs);
-    padding: 0.3em 0.7em;
-    font-size: var(--text-xs);
+    padding: 0.3em 0.65em;
+    font-size: 0.6875rem;
     font-weight: var(--weight-semibold);
-    letter-spacing: 0.06em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--charcoal-900);
     background: var(--orange-500);
-    border-radius: var(--radius-sm);
   }
 
-  .work-card figcaption {
+  .tile__caption {
+    position: absolute;
+    inset: auto 0 0;
+    display: grid;
+    gap: 0.15em;
+    padding: var(--space-xl) var(--space-s) var(--space-s);
+    background: linear-gradient(to top, rgb(17 17 17 / 0.88), rgb(17 17 17 / 0));
+    pointer-events: none;
+  }
+
+  .tile__cat {
+    font-size: 0.6875rem;
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--orange-500);
+  }
+
+  .tile__title {
     font-size: var(--text-sm);
     font-weight: var(--weight-medium);
-    color: var(--color-text-secondary);
+    line-height: 1.35;
+    color: var(--ivory-100);
+  }
+
+  @media (min-width: 64em) {
+    .tile--feature .tile__title,
+    .tile--wide .tile__title {
+      font-family: var(--font-serif);
+      font-size: var(--text-xl);
+      font-weight: var(--weight-regular);
+    }
   }
 </style>
