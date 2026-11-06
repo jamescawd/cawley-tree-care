@@ -64,7 +64,7 @@ docs/           architecture, design system, content checklist
 
 Environment variables (production only, set at launch):
 
-- `SITE_URL`: canonical origin, e.g. `https://www.your-domain.ie`
+- `SITE_URL`: `https://cawleytreecare.ie` (domain registered Nov 2026)
 - `ALLOW_INDEXING`: `true` (anything else keeps the site hidden from search engines)
 
 A production build **fails** while any business placeholder remains, or if

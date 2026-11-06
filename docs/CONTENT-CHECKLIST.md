@@ -36,4 +36,4 @@ production until all are resolved** (or deliberately removed).
 - [ ] Confirmed list of services (tree care and landscaping)
 - [ ] Completed projects, with client permission and photos
 - [ ] Genuine reviews, with source links and permission
-- [ ] Domain name
+- [x] Domain: cawleytreecare.ie (registered with Blacknight)
