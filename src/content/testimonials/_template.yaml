@@ -3,6 +3,6 @@ name: First name, Town
 quote: The client's words, unedited except for length.
 source: google # google | facebook | direct
 sourceUrl: https://example.com/link-to-original-review
-date: 2026-01-01
+order: 100
 rating: 5
 verified: true

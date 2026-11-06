@@ -81,7 +81,9 @@ const testimonials = defineCollection({
     /** Where the review was originally left, so it can be verified. */
     source: z.enum(['google', 'facebook', 'direct']),
     sourceUrl: z.url().optional(),
-    date: z.coerce.date(),
+    date: z.coerce.date().optional(),
+    /** Display order (lower first). */
+    order: z.number().int().default(100),
     rating: z.number().int().min(1).max(5).optional(),
     /** Must be a genuine review, published with permission. */
     verified: z.literal(true),
