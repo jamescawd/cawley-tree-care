@@ -111,13 +111,11 @@ export const business = {
   ),
 
   /**
-   * Customer reviews in src/content/testimonials were supplied by the
-   * business. Confirm they are genuine, with permission to publish, before
-   * launch (blocks the production build until then).
+   * CONFIRMED by the business (Nov 2026): the reviews in
+   * src/content/testimonials were sent directly by customers for use on
+   * the website.
    */
-  reviewsConfirmed: placeholder(
-    'Confirm the 10 customer reviews are genuine and customers agreed to be named',
-  ),
+  reviewsConfirmed: true,
 
   links: {
     privacyPolicy: placeholder(
