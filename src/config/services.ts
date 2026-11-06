@@ -3,8 +3,8 @@ import { placeholder, type Maybe } from '@/lib/placeholder';
 /**
  * Homepage service summaries. Tree care leads; landscaping is secondary.
  *
- * TODO(business): the individual services below are EXAMPLES awaiting the
- * confirmed service list. Each is a placeholder, so they render with a
+ * Tree services are CONFIRMED. TODO(business): the landscaping services
+ * below are still EXAMPLES awaiting the confirmed list. Each is a placeholder, so they render with a
  * visible "To confirm" marker and block a production build until replaced.
  * Once confirmed, each will also get its own page (content/services/*.md).
  */
@@ -27,20 +27,33 @@ const example = (name: string, description: string): ServiceSummary => ({
   description: placeholder(`Service description to confirm for "${name}"`, description),
 });
 
+/** CONFIRMED by the business (Nov 2026): the tree services offered. */
+const confirmed = (name: string, description: string): ServiceSummary => ({ name, description });
+
 export const treeCare: ServiceCategory = {
   id: 'tree-care',
   title: 'Tree care & tree surgery',
   href: '/tree-care',
   services: [
-    example('Tree surgery', 'Pruning and remedial work on trees of all sizes.'),
-    example(
-      'Crown reduction & thinning',
-      'Reducing size and density while keeping a natural shape.',
+    confirmed(
+      'Tree surgery',
+      'Pruning and remedial work to keep trees healthy, safe and in shape.',
     ),
-    example('Tree felling & dismantling', 'Controlled removal, including in confined spaces.'),
-    example('Hedge cutting & management', 'Shaping, height reduction and ongoing maintenance.'),
-    example('Stump grinding', 'Removing stumps below ground level.'),
-    example('Storm-damaged trees', 'Making damaged or fallen trees safe.'),
+    confirmed(
+      'Crown reduction',
+      'Reducing the height and spread of a tree while keeping its natural form.',
+    ),
+    confirmed('Tree felling', 'Complete removal of trees that need to come down.'),
+    confirmed(
+      'Sectional dismantling',
+      'Taking trees down piece by piece where space is tight, near houses, roads or buildings.',
+    ),
+    confirmed('Hedge cutting & reduction', 'Trimming, shaping and reducing the height of hedges.'),
+    confirmed('Storm-damaged & dangerous trees', 'Making damaged, fallen or unsafe trees safe.'),
+    confirmed(
+      'Tree health inspections',
+      'Checking the condition of trees and advising on what they need.',
+    ),
   ],
 };
 
