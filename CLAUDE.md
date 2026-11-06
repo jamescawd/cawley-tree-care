@@ -11,7 +11,7 @@
 
 ## Design system
 
-- Fonts: **Fraunces** for display/h1–h3/large figures only (replaced Fraunces,
+- Fonts: **Fraunces** for display/h1–h3/large figures only (replaced Instrument Serif,
   which was hard to read); **Inter** for everything else (h4–h6, body, nav, buttons, forms).
 - Colours: use semantic tokens (`--color-*`) and surface classes
   (`surface-light|dark|accent`), never raw hex in components.

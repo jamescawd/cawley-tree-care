@@ -16,7 +16,7 @@ const phone = provided(business.contact.phone);
 {phone ? (
   <a class={className} href={`tel:${phone.replace(/[^\d+]/g, '')}`}>
     {prefix && <span>{prefix} </span>}
-    {phone}
+    {business.contact.phoneDisplay}
   </a>
 ) : (
   <span class={className}>

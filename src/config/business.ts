@@ -59,7 +59,9 @@ export const business = {
 
   contact: {
     /** International format for tel: links and structured data, e.g. +353 87 000 0000. */
-    phone: placeholder('Main phone number', 'Phone number'),
+    phone: '+353871199816', // CONFIRMED by the business (Nov 2026)
+    /** How the number is shown on the page. */
+    phoneDisplay: '087 119 9816',
     email: placeholder('Enquiries email address', 'Email address'),
   },
 
