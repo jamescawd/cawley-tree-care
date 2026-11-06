@@ -14,7 +14,7 @@ import { serviceAreas } from '@/config/areas';
 
 const counties = serviceAreas.map((a) => a.county as string);
 const countyList = `${counties.slice(0, -1).join(', ')} and ${counties.at(-1)}`;
-const intro = `Professional tree care and tree surgery across ${countyList}.`;
+const intro = `Tree surgery, tree removal, storm damage and hedge work, with garden clearance and landscaping, across ${countyList}.`;
 const hero = media.homeHero;
 const phoneHref = `tel:${business.contact.phone}`;
 const widths = [480, 720, 960, hero.src.width].filter(
@@ -49,6 +49,11 @@ const widths = [480, 720, 960, hero.src.width].filter(
         Call {business.contact.phoneDisplay}
       </Button>
     </div>
+    <ul class="hero__trust" role="list">
+      <li>{business.experience.label}</li>
+      <li>{business.insurance.label}</li>
+      <li>Based in Athlone, Co. Westmeath</li>
+    </ul>
   </div>
 </section>
 
@@ -129,6 +134,31 @@ const widths = [480, 720, 960, hero.src.width].filter(
     background-color: rgb(23 23 23 / 0.35);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
+  }
+
+  .hero__trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs) var(--space-m);
+    margin-block-start: var(--space-xs);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--ivory-100);
+  }
+
+  .hero__trust li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    max-width: none;
+  }
+
+  .hero__trust li::before {
+    content: '';
+    width: 0.4rem;
+    height: 0.4rem;
+    background: var(--orange-500);
+    border-radius: 50%;
   }
 
   @media (min-width: 30em) {

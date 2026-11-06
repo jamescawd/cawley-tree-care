@@ -1,4 +1,7 @@
 """
+Note: output files were later renamed descriptively (see git history);
+map raw names to the new names before re-running.
+
 Prepare the business's own work photos for the website.
 
 - Blurs third-party signage, logos and phone numbers (privacy / no

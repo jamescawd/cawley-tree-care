@@ -1,12 +1,17 @@
-// Cloudflare deployment settings (Workers static assets).
-// Build: `pnpm build` → serves the static site in ./dist. No server code.
+// Cloudflare deployment settings (Workers + static assets).
+// Build: `pnpm build` → static site in ./dist. worker/index.ts handles
+// POST /api/quote (the quote form); every other request is a static file.
 {
   "name": "cawley-tree-care",
+  "main": "worker/index.ts",
   "compatibility_date": "2026-10-01",
   "assets": {
     "directory": "./dist",
-    // /tree-care is served from tree-care.html, without a trailing slash.
+    "binding": "ASSETS",
+    "run_worker_first": ["/api/*"],
+    // /tree-surgery is served from tree-surgery.html, without a trailing slash.
     "html_handling": "drop-trailing-slash",
     "not_found_handling": "404-page",
   },
+  "observability": { "enabled": true },
 }

@@ -37,3 +37,12 @@ production until all are resolved** (or deliberately removed).
 - [ ] Completed projects, with client permission and photos
 - [ ] Genuine reviews, with source links and permission
 - [x] Domain: cawleytreecare.ie (registered with Blacknight)
+
+## Update (Nov 2026)
+
+- [x] Services confirmed: nine services; stump grinding removed (not offered)
+- [x] About text written from confirmed facts only (no founder story)
+- [x] Customer reviews confirmed genuine; review mentioning stump grinding hidden
+- [ ] Enquiry email: info@qualitytreecare.com or .ie? Neither matches cawleytreecare.ie
+- [ ] Quote emails: set RESEND_API_KEY, ENQUIRY_TO, ENQUIRY_FROM in Cloudflare
+- [ ] Review the privacy notice at /privacy

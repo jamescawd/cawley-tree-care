@@ -1,0 +1,17 @@
+---
+import MessagePage from '@/components/layout/MessagePage.astro';
+---
+
+<MessagePage
+  title="Quote request sent"
+  description="Thank you for your enquiry. Cawley's Tree Care & Landscaping will be in touch about your quote."
+  eyebrow="Request received"
+>
+  <Fragment slot="heading">
+    Thank you, your <em>request is in</em>
+  </Fragment>
+  <p>
+    We have received your quote request and will be in touch to talk through the job. If it is
+    urgent, such as a storm-damaged or dangerous tree, please give us a call.
+  </p>
+</MessagePage>

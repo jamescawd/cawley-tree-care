@@ -1,0 +1,66 @@
+---
+/** Short single-message page (form result, 404). Uses the full site chrome. */
+import PageLayout from '@/layouts/PageLayout.astro';
+import Button from '@/components/ui/Button.astro';
+import { business } from '@/config/business';
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow: string;
+  noindex?: boolean;
+}
+const { title, description, eyebrow, noindex = true } = Astro.props;
+---
+
+<PageLayout title={title} description={description} noindex={noindex}>
+  <section class="message surface-dark texture">
+    <div class="container message__inner">
+      <p class="eyebrow">{eyebrow}</p>
+      <h1>
+        <slot name="heading" />
+      </h1>
+      <div class="lead message__body">
+        <slot />
+      </div>
+      <div class="message__actions">
+        <Button href={`tel:${business.contact.phone}`} size="lg">
+          Call {business.contact.phoneDisplay}
+        </Button>
+        <Button href="/" variant="secondary" size="lg">
+          Back to the homepage
+        </Button>
+      </div>
+    </div>
+  </section>
+</PageLayout>
+
+<style>
+  .message {
+    min-height: 70svh;
+    display: flex;
+    align-items: center;
+  }
+
+  .message__inner {
+    display: grid;
+    gap: var(--space-m);
+    padding-block: var(--space-3xl);
+  }
+
+  .message h1 {
+    max-width: 16ch;
+  }
+
+  .message__body {
+    display: grid;
+    gap: var(--space-s);
+    max-width: 46ch;
+  }
+
+  .message__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+</style>

@@ -8,6 +8,11 @@ import { serviceAreas, countyLabel } from '@/config/areas';
 import { navHref } from '@/config/navigation';
 import { getNavigation } from '@/lib/navigation';
 import { provided } from '@/lib/placeholder';
+import { services, serviceHref } from '@/config/services';
+import { serviceChapters } from '@/config/homeServices';
+
+const anchorFor = (id: string) =>
+  `/#${serviceChapters.find((c) => c.services.some((s) => s.id === id))!.id}`;
 
 const email = provided(business.contact.email);
 const { locality, region } = business.address;
@@ -31,14 +36,31 @@ const primaryNav = await getNavigation();
       </ul>
     </div>
 
+    <nav class="site-footer__col" aria-label="Services">
+      <p class="site-footer__heading">Services</p>
+      <ul role="list">
+        {services.map((svc) => (
+          <li>
+            <a href={serviceHref(svc, anchorFor(svc.id))}>{svc.name}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
     <nav class="site-footer__col" aria-label="Footer">
       <p class="site-footer__heading">Explore</p>
       <ul role="list">
+        <li>
+          <a href="/">Home</a>
+        </li>
         {primaryNav.map((item) => (
           <li>
             <a href={navHref(item)}>{item.label}</a>
           </li>
         ))}
+        <li>
+          <a href="/#enquiry">Request a free quote</a>
+        </li>
       </ul>
     </nav>
 
@@ -183,7 +205,7 @@ const primaryNav = await getNavigation();
 
   @media (min-width: 40em) {
     .site-footer__grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
     }
 
     .site-footer__brand {
@@ -193,7 +215,7 @@ const primaryNav = await getNavigation();
 
   @media (min-width: 64em) {
     .site-footer__grid {
-      grid-template-columns: 2fr 1fr 1fr 1.2fr;
+      grid-template-columns: 1.6fr 1.5fr 0.9fr 1fr 1.2fr;
     }
 
     .site-footer__brand {

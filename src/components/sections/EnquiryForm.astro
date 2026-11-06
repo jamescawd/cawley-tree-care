@@ -11,7 +11,7 @@ import Pending from '@/components/ui/Pending.astro';
 import { business } from '@/config/business';
 import { serviceAreas } from '@/config/areas';
 import { provided } from '@/lib/placeholder';
-import { serviceChapters, stumpGrinding } from '@/config/homeServices';
+import { services } from '@/config/services';
 
 interface Props {
   id?: string;
@@ -20,11 +20,7 @@ interface Props {
 const { id = 'quote-form' } = Astro.props;
 const endpoint = provided(business.enquiryEndpoint);
 const privacy = provided(business.links.privacyPolicy);
-const workTypes = [
-  ...serviceChapters.map((c) => `${c.title} ${c.accent}`.replace(/,$/, '')),
-  stumpGrinding.title,
-  'Not sure yet',
-];
+const workTypes = [...services.map((s) => s.name), 'Not sure yet'];
 ---
 
 <form
@@ -140,6 +136,8 @@ const workTypes = [
     </p>
   </div>
 
+  <input type="hidden" name="started" value="" data-started />
+
   <div class="form__trap" aria-hidden="true">
     <label for={`${id}-website`}>Leave this field empty</label>
     <input id={`${id}-website`} name="website" type="text" tabindex="-1" autocomplete="off" />
@@ -150,7 +148,7 @@ const workTypes = [
       Send my quote request
     </Button>
     <p class="field__hint">
-      We use your details only to reply to your enquiry.{' '}
+      We use your details only to reply to your enquiry and prepare your quote.{' '}
       {privacy ? (
         <a href={privacy}>Privacy notice</a>
       ) : (
@@ -176,3 +174,11 @@ const workTypes = [
     justify-items: start;
   }
 </style>
+
+<script>
+  // Spam check: record when the form was opened (the handler rejects
+  // instant submissions). The form still works if this never runs.
+  document.querySelectorAll<HTMLInputElement>('[data-started]').forEach((el) => {
+    el.value = String(Date.now());
+  });
+</script>

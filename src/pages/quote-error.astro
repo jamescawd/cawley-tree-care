@@ -1,0 +1,17 @@
+---
+import MessagePage from '@/components/layout/MessagePage.astro';
+---
+
+<MessagePage
+  title="Your request could not be sent"
+  description="Your quote request could not be sent. Please call Cawley's Tree Care & Landscaping instead."
+  eyebrow="Not sent"
+>
+  <Fragment slot="heading">
+    Sorry, your request <em>wasn’t sent</em>
+  </Fragment>
+  <p>
+    Something went wrong and your quote request did not reach us. Please check that the required
+    fields were filled in and try again, or call us and we will take the details over the phone.
+  </p>
+</MessagePage>

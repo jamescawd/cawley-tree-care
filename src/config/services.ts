@@ -1,67 +1,113 @@
-import type { Maybe } from '@/lib/placeholder';
-
 /**
- * Homepage service summaries. Tree care leads; landscaping is secondary.
+ * Service registry: the single source of truth for every service Cawley's
+ * offers (confirmed by the business, Nov 2026). Drives the homepage service
+ * chapters, the quote form, the footer, navigation and structured data.
  *
- * All services are CONFIRMED by the business (Nov 2026). Descriptions are
- * plain summaries of each service. Each will later get its own page
- * (content/services/*.md).
+ * Stump grinding is NOT offered and must not be added.
+ *
+ * FUTURE SERVICE PAGES
+ * Each service has a reserved URL (`path`). Set `page: true` once its page
+ * exists at src/pages/<path>.astro (built with ServicePageLayout); every
+ * link on the site then switches from the homepage section to that page.
+ * Do not publish thin or unfinished pages.
  */
 
-export interface ServiceSummary {
-  name: Maybe<string>;
-  description: Maybe<string>;
+export type ServiceGroup = 'tree-care' | 'garden';
+
+export interface Service {
+  id: string;
+  name: string;
+  group: ServiceGroup;
+  /** Reserved URL for its future dedicated page. */
+  path: string;
+  /** Set true only once the dedicated page is published. */
+  page: boolean;
+  /** One plain sentence: what the service is. */
+  summary: string;
 }
 
-export interface ServiceCategory {
-  id: 'tree-care' | 'landscaping';
-  title: string;
-  /** Planned landing page; not built yet. */
-  href: string;
-  services: ServiceSummary[];
-}
+export const services: Service[] = [
+  {
+    id: 'tree-surgery',
+    name: 'Tree Surgery & Pruning',
+    group: 'tree-care',
+    path: '/tree-surgery',
+    page: false,
+    summary: 'Pruning and remedial work to keep trees healthy, safe and well shaped.',
+  },
+  {
+    id: 'crown-reduction',
+    name: 'Crown Reduction & Tree Maintenance',
+    group: 'tree-care',
+    path: '/crown-reduction',
+    page: false,
+    summary: 'Reducing the height and spread of a tree and keeping it in good order over time.',
+  },
+  {
+    id: 'deadwood-removal',
+    name: 'Deadwood Removal',
+    group: 'tree-care',
+    path: '/tree-surgery',
+    page: false,
+    summary: 'Removing dead, dying and broken branches before they fall.',
+  },
+  {
+    id: 'tree-removal',
+    name: 'Tree Removal & Felling',
+    group: 'tree-care',
+    path: '/tree-removal',
+    page: false,
+    summary:
+      'Felling trees where there is room and dismantling them in sections where there is not.',
+  },
+  {
+    id: 'emergency',
+    name: 'Emergency & Storm-Damaged Tree Work',
+    group: 'tree-care',
+    path: '/emergency-tree-services',
+    page: false,
+    summary: 'Making fallen, split and dangerous trees safe after storms.',
+  },
+  {
+    id: 'hedge-cutting',
+    name: 'Hedge Cutting, Reduction & Removal',
+    group: 'garden',
+    path: '/hedge-cutting',
+    page: false,
+    summary: 'Trimming, reducing and removing hedges of all sizes.',
+  },
+  {
+    id: 'garden-clearance',
+    name: 'Garden & Site Clearance',
+    group: 'garden',
+    path: '/garden-clearance',
+    page: false,
+    summary: 'Clearing overgrown gardens, plots and sites back to a usable state.',
+  },
+  {
+    id: 'wood-chipping',
+    name: 'Wood Chipping & Green Waste Removal',
+    group: 'garden',
+    path: '/wood-chipping',
+    page: false,
+    summary: 'Chipping branches and brash on site and taking green waste away.',
+  },
+  {
+    id: 'landscaping',
+    name: 'Landscaping & Garden Improvements',
+    group: 'garden',
+    path: '/landscaping',
+    page: false,
+    summary: 'Planting, lawns, paving, fencing and improvements to the wider garden.',
+  },
+];
 
-/** CONFIRMED by the business (Nov 2026): the tree services offered. */
-const confirmed = (name: string, description: string): ServiceSummary => ({ name, description });
-
-export const treeCare: ServiceCategory = {
-  id: 'tree-care',
-  title: 'Tree care & tree surgery',
-  href: '/tree-care',
-  services: [
-    confirmed(
-      'Tree surgery',
-      'Pruning and remedial work to keep trees healthy, safe and in shape.',
-    ),
-    confirmed(
-      'Crown reduction',
-      'Reducing the height and spread of a tree while keeping its natural form.',
-    ),
-    confirmed('Tree felling', 'Complete removal of trees that need to come down.'),
-    confirmed(
-      'Sectional dismantling',
-      'Taking trees down piece by piece where space is tight, near houses, roads or buildings.',
-    ),
-    confirmed('Hedge cutting & reduction', 'Trimming, shaping and reducing the height of hedges.'),
-    confirmed('Storm-damaged & dangerous trees', 'Making damaged, fallen or unsafe trees safe.'),
-    confirmed(
-      'Tree health inspections',
-      'Checking the condition of trees and advising on what they need.',
-    ),
-  ],
+export const serviceById = (id: string): Service => {
+  const s = services.find((x) => x.id === id);
+  if (!s) throw new Error(`Unknown service: ${id}`);
+  return s;
 };
 
-/** CONFIRMED by the business (Nov 2026): the landscaping services offered. */
-export const landscaping: ServiceCategory = {
-  id: 'landscaping',
-  title: 'Landscaping',
-  href: '/landscaping',
-  services: [
-    confirmed('Garden design & planting', 'New borders, trees and planting schemes.'),
-    confirmed('Lawns & turfing', 'New lawns, re-turfing and lawn renovation.'),
-    confirmed('Patios & paving', 'Hard landscaping for terraces, paths and seating areas.'),
-    confirmed('Fencing', 'New fencing and replacement of old or damaged fences.'),
-    confirmed('Garden maintenance', 'Regular upkeep of gardens and grounds.'),
-    confirmed('Garden clearance', 'Clearing overgrown or neglected gardens.'),
-  ],
-};
+/** Where a service link should point today. */
+export const serviceHref = (s: Service, homeAnchor: string): string =>
+  s.page ? s.path : homeAnchor;

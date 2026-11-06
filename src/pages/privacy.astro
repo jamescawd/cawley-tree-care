@@ -1,0 +1,92 @@
+---
+/**
+ * Privacy notice. Describes how the website actually handles data (quote
+ * form only, no cookies or analytics). The business should review it
+ * before launch (see business.privacyReviewed).
+ */
+import PageLayout from '@/layouts/PageLayout.astro';
+import Pending from '@/components/ui/Pending.astro';
+import { business } from '@/config/business';
+import { provided } from '@/lib/placeholder';
+
+const email = provided(business.contact.email);
+---
+
+<PageLayout
+  title="Privacy notice"
+  description="How Cawley's Tree Care & Landscaping uses the information you send through the quote request form on this website."
+>
+  <article class="section container container-prose prose legal">
+    <p class="eyebrow">Privacy notice</p>
+    <h1>How we use your information</h1>
+    <p class="lead">
+      This notice explains what happens to the details you give us when you request a quote through
+      this website.
+    </p>
+
+    <h2>Who we are</h2>
+    <p>
+      {business.tradingName}, based in {business.address.locality}, {business.address.region}. You
+      can contact us by phone on{' '}
+      <a href={`tel:${business.contact.phone}`}>{business.contact.phoneDisplay}</a>
+      or by email at{' '}
+      {email ? (
+        <a href={`mailto:${email}`}>{email}</a>
+      ) : (
+        <Pending value={business.contact.email} compact />
+      )}
+      .
+    </p>
+
+    <h2>What we collect</h2>
+    <p>
+      When you send the quote form we receive your name, phone number, email address if you give it,
+      the town or area where the job is, the type of work, your description of the job and any
+      photos you attach.
+    </p>
+
+    <h2>Why we use it</h2>
+    <p>
+      We use these details only to reply to your enquiry, assess the work, prepare a quotation and,
+      if you go ahead, arrange and carry out the job. We do not use them for marketing and we do not
+      sell or share them with anyone for their own purposes.
+    </p>
+
+    <h2>Services that handle your details</h2>
+    <p>
+      The website is hosted by Cloudflare, and the quote form is delivered to us by email through
+      Resend, an email delivery service. They process your details only to provide these services to
+      us.
+    </p>
+
+    <h2>How long we keep it</h2>
+    <p>
+      We keep enquiries for as long as we need them to deal with your request and any work that
+      follows, and for any period required for our business records.
+    </p>
+
+    <h2>Cookies and tracking</h2>
+    <p>This website does not use cookies, advertising trackers or analytics that identify you.</p>
+
+    <h2>Your rights</h2>
+    <p>
+      You can ask us for a copy of the information we hold about you, ask us to correct it or ask us
+      to delete it. Contact us using the details above. If you are unhappy with how we have handled
+      your information, you can complain to the Data Protection Commission at
+      <a href="https://www.dataprotection.ie" rel="noopener">
+        dataprotection.ie
+      </a>
+      .
+    </p>
+  </article>
+</PageLayout>
+
+<style>
+  .legal {
+    padding-block: var(--space-2xl) var(--space-3xl);
+  }
+
+  .legal h1 {
+    margin-block-start: var(--space-xs);
+  }
+</style>

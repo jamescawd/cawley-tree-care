@@ -1,0 +1,174 @@
+---
+/**
+ * How it works: three stages joined by a single orange rule, set as a
+ * timeline rather than three boxes. The quote and call actions sit at the
+ * end, where a visitor who has read this far is ready to act.
+ */
+import Button from '@/components/ui/Button.astro';
+import { business } from '@/config/business';
+import { quoteHref } from '@/config/navigation';
+
+const steps = [
+  {
+    title: 'Get in touch',
+    text: 'Tell us about the work you need completed. Ring us, or send the quote form with a few details and a photo or two if you have them.',
+  },
+  {
+    title: 'Receive your quotation',
+    text: 'We assess the work, on site where needed, and give you a clear quotation that sets out exactly what will be done.',
+  },
+  {
+    title: 'Professional workmanship',
+    text: 'We carry out the agreed work with the right equipment and care for your property, and leave the site tidy when we finish.',
+  },
+];
+---
+
+<section id="process" class="section-lg process surface-dark" aria-labelledby="process-title">
+  <div class="container process__inner">
+    <header class="process__head reveal">
+      <p class="eyebrow">How it works</p>
+      <h2 id="process-title">
+        Simple from the first <em>call</em>
+      </h2>
+    </header>
+
+    <ol class="steps" role="list">
+      {steps.map((s, i) => (
+        <li class="step reveal">
+          <span class="step__n" aria-hidden="true">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <h3>{s.title}</h3>
+          <p>{s.text}</p>
+        </li>
+      ))}
+    </ol>
+
+    <div class="process__cta reveal">
+      <Button href={quoteHref} size="lg" arrow>
+        Request a free quote
+      </Button>
+      <Button href={`tel:${business.contact.phone}`} variant="secondary" size="lg">
+        Call {business.contact.phoneDisplay}
+      </Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .process {
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .process__inner {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .process__head {
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .process__head h2 {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-tight);
+    max-width: 12ch;
+  }
+
+  /* Phones: a vertical timeline with the rule running down the left. */
+  .steps {
+    position: relative;
+    display: grid;
+    gap: var(--space-xl);
+    padding-inline-start: 4.5rem;
+  }
+
+  .steps::before {
+    content: '';
+    position: absolute;
+    inset-block: 1.6rem 1.6rem;
+    inset-inline-start: 1.55rem;
+    width: 1px;
+    background: linear-gradient(var(--orange-500), rgb(245 130 22 / 0.2));
+  }
+
+  .step {
+    position: relative;
+    display: grid;
+    gap: var(--space-2xs);
+    max-width: none;
+  }
+
+  .step__n {
+    position: absolute;
+    inset-block-start: -0.1rem;
+    inset-inline-start: -4.5rem;
+    display: grid;
+    place-items: center;
+    width: 3.1rem;
+    height: 3.1rem;
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    color: var(--charcoal-900);
+    background: var(--orange-500);
+    border-radius: 50%;
+  }
+
+  .step h3 {
+    font-size: var(--text-2xl);
+    line-height: 1.15;
+  }
+
+  .step p {
+    color: var(--color-text-secondary);
+    max-width: 38ch;
+  }
+
+  .process__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+
+  /* Desktop: a horizontal timeline with the rule joining the numbers. */
+  @media (min-width: 64em) {
+    .process__inner {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+      column-gap: var(--space-2xl);
+      align-items: start;
+    }
+
+    .process__cta {
+      grid-column: 2;
+    }
+
+    .steps {
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto;
+      gap: var(--space-l);
+      padding-inline-start: 0;
+      padding-block-start: 5rem;
+    }
+
+    .steps::before {
+      inset-block: 1.55rem auto;
+      inset-inline: 1.55rem 0;
+      width: auto;
+      height: 1px;
+      background: linear-gradient(to right, var(--orange-500), rgb(245 130 22 / 0.15));
+    }
+
+    .step__n {
+      inset-block-start: -5rem;
+      inset-inline-start: 0;
+    }
+
+    .step {
+      grid-template-rows: subgrid;
+      grid-row: span 2;
+      row-gap: var(--space-s);
+    }
+  }
+</style>

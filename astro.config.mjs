@@ -102,7 +102,7 @@ export default defineConfig({
   integrations: [
     sitemap({
       // Internal tooling routes are never listed.
-      filter: (page) => !new URL(page).pathname.startsWith('/styleguide'),
+      filter: (page) => !/^\/(styleguide|quote-sent|quote-error|404)/.test(new URL(page).pathname),
     }),
     placeholderReport(),
   ],

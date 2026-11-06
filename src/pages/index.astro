@@ -9,6 +9,7 @@ import HomeHero from '@/components/home/HomeHero.astro';
 import HomeTrust from '@/components/home/HomeTrust.astro';
 import HomeServices from '@/components/home/HomeServices.astro';
 import HomeWhy from '@/components/home/HomeWhy.astro';
+import HomeProcess from '@/components/home/HomeProcess.astro';
 import HomeWork from '@/components/home/HomeWork.astro';
 import HomeAbout from '@/components/home/HomeAbout.astro';
 import HomeAreas from '@/components/home/HomeAreas.astro';
@@ -21,9 +22,9 @@ const places = serviceAreas.flatMap((a) => [`Co. ${a.county as string}`, ...(a.t
 ---
 
 <PageLayout
-  title="Cawley's Tree Care & Landscaping | Tree Surgery, Midlands & West"
+  title="Cawley's Tree Care & Landscaping | Tree Surgeons, Athlone"
   absoluteTitle
-  description="Professional tree care, tree surgery and landscaping across Westmeath, Roscommon, Longford, Offaly and Galway. Over 15 years' experience. Fully insured."
+  description="Tree surgery, tree removal, hedge cutting, storm damage, garden clearance and landscaping in Westmeath, Roscommon, Longford, Offaly and Galway. Fully insured."
   image={{
     src: '/og-image.jpg',
     alt: "Cawley's Tree Care & Landscaping logo over a photo of storm clearance work",
@@ -36,6 +37,7 @@ const places = serviceAreas.flatMap((a) => [`Co. ${a.county as string}`, ...(a.t
   <HomeServices />
   <HomeWork />
   <HomeWhy />
+  <HomeProcess />
   <HomeAbout />
   <Marquee items={places} duration={90} />
   <HomeAreas />

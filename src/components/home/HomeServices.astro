@@ -1,13 +1,20 @@
 ---
 /**
  * Service chapters: alternating full-bleed photograph and text panels.
- * Tree care leads; landscaping closes the sequence; stump grinding sits
- * as a compact supporting panel (no genuine photo yet).
+ * Tree care leads; landscaping closes the sequence; an index below lists
+ * all nine services.
  */
 import { Picture } from 'astro:assets';
 import ArrowIcon from '@/components/ui/ArrowIcon.astro';
-import { serviceChapters, stumpGrinding } from '@/config/homeServices';
+import { serviceChapters } from '@/config/homeServices';
+import { services, serviceHref } from '@/config/services';
 import { quoteHref } from '@/config/navigation';
+import { business } from '@/config/business';
+
+const chapterFor = (id: string) =>
+  serviceChapters.find((c) => c.services.some((s) => s.id === id))!;
+const linkFor = (c: (typeof serviceChapters)[number]) =>
+  c.id === 'emergency' ? `tel:${business.contact.phone}` : quoteHref;
 ---
 
 <section id="services" class="services surface-dark" aria-labelledby="services-title">
@@ -17,8 +24,8 @@ import { quoteHref } from '@/config/navigation';
       Tree surgery first. <em>Landscaping</em> to finish.
     </h2>
     <p class="lead">
-      Specialist tree work is the core of our business, backed by a full landscaping service for the
-      garden around it.
+      Trees are the core of our work. Around them we clear, cut, chip and landscape, so one team can
+      look after the whole job from the first cut to the final tidy-up.
     </p>
   </div>
 
@@ -52,14 +59,12 @@ import { quoteHref } from '@/config/navigation';
           </h3>
           <p class="chapter__desc">{c.description}</p>
           <p class="chapter__benefit">{c.benefit}</p>
-          {c.includes && (
-            <ul class="chapter__list" role="list">
-              {c.includes.map((item) => (
-                <li>{item}</li>
-              ))}
-            </ul>
-          )}
-          <a class="chapter__link" href={quoteHref}>
+          <ul class="chapter__list" role="list" aria-label="Services covered">
+            {c.services.map((svc) => (
+              <li>{svc.page ? <a href={svc.path}>{svc.name}</a> : svc.name}</li>
+            ))}
+          </ul>
+          <a class="chapter__link" href={linkFor(c)}>
             <span>{c.cta}</span>
             <span class="chapter__link-icon" aria-hidden="true">
               <ArrowIcon />
@@ -71,17 +76,21 @@ import { quoteHref } from '@/config/navigation';
   </div>
 
   <div class="container">
-    <aside id={stumpGrinding.id} class="extra reveal" aria-labelledby="stump-title">
-      <p class="chapter__label">{stumpGrinding.label}</p>
-      <h3 id="stump-title">{stumpGrinding.title}</h3>
-      <p>{stumpGrinding.description}</p>
-      <a class="chapter__link" href={quoteHref}>
-        <span>{stumpGrinding.cta}</span>
-        <span class="chapter__link-icon" aria-hidden="true">
-          <ArrowIcon />
-        </span>
-      </a>
-    </aside>
+    <nav class="index reveal" aria-labelledby="index-title">
+      <h3 id="index-title" class="index__title">
+        All services
+      </h3>
+      <ul role="list">
+        {services.map((svc) => (
+          <li>
+            <a href={serviceHref(svc, `#${chapterFor(svc.id).id}`)}>
+              {svc.name}
+              <span aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
   </div>
 </section>
 
@@ -302,33 +311,65 @@ import { quoteHref } from '@/config/navigation';
     }
   }
 
-  /* Stump grinding: typographic panel. */
-  .extra {
+  /* All-services index. */
+  .index {
     display: grid;
-    gap: var(--space-xs);
+    gap: var(--space-s);
     margin-block-start: var(--space-2xl);
     padding-block: var(--space-l);
     border-block: 1px solid var(--color-border);
   }
 
-  .extra h3 {
-    font-size: var(--text-2xl);
+  .index__title {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--color-accent-text);
   }
 
-  .extra p:not(.chapter__label) {
-    color: var(--color-text-secondary);
-    max-width: 52ch;
+  .index ul {
+    display: grid;
+    gap: 0 var(--space-l);
   }
 
-  @media (min-width: 64em) {
-    .extra {
-      grid-template-columns: 12rem minmax(0, 1fr) minmax(0, 1.4fr) auto;
-      align-items: center;
-      gap: var(--space-l);
+  .index a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-s);
+    min-height: var(--tap-target);
+    padding-block: var(--space-2xs);
+    font-family: var(--font-serif);
+    font-size: var(--text-lg);
+    text-decoration: none;
+    border-block-end: 1px solid var(--color-border);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  .index a span {
+    color: var(--orange-500);
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+
+  .index a:hover {
+    color: var(--orange-500);
+  }
+
+  .index a:hover span {
+    transform: translateX(4px);
+  }
+
+  @media (min-width: 48em) {
+    .index ul {
+      grid-template-columns: repeat(2, 1fr);
     }
+  }
 
-    .extra .chapter__link {
-      margin: 0;
+  @media (min-width: 72em) {
+    .index ul {
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 </style>

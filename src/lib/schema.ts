@@ -7,6 +7,7 @@
 import { business } from '@/config/business';
 import { serviceAreas } from '@/config/areas';
 import { provided } from '@/lib/placeholder';
+import { services } from '@/config/services';
 
 type JsonLd = Record<string, unknown>;
 
@@ -84,6 +85,22 @@ export const localBusinessSchema = (site: URL): JsonLd => {
       recognizedBy: { '@type': 'Organization', name: c.issuer },
       url: c.url,
     })),
+    logo: new URL('/icon-512.png', site).href,
+    image: new URL('/og-image.jpg', site).href,
+    knowsAbout: ['Tree surgery', 'Arboriculture', 'Hedge cutting', 'Landscaping'],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Tree care and landscaping services',
+      itemListElement: services.map((svc) => ({
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: svc.name,
+          description: svc.summary,
+          ...(svc.page ? { url: new URL(svc.path, site).href } : {}),
+        },
+      })),
+    },
     sameAs: [links.googleBusinessProfile, links.facebook, links.instagram]
       .map(provided)
       .filter(Boolean),

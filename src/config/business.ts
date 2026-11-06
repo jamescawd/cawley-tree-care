@@ -62,7 +62,15 @@ export const business = {
     phone: '+353871199816', // CONFIRMED by the business (Nov 2026)
     /** How the number is shown on the page. */
     phoneDisplay: '087 119 9816',
-    email: placeholder('Enquiries email address', 'Email address'),
+    /**
+     * NOT CONFIRMED. Suggested: info@qualitytreecare.com or
+     * info@qualitytreecare.ie, but neither matches the website domain
+     * (cawleytreecare.ie). Confirm the exact address before launch.
+     */
+    email: placeholder(
+      'Enquiries email: info@qualitytreecare.com or .ie? Neither matches cawleytreecare.ie',
+      'Email to be confirmed',
+    ),
   },
 
   /** Base / registered location. Must match the Google Business Profile. */
@@ -100,14 +108,21 @@ export const business = {
    * About-section story. Must come from the business: who runs it, where it
    * is based, how it started. Nothing here may be written on their behalf.
    */
-  about: placeholder(
-    'About the business: who runs it, where it is based and how it started',
-    "This is where the story of Cawley's will go: who runs the business, where it is based and how it began. It will be written with you, from your own words.",
-  ),
+  about: [
+    "Cawley's Tree Care & Landscaping is a tree surgery and landscaping business based in Athlone, Co. Westmeath. For more than fifteen years we have looked after trees, hedges and gardens for customers across the Midlands and the West.",
+    'Tree work is what we do best: pruning and crown reduction, careful removals beside homes and buildings, and making storm-damaged trees safe. Alongside it we clear overgrown gardens and sites, chip and remove green waste, and carry out landscaping, so one team can take care of the whole job.',
+    'We are fully insured. Before any work starts we explain what we propose to do and what it will cost, we work with care around your home and garden, and when the job is done the site is left clean and tidy.',
+  ],
 
-  /** Where quote enquiries are delivered. Until set, the form cannot submit. */
-  enquiryEndpoint: placeholder(
-    'Enquiry form delivery: Cloudflare function and email service, plus the inbox that receives enquiries',
+  /** Quote form handler: worker/index.ts on Cloudflare. */
+  enquiryEndpoint: '/api/quote',
+  /**
+   * The form handler needs three Cloudflare settings before enquiries can
+   * be delivered (see worker/index.ts). Until then submissions go to
+   * /quote-error, which gives the phone number.
+   */
+  enquiryDelivery: placeholder(
+    'Set RESEND_API_KEY, ENQUIRY_TO and ENQUIRY_FROM in Cloudflare so quote emails can be sent',
   ),
 
   /**
@@ -117,11 +132,11 @@ export const business = {
    */
   reviewsConfirmed: true,
 
+  /** The privacy notice at /privacy was drafted for the business to review. */
+  privacyReviewed: placeholder('Review and approve the privacy notice at /privacy'),
+
   links: {
-    privacyPolicy: placeholder(
-      'Privacy notice page (required before the enquiry form goes live)',
-      'Privacy notice',
-    ),
+    privacyPolicy: '/privacy',
     googleBusinessProfile: placeholder('Google Business Profile URL'),
     facebook: placeholder('Facebook page URL (remove if not used)'),
     instagram: placeholder('Instagram profile URL (remove if not used)'),

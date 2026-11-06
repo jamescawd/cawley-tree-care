@@ -4,7 +4,7 @@
  * Stage 1 has only the homepage, so each item links to its homepage section
  * (`anchor`). When a page is built, set `ready: true` and the item switches
  * to the page URL everywhere (header, mobile menu, footer).
- * Tree care is listed first to reflect the business positioning.
+ * Individual service links come from the service registry (config/services.ts).
  */
 export interface NavItem {
   label: string;
@@ -18,10 +18,10 @@ export interface NavItem {
 }
 
 export const primaryNav: NavItem[] = [
-  { label: 'Tree Care', href: '/tree-care', anchor: '/#services', ready: false },
-  { label: 'Landscaping', href: '/landscaping', anchor: '/#landscaping', ready: false },
+  { label: 'Services', href: '/services', anchor: '/#services', ready: false },
   { label: 'Our Work', href: '/projects', anchor: '/#work', ready: false },
   { label: 'About', href: '/about', anchor: '/#about', ready: false },
+  { label: 'Reviews', href: '/reviews', anchor: '/#reviews', ready: false },
   { label: 'Areas', href: '/areas', anchor: '/#areas', ready: false },
   { label: 'Contact', href: '/contact', anchor: '/#enquiry', ready: false },
 ];

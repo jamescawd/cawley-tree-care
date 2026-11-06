@@ -1,29 +1,31 @@
 /**
- * Homepage service chapters (confirmed services, Nov 2026).
- * Each chapter uses a different genuine photograph; none of these are
- * repeated in the hero, About section or portfolio.
- * Stump grinding has no photograph yet, so it renders as a typographic
- * panel; add `image` once a genuine photo is supplied.
+ * Homepage service chapters. Nine confirmed services, grouped into six
+ * chapters so the page stays readable. Each chapter uses a different
+ * genuine photograph that is not repeated elsewhere on the homepage.
  */
 import type { ImageMetadata } from 'astro';
-import treeSurgery from '@/assets/images/work/removal-12.jpg';
-import dismantling from '@/assets/images/work/removal-4.jpg';
-import storm from '@/assets/images/work/storm-2.jpg';
-import hedges from '@/assets/images/work/hedge-9.jpg';
-import landscaping from '@/assets/images/work/hedge-4.jpg';
+import surgeryImg from '@/assets/images/work/arborist-cutting-trunk-section.jpg';
+import removalImg from '@/assets/images/work/sectional-dismantling-beside-building.jpg';
+import stormImg from '@/assets/images/work/crane-lifting-fallen-conifer-off-house.jpg';
+import hedgeImg from '@/assets/images/work/conifer-hedge-cut-near-overhead-lines.jpg';
+import clearanceImg from '@/assets/images/work/overgrown-beech-hedge-with-wood-chipper.jpg';
+import landscapingImg from '@/assets/images/work/conifer-hedge-trimmed-beside-lawn.jpg';
+import { serviceById, type Service } from '@/config/services';
 
 export interface ServiceChapter {
+  /** Anchor id on the homepage. */
   id: string;
   label: string;
-  /** Heading; the part in `accent` is set in orange italic. */
+  /** Heading; `accent` is set in orange italic. */
   title: string;
   accent: string;
+  /** What the work involves. */
   description: string;
-  /** The customer benefit, one sentence. */
+  /** Why customers need it / what they get. */
   benefit: string;
-  includes?: string[];
-  image?: { src: ImageMetadata; alt: string; focus?: string };
-  /** Link text for the quote/learn-more link. */
+  /** Services covered by this chapter (from the registry). */
+  services: Service[];
+  image: { src: ImageMetadata; alt: string; focus?: string };
   cta: string;
 }
 
@@ -31,100 +33,107 @@ export const serviceChapters: ServiceChapter[] = [
   {
     id: 'tree-surgery',
     label: 'Tree surgery',
-    title: 'Tree surgery &',
+    title: 'Tree surgery, pruning &',
     accent: 'crown reduction',
     description:
-      'Pruning, crown reduction and remedial work carried out from the tree itself, with the right cuts in the right places.',
+      'Most trees do not need to come down. Careful pruning, crown reduction and the removal of deadwood can make a tree safer, let more light into the garden and take weight off branches that overhang roofs, roads or neighbours.',
     benefit:
-      'Your trees stay healthy, safe and in proportion with your home, rather than being cut back harder than they need.',
-    includes: ['Crown reduction', 'Pruning & remedial work', 'Tree health inspections'],
+      'We climb and work from within the tree, making clean cuts in the right places so it stays healthy and keeps a natural shape rather than being hacked back.',
+    services: [
+      serviceById('tree-surgery'),
+      serviceById('crown-reduction'),
+      serviceById('deadwood-removal'),
+    ],
     image: {
-      src: treeSurgery,
+      src: surgeryImg,
       alt: "A Cawley's arborist in a harness and visor cutting a section from a tree trunk, sawdust drifting against a clear blue sky.",
       focus: '50% 28%',
     },
-    cta: 'Request a tree surgery quote',
+    cta: 'Ask about tree surgery',
   },
   {
     id: 'tree-removal',
     label: 'Tree removal',
-    title: 'Felling &',
-    accent: 'sectional dismantling',
+    title: 'Tree removal &',
+    accent: 'felling',
     description:
-      'Where a tree has to come down, we fell it in one piece where there is room, or take it apart section by section where there is not.',
+      'When a tree is dead, unsafe or simply in the wrong place, we take it down in a controlled way. Where there is open ground it can be felled whole; beside houses, sheds, walls and wires it is dismantled from the top in manageable sections.',
     benefit:
-      'Trees beside houses, sheds, roads and boundaries are removed in a controlled way, with your property protected throughout.',
-    includes: ['Tree felling', 'Sectional dismantling', 'Clearing timber and brash'],
+      'You get the tree out without damage to your property, and the timber and brash are dealt with as agreed, chipped, stacked as logs or taken away.',
+    services: [serviceById('tree-removal')],
     image: {
-      src: dismantling,
+      src: removalImg,
       alt: 'A climber roped high in a large sycamore, dismantling it in sections directly beside a timber building.',
       focus: '50% 38%',
     },
-    cta: 'Request a tree removal quote',
+    cta: 'Get a tree removal quote',
   },
   {
-    id: 'storm-damage',
-    label: 'Storm damage',
-    title: 'Storm-damaged &',
-    accent: 'dangerous trees',
+    id: 'emergency',
+    label: 'Emergency work',
+    title: 'Emergency &',
+    accent: 'storm-damaged trees',
     description:
-      'Fallen, split and leaning trees made safe and cleared, from blocked lanes and driveways to trees resting on roofs.',
+      'Storms leave trees split, leaning or lying across lanes, driveways and roofs. These jobs need to be approached carefully, because damaged timber is under tension and can move without warning.',
     benefit:
-      'A dangerous situation is brought under control quickly and safely, so you can get access and repairs back on track.',
+      'Call us and we will tell you honestly how quickly we can get to you. We make the tree safe first, then clear it so you can get access and repairs back on track.',
+    services: [serviceById('emergency')],
     image: {
-      src: storm,
+      src: stormImg,
       alt: 'A tractor-mounted crane and grab lifting a large storm-felled conifer off the front of a white house.',
       focus: '50% 50%',
     },
-    cta: 'Get help with a storm-damaged tree',
+    cta: 'Call about storm damage',
   },
   {
     id: 'hedges',
     label: 'Hedges',
-    title: 'Hedge cutting &',
-    accent: 'reduction',
+    title: 'Hedge cutting,',
+    accent: 'reduction & removal',
     description:
-      'Tall and overgrown hedges trimmed, shaped and reduced in height, including work at height and close to overhead lines.',
+      'Conifer, laurel and beech hedges can get away from you quickly. We trim and shape them, bring overgrown hedges back down in height and width, and remove hedges entirely where you want the space back.',
     benefit:
-      'You get back light, space and a clean, even hedge line, without having to tackle a dangerous job yourself.',
-    includes: ['Hedge trimming & shaping', 'Height and width reduction', 'Cuttings cleared away'],
+      'Tall hedges near overhead lines or over driveways are work most people should not tackle from a ladder. You get light and space back, a clean finish, and every cutting cleared away.',
+    services: [serviceById('hedge-cutting')],
     image: {
-      src: hedges,
+      src: hedgeImg,
       alt: 'A worker on a tripod ladder trimming the top of a tall conifer hedge beside overhead lines.',
       focus: '50% 42%',
     },
-    cta: 'Request a hedge cutting quote',
+    cta: 'Get a hedge cutting quote',
+  },
+  {
+    id: 'clearance',
+    label: 'Clearance',
+    title: 'Garden & site clearance,',
+    accent: 'chipping & green waste',
+    description:
+      'Neglected gardens, overgrown plots and building sites cleared of scrub, brambles, small trees and old hedging. Branches and brash are put through our wood chipper on site, so there is far less to take away.',
+    benefit:
+      'Instead of weekends of work and trips to the recycling centre, the ground is cleared in one go and green waste is removed, leaving it ready to use, landscape or build on.',
+    services: [serviceById('garden-clearance'), serviceById('wood-chipping')],
+    image: {
+      src: clearanceImg,
+      alt: 'An overgrown beech hedge along a gravel driveway with a tracked wood chipper parked ready to work.',
+      focus: '40% 55%',
+    },
+    cta: 'Get a clearance quote',
   },
   {
     id: 'landscaping',
     label: 'Landscaping',
-    title: 'Gardens & grounds,',
-    accent: 'finished well',
+    title: 'Landscaping &',
+    accent: 'garden improvements',
     description:
-      'Planting, lawns and turfing, patios and paving, fencing, garden clearance and ongoing maintenance.',
+      'Once the trees and hedges are right, the rest of the garden often needs attention too. We take on planting, lawns and turfing, patios and paving, fencing and ongoing garden maintenance.',
     benefit:
-      'The same care we bring to trees, applied to the whole garden, so the finished space looks right and is easy to look after.',
-    includes: [
-      'Garden design & planting',
-      'Lawns & turfing',
-      'Patios, paving & fencing',
-      'Clearance & maintenance',
-    ],
+      'One team who already knows your garden, working to the same standard from the treeline to the lawn.',
+    services: [serviceById('landscaping')],
     image: {
-      src: landscaping,
+      src: landscapingImg,
       alt: 'A sunlit lawn running alongside a long, neatly trimmed conifer hedge beside a white bungalow.',
       focus: '50% 60%',
     },
-    cta: 'Request a landscaping quote',
+    cta: 'Talk to us about your garden',
   },
 ];
-
-/** Supporting service shown as a compact panel (no photo yet). */
-export const stumpGrinding = {
-  id: 'stump-grinding',
-  label: 'Also available',
-  title: 'Stump grinding',
-  description:
-    'Stumps ground out below ground level after felling, so the area can be levelled, turfed or replanted.',
-  cta: 'Ask about stump grinding',
-};

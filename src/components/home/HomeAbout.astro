@@ -1,7 +1,6 @@
 ---
 import SectionHeader from '@/components/ui/SectionHeader.astro';
 import PhotoFrame from '@/components/ui/PhotoFrame.astro';
-import Pending from '@/components/ui/Pending.astro';
 import Button from '@/components/ui/Button.astro';
 import { business } from '@/config/business';
 import { media } from '@/config/media';
@@ -10,8 +9,8 @@ import { quoteHref } from '@/config/navigation';
 const facts = [
   business.experience.label,
   business.insurance.label,
-  'Tree care & tree surgery specialists',
-  'Landscaping for gardens and grounds',
+  'Based in Athlone, Co. Westmeath',
+  'Tree care first, landscaping to finish',
 ];
 ---
 
@@ -23,16 +22,18 @@ const facts = [
           A specialist business, <em>built</em> on experience
         </Fragment>
       </SectionHeader>
-      <p class="about__story">
-        <Pending value={business.about} />
-      </p>
+      <div class="about__story">
+        {business.about.map((para) => (
+          <p>{para}</p>
+        ))}
+      </div>
       <ul class="about__facts" role="list">
         {facts.map((fact) => (
           <li>{fact}</li>
         ))}
       </ul>
       <Button href={quoteHref} variant="secondary" arrow>
-        Get in touch
+        Request a free quote
       </Button>
     </div>
     <PhotoFrame
@@ -60,8 +61,18 @@ const facts = [
   }
 
   .about__story {
-    font-size: var(--text-lg);
-    line-height: 1.6;
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  .about__story p:first-child {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    line-height: 1.45;
+  }
+
+  .about__story p + p {
+    color: var(--color-text-secondary);
   }
 
   .about__facts {

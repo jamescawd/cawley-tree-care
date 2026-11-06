@@ -8,33 +8,33 @@
  * stated because they have not been provided.
  */
 import type { ImageMetadata } from 'astro';
-import storm3 from '@/assets/images/work/storm-3.jpg';
-import storm4 from '@/assets/images/work/storm-4.jpg';
-import storm5 from '@/assets/images/work/storm-5.jpg';
-import storm6 from '@/assets/images/work/storm-6.jpg';
-import hedge2 from '@/assets/images/work/hedge-2.jpg';
-import hedge3 from '@/assets/images/work/hedge-3.jpg';
-import hedge5 from '@/assets/images/work/hedge-5.jpg';
-import hedge6 from '@/assets/images/work/hedge-6.jpg';
-import hedge11 from '@/assets/images/work/hedge-11.jpg';
-import hedge12 from '@/assets/images/work/hedge-12.jpg';
-import removal2 from '@/assets/images/work/removal-2.jpg';
-import removal3 from '@/assets/images/work/removal-3.jpg';
-import removal6 from '@/assets/images/work/removal-6.jpg';
-import removal7 from '@/assets/images/work/removal-7.jpg';
-import removal8 from '@/assets/images/work/removal-8.jpg';
-import removal9 from '@/assets/images/work/removal-9.jpg';
-import removal10 from '@/assets/images/work/removal-10.jpg';
-import removal11 from '@/assets/images/work/removal-11.jpg';
+import storm3 from '@/assets/images/work/uprooted-tree-across-garden.jpg';
+import storm4 from '@/assets/images/work/lane-cleared-of-storm-fallen-trees.jpg';
+import storm5 from '@/assets/images/work/storm-snapped-beech-over-lane.jpg';
+import storm6 from '@/assets/images/work/storm-tree-fallen-on-house-roof.jpg';
+import hedge2 from '@/assets/images/work/overgrown-border-before-clearance.jpg';
+import hedge3 from '@/assets/images/work/border-cleared-and-gravelled.jpg';
+import hedge5 from '@/assets/images/work/laurel-hedge-after-cutting.jpg';
+import hedge6 from '@/assets/images/work/overgrown-laurel-hedge-before.jpg';
+import hedgeDuring from '@/assets/images/work/hedge-trimming-from-tripod-ladder.jpg';
+import hedgeAfter from '@/assets/images/work/conifer-hedge-after-trimming.jpg';
+import removal2 from '@/assets/images/work/arborist-on-tracked-platform-removing-tree.jpg';
+import removal3 from '@/assets/images/work/garden-tidy-after-tree-removal.jpg';
+import removal6 from '@/assets/images/work/timber-stacked-after-dismantling.jpg';
+import removal7 from '@/assets/images/work/climber-in-mature-tree-by-stone-wall.jpg';
+import removal8 from '@/assets/images/work/mature-tree-reduced-to-trunk.jpg';
+import removal9 from '@/assets/images/work/mature-tree-before-removal.jpg';
+import removal10 from '@/assets/images/work/arborist-pruning-at-height.jpg';
+import removal11 from '@/assets/images/work/arborist-climbing-reduced-tree.jpg';
 
-export type WorkCategory = 'surgery' | 'removal' | 'storm' | 'hedges' | 'landscaping';
+export type WorkCategory = 'surgery' | 'removal' | 'storm' | 'hedges' | 'clearance';
 
 export const workCategories: { id: WorkCategory; label: string }[] = [
   { id: 'surgery', label: 'Tree surgery' },
   { id: 'removal', label: 'Tree removal' },
   { id: 'storm', label: 'Storm clearance' },
   { id: 'hedges', label: 'Hedges' },
-  { id: 'landscaping', label: 'Landscaping' },
+  { id: 'clearance', label: 'Clearance & landscaping' },
 ];
 
 export interface WorkPhoto {
@@ -181,7 +181,7 @@ export const workItems: WorkItem[] = [
     ],
   },
   {
-    category: 'landscaping',
+    category: 'clearance',
     title: 'Overgrown border cleared and gravelled',
     size: 'wide',
     photos: [
@@ -212,17 +212,18 @@ export const workItems: WorkItem[] = [
   },
   {
     category: 'hedges',
-    title: 'Beech hedge reduced',
+    title: 'Tall conifer hedge trimmed beside overhead lines',
     size: 'wide',
     photos: [
       {
-        src: hedge11,
-        alt: 'A tall, overgrown beech hedge along a gravel driveway, with a chipper parked nearby.',
-        tag: 'Before',
+        src: hedgeDuring,
+        alt: 'A worker on a tripod ladder trimming the top of a tall conifer hedge, with overhead lines above.',
+        tag: 'During',
+        focus: '40% 50%',
       },
       {
-        src: hedge12,
-        alt: 'The same beech hedge reduced in height and cut back to the main stems.',
+        src: hedgeAfter,
+        alt: 'The same conifer hedge afterwards, with a straight, even face along the lawn.',
         tag: 'After',
       },
     ],

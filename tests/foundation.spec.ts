@@ -5,7 +5,7 @@ import AxeBuilder from '@axe-core/playwright';
  * Foundation checks. Every future page should be added to PAGES so it
  * inherits the same accessibility, SEO and responsiveness guarantees.
  */
-const PAGES = ['/', '/styleguide'];
+const PAGES = ['/', '/privacy', '/quote-sent', '/quote-error', '/404', '/styleguide'];
 
 for (const path of PAGES) {
   test.describe(path, () => {
@@ -154,6 +154,8 @@ test.describe('homepage conversion paths', () => {
     await expect(form.getByLabel('Tell us about the job')).toHaveAttribute('required', '');
     await expect(form.getByLabel(/Photos of the job/)).toHaveAttribute('type', 'file');
     await expect(form).toHaveAttribute('enctype', 'multipart/form-data');
+    await expect(form).toHaveAttribute('action', '/api/quote');
+    await expect(form.getByRole('button', { name: /send my quote request/i })).toBeEnabled();
   });
 
   test('portfolio filters show only the chosen category', async ({ page }) => {
@@ -191,4 +193,23 @@ test.describe('homepage conversion paths', () => {
     for (let i = 1; i < levels.length; i++)
       expect(levels[i]! - levels[i - 1]!).toBeLessThanOrEqual(1);
   });
+});
+
+test('stump grinding is not mentioned anywhere on the site', async ({ page }) => {
+  for (const path of ['/', '/privacy']) {
+    await page.goto(path);
+    expect((await page.content()).toLowerCase()).not.toContain('stump');
+  }
+});
+
+test('structured data lists the business and its services accurately', async ({ page }) => {
+  await page.goto('/');
+  const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
+  const biz = blocks
+    .map((b) => JSON.parse(b))
+    .find((d) => d['@type'] === 'HomeAndConstructionBusiness');
+  expect(biz.telephone).toBe('+353871199816');
+  expect(biz.address.addressLocality).toBe('Athlone');
+  expect(biz.hasOfferCatalog.itemListElement).toHaveLength(9);
+  expect(JSON.stringify(blocks)).not.toMatch(/aggregateRating|"review"/);
 });

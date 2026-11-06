@@ -11,8 +11,8 @@
  *                       scene only and never claims it shows Cawley's work.
  *                       Replace with genuine photography when available.
  */
-import heroStormClearance from '@/assets/images/work/storm-1.jpg';
-import crewPlatform from '@/assets/images/work/removal-1.jpg';
+import heroStormClearance from '@/assets/images/work/storm-fallen-beech-chainsaw-clearance.jpg';
+import crewPlatform from '@/assets/images/work/tree-removal-tracked-access-platform.jpg';
 
 export const media = {
   homeHero: {

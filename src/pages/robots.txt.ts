@@ -5,7 +5,7 @@ import { site } from '@/config/site';
 export const GET: APIRoute = ({ site: siteUrl }) => {
   const sitemap = new URL('/sitemap-index.xml', siteUrl).href;
   const body = site.allowIndexing
-    ? `User-agent: *\nAllow: /\nDisallow: /styleguide\n\nSitemap: ${sitemap}\n`
+    ? `User-agent: *\nAllow: /\nDisallow: /styleguide\nDisallow: /api/\nDisallow: /quote-sent\nDisallow: /quote-error\n\nSitemap: ${sitemap}\n`
     : `# Indexing disabled (ALLOW_INDEXING is not "true").\nUser-agent: *\nDisallow: /\n`;
   return new Response(body, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
 };
