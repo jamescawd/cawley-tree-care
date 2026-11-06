@@ -1,0 +1,12 @@
+// Cloudflare deployment settings (Workers static assets).
+// Build: `pnpm build` → serves the static site in ./dist. No server code.
+{
+  "name": "cawley-tree-care",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    // /tree-care is served from tree-care.html, without a trailing slash.
+    "html_handling": "drop-trailing-slash",
+    "not_found_handling": "404-page",
+  },
+}
