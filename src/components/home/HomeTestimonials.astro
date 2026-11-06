@@ -12,6 +12,7 @@ import { quoteHref } from '@/config/navigation';
 import { provided } from '@/lib/placeholder';
 
 const reviews = (await getCollection('testimonials')).sort((a, b) => a.data.order - b.data.order);
+const VISIBLE = 4;
 const googleProfile = provided(business.links.googleBusinessProfile);
 ---
 
@@ -26,8 +27,8 @@ const googleProfile = provided(business.links.googleBusinessProfile);
       </SectionHeader>
 
       <ul class="reviews__list" role="list">
-        {reviews.map(({ data: r }) => (
-          <li class="review reveal">
+        {reviews.map(({ data: r }, n) => (
+          <li class:list={['review', 'reveal', { 'review--more': n >= VISIBLE }]}>
             <figure>
               {r.rating && (
                 <p class="review__stars" role="img" aria-label={`Rated ${r.rating} out of 5`}>
@@ -54,9 +55,21 @@ const googleProfile = provided(business.links.googleBusinessProfile);
         ))}
       </ul>
 
+      {reviews.length > VISIBLE && (
+        <div class="reviews__more">
+          <input type="checkbox" id="reviews-more" class="visually-hidden" />
+          <label for="reviews-more" class="reviews__more-btn">
+            Read {reviews.length - VISIBLE} more reviews
+          </label>
+        </div>
+      )}
+
       <div class="reviews__cta">
         <Button href={quoteHref} size="lg" arrow>
           Request a free quote
+        </Button>
+        <Button href={`tel:${business.contact.phone}`} variant="secondary" size="lg">
+          Call {business.contact.phoneDisplay}
         </Button>
         {googleProfile && (
           <Button href={googleProfile} variant="secondary" arrow target="_blank" rel="noopener">
@@ -152,6 +165,39 @@ const googleProfile = provided(business.links.googleBusinessProfile);
     width: 1rem;
     height: 1px;
     background: var(--orange-500);
+  }
+
+  /* Phones and tablets: first four reviews, the rest on request (CSS only). */
+  @media (max-width: 71.99em) {
+    .reviews__inner:not(:has(#reviews-more:checked)) .review--more {
+      display: none;
+    }
+  }
+
+  .reviews__more-btn {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-target);
+    font-weight: var(--weight-semibold);
+    text-decoration: underline;
+    text-decoration-color: var(--orange-500);
+    text-underline-offset: 0.3em;
+    cursor: pointer;
+  }
+
+  .reviews__more:has(:focus-visible) .reviews__more-btn {
+    outline: var(--border-thick) solid var(--color-focus);
+    outline-offset: 3px;
+  }
+
+  .reviews__more:has(:checked) {
+    display: none;
+  }
+
+  @media (min-width: 72em) {
+    .reviews__more {
+      display: none;
+    }
   }
 
   .reviews__cta {

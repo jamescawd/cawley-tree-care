@@ -1,7 +1,6 @@
 ---
 import SectionHeader from '@/components/ui/SectionHeader.astro';
 import EnquiryForm from '@/components/sections/EnquiryForm.astro';
-import Pending from '@/components/ui/Pending.astro';
 import TrustList from '@/components/ui/TrustList.astro';
 import { business } from '@/config/business';
 import { isPlaceholder, provided } from '@/lib/placeholder';
@@ -32,22 +31,24 @@ const hours = business.openingHours;
         <span class="call-card__number">{business.contact.phoneDisplay}</span>
       </a>
 
-      <dl class="contact-list">
-        <div>
-          <dt>Email</dt>
-          <dd>
-            {email ? (
-              <a href={`mailto:${email}`}>{email}</a>
-            ) : (
-              <Pending value={business.contact.email} compact />
-            )}
-          </dd>
-        </div>
-        <div>
-          <dt>Hours</dt>
-          <dd>{isPlaceholder(hours) ? <Pending value={hours} compact /> : hours.join(', ')}</dd>
-        </div>
-      </dl>
+      {(email || !isPlaceholder(hours)) && (
+        <dl class="contact-list">
+          {email && (
+            <div>
+              <dt>Email</dt>
+              <dd>
+                <a href={`mailto:${email}`}>{email}</a>
+              </dd>
+            </div>
+          )}
+          {!isPlaceholder(hours) && (
+            <div>
+              <dt>Hours</dt>
+              <dd>{hours.join(', ')}</dd>
+            </div>
+          )}
+        </dl>
+      )}
 
       <TrustList stacked />
     </div>

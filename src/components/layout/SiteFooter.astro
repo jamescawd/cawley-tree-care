@@ -80,13 +80,11 @@ const primaryNav = await getNavigation();
           <li>
             <PhoneLink />
           </li>
-          <li>
-            {email ? (
+          {email && (
+            <li>
               <a href={`mailto:${email}`}>{email}</a>
-            ) : (
-              <Pending value={business.contact.email} compact />
-            )}
-          </li>
+            </li>
+          )}
           <li>
             <Pending value={locality} compact />, <Pending value={region} compact />
           </li>

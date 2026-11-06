@@ -103,14 +103,13 @@ const workTypes = [...services.map((s) => s.name), 'Not sure yet'];
 
   <div class="field">
     <label class="field__label" for={`${id}-message`}>
-      Tell us about the job
+      Tell us about the job <span class="field__optional">(optional)</span>
     </label>
     <textarea
       class="textarea"
       id={`${id}-message`}
       name="message"
       rows="5"
-      required
       aria-describedby={`${id}-message-hint`}
     ></textarea>
     <p class="field__hint" id={`${id}-message-hint`}>
@@ -145,10 +144,11 @@ const workTypes = [...services.map((s) => s.name), 'Not sure yet'];
 
   <div class="enquiry__submit">
     <Button type="submit" size="lg" arrow disabled={!endpoint}>
-      Send my quote request
+      Send my free quote request
     </Button>
     <p class="field__hint">
-      We use your details only to reply to your enquiry and prepare your quote.{' '}
+      We’ll be in touch to talk through the job and arrange your quote. We use your details only for
+      this.{' '}
       {privacy ? (
         <a href={privacy}>Privacy notice</a>
       ) : (

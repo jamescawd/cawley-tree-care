@@ -151,11 +151,11 @@ test.describe('homepage conversion paths', () => {
     await expect(form.getByLabel(/Email/)).not.toHaveAttribute('required', '');
     await expect(form.getByLabel('Type of work')).toHaveAttribute('required', '');
     await expect(form.getByLabel('Where is the job?')).toHaveAttribute('required', '');
-    await expect(form.getByLabel('Tell us about the job')).toHaveAttribute('required', '');
+    await expect(form.getByLabel(/Tell us about the job/)).not.toHaveAttribute('required', '');
     await expect(form.getByLabel(/Photos of the job/)).toHaveAttribute('type', 'file');
     await expect(form).toHaveAttribute('enctype', 'multipart/form-data');
     await expect(form).toHaveAttribute('action', '/api/quote');
-    await expect(form.getByRole('button', { name: /send my quote request/i })).toBeEnabled();
+    await expect(form.getByRole('button', { name: /send my free quote request/i })).toBeEnabled();
   });
 
   test('portfolio filters show only the chosen category', async ({ page }) => {
@@ -212,4 +212,38 @@ test('structured data lists the business and its services accurately', async ({ 
   expect(biz.address.addressLocality).toBe('Athlone');
   expect(biz.hasOfferCatalog.itemListElement).toHaveLength(9);
   expect(JSON.stringify(blocks)).not.toMatch(/aggregateRating|"review"/);
+});
+
+test.describe('mobile conversion', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+  });
+
+  test('call and quote are always one tap away on phones', async ({ page, isMobile }) => {
+    test.skip(!isMobile, 'Phone layout only');
+    const bar = page.getByRole('region', { name: 'Quick contact' });
+    await expect(bar).toBeVisible();
+    await expect(bar.getByRole('link', { name: /call now/i })).toHaveAttribute(
+      'href',
+      'tel:+353871199816',
+    );
+    await expect(bar.getByRole('link', { name: /request a free quote/i })).toHaveAttribute(
+      'href',
+      '/#enquiry',
+    );
+  });
+
+  test('reviews appear before the gallery, and next steps sit beside the form', async ({
+    page,
+  }) => {
+    const order = await page
+      .locator('main > section[id]')
+      .evaluateAll((els) => els.map((e) => e.id));
+    expect(order.indexOf('reviews')).toBeLessThan(order.indexOf('work'));
+    expect(order.indexOf('process')).toBe(order.indexOf('enquiry') - 1);
+  });
+
+  test('no unfinished placeholders are shown in the contact area', async ({ page }) => {
+    await expect(page.locator('#enquiry [data-placeholder]')).toHaveCount(0);
+  });
 });

@@ -18,10 +18,24 @@ const phone = provided(business.contact.phone);
   </Button>
   {phone && (
     <Button href={`tel:${phone.replace(/[^\d+]/g, '')}`} variant="secondary" size="lg">
-      Call
+      <svg class="action-bar__icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z" />
+      </svg>
+      Call now
     </Button>
   )}
 </div>
+
+<script>
+  // Hide the bar while the quote form is visible, so it never covers fields.
+  const bar = document.querySelector<HTMLElement>('.action-bar');
+  const form = document.querySelector('#enquiry form');
+  if (bar && form && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => {
+      bar.toggleAttribute('data-hidden', entry!.isIntersecting);
+    }).observe(form);
+  }
+</script>
 
 <style>
   .action-bar {
@@ -37,9 +51,47 @@ const phone = provided(business.contact.phone);
     border-block-start: 1px solid var(--color-border);
   }
 
+  .action-bar__icon {
+    width: 1.1em;
+    height: 1.1em;
+    fill: currentColor;
+  }
+
+  .action-bar :global(.btn) {
+    padding-inline: 1em;
+  }
+
+  .action-bar :global(.btn > span) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    white-space: nowrap;
+  }
+
   .action-bar :global(.action-bar__quote) {
     flex: 1;
+    min-width: 0;
     justify-content: center;
+  }
+
+  @media (max-width: 23.49em) {
+    .action-bar :global(.btn) {
+      font-size: var(--text-sm);
+      padding-inline: 0.8em;
+    }
+
+    .action-bar :global(.btn__arrow) {
+      display: none;
+    }
+  }
+
+  .action-bar {
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+
+  /* Out of the way while the quote form itself is on screen. */
+  .action-bar[data-hidden] {
+    transform: translateY(110%);
   }
 
   @media (min-width: 75em) {

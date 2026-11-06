@@ -4,9 +4,6 @@
  * timeline rather than three boxes. The quote and call actions sit at the
  * end, where a visitor who has read this far is ready to act.
  */
-import Button from '@/components/ui/Button.astro';
-import { business } from '@/config/business';
-import { quoteHref } from '@/config/navigation';
 
 const steps = [
   {
@@ -27,7 +24,7 @@ const steps = [
 <section id="process" class="section-lg process surface-dark" aria-labelledby="process-title">
   <div class="container process__inner">
     <header class="process__head reveal">
-      <p class="eyebrow">How it works</p>
+      <p class="eyebrow">What happens next</p>
       <h2 id="process-title">
         Simple from the first <em>call</em>
       </h2>
@@ -44,15 +41,6 @@ const steps = [
         </li>
       ))}
     </ol>
-
-    <div class="process__cta reveal">
-      <Button href={quoteHref} size="lg" arrow>
-        Request a free quote
-      </Button>
-      <Button href={`tel:${business.contact.phone}`} variant="secondary" size="lg">
-        Call {business.contact.phoneDisplay}
-      </Button>
-    </div>
   </div>
 </section>
 

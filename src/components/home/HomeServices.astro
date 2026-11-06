@@ -128,7 +128,7 @@ const linkFor = (c: (typeof serviceChapters)[number]) =>
   .chapter__media {
     position: relative;
     overflow: hidden;
-    aspect-ratio: 4 / 3.3;
+    aspect-ratio: 16 / 10;
     background: var(--charcoal-700);
   }
 
@@ -163,7 +163,7 @@ const linkFor = (c: (typeof serviceChapters)[number]) =>
     display: grid;
     gap: var(--space-s);
     align-content: center;
-    padding: var(--space-xl) var(--gutter) var(--space-2xl);
+    padding: var(--space-l) var(--gutter) var(--space-xl);
   }
 
   /* Orange accent rule on the edge facing the photo. */
@@ -216,7 +216,7 @@ const linkFor = (c: (typeof serviceChapters)[number]) =>
   }
 
   .chapter__list {
-    display: grid;
+    display: none; /* phones: the "All services" index below covers this */
     gap: var(--space-3xs);
     font-size: var(--text-sm);
     color: var(--color-text-secondary);
@@ -273,6 +273,12 @@ const linkFor = (c: (typeof serviceChapters)[number]) =>
     background: var(--orange-500);
     border-color: var(--orange-500);
     transform: translateX(4px);
+  }
+
+  @media (min-width: 48em) {
+    .chapter__list {
+      display: grid;
+    }
   }
 
   @media (min-width: 64em) {

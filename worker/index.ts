@@ -70,7 +70,7 @@ async function handleQuote(request: Request, env: Env, url: URL): Promise<Respon
   const location = clean(form.get('location'), 120);
   const service = clean(form.get('service'), 120);
   const message = clean(form.get('message'), 5000);
-  if (!name || !phone || !location || !service || !message) return redirect(url, '/quote-error');
+  if (!name || !phone || !location || !service) return redirect(url, '/quote-error');
   if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return redirect(url, '/quote-error');
 
   if (!env.RESEND_API_KEY || !env.ENQUIRY_TO || !env.ENQUIRY_FROM) {
@@ -98,7 +98,7 @@ async function handleQuote(request: Request, env: Env, url: URL): Promise<Respon
     ['Location', location],
     ['Type of work', service],
   ];
-  const text = `${rows.map(([k, v]) => `${k}: ${v}`).join('\n')}\n\nAbout the job:\n${message}\n\nPhotos attached: ${attachments.length}`;
+  const text = `${rows.map(([k, v]) => `${k}: ${v}`).join('\n')}\n\nAbout the job:\n${message || '(no description given)'}\n\nPhotos attached: ${attachments.length}`;
   const html = `<h2>New quote request</h2><table>${rows
     .map(([k, v]) => `<tr><th align="left">${k}</th><td>${escapeHtml(v)}</td></tr>`)
     .join(
