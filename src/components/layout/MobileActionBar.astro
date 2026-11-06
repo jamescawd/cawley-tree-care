@@ -1,0 +1,61 @@
+---
+/**
+ * Persistent call-to-action bar on phones and tablets (hidden from 1200px,
+ * where the header shows the quote button and phone number).
+ * Shows a Call button only once a confirmed phone number exists.
+ */
+import Button from '@/components/ui/Button.astro';
+import { business } from '@/config/business';
+import { provided } from '@/lib/placeholder';
+import { quoteHref } from '@/config/navigation';
+
+const phone = provided(business.contact.phone);
+---
+
+<div class="action-bar surface-dark" role="region" aria-label="Quick contact">
+  <Button href={quoteHref} size="lg" arrow class="action-bar__quote">
+    Request a quote
+  </Button>
+  {phone && (
+    <Button href={`tel:${phone.replace(/[^\d+]/g, '')}`} variant="secondary" size="lg">
+      Call
+    </Button>
+  )}
+</div>
+
+<style>
+  .action-bar {
+    position: fixed;
+    inset-inline: 0;
+    inset-block-end: 0;
+    z-index: var(--z-header);
+    display: flex;
+    gap: var(--space-2xs);
+    padding: var(--space-2xs) var(--gutter)
+      calc(var(--space-2xs) + env(safe-area-inset-bottom, 0px));
+    background-color: rgb(23 23 23 / 0.96);
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .action-bar :global(.action-bar__quote) {
+    flex: 1;
+    justify-content: center;
+  }
+
+  @media (min-width: 75em) {
+    .action-bar {
+      display: none;
+    }
+  }
+
+  /* Keep the bar from covering the end of the page. */
+  :global(body:has(.action-bar)) {
+    padding-block-end: 4.5rem;
+  }
+
+  @media (min-width: 75em) {
+    :global(body:has(.action-bar)) {
+      padding-block-end: 0;
+    }
+  }
+</style>

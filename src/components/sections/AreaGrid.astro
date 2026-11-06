@@ -90,17 +90,9 @@ const areas = serviceAreas.flatMap((a) => {
 
   @media (min-width: 64em) {
     .areas__row {
-      grid-template-columns: 3rem minmax(0, 5fr) minmax(0, 6fr);
-      align-items: center;
-      column-gap: var(--space-l);
-      padding-block: var(--space-l);
-    }
-
-    .areas__towns {
-      grid-column: 3;
-      justify-content: flex-end;
-      text-align: end;
-      font-size: var(--text-base);
+      grid-template-columns: 3rem 1fr;
+      column-gap: var(--space-m);
+      padding-block: var(--space-m);
     }
   }
 </style>

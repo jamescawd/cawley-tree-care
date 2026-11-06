@@ -41,13 +41,16 @@ const widths = [480, 720, 960, 1280, hero.src.width].filter(
     </h1>
     <div class="hero__row">
       <p class="lead hero__lead">{intro}</p>
-      <div class="cluster hero__ctas">
-        <Button href={quoteHref} size="lg" arrow>
-          Request a quote
-        </Button>
-        <Button href="#tree-care" variant="secondary" size="lg">
-          Explore tree care
-        </Button>
+      <div class="hero__cta-block">
+        <div class="cluster hero__ctas">
+          <Button href={quoteHref} size="lg" arrow>
+            Request a quote
+          </Button>
+          <Button href="#tree-care" variant="secondary" size="lg">
+            Explore tree care
+          </Button>
+        </div>
+        <p class="hero__cta-note">A short form: tell us about the job and where you are.</p>
       </div>
     </div>
     <TrustList class="hero__trust" />
@@ -129,6 +132,16 @@ const widths = [480, 720, 960, 1280, hero.src.width].filter(
   .hero__row {
     display: grid;
     gap: var(--space-m);
+  }
+
+  .hero__cta-block {
+    display: grid;
+    gap: var(--space-xs);
+  }
+
+  .hero__cta-note {
+    font-size: var(--text-sm);
+    color: var(--charcoal-300);
   }
 
   .hero__lead {

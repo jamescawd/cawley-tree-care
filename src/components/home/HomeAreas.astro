@@ -1,6 +1,7 @@
 ---
 import SectionHeader from '@/components/ui/SectionHeader.astro';
 import AreaGrid from '@/components/sections/AreaGrid.astro';
+import AreaMap from '@/components/sections/AreaMap.astro';
 import Button from '@/components/ui/Button.astro';
 import { quoteHref } from '@/config/navigation';
 ---
@@ -16,11 +17,16 @@ import { quoteHref } from '@/config/navigation';
         Across the <em>Midlands</em> &amp; West
       </Fragment>
       <p>
-        We work throughout five counties, including the major towns below. If your town isn’t
-        listed, ask us: we may still be able to help.
+        Based in Athlone, Co. Westmeath, we work throughout five counties, including the major towns
+        below. If your town isn’t listed, ask us: we may still be able to help.
       </p>
     </SectionHeader>
-    <AreaGrid />
+    <div class="areas-section__body">
+      <div class="areas-section__map reveal">
+        <AreaMap />
+      </div>
+      <AreaGrid />
+    </div>
     <Button href={quoteHref} variant="secondary" arrow>
       Check we cover your area
     </Button>
@@ -36,6 +42,34 @@ import { quoteHref } from '@/config/navigation';
 
   .areas-section__inner > :global(*) {
     width: 100%;
+  }
+
+  .areas-section__body {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .areas-section__body > * {
+    min-width: 0;
+  }
+
+  .areas-section__map {
+    max-width: 34rem;
+    justify-self: center;
+    width: 100%;
+  }
+
+  @media (min-width: 64em) {
+    .areas-section__body {
+      grid-template-columns: 5fr 7fr;
+      gap: var(--space-2xl);
+      align-items: start;
+    }
+
+    .areas-section__map {
+      position: sticky;
+      inset-block-start: calc(var(--header-height) + var(--space-l));
+    }
   }
 
   .areas-section__inner > :global(.btn) {

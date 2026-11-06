@@ -1,0 +1,237 @@
+---
+/**
+ * Service-area map: an inline SVG of Ireland with the counties served
+ * highlighted and every confirmed town marked. Each town links to its
+ * location on Google Maps (new tab). No third-party scripts, cookies or
+ * tiles: the map is drawn from public boundary data at build time
+ * (scripts/maps/build-ireland-map.py → src/data/ireland-map.json).
+ */
+import map from '@/data/ireland-map.json';
+import { business } from '@/config/business';
+import { provided } from '@/lib/placeholder';
+
+const base = provided(business.address.locality);
+const mapsUrl = (town: string, county: string) =>
+  `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${town}, Co. ${county}, Ireland`)}`;
+const towns = [...map.towns].sort((a, b) => Number(a.base) - Number(b.base));
+const baseTown = map.towns.find((t) => t.base);
+---
+
+<figure class="area-map">
+  <svg
+    viewBox={`0 0 ${map.width} ${map.height}`}
+    role="group"
+    aria-labelledby="area-map-title area-map-desc"
+  >
+    <title id="area-map-title">Map of the areas Cawley's serves</title>
+    <desc id="area-map-desc">
+      Counties Westmeath, Roscommon, Longford, Offaly and Galway are highlighted, with each town we
+      serve marked{base ? ` and our base in ${base}` : ''}. Each town opens in Google Maps.
+    </desc>
+
+    <g class="area-map__other" aria-hidden="true">
+      {map.other.map((d) => (
+        <path d={d} />
+      ))}
+    </g>
+    <g class="area-map__served" aria-hidden="true">
+      {map.served.map((c) => (
+        <path d={c.d} />
+      ))}
+    </g>
+    <g class="area-map__labels" aria-hidden="true">
+      {map.served.map((c) => (
+        <text x={c.label[0]} y={c.label[1]} class="area-map__county">
+          {c.county}
+        </text>
+      ))}
+    </g>
+
+    <g class="area-map__towns">
+      {towns.map((t) => (
+        <a
+          href={mapsUrl(t.name, t.county)}
+          target="_blank"
+          rel="noopener"
+          aria-label={`${t.name}, Co. ${t.county}${t.base ? ' (our base)' : ''}: open in Google Maps`}
+        >
+          <title>{`${t.name}, Co. ${t.county}`}</title>
+          <circle class="area-map__hit" cx={t.x} cy={t.y} r="14" />
+          {t.base && <circle class="area-map__pulse" cx={t.x} cy={t.y} r="12" />}
+          <circle
+            class:list={['area-map__dot', { 'area-map__dot--base': t.base }]}
+            cx={t.x}
+            cy={t.y}
+            r={t.base ? 8 : 5}
+          />
+        </a>
+      ))}
+    </g>
+
+    {baseTown && (
+      <g class="area-map__base-label" aria-hidden="true">
+        <text x={baseTown.x + 16} y={baseTown.y - 12}>
+          Based in {baseTown.name}
+        </text>
+      </g>
+    )}
+  </svg>
+  <figcaption class="area-map__key">
+    <span>
+      <i class="key key--served"></i>Counties we serve
+    </span>
+    <span>
+      <i class="key key--town"></i>Towns (tap to open in Google Maps)
+    </span>
+    {base && (
+      <span>
+        <i class="key key--base"></i>Our base: {base}
+      </span>
+    )}
+  </figcaption>
+</figure>
+
+<style>
+  .area-map {
+    margin: 0;
+    display: grid;
+    gap: var(--space-s);
+  }
+
+  svg {
+    width: 100%;
+    height: auto;
+    max-height: 80svh;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background: var(--charcoal-800);
+  }
+
+  .area-map__other path {
+    fill: var(--charcoal-700);
+    stroke: var(--charcoal-900);
+    stroke-width: 1;
+    stroke-linejoin: round;
+  }
+
+  .area-map__served path {
+    fill: var(--orange-500);
+    stroke: var(--charcoal-900);
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+  }
+
+  .area-map__county {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-style: italic;
+    fill: var(--charcoal-900);
+    text-anchor: middle;
+    pointer-events: none;
+  }
+
+  .area-map__hit {
+    fill: transparent;
+  }
+
+  .area-map__dot {
+    fill: var(--ivory-100);
+    stroke: var(--charcoal-900);
+    stroke-width: 1.5;
+    transition: r var(--duration-fast) var(--ease-out);
+  }
+
+  .area-map__dot--base {
+    fill: var(--charcoal-900);
+    stroke: var(--ivory-100);
+    stroke-width: 2.5;
+  }
+
+  .area-map__towns a:is(:hover, :focus-visible) .area-map__dot {
+    r: 8;
+    fill: var(--charcoal-900);
+    stroke: var(--ivory-100);
+  }
+
+  .area-map__towns a:focus-visible {
+    outline: none;
+  }
+
+  .area-map__towns a:focus-visible .area-map__hit {
+    stroke: var(--ivory-100);
+    stroke-width: 2;
+  }
+
+  .area-map__pulse {
+    fill: none;
+    stroke: var(--ivory-100);
+    stroke-width: 1.5;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .area-map__pulse {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: pulse 2.4s var(--ease-out) infinite;
+    }
+  }
+
+  @keyframes pulse {
+    from {
+      transform: scale(0.7);
+      opacity: 0.9;
+    }
+    to {
+      transform: scale(2.2);
+      opacity: 0;
+    }
+  }
+
+  .area-map__base-label text {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-weight: 600;
+    fill: var(--ivory-100);
+    paint-order: stroke;
+    stroke: var(--charcoal-900);
+    stroke-width: 4px;
+    stroke-linejoin: round;
+  }
+
+  .area-map__key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs) var(--space-m);
+    font-size: var(--text-xs);
+    color: var(--color-text-secondary);
+  }
+
+  .area-map__key span {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+
+  .key {
+    display: inline-block;
+    width: 0.85rem;
+    height: 0.85rem;
+    border-radius: 2px;
+  }
+
+  .key--served {
+    background: var(--orange-500);
+  }
+
+  .key--town {
+    border-radius: 50%;
+    background: var(--ivory-100);
+    border: 1.5px solid var(--charcoal-900);
+  }
+
+  .key--base {
+    border-radius: 50%;
+    background: var(--charcoal-900);
+    border: 2px solid var(--ivory-100);
+  }
+</style>

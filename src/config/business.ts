@@ -66,8 +66,8 @@ export const business = {
   /** Base / registered location. Must match the Google Business Profile. */
   address: {
     streetAddress: placeholder('Street address (or omit if a service-area business)'),
-    locality: placeholder('Base town', 'Base town'),
-    region: placeholder('Base county', 'county'),
+    locality: 'Athlone', // CONFIRMED by the business (Nov 2026)
+    region: 'Co. Westmeath', // CONFIRMED by the business (Nov 2026)
     postalCode: placeholder('Eircode'),
     country: 'IE',
   } satisfies PostalAddress,
