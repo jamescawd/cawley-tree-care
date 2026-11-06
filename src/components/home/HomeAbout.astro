@@ -4,6 +4,7 @@ import PhotoFrame from '@/components/ui/PhotoFrame.astro';
 import Pending from '@/components/ui/Pending.astro';
 import Button from '@/components/ui/Button.astro';
 import { business } from '@/config/business';
+import { media } from '@/config/media';
 import { quoteHref } from '@/config/navigation';
 
 const facts = [
@@ -36,8 +37,11 @@ const facts = [
     </div>
     <PhotoFrame
       class="about__photo"
-      needed="Portrait of the Cawley's team, or the owner on site"
+      image={media.aboutTeam.src}
+      alt={media.aboutTeam.alt}
       ratio="4 / 5"
+      focus="50% 55%"
+      sizes="(min-width: 64em) 40vw, 100vw"
     />
   </div>
 </section>

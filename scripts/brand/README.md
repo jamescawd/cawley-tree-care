@@ -6,7 +6,7 @@ with Pillow and NumPy.
 
 ```bash
 python3 -I scripts/brand/make-logo-variants.py src/assets/brand/logo-original.webp <out-dir>
-python3 -I scripts/brand/make-icons-and-share-image.py <out-dir> src/assets/images/home/hero-arborist-oak.webp <out-dir>
+python3 -I scripts/brand/make-icons-and-share-image.py <out-dir> src/assets/images/work/storm-1.jpg <out-dir>
 ```
 
 The tree-only icon crop (`logo-tree.png`) is cut from `logo-mark.png`

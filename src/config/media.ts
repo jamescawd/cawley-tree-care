@@ -11,12 +11,18 @@
  *                       scene only and never claims it shows Cawley's work.
  *                       Replace with genuine photography when available.
  */
-import heroArboristOak from '@/assets/images/home/hero-arborist-oak.webp';
+import heroStormClearance from '@/assets/images/work/storm-1.jpg';
+import crewPlatform from '@/assets/images/work/removal-1.jpg';
 
 export const media = {
   homeHero: {
-    src: heroArboristOak,
-    alt: 'An arborist in an orange helmet and harness, roped into the spreading crown of a mature oak above misty green fields.',
-    illustrative: true,
+    src: heroStormClearance,
+    alt: "A Cawley's arborist in orange protective kit cutting up a storm-fallen beech across a rural lane in low evening light.",
+    illustrative: false,
+  },
+  aboutTeam: {
+    src: crewPlatform,
+    alt: "The Cawley's crew removing a large tree from a tracked access platform, with a chipper and stacked logs below.",
+    illustrative: false,
   },
 } as const;

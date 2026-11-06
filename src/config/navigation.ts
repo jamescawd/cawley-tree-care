@@ -20,7 +20,7 @@ export interface NavItem {
 export const primaryNav: NavItem[] = [
   { label: 'Tree Care', href: '/tree-care', anchor: '/#tree-care', ready: false },
   { label: 'Landscaping', href: '/landscaping', anchor: '/#landscaping', ready: false },
-  { label: 'Our Work', href: '/projects', anchor: '/#work', ready: false, requires: 'projects' },
+  { label: 'Our Work', href: '/projects', anchor: '/#work', ready: false },
   { label: 'About', href: '/about', anchor: '/#about', ready: false },
   { label: 'Areas', href: '/areas', anchor: '/#areas', ready: false },
   { label: 'Contact', href: '/contact', anchor: '/#enquiry', ready: false },
