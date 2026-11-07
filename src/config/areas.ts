@@ -8,7 +8,9 @@ import type { Maybe } from '@/lib/placeholder';
  * Location pages are deliberately NOT generated yet.
  *
  * CONFIRMED by the business (Nov 2026): the complete service area is the
- * five counties below, with their major towns, in the order supplied.
+ * five counties below. Each list starts with the 34 major towns in the order
+ * first supplied, followed by the 40 towns and villages added in Nov 2026.
+ * The area map (src/data/ireland-map.json) still marks the original 34.
  */
 
 export interface ServiceArea {
@@ -33,25 +35,78 @@ export const serviceAreas: ServiceArea[] = [
       'Castlepollard',
       'Kilbeggan',
       'Rochfortbridge',
+      'Glasson',
+      'Delvin',
+      'Tyrrellspass',
+      'Ballymore',
+      'Ballynacarrigy',
+      'Multyfarnham',
+      'Killucan',
+      'Milltownpass',
     ],
   },
   {
     id: 'roscommon',
     county: 'Roscommon',
     coverage: 'full',
-    towns: ['Roscommon Town', 'Boyle', 'Castlerea', 'Ballaghaderreen', 'Strokestown', 'Elphin'],
+    towns: [
+      'Roscommon Town',
+      'Boyle',
+      'Castlerea',
+      'Ballaghaderreen',
+      'Strokestown',
+      'Elphin',
+      'Athleague',
+      'Ballygar',
+      'Knockcroghery',
+      'Frenchpark',
+      'Roosky',
+      'Ballyleague',
+      'Ballinlough',
+      'Keadue',
+    ],
   },
   {
     id: 'longford',
     county: 'Longford',
     coverage: 'full',
-    towns: ['Longford Town', 'Edgeworthstown', 'Granard', 'Ballymahon', 'Lanesborough'],
+    towns: [
+      'Longford Town',
+      'Edgeworthstown',
+      'Granard',
+      'Ballymahon',
+      'Lanesborough',
+      'Drumlish',
+      'Newtownforbes',
+      'Keenagh',
+      'Ballinalee',
+      'Ardagh',
+      'Abbeyshrule',
+      'Ballinamuck',
+      'Newtowncashel',
+    ],
   },
   {
     id: 'offaly',
     county: 'Offaly',
     coverage: 'full',
-    towns: ['Tullamore', 'Birr', 'Edenderry', 'Clara', 'Kilcormac', 'Banagher', 'Ferbane'],
+    towns: [
+      'Tullamore',
+      'Birr',
+      'Edenderry',
+      'Clara',
+      'Kilcormac',
+      'Banagher',
+      'Ferbane',
+      'Daingean',
+      'Kinnitty',
+      'Geashill',
+      'Killeigh',
+      'Shinrone',
+      'Cloghan',
+      'Shannonbridge',
+      'Mucklagh',
+    ],
   },
   {
     id: 'galway',
@@ -67,6 +122,14 @@ export const serviceAreas: ServiceArea[] = [
       'Gort',
       'Portumna',
       'Clifden',
+      'Mountbellew',
+      'Glenamaddy',
+      'Ahascragh',
+      'Dunmore',
+      'Eyrecourt',
+      'Claregalway',
+      'Craughwell',
+      'Headford',
     ],
   },
 ];
