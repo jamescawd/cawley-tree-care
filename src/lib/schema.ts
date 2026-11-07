@@ -137,12 +137,13 @@ export const breadcrumbSchema = (crumbs: Crumb[], site: URL): JsonLd =>
   });
 
 export const serviceSchema = (
-  service: { name: string; description: string; path: string },
+  service: { name: string; description: string; path: string; serviceType?: string },
   site: URL,
 ): JsonLd =>
   withContext({
     '@type': 'Service',
     name: service.name,
+    serviceType: service.serviceType,
     description: service.description,
     url: new URL(service.path, site).href,
     provider: { '@id': businessId(site) },

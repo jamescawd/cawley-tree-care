@@ -12,7 +12,7 @@
  * TrustList, HomeAreas (map + county index) and HomeEnquiry (the working
  * quote form). Structured data: Service, BreadcrumbList and FAQPage.
  */
-import { Picture } from 'astro:assets';
+import { Picture, getImage } from 'astro:assets';
 import PageLayout from '@/layouts/PageLayout.astro';
 import Button from '@/components/ui/Button.astro';
 import SectionHeader from '@/components/ui/SectionHeader.astro';
@@ -41,10 +41,15 @@ const related = page.related.map((slug) => {
 });
 
 const schema = [
-  serviceSchema({ name: primary.name, description: page.description, path }, site),
+  serviceSchema(
+    { name: primary.name, description: page.description, path, serviceType: page.navLabel },
+    site,
+  ),
   breadcrumbSchema(
     [
+      // Matches the visible breadcrumb: Home / Services / page.
       { name: 'Home', path: '/' },
+      { name: 'Services', path: '/#services' },
       { name: page.navLabel, path },
     ],
     site,
@@ -70,6 +75,19 @@ const why = [
     text: 'One team for trees, hedges, clearance and landscaping, from the first cut to the final tidy-up.',
   },
 ];
+// Link-preview image for this page: its own hero photo, cropped to the
+// 1.91:1 share shape, up to 1200×630 (never enlarged past the original).
+const shareWidth = Math.min(1200, page.hero.image.src.width);
+const shareHeight = Math.round(shareWidth / 1.905);
+const shareImage = await getImage({
+  src: page.hero.image.src,
+  width: shareWidth,
+  height: shareHeight,
+  fit: 'cover',
+  position: 'centre',
+  format: 'jpg',
+  quality: 80,
+});
 const imgWidths = (w: number) => [400, 640, 960, 1280, 1600].filter((x) => x <= w);
 ---
 
@@ -77,6 +95,12 @@ const imgWidths = (w: number) => [400, 640, 960, 1280, 1600].filter((x) => x <= 
   title={page.seoTitle}
   absoluteTitle
   description={page.description}
+  image={{
+    src: shareImage.src,
+    alt: page.hero.image.alt,
+    width: shareWidth,
+    height: shareHeight,
+  }}
   schema={schema}
   quoteLink={quote}
 >
