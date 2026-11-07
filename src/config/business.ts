@@ -132,9 +132,8 @@ export const business = {
    * be delivered (see worker/index.ts). Until then submissions go to
    * /quote-error, which gives the phone number.
    */
-  enquiryDelivery: placeholder(
-    'Add the RESEND_API_KEY secret in Cloudflare Pages, then confirm a test enquiry arrives (functions/api/quote.ts)',
-  ),
+  /** CONFIRMED by the business (Nov 2026): test enquiry delivered to the owner's inbox. */
+  enquiryDelivery: true as Maybe<boolean>,
 
   /**
    * CONFIRMED by the business (Nov 2026): the reviews in
