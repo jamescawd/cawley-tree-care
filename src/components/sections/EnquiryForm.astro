@@ -15,9 +15,11 @@ import { services } from '@/config/services';
 
 interface Props {
   id?: string;
+  /** Pre-selected "Type of work" option, e.g. on a service page. */
+  selected?: string | undefined;
 }
 
-const { id = 'quote-form' } = Astro.props;
+const { id = 'enquiry-form', selected } = Astro.props;
 const endpoint = provided(business.enquiryEndpoint);
 const privacy = provided(business.links.privacyPolicy);
 const workTypes = [...services.map((s) => s.name), 'Not sure yet'];
@@ -96,7 +98,7 @@ const workTypes = [...services.map((s) => s.name), 'Not sure yet'];
     <select class="select" id={`${id}-service`} name="service" required>
       <option value="">Choose the type of work</option>
       {workTypes.map((t) => (
-        <option>{t}</option>
+        <option selected={t === selected}>{t}</option>
       ))}
     </select>
   </div>

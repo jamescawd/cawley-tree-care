@@ -13,6 +13,7 @@ import { serviceAnchor } from '@/config/homeServices';
 
 const anchorFor = (id: string) => `/#${serviceAnchor(id)}`;
 
+const { quoteLink = quoteHref } = Astro.props as { quoteLink?: string | undefined };
 const email = provided(business.contact.email);
 const { locality, region } = business.address;
 const privacy = provided(business.links.privacyPolicy);
@@ -58,7 +59,7 @@ const primaryNav = await getNavigation();
           </li>
         ))}
         <li>
-          <a href={quoteHref}>Request a free quote</a>
+          <a href={quoteLink}>Request a free quote</a>
         </li>
       </ul>
     </nav>

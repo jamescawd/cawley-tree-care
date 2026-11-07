@@ -1,48 +1,54 @@
-# Adding a service page
+# Service pages
 
-Every service is listed once, in `src/config/services.ts`, with a reserved
-URL (`path`). Nothing is published at those URLs until a page is written.
+Eight dedicated service pages are published, one per file in
+`src/config/servicePages/`, all rendered by `src/layouts/ServicePageLayout.astro`
+through the route `src/pages/[service].astro`.
 
-Reserved URLs: `/tree-surgery`, `/tree-removal`, `/crown-reduction`,
-`/emergency-tree-services`, `/hedge-cutting`, `/garden-clearance`,
-`/wood-chipping`, `/landscaping`.
+| URL                        | Content file                 | Registry services covered         |
+| -------------------------- | ---------------------------- | --------------------------------- |
+| `/tree-surgery`            | `tree-surgery.ts`            | tree-surgery                      |
+| `/tree-removal`            | `tree-removal.ts`            | tree-removal                      |
+| `/tree-pruning`            | `tree-pruning.ts`            | crown-reduction, deadwood-removal |
+| `/stump-grinding`          | `stump-grinding.ts`          | stump-grinding                    |
+| `/emergency-tree-services` | `emergency-tree-services.ts` | emergency                         |
+| `/hedge-cutting`           | `hedge-cutting.ts`           | hedge-cutting                     |
+| `/site-clearance`          | `site-clearance.ts`          | garden-clearance, wood-chipping   |
+| `/landscaping`             | `landscaping.ts`             | landscaping                       |
 
-## Steps
+## Page structure (same order on every page)
 
-1. Create `src/pages/<path>.astro`, e.g. `src/pages/tree-surgery.astro`:
+A hero (H1, intro, photo, quote + call buttons, trust strip) → B introduction
+and "when people call us" → C work we undertake → D why Cawley's (shared
+points, page-specific opening line) → E photos → F how it works → G areas
+(map + counties, reused from the homepage) → H FAQs + related services →
+I final call to action → quote form with the service pre-selected.
 
-   ```astro
-   ---
-   import ServicePageLayout from '@/layouts/ServicePageLayout.astro';
-   import { serviceById } from '@/config/services';
-   import heroImg from '@/assets/images/work/arborist-cutting-trunk-section.jpg';
-   ---
+Every quote button on a service page targets that page's own form
+(`#quote-form`). Structured data: `Service`, `BreadcrumbList`, `FAQPage`.
 
-   <ServicePageLayout
-     service={serviceById('tree-surgery')}
-     seoTitle="Tree Surgery in Athlone & Westmeath | Cawley's"
-     description="…unique, specific, 50–160 characters…"
-     heading="Tree surgery & pruning"
-     intro="…"
-     image={{ src: heroImg, alt: '…what the photo shows…' }}
-     faqs={[{ question: '…', answer: '…' }]}
-   >
-     <h2>…</h2>
-     <p>…genuinely useful, specific content…</p>
-   </ServicePageLayout>
-   ```
+## Editing a page
 
-2. In `src/config/services.ts`, set `page: true` for that service (and any
-   other service sharing the same `path`). Homepage, footer and
-   structured-data links switch to the new page automatically.
-3. Add the path to `PAGES` in `tests/foundation.spec.ts`.
-4. Run `pnpm verify`.
+Edit its file in `src/config/servicePages/`. To swap a photo, change the
+import at the top and update its `alt` and `caption`. Captions describe the
+kind of work shown, never a named client or location.
+
+## Adding a page
+
+1. Create `src/config/servicePages/<slug>.ts` (copy an existing one).
+2. Add it to the list in `src/config/servicePages/index.ts` (menu order).
+3. In `src/config/services.ts`, point the relevant services' `path` at
+   `/<slug>` with `page: true`.
+4. Add the path to `SERVICE_PAGES` in `tests/foundation.spec.ts`.
+5. Run `pnpm verify`.
 
 ## Quality bar (Google people-first content)
 
 Only publish a page when it says something specific and useful: what the
 work involves, when it is needed, how Cawley's approaches it, real photos of
-that service, and genuine FAQs. No thin pages, no copies of the homepage.
+that service, and genuine FAQs. Never claim equipment, qualifications,
+response times or guarantees that the owner has not confirmed. Legal and
+planning answers point people to their county council; they never promise
+that permission is not needed.
 
 ## Location pages
 

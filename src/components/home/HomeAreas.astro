@@ -4,6 +4,16 @@ import AreaGrid from '@/components/sections/AreaGrid.astro';
 import AreaMap from '@/components/sections/AreaMap.astro';
 import Button from '@/components/ui/Button.astro';
 import { quoteHref } from '@/config/navigation';
+
+interface Props {
+  /** Replaces the opening sentence (service pages). */
+  lead?: string;
+  quoteLink?: string;
+}
+const {
+  lead = 'Based in Athlone, Co. Westmeath, we work throughout five counties',
+  quoteLink = quoteHref,
+} = Astro.props;
 ---
 
 <section
@@ -17,8 +27,8 @@ import { quoteHref } from '@/config/navigation';
         Across the <em>Midlands</em> &amp; West
       </Fragment>
       <p>
-        Based in Athlone, Co. Westmeath, we work throughout five counties, including the major towns
-        below. If your town isn’t listed, ask us: we may still be able to help.
+        {lead}, including the major towns below. If your town isn’t listed, ask us: we may still be
+        able to help.
       </p>
     </SectionHeader>
     <div class="areas-section__body">
@@ -27,7 +37,7 @@ import { quoteHref } from '@/config/navigation';
       </div>
       <AreaGrid />
     </div>
-    <Button href={quoteHref} variant="secondary" arrow>
+    <Button href={quoteLink} variant="secondary" arrow>
       Check we cover your area
     </Button>
   </div>

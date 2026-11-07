@@ -1,0 +1,16 @@
+---
+/**
+ * One page per entry in src/config/servicePages (e.g. /tree-removal).
+ * Content lives in the config files; the design lives in ServicePageLayout.
+ */
+import ServicePageLayout from '@/layouts/ServicePageLayout.astro';
+import { servicePages, type ServicePage } from '@/config/servicePages';
+
+export function getStaticPaths() {
+  return servicePages.map((page) => ({ params: { service: page.slug }, props: { page } }));
+}
+
+const { page } = Astro.props as { page: ServicePage };
+---
+
+<ServicePageLayout page={page} />
