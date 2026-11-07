@@ -34,7 +34,8 @@ export interface Credential {
 export const business = {
   tradingName: "Cawley's Tree Care & Landscaping",
   shortName: "Cawley's",
-  legalName: placeholder('Registered business name (as registered with the CRO / Revenue)'),
+  /** CONFIRMED by the business (Nov 2026): registered under the trading name. */
+  legalName: "Cawley's Tree Care & Landscaping" as Maybe<string>,
   tagline: placeholder('Brand tagline / strapline'),
   description: placeholder(
     'One or two sentence description of the business (used in search results and social shares)',
