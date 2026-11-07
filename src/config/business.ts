@@ -36,7 +36,8 @@ export const business = {
   shortName: "Cawley's",
   /** CONFIRMED by the business (Nov 2026): registered under the trading name. */
   legalName: "Cawley's Tree Care & Landscaping" as Maybe<string>,
-  tagline: placeholder('Brand tagline / strapline'),
+  /** CONFIRMED by the business (Nov 2026). */
+  tagline: 'Expert Tree Care. Quality You Can Trust.' as Maybe<string>,
   description: placeholder(
     'One or two sentence description of the business (used in search results and social shares)',
   ),

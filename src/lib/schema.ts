@@ -77,6 +77,7 @@ export const localBusinessSchema = (site: URL): JsonLd => {
           }
         : undefined,
     geo: geo ? { '@type': 'GeoCoordinates', ...geo } : undefined,
+    slogan: provided(business.tagline),
     openingHours: provided(business.openingHours),
     areaServed: areaServed(),
     hasCredential: business.credentials.map((c) => ({
