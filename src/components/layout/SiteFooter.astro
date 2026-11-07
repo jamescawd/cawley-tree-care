@@ -15,6 +15,7 @@ const anchorFor = (id: string) => `/#${serviceAnchor(id)}`;
 
 const { quoteLink = quoteHref } = Astro.props as { quoteLink?: string | undefined };
 const email = provided(business.contact.email);
+const facebook = provided(business.links.facebook);
 const privacy = provided(business.links.privacyPolicy);
 const year = new Date().getFullYear();
 
@@ -85,6 +86,13 @@ const primaryNav = await getNavigation();
             </li>
           )}
           <li>{business.locationLine}</li>
+          {facebook && (
+            <li>
+              <a href={facebook} target="_blank" rel="noopener">
+                Facebook
+              </a>
+            </li>
+          )}
         </ul>
       </address>
     </div>
