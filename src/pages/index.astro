@@ -44,7 +44,8 @@ const places = serviceAreas.flatMap((a) => [`Co. ${a.county as string}`, ...(a.t
   <HomeAbout />
   <HomeWhy />
   <HomeTestimonials />
-  <Marquee items={places} duration={90} />
+  {/* Duration scales with the list so the strip keeps its original speed (34 towns → 90s). */}
+  <Marquee items={places} duration={Math.round((90 * places.length) / 39)} />
   <HomeAreas />
   <HomeProcess />
   <HomeEnquiry />
