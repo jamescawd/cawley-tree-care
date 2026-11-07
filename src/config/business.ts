@@ -39,9 +39,9 @@ export const business = {
   legalName: "Cawley's Tree Care & Landscaping" as Maybe<string>,
   /** CONFIRMED by the business (Nov 2026). */
   tagline: 'Expert Tree Care. Quality You Can Trust.' as Maybe<string>,
-  description: placeholder(
-    'One or two sentence description of the business (used in search results and social shares)',
-  ),
+  /** CONFIRMED by the business (Nov 2026): matches the Google Business Profile description. */
+  description:
+    "Cawley's Tree Care & Landscaping provides professional tree surgery, tree removal, tree pruning, stump grinding, hedge cutting, emergency tree services, site clearance and landscaping. With over 15 years of experience, we are fully insured and committed to delivering reliable, high-quality workmanship. We work with domestic and commercial customers across Westmeath, Roscommon, Longford, Offaly and Galway. Whether you need a tree removed, hedges maintained, a dangerous tree dealt with or your outdoor space improved, we provide a professional and dependable service from start to finish." as Maybe<string>,
   /** Positioning: tree care leads, landscaping supports. */
   serviceCategories: [
     { id: 'tree-care', name: 'Tree Care & Tree Surgery', priority: 'primary' },
