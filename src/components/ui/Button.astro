@@ -23,6 +23,9 @@ type Props = {
 
 const { variant = 'primary', size = 'md', arrow = false, class: className, ...rest } = Astro.props;
 const classes = ['btn', `btn--${variant}`, `btn--${size}`, className];
+// A <button> defaults to type="button"; a caller's type (e.g. "submit") wins.
+// Set once only: a duplicate type attribute renders broken markup.
+const { type: buttonType = 'button', ...buttonRest } = rest as HTMLAttributes<'button'>;
 ---
 
 {'href' in rest && rest.href ? (
@@ -33,7 +36,7 @@ const classes = ['btn', `btn--${variant}`, `btn--${size}`, className];
     {arrow && <ArrowIcon />}
   </a>
 ) : (
-  <button class:list={classes} type="button" {...(rest as HTMLAttributes<'button'>)}>
+  <button class:list={classes} type={buttonType} {...buttonRest}>
     <span>
       <slot />
     </span>
