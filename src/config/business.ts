@@ -157,6 +157,7 @@ export const business = {
     googleHasReviews: false,
     /** CONFIRMED by the business (Nov 2026): Facebook share link. */
     facebook: 'https://www.facebook.com/share/1CZ7hHgcMq/' as Maybe<string>,
-    instagram: placeholder('Instagram profile URL (remove if not used)'),
+    /** No Instagram account (confirmed Nov 2026). Add the URL here if one is created. */
+    instagram: undefined as Maybe<string> | undefined,
   },
 } as const;
