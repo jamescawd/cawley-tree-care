@@ -145,8 +145,8 @@ export const business = {
 
   links: {
     privacyPolicy: '/privacy',
-    /** CONFIRMED by the business (Nov 2026): Google Business Profile share link. */
-    googleBusinessProfile: 'https://share.google/WXu3ufvKIlfQJZHBu' as Maybe<string>,
+    /** CONFIRMED by the business (Nov 2026): Google Business Profile (Google Maps link). */
+    googleBusinessProfile: 'https://maps.app.goo.gl/R4FtkTmv1xhLis16A' as Maybe<string>,
     /**
      * Set to true once the profile has a few genuine Google reviews: the
      * button then reads "Read our reviews on Google" instead of "Find us on Google".
