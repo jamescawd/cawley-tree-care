@@ -1,5 +1,6 @@
 /**
- * No response times or 24/7 cover are promised: none have been confirmed.
+ * Customers can call 24/7 about emergencies (confirmed by the owner, Nov 2026).
+ * No response times are promised: none have been confirmed.
  */
 import type { ServicePage } from './types';
 import roof from '@/assets/images/work/storm-tree-fallen-on-house-roof.jpg';
@@ -24,7 +25,7 @@ export const emergencyTreeServices: ServicePage = {
     accent: 'dangerous?',
     end: 'Call us.',
     intro:
-      'Storms leave trees split, leaning or down across lanes, driveways and roofs. Keep people clear and ring us: we cover Westmeath, Roscommon, Longford, Offaly and Galway and will tell you honestly how quickly we can get to you.',
+      'Storms leave trees split, leaning or down across lanes, driveways and roofs. Keep people clear and ring us, 24/7: we cover Westmeath, Roscommon, Longford, Offaly and Galway and will tell you honestly how quickly we can get to you.',
     image: {
       src: roof,
       alt: 'A storm-felled tree leaning across a wet driveway and onto the roof of a white house.',
@@ -148,7 +149,7 @@ export const emergencyTreeServices: ServicePage = {
     {
       question: 'How quickly can you come out?',
       answer:
-        'It depends on where you are and how many trees are down at the time, especially after a big storm. Call us and we will give you an honest answer about when we can get to you.',
+        'You can call us 24/7 about an emergency. How quickly we can get to you depends on where you are and how many trees are down at the time, especially after a big storm, so we will give you an honest answer when you call.',
     },
     {
       question: 'What should I do while I wait?',

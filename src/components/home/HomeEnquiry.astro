@@ -49,7 +49,11 @@ const hours = business.openingHours;
           {!isPlaceholder(hours) && (
             <div>
               <dt>Hours</dt>
-              <dd>{hours.join(', ')}</dd>
+              <dd>
+                {business.openingHoursDisplay}
+                <br />
+                {business.emergencyContact}
+              </dd>
             </div>
           )}
         </dl>

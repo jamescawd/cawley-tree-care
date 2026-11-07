@@ -88,8 +88,16 @@ export const business = {
     longitude: number;
   }>,
 
-  /** schema.org format, e.g. "Mo-Fr 08:00-18:00". */
-  openingHours: placeholder<string[]>('Opening hours', 'Opening hours'),
+  /**
+   * CONFIRMED by the business (Nov 2026): 8am to 6pm, Monday to Saturday;
+   * customers can call 24/7 about emergencies. "24/7" means the phone can
+   * be rung at any time, not a guaranteed response time.
+   */
+  /** schema.org format, used in structured data. */
+  openingHours: ['Mo-Sa 08:00-18:00'] as Maybe<string[]>,
+  /** How the hours are shown on the page. */
+  openingHoursDisplay: 'Monday to Saturday, 8am to 6pm',
+  emergencyContact: 'Emergencies: call us 24/7',
 
   /** Verified qualifications and memberships only. Leave empty until confirmed. */
   credentials: [] as Credential[],
@@ -122,7 +130,7 @@ export const business = {
    * /quote-error, which gives the phone number.
    */
   enquiryDelivery: placeholder(
-    'Set RESEND_API_KEY, ENQUIRY_TO and ENQUIRY_FROM in Cloudflare so quote emails can be sent',
+    'Quote form not live: the site is on Cloudflare Pages, which does not run worker/index.ts. Connect the handler, then set RESEND_API_KEY, ENQUIRY_TO, ENQUIRY_FROM',
   ),
 
   /**
