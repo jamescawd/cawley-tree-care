@@ -100,3 +100,48 @@ test('other requests are served as static files', async () => {
   const res = await worker.fetch(new Request('https://cawleytreecare.ie/'), { ASSETS: assets });
   expect(await res.text()).toBe('static');
 });
+
+test('the Pages Function sends enquiries to the configured inbox', async () => {
+  const { onRequest, DEFAULTS } = await import('../functions/api/quote');
+  const original = globalThis.fetch;
+  let sent: Record<string, unknown> | undefined;
+  globalThis.fetch = (async (_url: string, init: RequestInit) => {
+    sent = JSON.parse(String(init.body));
+    return new Response('{"id":"1"}', { status: 200 });
+  }) as typeof fetch;
+  try {
+    // Without the secret it must never report success.
+    const missingKey = await onRequest({ request: quote(valid), env: { ASSETS: assets } });
+    expect(missingKey.headers.get('location')).toMatch(/\/quote-error$/);
+    expect(sent).toBeUndefined();
+
+    const res = await onRequest({
+      request: quote(valid),
+      env: { ASSETS: assets, RESEND_API_KEY: 'k' },
+    });
+    expect(res.headers.get('location')).toMatch(/\/quote-sent$/);
+    expect(sent?.to).toEqual([DEFAULTS.ENQUIRY_TO]);
+    expect(sent?.from).toBe(DEFAULTS.ENQUIRY_FROM);
+  } finally {
+    globalThis.fetch = original;
+  }
+});
+
+test('an unreachable email provider shows the error page, not a crash', async () => {
+  const original = globalThis.fetch;
+  globalThis.fetch = (async () => {
+    throw new TypeError('network down');
+  }) as typeof fetch;
+  try {
+    const res = await worker.fetch(quote(valid), {
+      ASSETS: assets,
+      RESEND_API_KEY: 'k',
+      ENQUIRY_TO: 'a@b.ie',
+      ENQUIRY_FROM: 'c@d.ie',
+    });
+    expect(res.status).toBe(303);
+    expect(res.headers.get('location')).toMatch(/\/quote-error$/);
+  } finally {
+    globalThis.fetch = original;
+  }
+});

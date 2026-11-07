@@ -4,7 +4,7 @@
  * Every builder drops placeholder values, so structured data only ever
  * contains confirmed facts. Google penalises inaccurate markup.
  */
-import { business } from '@/config/business';
+import { business, type PostalAddress } from '@/config/business';
 import { serviceAreas } from '@/config/areas';
 import { provided } from '@/lib/placeholder';
 import { services } from '@/config/services';
@@ -52,9 +52,11 @@ export const businessId = (site: URL) => new URL('/#business', site).href;
 
 export const localBusinessSchema = (site: URL): JsonLd => {
   const { address, contact, links } = business;
-  const geo = provided(business.geo);
-  const street = provided(address.streetAddress);
-  const locality = provided(address.locality);
+  const geo = business.geo;
+  // Widen to PostalAddress: the business publishes the town only for now.
+  const addr: PostalAddress = address;
+  const street = provided(addr.streetAddress);
+  const locality = provided(addr.locality);
 
   return withContext({
     '@type': 'HomeAndConstructionBusiness',
@@ -72,11 +74,12 @@ export const localBusinessSchema = (site: URL): JsonLd => {
             streetAddress: street,
             addressLocality: locality,
             addressRegion: provided(address.region),
-            postalCode: provided(address.postalCode),
+            postalCode: provided(addr.postalCode),
             addressCountry: address.country,
           }
         : undefined,
     geo: geo ? { '@type': 'GeoCoordinates', ...geo } : undefined,
+    slogan: provided(business.tagline),
     openingHours: provided(business.openingHours),
     areaServed: areaServed(),
     hasCredential: business.credentials.map((c) => ({

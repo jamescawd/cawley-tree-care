@@ -11,13 +11,14 @@ import { placeholder, type Maybe } from '@/lib/placeholder';
  */
 
 export interface PostalAddress {
-  streetAddress: Maybe<string>;
+  /** Omitted: service-area business, town only (confirmed Nov 2026). */
+  streetAddress?: Maybe<string>;
   /** Town / city. */
   locality: Maybe<string>;
   /** County, e.g. "Co. Kildare". */
   region: Maybe<string>;
   /** Eircode. */
-  postalCode: Maybe<string>;
+  postalCode?: Maybe<string>;
   /** ISO 3166-1 alpha-2. */
   country: 'IE';
 }
@@ -34,11 +35,13 @@ export interface Credential {
 export const business = {
   tradingName: "Cawley's Tree Care & Landscaping",
   shortName: "Cawley's",
-  legalName: placeholder('Registered business name (as registered with the CRO / Revenue)'),
-  tagline: placeholder('Brand tagline / strapline'),
-  description: placeholder(
-    'One or two sentence description of the business (used in search results and social shares)',
-  ),
+  /** CONFIRMED by the business (Nov 2026): registered under the trading name. */
+  legalName: "Cawley's Tree Care & Landscaping" as Maybe<string>,
+  /** CONFIRMED by the business (Nov 2026). */
+  tagline: 'Expert Tree Care. Quality You Can Trust.' as Maybe<string>,
+  /** CONFIRMED by the business (Nov 2026): matches the Google Business Profile description. */
+  description:
+    "Cawley's Tree Care & Landscaping provides professional tree surgery, tree removal, tree pruning, stump grinding, hedge cutting, emergency tree services, site clearance and landscaping. With over 15 years of experience, we are fully insured and committed to delivering reliable, high-quality workmanship. We work with domestic and commercial customers across Westmeath, Roscommon, Longford, Offaly and Galway. Whether you need a tree removed, hedges maintained, a dangerous tree dealt with or your outdoor space improved, we provide a professional and dependable service from start to finish." as Maybe<string>,
   /** Positioning: tree care leads, landscaping supports. */
   serviceCategories: [
     { id: 'tree-care', name: 'Tree Care & Tree Surgery', priority: 'primary' },
@@ -75,18 +78,18 @@ export const business = {
 
   /** Base / registered location. Must match the Google Business Profile. */
   address: {
-    streetAddress: placeholder('Street address (or omit if a service-area business)'),
     locality: 'Athlone', // CONFIRMED by the business (Nov 2026)
     region: 'Co. Westmeath', // CONFIRMED by the business (Nov 2026)
-    postalCode: placeholder('Eircode'),
     country: 'IE',
   } satisfies PostalAddress,
 
-  /** Latitude / longitude of the base, for maps and structured data. */
-  geo: placeholder('Map coordinates of the base location') as Maybe<{
-    latitude: number;
-    longitude: number;
-  }>,
+  /**
+   * CONFIRMED by the business (Nov 2026): show the town only, no street
+   * address, Eircode or map pin (service-area business).
+   */
+  locationLine: 'Based in Athlone, Co. Westmeath | Serving surrounding counties',
+  /** Latitude / longitude of the base: not published (town only). */
+  geo: undefined as { latitude: number; longitude: number } | undefined,
 
   /**
    * CONFIRMED by the business (Nov 2026): 8am to 6pm, Monday to Saturday;
@@ -130,7 +133,7 @@ export const business = {
    * /quote-error, which gives the phone number.
    */
   enquiryDelivery: placeholder(
-    'Quote form not live: the site is on Cloudflare Pages, which does not run worker/index.ts. Connect the handler, then set RESEND_API_KEY, ENQUIRY_TO, ENQUIRY_FROM',
+    'Add the RESEND_API_KEY secret in Cloudflare Pages, then confirm a test enquiry arrives (functions/api/quote.ts)',
   ),
 
   /**
@@ -141,7 +144,8 @@ export const business = {
   reviewsConfirmed: true,
 
   /** The privacy notice at /privacy was drafted for the business to review. */
-  privacyReviewed: placeholder('Review and approve the privacy notice at /privacy'),
+  /** CONFIRMED by the business (Nov 2026): privacy notice reviewed and approved. */
+  privacyReviewed: true as Maybe<boolean>,
 
   links: {
     privacyPolicy: '/privacy',
@@ -152,7 +156,8 @@ export const business = {
      * button then reads "Read our reviews on Google" instead of "Find us on Google".
      */
     googleHasReviews: false,
-    facebook: placeholder('Facebook page URL (remove if not used)'),
+    /** CONFIRMED by the business (Nov 2026): Facebook share link. */
+    facebook: 'https://www.facebook.com/share/1CZ7hHgcMq/' as Maybe<string>,
     instagram: placeholder('Instagram profile URL (remove if not used)'),
   },
 } as const;

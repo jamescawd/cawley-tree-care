@@ -319,13 +319,14 @@ in `scripts/maps/build-ireland-map.py`, then re-run the script (see `scripts/map
   (silently accepted, not emailed); sends via **Resend** API with photos
   attached (≤5 MB each, ≤12 MB total); redirects to `/quote-sent` **only**
   when Resend accepts, otherwise `/quote-error`.
-- **Not connected on the live site (found Nov 2026):** the site deploys on **Cloudflare
-  Pages** (checks named "Cloudflare Pages", previews on `*.pages.dev`), but `worker/index.ts`
-  is set up for Cloudflare Workers in `wrangler.jsonc`, which Pages ignores. So POST
-  `/api/quote` never reaches the handler. The owner chose to leave the backend unchanged for
-  now. Fix options: a small Pages Function at `functions/api/quote.ts` that calls the existing
-  handler, or move the project to Workers. Temporary receiving address agreed with the owner:
-  the owner's own Gmail (not to be shown on the site); not yet configured anywhere.
+- **Connected via a Pages Function (Nov 2026):** `functions/api/quote.ts` runs the unchanged
+  handler in `worker/index.ts` on Cloudflare Pages. Defaults (server-side only, never on the site):
+  enquiries to the owner's temporary Gmail, sent from Resend's test sender `onboarding@resend.dev`
+  (which only delivers to the Resend account owner's address, so the Resend account must use that
+  Gmail). Cloudflare variables `ENQUIRY_TO` / `ENQUIRY_FROM` override the defaults. Still needs the
+  `RESEND_API_KEY` secret in Cloudflare Pages → Settings → Variables and Secrets, then a real test.
+  Later: verify cawleytreecare.ie in Resend and set `ENQUIRY_FROM` to e.g. quotes@cawleytreecare.ie
+  and `ENQUIRY_TO` to the business inbox.
 - **Not yet delivering**: needs `RESEND_API_KEY` (secret), `ENQUIRY_TO`,
   `ENQUIRY_FROM` set in Cloudflare → Workers & Pages → cawley-tree-care →
   Settings, and a domain verified at resend.com. Until then every submission
