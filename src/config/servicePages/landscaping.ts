@@ -26,7 +26,7 @@ export const landscaping: ServicePage = {
     accent: 'treeline',
     end: 'to the lawn.',
     intro:
-      'Once the trees and hedges are right, the rest of the garden often needs attention too. We take on planting, lawns and turfing, patios and paving, fencing and ongoing garden maintenance.',
+      'Planting, lawns and turfing, patios and paving, fencing and garden maintenance, from the same team that looks after your trees. Across Westmeath, Roscommon, Longford, Offaly and Galway, with a free quotation first.',
     image: {
       src: lawn,
       alt: 'A sunlit lawn running alongside a long, neatly trimmed conifer hedge beside a white bungalow.',
@@ -80,6 +80,7 @@ export const landscaping: ServicePage = {
       },
       {
         title: 'Garden clearance',
+        href: '/site-clearance',
         text: 'Overgrown areas cleared first, ready for the new work.',
       },
     ],
@@ -135,7 +136,8 @@ export const landscaping: ServicePage = {
     ],
   },
 
-  areas: 'Based in Athlone, we take on landscaping and garden work across five counties.',
+  areas:
+    'Based in Athlone, we take on landscaping and garden work throughout Westmeath, Roscommon, Longford, Offaly and Galway',
 
   faqs: [
     {
@@ -157,12 +159,22 @@ export const landscaping: ServicePage = {
       question: 'Can you put up fencing after a hedge is removed?',
       answer: 'Yes. Removing an old hedge and fencing the boundary can be quoted as one job.',
     },
+    {
+      question: 'How much does landscaping cost?',
+      answer:
+        'Every garden and plan is different, so there is no set price. Tell us what you have in mind, with a few photos of the space, and we will give you a free quotation.',
+    },
+    {
+      question: 'Do you work in my area?',
+      answer:
+        'We take on landscaping and garden work throughout Westmeath, Roscommon, Longford, Offaly and Galway from our base in Athlone. If you are unsure whether we reach you, just ask.',
+    },
   ],
 
   cta: {
     title: 'Let’s make the most of',
     accent: 'your garden',
-    text: 'Tell us what you have in mind. We will talk it through and give you a free, clear quotation.',
+    text: 'Tell us what you have in mind. We cover Westmeath, Roscommon, Longford, Offaly and Galway, and we will talk it through and give you a free, clear quotation.',
   },
 
   related: ['site-clearance', 'hedge-cutting', 'tree-removal', 'stump-grinding'],

@@ -20,7 +20,7 @@ export const hedgeCutting: ServicePage = {
     accent: 'clean, even',
     end: 'finish.',
     intro:
-      'Conifer, laurel and beech hedges can get away from you quickly. We trim and shape them, bring overgrown hedges back down in height and width, and remove hedges entirely where you want the space back.',
+      'We trim and shape conifer, laurel and beech hedges, bring overgrown ones back down to size and remove hedges where you want the space back. Across Westmeath, Roscommon, Longford, Offaly and Galway, with a free quotation first.',
     image: {
       src: tripod,
       alt: 'A worker on a tripod ladder trimming the top of a tall conifer hedge, with overhead lines above.',
@@ -66,6 +66,7 @@ export const hedgeCutting: ServicePage = {
       },
       {
         title: 'Hedge removal',
+        href: '/site-clearance',
         text: 'Taking out unwanted hedges completely, ready for fencing, planting or landscaping.',
       },
       {
@@ -134,7 +135,8 @@ export const hedgeCutting: ServicePage = {
     ],
   },
 
-  areas: 'Based in Athlone, we cut and maintain hedges across five counties.',
+  areas:
+    'Based in Athlone, we cut and maintain hedges throughout Westmeath, Roscommon, Longford, Offaly and Galway',
 
   faqs: [
     {
@@ -162,12 +164,17 @@ export const hedgeCutting: ServicePage = {
       answer:
         'Yes. Many hedges look best with a trim once or twice a year, and we can arrange regular visits to keep them in shape.',
     },
+    {
+      question: 'How much does hedge cutting cost?',
+      answer:
+        'Mostly it depends on the length and height of the hedge, how overgrown it is and the access to it. A photo and a rough length is often enough for us to give you a free quotation.',
+    },
   ],
 
   cta: {
     title: 'Hedge got',
     accent: 'out of hand?',
-    text: 'Send us a photo and roughly how long it is. We will give you a free quote to bring it back into shape.',
+    text: 'Send us a photo and roughly how long it is. We cover Westmeath, Roscommon, Longford, Offaly and Galway, and the quotation to bring it back into shape is free.',
   },
 
   related: ['tree-pruning', 'site-clearance', 'landscaping', 'tree-surgery'],
