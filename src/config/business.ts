@@ -144,7 +144,8 @@ export const business = {
   reviewsConfirmed: true,
 
   /** The privacy notice at /privacy was drafted for the business to review. */
-  privacyReviewed: placeholder('Review and approve the privacy notice at /privacy'),
+  /** CONFIRMED by the business (Nov 2026): privacy notice reviewed and approved. */
+  privacyReviewed: true as Maybe<boolean>,
 
   links: {
     privacyPolicy: '/privacy',
