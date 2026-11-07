@@ -122,8 +122,10 @@ export const serviceChapters: ServiceChapter[] = [
 ];
 
 /**
- * Homepage section for a service: its chapter, or the dedicated emergency
- * section for emergency work.
+ * Homepage section for a service: its chapter, the emergency section, or
+ * the services intro for services without a chapter (e.g. stump grinding).
+ * Only used for services that have no dedicated page.
  */
 export const serviceAnchor = (id: string): string =>
-  serviceChapters.find((c) => c.services.some((s) => s.id === id))?.id ?? 'emergency';
+  serviceChapters.find((c) => c.services.some((s) => s.id === id))?.id ??
+  (id === 'emergency' ? 'emergency' : 'services');

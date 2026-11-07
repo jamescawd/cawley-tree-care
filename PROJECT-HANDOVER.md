@@ -202,8 +202,9 @@ lawns & turfing, patios & paving, fencing, garden maintenance, garden clearance.
 
 ### NOT offered
 
-- **Stump grinding.** Removed everywhere (copy, form, data). A test fails if
-  the word "stump" appears on `/` or `/privacy`. Do not add it back.
+- **Stump grinding** was removed in Nov 2026, then **confirmed as offered**
+  later in Nov 2026. It is back in the registry, form and structured data,
+  with its own page (`/stump-grinding`).
 - No 24/7 emergency promise, response times or guarantees have been stated.
 
 ---
@@ -259,7 +260,14 @@ lawns & turfing, patios & paving, fencing, garden maintenance, garden clearance.
 | `/styleguide`                       | internal design-system reference                              | noindex            |
 | `/robots.txt`, `/sitemap-index.xml` | generated                                                     | n/a                |
 
-### Planned (reserved, NOT built; do not create thin pages)
+### Service pages (published, see `docs/SERVICE-PAGES.md`)
+
+`/tree-surgery`, `/tree-removal`, `/tree-pruning`, `/stump-grinding`,
+`/emergency-tree-services`, `/hedge-cutting`, `/site-clearance`, `/landscaping`.
+Content in `src/config/servicePages/`, design in `ServicePageLayout`. All
+eight are in the header Services dropdown and the mobile menu.
+
+### Previously planned (superseded)
 
 `/tree-surgery`, `/tree-removal`, `/crown-reduction`, `/emergency-tree-services`,
 `/hedge-cutting`, `/garden-clearance`, `/wood-chipping`, `/landscaping`.
@@ -376,7 +384,6 @@ Service area (`src/config/areas.ts`, confirmed, complete):
 - **Never invent business facts** (qualifications, insurance details, reviews,
   ratings, addresses, hours, projects, guarantees). Use `placeholder('…')`
   from `src/lib/placeholder.ts` for anything unconfirmed.
-- **Never re-add stump grinding.**
 - Edit data, not markup: services → `config/services.ts` / `homeServices.ts`;
   facts → `config/business.ts`; gallery → `config/gallery.ts`; areas →
   `config/areas.ts`; reviews → `content/testimonials/`.

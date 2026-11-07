@@ -1,18 +1,22 @@
 ---
-/** Standard page: BaseLayout + site header + site footer. */
+/**
+ * Standard page: BaseLayout + site header + site footer.
+ * `quoteLink`: pages with their own quote form pass "#quote-form" so the
+ * header and mobile-bar quote buttons stay on the page.
+ */
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import SiteHeader from '@/components/layout/SiteHeader.astro';
 import SiteFooter from '@/components/layout/SiteFooter.astro';
 import MobileActionBar from '@/components/layout/MobileActionBar.astro';
 import type { ComponentProps } from 'astro/types';
 
-type Props = ComponentProps<typeof BaseLayout>;
-const props = Astro.props;
+type Props = ComponentProps<typeof BaseLayout> & { quoteLink?: string };
+const { quoteLink, ...props } = Astro.props;
 ---
 
 <BaseLayout {...props}>
-  <SiteHeader slot="header" />
+  <SiteHeader slot="header" quoteLink={quoteLink} />
   <slot />
-  <SiteFooter slot="footer" />
-  <MobileActionBar slot="footer" />
+  <SiteFooter slot="footer" quoteLink={quoteLink} />
+  <MobileActionBar slot="footer" quoteLink={quoteLink} />
 </BaseLayout>

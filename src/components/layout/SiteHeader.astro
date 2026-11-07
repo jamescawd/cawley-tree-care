@@ -11,8 +11,12 @@ import PhoneLink from '@/components/ui/PhoneLink.astro';
 import { navHref, quoteHref } from '@/config/navigation';
 import { getNavigation } from '@/lib/navigation';
 import { business } from '@/config/business';
+import { servicePages } from '@/config/servicePages';
 
+const { quoteLink = quoteHref } = Astro.props as { quoteLink?: string | undefined };
 const primaryNav = await getNavigation();
+const serviceLinks = servicePages.map((p) => ({ label: p.navLabel, href: `/${p.slug}` }));
+const current = Astro.url.pathname.replace(/\/$/, '');
 ---
 
 <header class="site-header surface-dark">
@@ -21,17 +25,37 @@ const primaryNav = await getNavigation();
 
     <nav class="site-nav" aria-label="Primary">
       <ul role="list">
-        {primaryNav.map((item) => (
-          <li>
-            <a href={navHref(item)}>{item.label}</a>
-          </li>
-        ))}
+        {primaryNav.map((item) =>
+          item.label === 'Services' ? (
+            <li class="site-nav__has-sub">
+              <a href={navHref(item)}>
+                {item.label}
+                <span class="site-nav__caret" aria-hidden="true"></span>
+              </a>
+              <div class="site-nav__sub surface-dark">
+                <ul role="list" aria-label="Services">
+                  {serviceLinks.map((s) => (
+                    <li>
+                      <a href={s.href} aria-current={current === s.href ? 'page' : undefined}>
+                        {s.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          ) : (
+            <li>
+              <a href={navHref(item)}>{item.label}</a>
+            </li>
+          ),
+        )}
       </ul>
     </nav>
 
     <div class="site-header__actions">
       <PhoneLink class="site-header__phone" />
-      <Button href={quoteHref} class="site-header__quote">
+      <Button href={quoteLink} class="site-header__quote">
         Request a free quote
       </Button>
       <button class="menu-toggle" type="button" popovertarget="mobile-menu" aria-label="Open menu">
@@ -61,12 +85,23 @@ const primaryNav = await getNavigation();
         {primaryNav.map((item) => (
           <li>
             <a href={navHref(item)}>{item.label}</a>
+            {item.label === 'Services' && (
+              <ul role="list" class="mobile-menu__sub" aria-label="Services">
+                {serviceLinks.map((s) => (
+                  <li>
+                    <a href={s.href} aria-current={current === s.href ? 'page' : undefined}>
+                      {s.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
           </li>
         ))}
       </ul>
     </nav>
     <div class="mobile-menu__footer">
-      <Button href={quoteHref} size="lg" arrow>
+      <Button href={quoteLink} size="lg" arrow>
         Request a free quote
       </Button>
       <PhoneLink class="mobile-menu__phone" prefix="Call" />
@@ -185,6 +220,84 @@ const primaryNav = await getNavigation();
 
   .site-nav a:hover::after {
     transform: scaleX(1);
+  }
+
+  /* Services dropdown: opens on hover or keyboard focus, no JavaScript. */
+  .site-nav__has-sub {
+    position: relative;
+  }
+
+  .site-nav__caret {
+    display: inline-block;
+    width: 0.4em;
+    height: 0.4em;
+    margin-inline-start: 0.45em;
+    border-inline-end: 1.5px solid currentColor;
+    border-block-end: 1.5px solid currentColor;
+    transform: translateY(-0.2em) rotate(45deg);
+  }
+
+  .site-nav__sub {
+    position: absolute;
+    inset-block-start: 100%;
+    inset-inline-start: -1.25rem;
+    min-width: 17rem;
+    padding: var(--space-2xs) 0;
+    border: 1px solid var(--color-border);
+    border-block-start: 2px solid var(--orange-500);
+    box-shadow: 0 1.5rem 3rem rgb(0 0 0 / 0.35);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(0.4rem);
+    transition:
+      opacity var(--duration-fast) var(--ease-out),
+      transform var(--duration-fast) var(--ease-out),
+      visibility 0s linear var(--duration-fast);
+  }
+
+  .site-nav__has-sub:is(:hover, :focus-within) .site-nav__sub {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: 0s;
+  }
+
+  .site-nav .site-nav__sub ul {
+    display: grid;
+    gap: 0;
+  }
+
+  .site-nav .site-nav__sub a {
+    display: block;
+    padding: 0.6rem 1.25rem;
+  }
+
+  .site-nav .site-nav__sub a::after {
+    display: none;
+  }
+
+  .site-nav .site-nav__sub a:hover,
+  .site-nav .site-nav__sub a[aria-current] {
+    color: var(--orange-500);
+    background: var(--charcoal-800);
+  }
+
+  .mobile-menu__sub {
+    display: grid;
+    padding-block: var(--space-2xs) var(--space-s);
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  .mobile-menu__list .mobile-menu__sub a {
+    padding-block: 0.7rem;
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    color: var(--color-text-secondary);
+    border: 0;
+  }
+
+  .mobile-menu__list .mobile-menu__sub a[aria-current] {
+    color: var(--orange-500);
   }
 
   .site-header__actions {

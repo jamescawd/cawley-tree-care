@@ -5,6 +5,11 @@ import TrustList from '@/components/ui/TrustList.astro';
 import { business } from '@/config/business';
 import { isPlaceholder, provided } from '@/lib/placeholder';
 
+interface Props {
+  /** Service name to pre-select in "Type of work" (service pages). */
+  service?: string;
+}
+const { service } = Astro.props;
 const email = provided(business.contact.email);
 const hours = business.openingHours;
 ---
@@ -54,7 +59,7 @@ const hours = business.openingHours;
     </div>
 
     <div id="quote-form" class="enquiry-section__panel surface-light">
-      <EnquiryForm />
+      <EnquiryForm selected={service} />
     </div>
   </div>
 </section>

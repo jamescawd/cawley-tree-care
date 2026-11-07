@@ -9,11 +9,12 @@ import { business } from '@/config/business';
 import { provided } from '@/lib/placeholder';
 import { quoteHref } from '@/config/navigation';
 
+const { quoteLink = quoteHref } = Astro.props as { quoteLink?: string | undefined };
 const phone = provided(business.contact.phone);
 ---
 
 <div class="action-bar surface-dark" role="region" aria-label="Quick contact">
-  <Button href={quoteHref} size="lg" arrow class="action-bar__quote">
+  <Button href={quoteLink} size="lg" arrow class="action-bar__quote">
     Request a free quote
   </Button>
   {phone && (
@@ -30,7 +31,7 @@ const phone = provided(business.contact.phone);
   // Hide the bar while the hero buttons or the quote form are on screen, so
   // it never doubles up the hero's own call/quote buttons or covers fields.
   const bar = document.querySelector<HTMLElement>('.action-bar');
-  const targets = [...document.querySelectorAll('.hero__ctas, #enquiry form')];
+  const targets = [...document.querySelectorAll('.hero__ctas, .svc-hero__ctas, #enquiry form')];
   if (bar && targets.length && 'IntersectionObserver' in window) {
     const visible = new Set<Element>();
     const io = new IntersectionObserver((entries) => {

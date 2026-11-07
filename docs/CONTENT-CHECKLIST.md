@@ -40,7 +40,7 @@ production until all are resolved** (or deliberately removed).
 
 ## Update (Nov 2026)
 
-- [x] Services confirmed: nine services; stump grinding removed (not offered)
+- [x] Services confirmed: ten services; stump grinding re-confirmed as offered (Nov 2026)
 - [x] About text written from confirmed facts only (no founder story)
 - [x] Customer reviews confirmed genuine; review mentioning stump grinding hidden
 - [ ] Enquiry email: info@qualitytreecare.com or .ie? Neither matches cawleytreecare.ie

@@ -64,6 +64,11 @@ import { quoteHref } from '@/config/navigation';
               <ArrowIcon />
             </span>
           </a>
+          {c.services[0]!.page && (
+            <a class="chapter__more" href={c.services[0]!.path}>
+              More about {c.label.toLowerCase()}
+            </a>
+          )}
         </div>
       </article>
     ))}
@@ -245,6 +250,21 @@ import { quoteHref } from '@/config/navigation';
   .chapter__link span:first-child {
     border-block-end: 1px solid var(--orange-500);
     padding-block-end: 0.2em;
+  }
+
+  .chapter__more {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-target);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  .chapter__more:hover {
+    color: var(--color-text);
   }
 
   .chapter__link-icon {

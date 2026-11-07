@@ -3,13 +3,13 @@
  * offers (confirmed by the business, Nov 2026). Drives the homepage service
  * chapters, the quote form, the footer, navigation and structured data.
  *
- * Stump grinding is NOT offered and must not be added.
+ * Stump grinding was added in Nov 2026, confirmed by the owner.
  *
- * FUTURE SERVICE PAGES
- * Each service has a reserved URL (`path`). Set `page: true` once its page
- * exists at src/pages/<path>.astro (built with ServicePageLayout); every
- * link on the site then switches from the homepage section to that page.
- * Do not publish thin or unfinished pages.
+ * SERVICE PAGES
+ * Each service points at its dedicated page (`path`). Pages are built from
+ * src/config/servicePages/ by src/pages/[service].astro. Several services
+ * can share one page (e.g. crown reduction and deadwood under /tree-pruning).
+ * `page: true` sends links to the homepage section instead.
  */
 
 export type ServiceGroup = 'tree-care' | 'garden';
@@ -18,9 +18,9 @@ export interface Service {
   id: string;
   name: string;
   group: ServiceGroup;
-  /** Reserved URL for its future dedicated page. */
+  /** URL of its dedicated page. */
   path: string;
-  /** Set true only once the dedicated page is published. */
+  /** True once the dedicated page is published. */
   page: boolean;
   /** One plain sentence: what the service is. */
   summary: string;
@@ -32,23 +32,23 @@ export const services: Service[] = [
     name: 'Tree Surgery & Pruning',
     group: 'tree-care',
     path: '/tree-surgery',
-    page: false,
+    page: true,
     summary: 'Pruning and remedial work to keep trees healthy, safe and well shaped.',
   },
   {
     id: 'crown-reduction',
     name: 'Crown Reduction & Tree Maintenance',
     group: 'tree-care',
-    path: '/crown-reduction',
-    page: false,
+    path: '/tree-pruning',
+    page: true,
     summary: 'Reducing the height and spread of a tree and keeping it in good order over time.',
   },
   {
     id: 'deadwood-removal',
     name: 'Deadwood Removal',
     group: 'tree-care',
-    path: '/tree-surgery',
-    page: false,
+    path: '/tree-pruning',
+    page: true,
     summary: 'Removing dead, dying and broken branches before they fall.',
   },
   {
@@ -56,16 +56,24 @@ export const services: Service[] = [
     name: 'Tree Removal & Felling',
     group: 'tree-care',
     path: '/tree-removal',
-    page: false,
+    page: true,
     summary:
       'Felling trees where there is room and dismantling them in sections where there is not.',
+  },
+  {
+    id: 'stump-grinding',
+    name: 'Stump Grinding & Stump Removal',
+    group: 'tree-care',
+    path: '/stump-grinding',
+    page: true,
+    summary: 'Grinding out or removing tree stumps so the ground can be used again.',
   },
   {
     id: 'emergency',
     name: 'Emergency & Storm-Damaged Tree Work',
     group: 'tree-care',
     path: '/emergency-tree-services',
-    page: false,
+    page: true,
     summary: 'Making fallen, split and dangerous trees safe after storms.',
   },
   {
@@ -73,23 +81,23 @@ export const services: Service[] = [
     name: 'Hedge Cutting, Reduction & Removal',
     group: 'garden',
     path: '/hedge-cutting',
-    page: false,
+    page: true,
     summary: 'Trimming, reducing and removing hedges of all sizes.',
   },
   {
     id: 'garden-clearance',
     name: 'Garden & Site Clearance',
     group: 'garden',
-    path: '/garden-clearance',
-    page: false,
+    path: '/site-clearance',
+    page: true,
     summary: 'Clearing overgrown gardens, plots and sites back to a usable state.',
   },
   {
     id: 'wood-chipping',
     name: 'Wood Chipping & Green Waste Removal',
     group: 'garden',
-    path: '/wood-chipping',
-    page: false,
+    path: '/site-clearance',
+    page: true,
     summary: 'Chipping branches and brash on site and taking green waste away.',
   },
   {
@@ -97,7 +105,7 @@ export const services: Service[] = [
     name: 'Landscaping & Garden Improvements',
     group: 'garden',
     path: '/landscaping',
-    page: false,
+    page: true,
     summary: 'Planting, lawns, paving, fencing and improvements to the wider garden.',
   },
 ];

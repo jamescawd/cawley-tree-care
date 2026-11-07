@@ -5,7 +5,25 @@ import AxeBuilder from '@axe-core/playwright';
  * Foundation checks. Every future page should be added to PAGES so it
  * inherits the same accessibility, SEO and responsiveness guarantees.
  */
-const PAGES = ['/', '/privacy', '/quote-sent', '/quote-error', '/404', '/styleguide'];
+const SERVICE_PAGES = [
+  '/tree-surgery',
+  '/tree-removal',
+  '/tree-pruning',
+  '/stump-grinding',
+  '/emergency-tree-services',
+  '/hedge-cutting',
+  '/site-clearance',
+  '/landscaping',
+];
+const PAGES = [
+  '/',
+  '/privacy',
+  '/quote-sent',
+  '/quote-error',
+  '/404',
+  '/styleguide',
+  ...SERVICE_PAGES,
+];
 
 for (const path of PAGES) {
   test.describe(path, () => {
@@ -39,7 +57,8 @@ for (const path of PAGES) {
 
     test('has essential SEO metadata', async ({ page }) => {
       await expect(page.locator('html')).toHaveAttribute('lang', 'en-IE');
-      await expect(page).toHaveTitle(/Cawley's Tree Care & Landscaping/);
+      // Service pages use the short brand ("… | Cawley's") to stay within 60 characters.
+      await expect(page).toHaveTitle(/Cawley's/);
       await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /.{50,}/);
       const canonical = await page.locator('link[rel="canonical"]').getAttribute('href');
       // One canonical form: no ".html", no trailing slash (except the root "/").
@@ -204,11 +223,78 @@ test.describe('homepage conversion paths', () => {
   });
 });
 
-test('stump grinding is not mentioned anywhere on the site', async ({ page }) => {
-  for (const path of ['/', '/privacy']) {
-    await page.goto(path);
-    expect((await page.content()).toLowerCase()).not.toContain('stump');
-  }
+test.describe('service pages', () => {
+  test('every page has a unique title and description', async ({ page }) => {
+    const titles = new Set<string>();
+    const descriptions = new Set<string>();
+    for (const path of SERVICE_PAGES) {
+      await page.goto(path);
+      const title = await page.title();
+      const description = await page.locator('meta[name="description"]').getAttribute('content');
+      expect(title.length, `${path} title`).toBeLessThanOrEqual(60);
+      expect(description!.length, `${path} description`).toBeLessThanOrEqual(160);
+      titles.add(title);
+      descriptions.add(description!);
+    }
+    expect(titles.size).toBe(SERVICE_PAGES.length);
+    expect(descriptions.size).toBe(SERVICE_PAGES.length);
+  });
+
+  test('each page is linked from the Services menu', async ({ page }) => {
+    await page.goto('/');
+    const links = await page
+      .locator('.site-nav__sub a, .mobile-menu__sub a')
+      .evaluateAll((els) => els.map((e) => e.getAttribute('href')));
+    for (const path of SERVICE_PAGES) expect(links).toContain(path);
+  });
+
+  test('quote and call buttons work without leaving the page', async ({ page }) => {
+    for (const path of SERVICE_PAGES) {
+      await page.goto(path);
+      await expect(page.locator('#quote-form form')).toHaveCount(1);
+      const quotes = await page
+        .getByRole('link', { name: /request a free quote/i })
+        .evaluateAll((els) => els.map((e) => e.getAttribute('href')));
+      for (const href of quotes) expect(href, path).toBe('#quote-form');
+      const tels = await page
+        .locator('a[href^="tel:"]')
+        .evaluateAll((els) => els.map((e) => e.getAttribute('href')));
+      expect(tels.length).toBeGreaterThanOrEqual(3);
+      for (const href of tels) expect(href).toBe('tel:+353871199816');
+    }
+  });
+
+  test('the quote form starts with the page’s service selected', async ({ page }) => {
+    await page.goto('/hedge-cutting');
+    await expect(page.locator('#quote-form').getByLabel('Type of work')).toHaveValue(
+      'Hedge Cutting, Reduction & Removal',
+    );
+  });
+
+  test('every internal link leads to a page that exists', async ({ page, request }) => {
+    const seen = new Set<string>();
+    for (const path of SERVICE_PAGES) {
+      await page.goto(path);
+      const hrefs = await page
+        .locator('main a[href^="/"]')
+        .evaluateAll((els) => els.map((e) => e.getAttribute('href')!.split('#')[0]!));
+      for (const href of hrefs) {
+        if (!href || seen.has(href)) continue;
+        seen.add(href);
+        expect((await request.get(href)).status(), `${path} → ${href}`).toBe(200);
+      }
+    }
+  });
+
+  test('structured data describes the service and its FAQs', async ({ page }) => {
+    await page.goto('/tree-removal');
+    const blocks = (await page.locator('script[type="application/ld+json"]').allTextContents()).map(
+      (b) => JSON.parse(b),
+    );
+    const types = blocks.map((b) => b['@type']);
+    expect(types).toEqual(expect.arrayContaining(['Service', 'BreadcrumbList', 'FAQPage']));
+    expect(JSON.stringify(blocks)).not.toMatch(/aggregateRating|"review"/);
+  });
 });
 
 test('structured data lists the business and its services accurately', async ({ page }) => {
@@ -219,7 +305,7 @@ test('structured data lists the business and its services accurately', async ({ 
     .find((d) => d['@type'] === 'HomeAndConstructionBusiness');
   expect(biz.telephone).toBe('+353871199816');
   expect(biz.address.addressLocality).toBe('Athlone');
-  expect(biz.hasOfferCatalog.itemListElement).toHaveLength(9);
+  expect(biz.hasOfferCatalog.itemListElement).toHaveLength(10);
   expect(JSON.stringify(blocks)).not.toMatch(/aggregateRating|"review"/);
 });
 
