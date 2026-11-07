@@ -18,8 +18,10 @@ const countyList = `${counties.slice(0, -1).join(', ')} and ${counties.at(-1)}`;
 const intro = `Tree surgery, tree removal, storm damage and hedge work, with garden clearance and landscaping, across ${countyList}.`;
 const hero = media.homeHero;
 const phoneHref = `tel:${business.contact.phone}`;
-const widths = [480, 720, 960, hero.src.width].filter(
-  (w, i, a) => w <= hero.src.width && a.indexOf(w) === i,
+// The largest size is re-encoded just under the original width, because
+// Astro passes the original-width file through without the lower quality.
+const widths = [480, 720, 960, hero.src.width - 20].filter(
+  (w, i, a) => w > 0 && w <= hero.src.width && a.indexOf(w) === i,
 );
 ---
 
@@ -31,6 +33,7 @@ const widths = [480, 720, 960, hero.src.width].filter(
       widths={widths}
       sizes="100vw"
       formats={['avif', 'webp']}
+      quality={40}
       priority
       layout="none"
     />
