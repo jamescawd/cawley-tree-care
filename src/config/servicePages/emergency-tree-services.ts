@@ -3,7 +3,7 @@
  */
 import type { ServicePage } from './types';
 import roof from '@/assets/images/work/storm-tree-fallen-on-house-roof.jpg';
-import crane from '@/assets/images/work/crane-lifting-fallen-conifer-off-house.jpg';
+import beech from '@/assets/images/work/storm-fallen-beech-chainsaw-clearance.jpg';
 import uprooted from '@/assets/images/work/uprooted-tree-across-garden.jpg';
 import snapped from '@/assets/images/work/storm-snapped-beech-over-lane.jpg';
 import lane from '@/assets/images/work/lane-cleared-of-storm-fallen-trees.jpg';
@@ -24,7 +24,7 @@ export const emergencyTreeServices: ServicePage = {
     accent: 'dangerous?',
     end: 'Call us.',
     intro:
-      'Storms leave trees split, leaning or lying across lanes, driveways and roofs. Keep people clear, then ring us: we will tell you honestly how quickly we can get to you, make the tree safe first and then clear it.',
+      'Storms leave trees split, leaning or down across lanes, driveways and roofs. Keep people clear and ring us: we cover Westmeath, Roscommon, Longford, Offaly and Galway and will tell you honestly how quickly we can get to you.',
     image: {
       src: roof,
       alt: 'A storm-felled tree leaning across a wet driveway and onto the roof of a white house.',
@@ -67,6 +67,7 @@ export const emergencyTreeServices: ServicePage = {
       },
       {
         title: 'Fallen trees',
+        href: '/tree-removal',
         text: 'Trees down across gardens, lanes and driveways cut up and cleared to restore access.',
       },
       {
@@ -79,6 +80,7 @@ export const emergencyTreeServices: ServicePage = {
       },
       {
         title: 'Clear-up afterwards',
+        href: '/site-clearance',
         text: 'Timber and brash chipped, stacked or taken away so the site is left tidy.',
       },
     ],
@@ -92,9 +94,10 @@ export const emergencyTreeServices: ServicePage = {
     intro: 'Genuine photographs of storm-damaged and fallen trees dealt with by the Cawley’s team.',
     items: [
       {
-        src: crane,
-        alt: 'A tractor-mounted crane and grab lifting a large storm-felled conifer off the front of a white house.',
-        caption: 'A storm-felled conifer lifted clear of a house',
+        src: beech,
+        alt: "A Cawley's arborist in orange protective kit cutting up a storm-fallen beech across a rural lane.",
+        caption: 'Cutting up a storm-fallen beech on a lane',
+        focus: '62% 58%',
       },
       {
         src: snapped,
@@ -139,7 +142,7 @@ export const emergencyTreeServices: ServicePage = {
   },
 
   areas:
-    'From our base in Athlone we deal with storm-damaged and fallen trees across five counties.',
+    'From our base in Athlone we deal with storm-damaged and fallen trees throughout Westmeath, Roscommon, Longford, Offaly and Galway',
 
   faqs: [
     {
@@ -167,13 +170,18 @@ export const emergencyTreeServices: ServicePage = {
       answer:
         'Not always. Sometimes removing the broken limbs and reducing the crown is enough to make a tree safe. We will tell you honestly whether it can be kept or needs to come down.',
     },
+    {
+      question: 'Do you cover my area for storm damage?',
+      answer:
+        'We deal with storm-damaged and fallen trees throughout Westmeath, Roscommon, Longford, Offaly and Galway from our base in Athlone. After a big storm, call us and we will tell you straight whether and when we can reach you.',
+    },
   ],
 
   cta: {
     title: 'Tree down or',
     accent: 'unsafe?',
     end: 'Call now.',
-    text: 'Ring us and tell us what has happened. We will tell you honestly how quickly we can get to you and what needs doing.',
+    text: 'Ring us and tell us what has happened. We cover Westmeath, Roscommon, Longford, Offaly and Galway and will tell you honestly how quickly we can get to you.',
   },
 
   related: ['tree-removal', 'tree-surgery', 'site-clearance', 'stump-grinding'],

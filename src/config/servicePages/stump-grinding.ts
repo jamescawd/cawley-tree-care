@@ -25,7 +25,7 @@ export const stumpGrinding: ServicePage = {
     accent: 'stubborn stump',
     end: 'for good.',
     intro:
-      'A cut-down tree often leaves a stump behind: in the way of the mower, a trip hazard and a waste of good ground. We grind stumps down or remove them so the area can be lawned, planted or built on.',
+      'A leftover stump gets in the way of the mower, trips people up and wastes good ground. We grind stumps down or remove them so the ground can be used again. Across Westmeath, Roscommon, Longford, Offaly and Galway, with a free quotation first.',
     image: {
       src: siteAfter,
       alt: 'Decking and ground beside a timber garden building, cleared after a tree was taken down, with one cut log left standing.',
@@ -68,10 +68,12 @@ export const stumpGrinding: ServicePage = {
       },
       {
         title: 'Removal with the tree',
+        href: '/tree-removal',
         text: 'Having the stump dealt with at the same time as the tree comes down, in one visit where possible.',
       },
       {
         title: 'Preparing the ground',
+        href: '/landscaping',
         text: 'Leaving the area ready to be levelled, seeded, planted or landscaped.',
       },
       {
@@ -133,7 +135,8 @@ export const stumpGrinding: ServicePage = {
     ],
   },
 
-  areas: 'From our base in Athlone we grind and remove stumps across five counties.',
+  areas:
+    'From our base in Athlone we grind and remove stumps throughout Westmeath, Roscommon, Longford, Offaly and Galway',
 
   faqs: [
     {
@@ -161,12 +164,17 @@ export const stumpGrinding: ServicePage = {
       answer:
         'Yes: anything buried near the stump, such as pipes, cables or drains, and how we get to it. Gateways, steps and narrow paths all affect access, so a photo of the route is helpful.',
     },
+    {
+      question: 'How much does stump grinding cost?',
+      answer:
+        'It depends mainly on the size of the stump, how many there are and how easy they are to reach. Send us a photo with a rough width and we will give you a free quotation.',
+    },
   ],
 
   cta: {
     title: 'Ready to get your',
     accent: 'ground back?',
-    text: 'Tell us about the stump and where it is. We will give you a free, clear quotation to grind it out or remove it.',
+    text: 'Tell us about the stump and where it is. We cover Westmeath, Roscommon, Longford, Offaly and Galway, and the quotation to grind it out or remove it is free.',
   },
 
   related: ['tree-removal', 'site-clearance', 'landscaping', 'tree-surgery'],

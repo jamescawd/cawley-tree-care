@@ -20,7 +20,7 @@ export const treeRemoval: ServicePage = {
     accent: 'safely',
     end: 'and tidily.',
     intro:
-      'When a tree is dead, dangerous or simply in the wrong place, we take it down under control: felled whole where there is room, or dismantled in sections beside houses, sheds, walls and wires.',
+      'Dead, dangerous or in the wrong place? We take trees down under control: felled whole where there is room, dismantled in sections where there is not. Across Westmeath, Roscommon, Longford, Offaly and Galway, with a free quotation first.',
     image: {
       src: dismantling,
       alt: 'A climber roped high in a large sycamore, dismantling it in sections directly beside a timber building.',
@@ -34,7 +34,7 @@ export const treeRemoval: ServicePage = {
     accent: 'more than a cut',
     end: 'at the base.',
     paragraphs: [
-      'Most trees we remove are close to something that matters: a house, a garage, a boundary wall, a road or overhead lines. Where there is open ground and a clear drop zone, a tree can be felled in one piece. Where there is not, it is taken down from the top in manageable sections, each one cut and lowered so nothing lands where it should not.',
+      'Most trees we remove are close to something that matters: a house, a garage, a boundary wall, a road or overhead lines. Where there is open ground and a clear drop zone, a tree can be felled in one piece. Where there is not, it is taken down from the top in manageable sections, each one cut and lowered under control.',
       'Before any work starts we look at the tree, what is around it and how we will get in and out, then explain what we propose and what it will cost. On the day, the work area is kept clear, and once the tree is down the timber and brash are dealt with exactly as agreed.',
     ],
     situationsTitle: 'When people call us',
@@ -64,6 +64,7 @@ export const treeRemoval: ServicePage = {
       },
       {
         title: 'Dangerous & damaged trees',
+        href: '/emergency-tree-services',
         text: 'Split, leaning or storm-damaged trees are made safe first, then removed in a controlled way.',
       },
       {
@@ -138,7 +139,8 @@ export const treeRemoval: ServicePage = {
     ],
   },
 
-  areas: 'From our base in Athlone we remove trees for homes and businesses across five counties.',
+  areas:
+    'From our base in Athlone we remove trees for homes and businesses throughout Westmeath, Roscommon, Longford, Offaly and Galway',
 
   faqs: [
     {
@@ -166,12 +168,17 @@ export const treeRemoval: ServicePage = {
       answer:
         'Every tree is different: its size, condition, what is around it and the access all affect the work involved. Quotations are free, so the simplest way to find out is to send us a few photos or ask us to come and look.',
     },
+    {
+      question: 'Do you remove trees in my area?',
+      answer:
+        'We remove trees throughout Westmeath, Roscommon, Longford, Offaly and Galway from our base in Athlone, including towns such as Mullingar, Moate, Roscommon Town, Longford Town, Tullamore and Ballinasloe. If your town is not listed on this page, ask us: we may still be able to help.',
+    },
   ],
 
   cta: {
     title: 'Have a tree that',
     accent: 'needs to come down?',
-    text: 'Tell us about the tree and where it is. We will talk it through and give you a free, clear quotation.',
+    text: 'Tell us about the tree and where it is, or send a few photos. We cover Westmeath, Roscommon, Longford, Offaly and Galway, and every quotation is free.',
   },
 
   related: ['stump-grinding', 'tree-surgery', 'emergency-tree-services', 'site-clearance'],

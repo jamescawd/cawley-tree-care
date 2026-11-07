@@ -19,10 +19,10 @@ export const siteClearance: ServicePage = {
     accent: 'cleared',
     end: 'in one go.',
     intro:
-      'Neglected gardens, overgrown plots and building sites cleared of scrub, brambles, small trees and old hedging. Branches go through a wood chipper on site, so there is far less to take away.',
+      'Neglected gardens, plots and building sites cleared of scrub, brambles, small trees and old hedging, with branches chipped on site. Across Westmeath, Roscommon, Longford, Offaly and Galway, with a free quotation first.',
     image: {
       src: chipper,
-      alt: 'An overgrown beech hedge along a gravel driveway with a tracked wood chipper parked ready to work.',
+      alt: 'An overgrown beech hedge along a gravel driveway with a wood chipper parked ready to work.',
       caption: 'An overgrown boundary, ready for clearance',
       focus: '40% 55%',
     },
@@ -65,6 +65,7 @@ export const siteClearance: ServicePage = {
       },
       {
         title: 'Small trees & old hedging',
+        href: '/hedge-cutting',
         text: 'Self-seeded trees and unwanted hedges removed as part of the clearance.',
       },
       {
@@ -129,7 +130,8 @@ export const siteClearance: ServicePage = {
     ],
   },
 
-  areas: 'From our base in Athlone we clear gardens, plots and sites across five counties.',
+  areas:
+    'From our base in Athlone we clear gardens, plots and sites throughout Westmeath, Roscommon, Longford, Offaly and Galway',
 
   faqs: [
     {
@@ -152,12 +154,22 @@ export const siteClearance: ServicePage = {
       answer:
         'Cutting hedgerows and vegetation on uncultivated land is restricted from 1 March to 31 August under the Wildlife Acts, with some exemptions, and nesting birds are protected all year. We will talk through timing with you when we quote.',
     },
+    {
+      question: 'How much does site clearance cost?',
+      answer:
+        'It depends on the size of the area, how overgrown it is, what needs to come out and how much green waste there will be. Photos help us give you a free quotation quickly.',
+    },
+    {
+      question: 'Do you clear sites in my area?',
+      answer:
+        'We clear gardens, plots and sites throughout Westmeath, Roscommon, Longford, Offaly and Galway from our base in Athlone. If you are not sure we reach you, ask us.',
+    },
   ],
 
   cta: {
     title: 'Ready to get your',
     accent: 'ground back?',
-    text: 'Tell us about the area and what is growing on it. We will give you one clear, free quotation to clear it.',
+    text: 'Tell us about the area and what is growing on it. We cover Westmeath, Roscommon, Longford, Offaly and Galway, and you get one clear, free quotation.',
   },
 
   related: ['hedge-cutting', 'landscaping', 'tree-removal', 'stump-grinding'],

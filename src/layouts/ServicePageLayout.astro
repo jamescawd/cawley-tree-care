@@ -176,7 +176,16 @@ const imgWidths = (w: number) => [400, 640, 960, 1280, 1600].filter((x) => x <= 
             <span class="svc-n" aria-hidden="true">
               {String(i + 1).padStart(2, '0')}
             </span>
-            <h3>{item.title}</h3>
+            <h3>
+              {item.href ? (
+                <a class="svc-work__link" href={item.href}>
+                  {item.title}
+                  <span aria-hidden="true">→</span>
+                </a>
+              ) : (
+                item.title
+              )}
+            </h3>
             <p>{item.text}</p>
           </li>
         ))}
@@ -632,6 +641,27 @@ const imgWidths = (w: number) => [400, 640, 960, 1280, 1600].filter((x) => x <= 
   .svc-work__list h3 {
     font-size: var(--text-xl);
     line-height: 1.2;
+  }
+
+  .svc-work__link {
+    text-decoration: none;
+  }
+
+  .svc-work__link span {
+    display: inline-block;
+    margin-inline-start: 0.35em;
+    color: var(--orange-500);
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+
+  .svc-work__link:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--orange-500);
+    text-underline-offset: 0.2em;
+  }
+
+  .svc-work__link:hover span {
+    transform: translateX(4px);
   }
 
   .svc-work__list p {

@@ -3,6 +3,7 @@ import cutting from '@/assets/images/work/arborist-cutting-trunk-section.jpg';
 import pruning from '@/assets/images/work/arborist-pruning-at-height.jpg';
 import dismantling from '@/assets/images/work/sectional-dismantling-beside-building.jpg';
 import reduced from '@/assets/images/work/mature-tree-reduced-to-trunk.jpg';
+import climber from '@/assets/images/work/climber-in-mature-tree-by-stone-wall.jpg';
 
 export const treeSurgery: ServicePage = {
   slug: 'tree-surgery',
@@ -18,7 +19,7 @@ export const treeSurgery: ServicePage = {
     title: 'Experienced tree surgeons,',
     accent: 'based in Athlone',
     intro:
-      'Tree surgery is the core of what we do: looking after trees so they stay healthy and safe, and dealing with them properly when they become a problem. Pruning, reduction, deadwood and removal, carried out by one experienced team.',
+      'Pruning, crown reduction, deadwood and tree removal for homes and businesses across Westmeath, Roscommon, Longford, Offaly and Galway. One experienced team, honest advice and a free quotation before any work starts.',
     image: {
       src: cutting,
       alt: "A Cawley's arborist in a harness and visor cutting a section from a tree trunk, sawdust drifting against a clear blue sky.",
@@ -57,18 +58,22 @@ export const treeSurgery: ServicePage = {
       },
       {
         title: 'Pruning & crown reduction',
+        href: '/tree-pruning',
         text: 'Reducing, thinning and shaping crowns so trees are smaller, lighter and safer.',
       },
       {
         title: 'Deadwood removal',
+        href: '/tree-pruning',
         text: 'Taking out dead and broken branches before they fall on people, cars or roofs.',
       },
       {
         title: 'Tree removal',
-        text: 'Felling or sectional dismantling where a tree has to go, with timber dealt with as agreed.',
+        href: '/tree-removal',
+        text: 'Felling or sectional dismantling where a tree has to go, with timber dealt with as agreed. Stumps can be ground out too.',
       },
       {
         title: 'Storm-damaged trees',
+        href: '/emergency-tree-services',
         text: 'Making split, leaning and fallen trees safe, then clearing them away.',
       },
       {
@@ -104,10 +109,10 @@ export const treeSurgery: ServicePage = {
         focus: '50% 40%',
       },
       {
-        src: cutting,
-        alt: 'An arborist cutting a section from a tree trunk at height, with sawdust in the air.',
-        caption: 'Cutting a section at height',
-        focus: '50% 25%',
+        src: climber,
+        alt: 'A climber high in a large mature tree beside a stone wall, with a ground worker below.',
+        caption: 'Climbing a mature tree beside a stone wall',
+        focus: '50% 35%',
       },
     ],
   },
@@ -122,11 +127,11 @@ export const treeSurgery: ServicePage = {
       },
       {
         title: 'Assessment',
-        text: 'Where needed we look at the tree and talk you through the options, including doing less.',
+        text: 'Where needed we look at the tree and talk you through the options, including whether less work would do.',
       },
       {
         title: 'Clear quotation',
-        text: 'A free written price for the agreed work, so you know exactly what to expect.',
+        text: 'A free, clear quotation for the agreed work, so you know exactly what to expect.',
       },
       {
         title: 'Work completed',
@@ -135,7 +140,8 @@ export const treeSurgery: ServicePage = {
     ],
   },
 
-  areas: 'From our base in Athlone we carry out tree surgery across five counties.',
+  areas:
+    'From our base in Athlone we carry out tree surgery throughout Westmeath, Roscommon, Longford, Offaly and Galway',
 
   faqs: [
     {
@@ -149,8 +155,14 @@ export const treeSurgery: ServicePage = {
         'Yes. Not every tree needs work, and sometimes a light prune is all that is required instead of removal. We will give you an honest view of what the tree needs.',
     },
     {
-      question: 'Are you insured?',
-      answer: 'Yes, Cawley’s Tree Care & Landscaping is fully insured.',
+      question: 'How much does tree surgery cost?',
+      answer:
+        'It depends on the tree: its size, condition, what it is close to and how easy it is to reach. Quotations are free, so the quickest way to find out is to send us a few photos of the tree or ask us to come and look.',
+    },
+    {
+      question: 'Which areas do you cover?',
+      answer:
+        'We are based in Athlone, Co. Westmeath, and carry out tree surgery across Westmeath, Roscommon, Longford, Offaly and Galway, including towns such as Mullingar, Moate, Roscommon Town, Boyle, Longford Town, Tullamore, Birr, Ballinasloe and Galway City. If your town is not listed, ask us: we may still be able to help.',
     },
     {
       question: 'Do I need permission for tree work?',
@@ -167,8 +179,8 @@ export const treeSurgery: ServicePage = {
   cta: {
     title: 'Talk to a',
     accent: 'tree surgeon',
-    end: 'today',
-    text: 'Tell us about your trees and what you would like done. We will give you honest advice and a free quotation.',
+    end: 'about your trees',
+    text: 'Call us, or send a few photos with a quote request. We cover Westmeath, Roscommon, Longford, Offaly and Galway, and every quotation is free.',
   },
 
   related: ['tree-pruning', 'tree-removal', 'stump-grinding', 'emergency-tree-services'],

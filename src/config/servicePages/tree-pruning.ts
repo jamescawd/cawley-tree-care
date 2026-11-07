@@ -19,7 +19,7 @@ export const treePruning: ServicePage = {
     accent: 'tree',
     end: 'and fixes the problem.',
     intro:
-      'Most trees do not need to come down. Careful pruning can make a tree smaller, lighter and safer, let light back into the garden and take weight off branches over roofs, roads and neighbours.',
+      'Most trees do not need to come down. Careful pruning makes a tree smaller, lighter and safer and lets light back into the garden. Across Westmeath, Roscommon, Longford, Offaly and Galway, with a free quotation first.',
     image: {
       src: pruning,
       alt: 'An arborist in a harness and helmet pruning among the upper branches of a tree.',
@@ -69,6 +69,7 @@ export const treePruning: ServicePage = {
       },
       {
         title: 'General tree maintenance',
+        href: '/tree-surgery',
         text: 'Routine pruning to keep trees tidy, healthy and clear of buildings, paths and lines.',
       },
     ],
@@ -126,7 +127,7 @@ export const treePruning: ServicePage = {
   },
 
   areas:
-    'Based in Athlone, we prune and reduce trees for gardens and properties across five counties.',
+    'Based in Athlone, we prune and reduce trees for gardens and properties throughout Westmeath, Roscommon, Longford, Offaly and Galway',
 
   faqs: [
     {
@@ -154,13 +155,18 @@ export const treePruning: ServicePage = {
       answer:
         'It varies with the species, its age and where it is growing. Some trees need attention every few years to stay clear of buildings or lines, others very rarely. After the work we can tell you what to expect for your tree.',
     },
+    {
+      question: 'How much does crown reduction cost?',
+      answer:
+        'It depends on the size and species of the tree, how much is being taken off and how easy it is to reach. Quotations are free, so send us a photo of the tree or ask us to come and look.',
+    },
   ],
 
   cta: {
     title: 'Tree too big,',
     accent: 'too dark',
     end: 'or too close?',
-    text: 'Send us a photo or give us a call. We will tell you honestly what pruning can do and give you a free quotation.',
+    text: 'Send us a photo or give us a call. We will tell you honestly what pruning can do, and the quotation is free anywhere in Westmeath, Roscommon, Longford, Offaly and Galway.',
   },
 
   related: ['tree-surgery', 'hedge-cutting', 'tree-removal', 'emergency-tree-services'],

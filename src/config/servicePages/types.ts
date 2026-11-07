@@ -51,7 +51,8 @@ export interface ServicePage {
     situationsTitle: string;
     situations: string[];
   };
-  work: Heading & { intro: string; items: { title: string; text: string }[] };
+  /** `href` (optional) links an item to its own service page. */
+  work: Heading & { intro: string; items: { title: string; text: string; href?: string }[] };
   /** Page-specific opening line for the shared "Why Cawley's" section. */
   why: string;
   photos: Heading & { intro: string; items: Photo[] };
