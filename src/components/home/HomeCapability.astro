@@ -2,7 +2,8 @@
 /**
  * Equipment and working methods, shown through the business's own photos.
  * Every method listed is visible in a genuine job photo on this page; no
- * equipment ownership, qualifications or certifications are claimed.
+ * equipment ownership, qualifications or certifications are claimed. Access
+ * platforms and cranes are described as arranged when a job needs them.
  */
 import { Picture } from 'astro:assets';
 import SectionHeader from '@/components/ui/SectionHeader.astro';
@@ -12,8 +13,8 @@ import ladderImg from '@/assets/images/work/conifer-hedge-cut-near-overhead-line
 const photos = [
   {
     src: chipperImg,
-    alt: 'An overgrown beech hedge along a gravel driveway with a tracked wood chipper parked ready to work.',
-    caption: 'Tracked wood chipper set up beside an overgrown beech hedge',
+    alt: 'An overgrown beech hedge along a gravel driveway with a wood chipper parked ready to work.',
+    caption: 'Wood chipper set up beside an overgrown beech hedge',
     focus: '40% 55%',
   },
   {
@@ -30,12 +31,12 @@ const methods = [
     text: 'Climbers work from within the tree on ropes and harnesses, lowering sections under control where there is no room to drop them.',
   },
   {
-    title: 'Tracked access platform',
-    text: 'Where it suits the tree and the ground, limbs are taken down from a tracked platform rather than by climbing.',
+    title: 'Access platform, when needed',
+    text: 'Where climbing is not the best option for a tree, an access platform can be arranged to take the limbs down.',
   },
   {
-    title: 'Crane-assisted lifts',
-    text: 'When a fallen tree is resting on a building, a crane and grab lift it clear instead of cutting it where it lies.',
+    title: 'Crane lifts, when needed',
+    text: 'When a fallen tree is resting on a building, a crane can be arranged to lift it clear instead of cutting it where it lies.',
   },
   {
     title: 'Chipping on site',

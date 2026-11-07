@@ -280,16 +280,16 @@ items also have reserved paths (`/services`, `/projects`, `/about`,
 
 ## 8. Contact details and business information (`src/config/business.ts`)
 
-| Field                                               | Value                                                                                               | Status                                                                                                                                                     |
-| --------------------------------------------------- | --------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Phone                                               | `+353871199816`, shown as **087 119 9816**                                                          | Confirmed; used in header, hero, bar, footer, form area, schema                                                                                            |
-| Email                                               | **Unconfirmed.** Owner suggested info@qualitytreecare.com or .ie; neither matches cawleytreecare.ie | Placeholder; hidden from customers                                                                                                                         |
-| Town / county                                       | Athlone, Co. Westmeath                                                                              | Confirmed                                                                                                                                                  |
-| Street address, Eircode, map coordinates            | not supplied                                                                                        | Placeholders                                                                                                                                               |
-| Opening hours                                       | not supplied                                                                                        | Placeholder, hidden. **Not caught by the launch check** (written as `placeholder<string[]>(`); fix the regex in `scripts/placeholders.mjs` or supply hours |
-| Registered (legal) name, tagline, short description | not supplied                                                                                        | Placeholders                                                                                                                                               |
-| Google Business Profile, Facebook, Instagram        | not supplied                                                                                        | Placeholders                                                                                                                                               |
-| Privacy notice                                      | `/privacy`                                                                                          | Drafted; owner review pending                                                                                                                              |
+| Field                                               | Value                                                                                               | Status                                                                                                                     |
+| --------------------------------------------------- | --------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Phone                                               | `+353871199816`, shown as **087 119 9816**                                                          | Confirmed; used in header, hero, bar, footer, form area, schema                                                            |
+| Email                                               | **Unconfirmed.** Owner suggested info@qualitytreecare.com or .ie; neither matches cawleytreecare.ie | Placeholder; hidden from customers                                                                                         |
+| Town / county                                       | Athlone, Co. Westmeath                                                                              | Confirmed                                                                                                                  |
+| Street address, Eircode, map coordinates            | not supplied                                                                                        | Placeholders                                                                                                               |
+| Opening hours                                       | Mon–Sat 8am–6pm; emergencies can call 24/7                                                          | Confirmed (Nov 2026). Shown by the quote form, in structured data and on the emergency sections. No response time promised |
+| Registered (legal) name, tagline, short description | not supplied                                                                                        | Placeholders                                                                                                               |
+| Google Business Profile, Facebook, Instagram        | not supplied                                                                                        | Placeholders                                                                                                               |
+| Privacy notice                                      | `/privacy`                                                                                          | Drafted; owner review pending                                                                                              |
 
 Service area (`src/config/areas.ts`, confirmed, complete): five counties, 74 towns
 and villages (34 original + 40 added Nov 2026; Ballygar listed under Galway, where it is).
@@ -319,6 +319,13 @@ in `scripts/maps/build-ireland-map.py`, then re-run the script (see `scripts/map
   (silently accepted, not emailed); sends via **Resend** API with photos
   attached (≤5 MB each, ≤12 MB total); redirects to `/quote-sent` **only**
   when Resend accepts, otherwise `/quote-error`.
+- **Not connected on the live site (found Nov 2026):** the site deploys on **Cloudflare
+  Pages** (checks named "Cloudflare Pages", previews on `*.pages.dev`), but `worker/index.ts`
+  is set up for Cloudflare Workers in `wrangler.jsonc`, which Pages ignores. So POST
+  `/api/quote` never reaches the handler. The owner chose to leave the backend unchanged for
+  now. Fix options: a small Pages Function at `functions/api/quote.ts` that calls the existing
+  handler, or move the project to Workers. Temporary receiving address agreed with the owner:
+  the owner's own Gmail (not to be shown on the site); not yet configured anywhere.
 - **Not yet delivering**: needs `RESEND_API_KEY` (secret), `ENQUIRY_TO`,
   `ENQUIRY_FROM` set in Cloudflare → Workers & Pages → cawley-tree-care →
   Settings, and a domain verified at resend.com. Until then every submission

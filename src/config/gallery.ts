@@ -64,9 +64,9 @@ export interface WorkItem {
 export const workItems: WorkItem[] = [
   {
     category: 'removal',
-    title: 'Large tree removed from a tracked platform',
+    title: 'Large tree taken down limb by limb',
     summary:
-      'Taken down limb by limb from a tracked platform; afterwards the lawn is clear and the timber stacked.',
+      'Taken down limb by limb from an access platform; afterwards the lawn is clear and the timber stacked.',
     size: 'feature',
     photos: [
       {
