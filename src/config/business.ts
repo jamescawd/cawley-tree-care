@@ -65,6 +65,10 @@ export const business = {
     phone: '+353871199816', // CONFIRMED by the business (Nov 2026)
     /** How the number is shown on the page. */
     phoneDisplay: '087 119 9816',
+    /** CONFIRMED by the business (Nov 2026): WhatsApp on the same mobile. Digits only, for wa.me. */
+    whatsapp: '353871199816',
+    whatsappMessage:
+      "Hi Cawley's, I'd like to enquire about some tree work and request a free quotation.",
     /**
      * NOT CONFIRMED. Suggested: info@qualitytreecare.com or
      * info@qualitytreecare.ie, but neither matches the website domain
