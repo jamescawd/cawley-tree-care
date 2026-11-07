@@ -1,13 +1,16 @@
 ---
 /**
- * Homepage (Stage 1). Sets the design standard for the whole site.
- * Section order follows the brief: services first (tree care leading),
- * then trust, work, about, areas, reviews and the enquiry form.
+ * Homepage. Sets the design standard for the whole site.
+ * Customer journey: what we do (services, then urgent work) → proof (our
+ * own photos, equipment and methods) → why trust us (about, principles) →
+ * what customers say → where we work → how it works → the quote form.
  */
 import PageLayout from '@/layouts/PageLayout.astro';
 import HomeHero from '@/components/home/HomeHero.astro';
 import HomeTrust from '@/components/home/HomeTrust.astro';
 import HomeServices from '@/components/home/HomeServices.astro';
+import HomeEmergency from '@/components/home/HomeEmergency.astro';
+import HomeCapability from '@/components/home/HomeCapability.astro';
 import HomeWhy from '@/components/home/HomeWhy.astro';
 import HomeProcess from '@/components/home/HomeProcess.astro';
 import HomeWork from '@/components/home/HomeWork.astro';
@@ -35,10 +38,12 @@ const places = serviceAreas.flatMap((a) => [`Co. ${a.county as string}`, ...(a.t
   <HomeHero />
   <HomeTrust />
   <HomeServices />
-  <HomeTestimonials />
+  <HomeEmergency />
   <HomeWork />
-  <HomeWhy />
+  <HomeCapability />
   <HomeAbout />
+  <HomeWhy />
+  <HomeTestimonials />
   <Marquee items={places} duration={90} />
   <HomeAreas />
   <HomeProcess />

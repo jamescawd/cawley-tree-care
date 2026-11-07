@@ -71,6 +71,7 @@ const sizes: Record<string, string> = {
           <figcaption class="tile__caption">
             <span class="tile__cat">{label[item.category]}</span>
             <span class="tile__title">{item.title}</span>
+            {item.summary && <span class="tile__summary">{item.summary}</span>}
           </figcaption>
         </figure>
       </li>
@@ -294,6 +295,24 @@ const sizes: Record<string, string> = {
     font-weight: var(--weight-medium);
     line-height: 1.35;
     color: var(--ivory-100);
+  }
+
+  .tile__summary {
+    max-width: 52ch;
+    font-size: var(--text-sm);
+    line-height: 1.45;
+    color: var(--ivory-200);
+  }
+
+  /* Darker scrim where a description sits over the photo. */
+  .tile__caption:has(.tile__summary) {
+    padding-block-start: var(--space-2xl);
+    background: linear-gradient(
+      to top,
+      rgb(17 17 17 / 0.95) 0%,
+      rgb(17 17 17 / 0.8) 55%,
+      rgb(17 17 17 / 0)
+    );
   }
 
   @media (min-width: 64em) {

@@ -27,13 +27,20 @@ const phone = provided(business.contact.phone);
 </div>
 
 <script>
-  // Hide the bar while the quote form is visible, so it never covers fields.
+  // Hide the bar while the hero buttons or the quote form are on screen, so
+  // it never doubles up the hero's own call/quote buttons or covers fields.
   const bar = document.querySelector<HTMLElement>('.action-bar');
-  const form = document.querySelector('#enquiry form');
-  if (bar && form && 'IntersectionObserver' in window) {
-    new IntersectionObserver(([entry]) => {
-      bar.toggleAttribute('data-hidden', entry!.isIntersecting);
-    }).observe(form);
+  const targets = [...document.querySelectorAll('.hero__ctas, #enquiry form')];
+  if (bar && targets.length && 'IntersectionObserver' in window) {
+    const visible = new Set<Element>();
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) visible.add(e.target);
+        else visible.delete(e.target);
+      }
+      bar.toggleAttribute('data-hidden', visible.size > 0);
+    });
+    for (const t of targets) io.observe(t);
   }
 </script>
 

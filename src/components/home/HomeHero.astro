@@ -3,7 +3,8 @@
  * Cinematic hero: a genuine job photograph, full-bleed under the sticky
  * header, with the headline set over a left-and-bottom charcoal overlay.
  * Phones: the photo fills the top of the screen and the headline overlaps
- * its lower edge, so both get room.
+ * its lower edge; kept short enough that the headline, both buttons and the
+ * trust points sit on the first screen of a typical phone.
  */
 import { Picture } from 'astro:assets';
 import Button from '@/components/ui/Button.astro';
@@ -68,7 +69,7 @@ const widths = [480, 720, 960, hero.src.width].filter(
   .hero__media {
     position: absolute;
     inset: 0 0 auto;
-    height: 72svh;
+    height: min(54svh, 28rem);
     z-index: -1;
   }
 
@@ -101,7 +102,7 @@ const widths = [480, 720, 960, hero.src.width].filter(
   .hero__content {
     display: grid;
     gap: var(--space-s);
-    padding-block: calc(54svh) var(--space-xl);
+    padding-block: calc(min(54svh, 28rem) - 8rem) var(--space-xl);
   }
 
   .hero__eyebrow,
@@ -159,6 +160,14 @@ const widths = [480, 720, 960, hero.src.width].filter(
     height: 0.4rem;
     background: var(--orange-500);
     border-radius: 50%;
+  }
+
+  /* Phones: the lead already names the services, so the eyebrow gives way
+     to keep the trust points on the first screen. */
+  @media (max-width: 29.99em) {
+    .hero__eyebrow {
+      display: none;
+    }
   }
 
   @media (min-width: 30em) {

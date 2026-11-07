@@ -2,19 +2,13 @@
 /**
  * Service chapters: alternating full-bleed photograph and text panels.
  * Tree care leads; landscaping closes the sequence; an index below lists
- * all nine services.
+ * all nine services (emergency work links to its own section).
  */
 import { Picture } from 'astro:assets';
 import ArrowIcon from '@/components/ui/ArrowIcon.astro';
-import { serviceChapters } from '@/config/homeServices';
+import { serviceChapters, serviceAnchor } from '@/config/homeServices';
 import { services, serviceHref } from '@/config/services';
 import { quoteHref } from '@/config/navigation';
-import { business } from '@/config/business';
-
-const chapterFor = (id: string) =>
-  serviceChapters.find((c) => c.services.some((s) => s.id === id))!;
-const linkFor = (c: (typeof serviceChapters)[number]) =>
-  c.id === 'emergency' ? `tel:${business.contact.phone}` : quoteHref;
 ---
 
 <section id="services" class="services surface-dark" aria-labelledby="services-title">
@@ -64,7 +58,7 @@ const linkFor = (c: (typeof serviceChapters)[number]) =>
               <li>{svc.page ? <a href={svc.path}>{svc.name}</a> : svc.name}</li>
             ))}
           </ul>
-          <a class="chapter__link" href={linkFor(c)}>
+          <a class="chapter__link" href={quoteHref}>
             <span>{c.cta}</span>
             <span class="chapter__link-icon" aria-hidden="true">
               <ArrowIcon />
@@ -83,7 +77,7 @@ const linkFor = (c: (typeof serviceChapters)[number]) =>
       <ul role="list">
         {services.map((svc) => (
           <li>
-            <a href={serviceHref(svc, `#${chapterFor(svc.id).id}`)}>
+            <a href={serviceHref(svc, `#${serviceAnchor(svc.id)}`)}>
               {svc.name}
               <span aria-hidden="true">→</span>
             </a>
@@ -284,7 +278,7 @@ const linkFor = (c: (typeof serviceChapters)[number]) =>
   @media (min-width: 64em) {
     .chapter {
       grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-      min-height: min(44rem, 88svh);
+      min-height: min(36rem, 80svh);
     }
 
     .chapter--flip {

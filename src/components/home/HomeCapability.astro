@@ -1,0 +1,206 @@
+---
+/**
+ * Equipment and working methods, shown through the business's own photos.
+ * Every method listed is visible in a genuine job photo on this page; no
+ * equipment ownership, qualifications or certifications are claimed.
+ */
+import { Picture } from 'astro:assets';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import chipperImg from '@/assets/images/work/overgrown-beech-hedge-with-wood-chipper.jpg';
+import ladderImg from '@/assets/images/work/conifer-hedge-cut-near-overhead-lines.jpg';
+
+const photos = [
+  {
+    src: chipperImg,
+    alt: 'An overgrown beech hedge along a gravel driveway with a tracked wood chipper parked ready to work.',
+    caption: 'Tracked wood chipper set up beside an overgrown beech hedge',
+    focus: '40% 55%',
+  },
+  {
+    src: ladderImg,
+    alt: 'A worker on a tripod ladder trimming the top of a tall conifer hedge beside overhead lines, with a ground sheet laid below.',
+    caption: 'Tripod ladder and ground sheet on a tall conifer hedge',
+    focus: '50% 42%',
+  },
+];
+
+const methods = [
+  {
+    title: 'Climbing & rigging',
+    text: 'Climbers work from within the tree on ropes and harnesses, lowering sections under control where there is no room to drop them.',
+  },
+  {
+    title: 'Tracked access platform',
+    text: 'Where it suits the tree and the ground, limbs are taken down from a tracked platform rather than by climbing.',
+  },
+  {
+    title: 'Crane-assisted lifts',
+    text: 'When a fallen tree is resting on a building, a crane and grab lift it clear instead of cutting it where it lies.',
+  },
+  {
+    title: 'Chipping on site',
+    text: 'Branches and brash go through a wood chipper on the day, so there is far less to take away.',
+  },
+  {
+    title: 'Ladders & ground sheets',
+    text: 'Tall hedges are cut from stable tripod ladders, with sheets laid down so cuttings are gathered, not raked out of lawns.',
+  },
+];
+---
+
+<section
+  id="capability"
+  class="section-lg capability surface-dark"
+  aria-labelledby="capability-title"
+>
+  <div class="container capability__inner">
+    <SectionHeader id="capability-title" eyebrow="Equipment & methods" split>
+      <Fragment slot="title">
+        The right kit for <em>difficult</em> trees
+      </Fragment>
+      <p>
+        Trees beside houses, sheds, walls and wires need more than a chainsaw. These are the methods
+        you will see in our own job photos.
+      </p>
+    </SectionHeader>
+
+    <div class="capability__photos">
+      {photos.map((p) => (
+        <figure class="capability__photo">
+          <Picture
+            src={p.src}
+            alt={p.alt}
+            widths={[400, 640, 960, 1280].filter((w) => w <= p.src.width)}
+            sizes="(min-width: 48em) 50vw, 100vw"
+            formats={['avif', 'webp']}
+            layout="none"
+            style={`object-position: ${p.focus}`}
+          />
+          <figcaption>{p.caption}</figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <ol class="capability__methods" role="list">
+      {methods.map((m, i) => (
+        <li class="reveal">
+          <span class="capability__n" aria-hidden="true">
+            {String(i + 1).padStart(2, '0')}
+          </span>
+          <h3>{m.title}</h3>
+          <p>{m.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .capability__inner {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .capability__photos {
+    display: grid;
+    gap: var(--space-3xs);
+  }
+
+  .capability__photo {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: var(--charcoal-700);
+  }
+
+  .capability__photo :global(picture),
+  .capability__photo :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .capability__photo :global(img) {
+    object-fit: cover;
+  }
+
+  .capability__photo figcaption {
+    position: absolute;
+    inset: auto 0 0;
+    padding: var(--space-xl) var(--space-s) var(--space-s);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--ivory-100);
+    background: linear-gradient(to top, rgb(17 17 17 / 0.85), rgb(17 17 17 / 0));
+  }
+
+  .capability__methods {
+    display: grid;
+    gap: 0 var(--space-l);
+  }
+
+  .capability__methods li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-3xs) var(--space-s);
+    padding-block: var(--space-s);
+    border-block-start: 1px solid var(--color-border);
+    max-width: none;
+  }
+
+  .capability__n {
+    grid-row: span 2;
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    color: var(--color-accent-text);
+  }
+
+  .capability__methods h3 {
+    font-size: var(--text-xl);
+    line-height: 1.2;
+  }
+
+  .capability__methods p {
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+    line-height: 1.55;
+  }
+
+  @media (min-width: 48em) {
+    .capability__photos {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .capability__photo {
+      aspect-ratio: 5 / 4;
+    }
+
+    .capability__methods {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 72em) {
+    .capability__photos {
+      grid-template-columns: 7fr 5fr;
+    }
+
+    .capability__photo {
+      aspect-ratio: auto;
+      height: 34rem;
+    }
+
+    .capability__methods {
+      grid-template-columns: repeat(5, 1fr);
+    }
+
+    .capability__methods li {
+      grid-template-columns: 1fr;
+      align-content: start;
+    }
+
+    .capability__n {
+      grid-row: auto;
+    }
+  }
+</style>
