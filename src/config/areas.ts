@@ -10,7 +10,8 @@ import type { Maybe } from '@/lib/placeholder';
  * CONFIRMED by the business (Nov 2026): the complete service area is the
  * five counties below. Each list starts with the 34 major towns in the order
  * first supplied, followed by the 40 towns and villages added in Nov 2026.
- * The area map (src/data/ireland-map.json) still marks the original 34.
+ * Ballygar is in Co. Galway, so it is listed there (confirmed by the owner).
+ * The area map (src/data/ireland-map.json) marks every town listed here.
  */
 
 export interface ServiceArea {
@@ -57,7 +58,6 @@ export const serviceAreas: ServiceArea[] = [
       'Strokestown',
       'Elphin',
       'Athleague',
-      'Ballygar',
       'Knockcroghery',
       'Frenchpark',
       'Roosky',
@@ -122,6 +122,7 @@ export const serviceAreas: ServiceArea[] = [
       'Gort',
       'Portumna',
       'Clifden',
+      'Ballygar',
       'Mountbellew',
       'Glenamaddy',
       'Ahascragh',

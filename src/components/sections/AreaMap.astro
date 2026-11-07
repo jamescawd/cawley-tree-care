@@ -39,13 +39,6 @@ const baseTown = map.towns.find((t) => t.base);
         <path d={c.d} />
       ))}
     </g>
-    <g class="area-map__labels" aria-hidden="true">
-      {map.served.map((c) => (
-        <text x={c.label[0]} y={c.label[1]} class="area-map__county">
-          {c.county}
-        </text>
-      ))}
-    </g>
 
     <g class="area-map__towns">
       {towns.map((t) => (
@@ -62,9 +55,18 @@ const baseTown = map.towns.find((t) => t.base);
             class:list={['area-map__dot', { 'area-map__dot--base': t.base }]}
             cx={t.x}
             cy={t.y}
-            r={t.base ? 8 : 5}
+            r={t.base ? 8 : 4}
           />
         </a>
+      ))}
+    </g>
+
+    {/* County names sit above the town dots so they stay readable. */}
+    <g class="area-map__labels" aria-hidden="true">
+      {map.served.map((c) => (
+        <text x={c.label[0]} y={c.label[1]} class="area-map__county">
+          {c.county}
+        </text>
       ))}
     </g>
 
@@ -128,6 +130,10 @@ const baseTown = map.towns.find((t) => t.base);
     fill: var(--charcoal-900);
     text-anchor: middle;
     pointer-events: none;
+    stroke: var(--orange-500);
+    stroke-width: 4px;
+    stroke-linejoin: round;
+    paint-order: stroke;
   }
 
   .area-map__hit {
