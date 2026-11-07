@@ -183,7 +183,10 @@ test.describe('homepage conversion paths', () => {
     await expect(form.getByLabel(/Photos of the job/)).toHaveAttribute('type', 'file');
     await expect(form).toHaveAttribute('enctype', 'multipart/form-data');
     await expect(form).toHaveAttribute('action', '/api/quote');
-    await expect(form.getByRole('button', { name: /send my free quote request/i })).toBeEnabled();
+    const send = form.getByRole('button', { name: /send my free quote request/i });
+    await expect(send).toBeEnabled();
+    // It must really submit the form (a plain type="button" does nothing).
+    await expect(send).toHaveAttribute('type', 'submit');
   });
 
   test('portfolio filters show only the chosen category', async ({ page }) => {
