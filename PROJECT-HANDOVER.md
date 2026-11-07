@@ -155,31 +155,28 @@ separate, more specific rule (minifier bug, see `docs/ARCHITECTURE.md`).
 2. **Hero** (`HomeHero`): genuine photo `storm-fallen-beech-chainsaw-clearance.jpg`,
    headline **"Specialist tree care, rooted in experience."**, supporting line
    naming services + five counties, buttons "Request a free quote" and
-   "Call 087 119 9816", trust points (Over 15 Years of Experience · Fully
-   Insured · Based in Athlone, Co. Westmeath).
-3. **Trust band** (`HomeTrust`): 15+ Years in Business / Fully Insured /
-   Professional & Reliable, with the owner's own descriptions and orange line icons.
-4. **Services** (`HomeServices`, data in `config/homeServices.ts`): six
+   "Call 087 119 9816", trust points. On phones the photo is shortened so the
+   headline, both buttons and trust points fit the first screen.
+3. **Trust band** (`HomeTrust`).
+4. **Services** (`HomeServices`, data in `config/homeServices.ts`): five
    alternating photo chapters + an "All services" index of all nine.
-5. **Customer reviews** (`HomeTestimonials`): genuine reviews, column layout,
-   five-star graphics; phones show 4 + "Read more reviews"; quote + call buttons.
+5. **Emergency & storm damage** (`HomeEmergency`, `#emergency`): crane photo,
+   when-to-call list, large call button. No response times or 24/7 promised.
 6. **Featured work** (`HomeWork` + `WorkGallery`, data in `config/gallery.ts`):
-   mosaic of 13 genuine jobs, before/during/after pairs, CSS-only filters
-   (Tree surgery, Tree removal, Storm clearance, Hedges, Clearance & landscaping).
-7. **Why choose Cawley's** (`HomeWhy`, orange): 15+ and Insured figures, five principles.
-8. **About** (`HomeAbout`): real text from `business.about`, facts list, crew photo.
-9. **Town marquee** (decorative, hidden from screen readers).
-10. **Areas we serve** (`HomeAreas`): SVG map (five counties, 34 towns, each
-    links to Google Maps, Athlone marked as base) + county/town index.
-11. **What happens next** (`HomeProcess`): 01 Get in touch, 02 Receive your
-    quotation, 03 Professional workmanship (timeline), directly above the form.
-12. **Quote enquiry** (`HomeEnquiry` + `EnquiryForm`): large orange call card,
-    reassurance copy, form (see section 8).
-13. **Footer** (`SiteFooter`): stacked logo, credentials, Services (all nine),
-    Explore (Home, menu items, Request a free quote), Areas, Contact, Privacy.
-14. **Mobile action bar** (`MobileActionBar`, under 1200px): "Request a free
-    quote" + "Call now"; slides away while the form is on screen.
+   13 genuine jobs; before/after pairs carry a one-line `summary`.
+7. **Equipment & methods** (`HomeCapability`): chipper and tripod-ladder photos,
+   five methods each visible in the job photos. No ownership claimed.
+8. **About** (`HomeAbout`).
+9. **Why choose Cawley's** (`HomeWhy`, orange).
+10. **Customer reviews** (`HomeTestimonials`).
+11. **Town marquee** (decorative), then **Areas we serve** (`HomeAreas`).
+12. **What happens next** (`HomeProcess`), directly above the form.
+13. **Quote enquiry** (`HomeEnquiry` + `EnquiryForm`).
+14. **Footer** (`SiteFooter`).
+15. **Mobile action bar** (`MobileActionBar`, under 1200px): hidden while the
+    hero buttons or the quote form are on screen, shown everywhere else.
 
+Order is tested in `tests/foundation.spec.ts` ("follows the customer journey").
 Photos are never repeated across hero, chapters, About and gallery.
 
 ---

@@ -1,14 +1,14 @@
 /**
- * Homepage service chapters. Nine confirmed services, grouped into six
- * chapters so the page stays readable. Each chapter uses a different
+ * Homepage service chapters. Nine confirmed services, grouped into five
+ * chapters so the page stays readable. Emergency work has its own section
+ * (components/home/HomeEmergency.astro) so urgent callers find it quickly. Each chapter uses a different
  * genuine photograph that is not repeated elsewhere on the homepage.
  */
 import type { ImageMetadata } from 'astro';
 import surgeryImg from '@/assets/images/work/arborist-cutting-trunk-section.jpg';
 import removalImg from '@/assets/images/work/sectional-dismantling-beside-building.jpg';
-import stormImg from '@/assets/images/work/crane-lifting-fallen-conifer-off-house.jpg';
-import hedgeImg from '@/assets/images/work/conifer-hedge-cut-near-overhead-lines.jpg';
-import clearanceImg from '@/assets/images/work/overgrown-beech-hedge-with-wood-chipper.jpg';
+import hedgeImg from '@/assets/images/work/conifer-hedge-finished-near-lines.jpg';
+import clearanceImg from '@/assets/images/work/beech-hedge-after-reduction.jpg';
 import landscapingImg from '@/assets/images/work/conifer-hedge-trimmed-beside-lawn.jpg';
 import { serviceById, type Service } from '@/config/services';
 
@@ -69,23 +69,6 @@ export const serviceChapters: ServiceChapter[] = [
     cta: 'Get a tree removal quote',
   },
   {
-    id: 'emergency',
-    label: 'Emergency work',
-    title: 'Emergency &',
-    accent: 'storm-damaged trees',
-    description:
-      'Storms leave trees split, leaning or lying across lanes, driveways and roofs. These jobs need to be approached carefully, because damaged timber is under tension and can move without warning.',
-    benefit:
-      'Call us and we will tell you honestly how quickly we can get to you. We make the tree safe first, then clear it so you can get access and repairs back on track.',
-    services: [serviceById('emergency')],
-    image: {
-      src: stormImg,
-      alt: 'A tractor-mounted crane and grab lifting a large storm-felled conifer off the front of a white house.',
-      focus: '50% 50%',
-    },
-    cta: 'Call about storm damage',
-  },
-  {
     id: 'hedges',
     label: 'Hedges',
     title: 'Hedge cutting,',
@@ -97,8 +80,8 @@ export const serviceChapters: ServiceChapter[] = [
     services: [serviceById('hedge-cutting')],
     image: {
       src: hedgeImg,
-      alt: 'A worker on a tripod ladder trimming the top of a tall conifer hedge beside overhead lines.',
-      focus: '50% 42%',
+      alt: 'A tall conifer hedge with a clean, flat face after trimming, running beside a lawn under overhead lines.',
+      focus: '50% 45%',
     },
     cta: 'Get a hedge cutting quote',
   },
@@ -114,8 +97,8 @@ export const serviceChapters: ServiceChapter[] = [
     services: [serviceById('garden-clearance'), serviceById('wood-chipping')],
     image: {
       src: clearanceImg,
-      alt: 'An overgrown beech hedge along a gravel driveway with a tracked wood chipper parked ready to work.',
-      focus: '40% 55%',
+      alt: 'A gravel driveway after an overgrown beech hedge was cleared, opening the boundary to the road.',
+      focus: '45% 60%',
     },
     cta: 'Get a clearance quote',
   },
@@ -137,3 +120,10 @@ export const serviceChapters: ServiceChapter[] = [
     cta: 'Talk to us about your garden',
   },
 ];
+
+/**
+ * Homepage section for a service: its chapter, or the dedicated emergency
+ * section for emergency work.
+ */
+export const serviceAnchor = (id: string): string =>
+  serviceChapters.find((c) => c.services.some((s) => s.id === id))?.id ?? 'emergency';

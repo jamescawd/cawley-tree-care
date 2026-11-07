@@ -9,10 +9,9 @@ import { navHref } from '@/config/navigation';
 import { getNavigation } from '@/lib/navigation';
 import { provided } from '@/lib/placeholder';
 import { services, serviceHref } from '@/config/services';
-import { serviceChapters } from '@/config/homeServices';
+import { serviceAnchor } from '@/config/homeServices';
 
-const anchorFor = (id: string) =>
-  `/#${serviceChapters.find((c) => c.services.some((s) => s.id === id))!.id}`;
+const anchorFor = (id: string) => `/#${serviceAnchor(id)}`;
 
 const email = provided(business.contact.email);
 const { locality, region } = business.address;

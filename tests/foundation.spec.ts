@@ -221,8 +221,13 @@ test.describe('mobile conversion', () => {
 
   test('call and quote are always one tap away on phones', async ({ page, isMobile }) => {
     test.skip(!isMobile, 'Phone layout only');
+    // First screen: the hero's own buttons are visible.
+    await expect(page.locator('.hero__ctas a[href^="tel:"]')).toBeInViewport();
+    await expect(page.locator('.hero__ctas a[href="/#enquiry"]')).toBeInViewport();
+    // Further down, the fixed bar takes over.
+    await page.locator('#work').scrollIntoViewIfNeeded();
     const bar = page.getByRole('region', { name: 'Quick contact' });
-    await expect(bar).toBeVisible();
+    await expect(bar).toBeInViewport();
     await expect(bar.getByRole('link', { name: /call now/i })).toHaveAttribute(
       'href',
       'tel:+353871199816',
@@ -233,14 +238,23 @@ test.describe('mobile conversion', () => {
     );
   });
 
-  test('reviews appear before the gallery, and next steps sit beside the form', async ({
+  test('the page follows the customer journey, and next steps sit beside the form', async ({
     page,
   }) => {
     const order = await page
       .locator('main > section[id]')
       .evaluateAll((els) => els.map((e) => e.id));
-    expect(order.indexOf('reviews')).toBeLessThan(order.indexOf('work'));
-    expect(order.indexOf('process')).toBe(order.indexOf('enquiry') - 1);
+    const at = (id: string) => {
+      expect(order).toContain(id);
+      return order.indexOf(id);
+    };
+    // Services → urgent work → proof → trust → feedback → contact.
+    expect(at('services')).toBeLessThan(at('emergency'));
+    expect(at('emergency')).toBeLessThan(at('work'));
+    expect(at('work')).toBeLessThan(at('about'));
+    expect(at('about')).toBeLessThan(at('reviews'));
+    expect(at('reviews')).toBeLessThan(at('enquiry'));
+    expect(at('process')).toBe(at('enquiry') - 1);
   });
 
   test('no unfinished placeholders are shown in the contact area', async ({ page }) => {

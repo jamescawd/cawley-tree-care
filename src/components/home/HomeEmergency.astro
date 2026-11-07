@@ -1,0 +1,206 @@
+---
+/**
+ * Emergency and storm-damaged tree work: its own band directly after the
+ * services, so someone with an urgent problem reaches the phone number fast.
+ * No response times or 24/7 cover are promised (none have been confirmed).
+ */
+import { Picture } from 'astro:assets';
+import Button from '@/components/ui/Button.astro';
+import { business } from '@/config/business';
+import { quoteHref } from '@/config/navigation';
+import craneImg from '@/assets/images/work/crane-lifting-fallen-conifer-off-house.jpg';
+
+const phoneHref = `tel:${business.contact.phone}`;
+const signs = [
+  'A tree or large limb down across a lane, driveway or garden',
+  'A tree resting on a roof, shed, wall or fence',
+  'A tree split, cracked or leaning after a storm',
+  'Hanging branches over a house, road or footpath',
+];
+---
+
+<section id="emergency" class="emergency surface-dark" aria-labelledby="emergency-title">
+  <div class="emergency__media">
+    <Picture
+      src={craneImg}
+      alt="A tractor-mounted crane and grab lifting a large storm-felled conifer off the front of a white house."
+      widths={[480, 720, 960, 1280, 1600].filter((w) => w <= craneImg.width)}
+      sizes="(min-width: 64em) 50vw, 100vw"
+      formats={['avif', 'webp']}
+      layout="none"
+    />
+    <span class="emergency__caption">Storm-felled conifer lifted off a house</span>
+  </div>
+
+  <div class="emergency__body reveal">
+    <p class="eyebrow">Emergency &amp; storm damage</p>
+    <h2 id="emergency-title">
+      A tree down or <em>dangerous</em>? Call us.
+    </h2>
+    <p class="lead">
+      Storm-damaged timber is under tension and can move without warning. Keep people clear, then
+      ring us: we will tell you honestly how quickly we can get to you, make the tree safe first and
+      then clear it.
+    </p>
+
+    <ul class="emergency__signs" role="list" aria-label="When to call">
+      {signs.map((s) => (
+        <li>{s}</li>
+      ))}
+    </ul>
+
+    <div class="emergency__actions">
+      <Button href={phoneHref} size="lg" class="emergency__call">
+        <svg class="emergency__icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z" />
+        </svg>
+        Call {business.contact.phoneDisplay}
+      </Button>
+      <p class="emergency__alt">
+        Not urgent? <a href={quoteHref}>Send us photos with a quote request</a>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .emergency {
+    display: grid;
+    background: var(--charcoal-800);
+    border-block: 1px solid var(--color-border);
+  }
+
+  .emergency__media {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: var(--charcoal-700);
+  }
+
+  .emergency__media :global(picture),
+  .emergency__media :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .emergency__media :global(picture) {
+    position: absolute;
+    inset: 0;
+  }
+
+  .emergency__media :global(img) {
+    object-fit: cover;
+    object-position: 45% 50%;
+  }
+
+  .emergency__caption {
+    position: absolute;
+    inset: auto 0 0;
+    padding: var(--space-xl) var(--gutter) var(--space-s);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--ivory-100);
+    background: linear-gradient(to top, rgb(17 17 17 / 0.85), rgb(17 17 17 / 0));
+  }
+
+  .emergency__body {
+    display: grid;
+    gap: var(--space-s);
+    align-content: center;
+    padding: var(--space-xl) var(--gutter) var(--space-2xl);
+  }
+
+  .emergency__body h2 {
+    font-size: var(--text-4xl);
+    line-height: var(--leading-tight);
+    max-width: 13ch;
+  }
+
+  .emergency__body .lead {
+    max-width: 44ch;
+  }
+
+  .emergency__signs {
+    display: grid;
+    gap: var(--space-2xs);
+    margin-block: var(--space-2xs);
+    padding-block: var(--space-s);
+    border-block: 1px solid var(--color-border);
+  }
+
+  .emergency__signs li {
+    display: flex;
+    gap: 0.8em;
+    align-items: baseline;
+    max-width: none;
+  }
+
+  .emergency__signs li::before {
+    content: '';
+    flex-shrink: 0;
+    width: 0.45rem;
+    height: 0.45rem;
+    background: var(--orange-500);
+    transform: translateY(-0.1em) rotate(45deg);
+  }
+
+  .emergency__actions {
+    display: grid;
+    gap: var(--space-s);
+    margin-block-start: var(--space-2xs);
+  }
+
+  .emergency__actions :global(.emergency__call) {
+    justify-self: stretch;
+    font-size: var(--text-lg);
+  }
+
+  .emergency__actions :global(.emergency__call > span) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+  }
+
+  .emergency__icon {
+    width: 1.15em;
+    height: 1.15em;
+    fill: currentColor;
+  }
+
+  .emergency__alt {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .emergency__alt a {
+    color: var(--color-text);
+    text-decoration-color: var(--orange-500);
+    text-underline-offset: 0.2em;
+  }
+
+  @media (min-width: 30em) {
+    .emergency__actions :global(.emergency__call) {
+      justify-self: start;
+    }
+  }
+
+  @media (min-width: 64em) {
+    .emergency {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      min-height: min(42rem, 90svh);
+    }
+
+    .emergency__media {
+      aspect-ratio: auto;
+    }
+
+    .emergency__caption {
+      padding-inline: var(--space-l);
+    }
+
+    .emergency__body {
+      padding: var(--space-2xl) clamp(2rem, 6vw, 6rem);
+    }
+  }
+</style>

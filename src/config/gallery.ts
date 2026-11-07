@@ -54,6 +54,8 @@ export type TileSize = 'feature' | 'tall' | 'wide' | 'standard';
 export interface WorkItem {
   category: WorkCategory;
   title: string;
+  /** One factual line describing the job, shown on before/after tiles. */
+  summary?: string;
   size: TileSize;
   photos: [WorkPhoto] | [WorkPhoto, WorkPhoto];
 }
@@ -63,6 +65,8 @@ export const workItems: WorkItem[] = [
   {
     category: 'removal',
     title: 'Large tree removed from a tracked platform',
+    summary:
+      'Taken down limb by limb from a tracked platform; afterwards the lawn is clear and the timber stacked.',
     size: 'feature',
     photos: [
       {
@@ -128,6 +132,7 @@ export const workItems: WorkItem[] = [
   {
     category: 'hedges',
     title: 'Overgrown laurel cut back',
+    summary: 'Brought back off the garden path to a tidy, even shape.',
     size: 'wide',
     photos: [
       {
@@ -164,6 +169,7 @@ export const workItems: WorkItem[] = [
   {
     category: 'removal',
     title: 'Mature tree reduced to its trunk',
+    summary: 'Reduced in sections on rigging ropes, between a stone wall and a timber cabin.',
     size: 'feature',
     photos: [
       {
@@ -183,6 +189,7 @@ export const workItems: WorkItem[] = [
   {
     category: 'clearance',
     title: 'Overgrown border cleared and gravelled',
+    summary: 'Overgrowth cleared, then finished with fresh gravel and a neat timber edge.',
     size: 'wide',
     photos: [
       {
@@ -213,6 +220,8 @@ export const workItems: WorkItem[] = [
   {
     category: 'hedges',
     title: 'Tall conifer hedge trimmed beside overhead lines',
+    summary:
+      'Trimmed from a tripod ladder beneath the overhead lines, leaving a straight, even face.',
     size: 'wide',
     photos: [
       {
