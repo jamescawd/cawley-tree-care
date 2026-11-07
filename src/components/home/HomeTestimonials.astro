@@ -73,7 +73,7 @@ const googleProfile = provided(business.links.googleBusinessProfile);
         </Button>
         {googleProfile && (
           <Button href={googleProfile} variant="secondary" arrow target="_blank" rel="noopener">
-            Read our reviews on Google
+            {business.links.googleHasReviews ? 'Read our reviews on Google' : 'Find us on Google'}
           </Button>
         )}
       </div>
