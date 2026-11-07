@@ -144,6 +144,15 @@ test.describe('homepage conversion paths', () => {
     await expect(page.locator('#enquiry form')).toHaveCount(1);
   });
 
+  test('quote buttons land on the form itself, not the section intro', async ({ page }) => {
+    await page
+      .locator('.hero__ctas')
+      .getByRole('link', { name: /request a free quote/i })
+      .click();
+    await expect(page).toHaveURL(/#quote-form$/);
+    await expect(page.locator('#quote-form').getByLabel('Your name')).toBeInViewport();
+  });
+
   test('quote form asks only for useful information', async ({ page }) => {
     const form = page.locator('#enquiry form');
     await expect(form.getByLabel('Your name')).toHaveAttribute('required', '');
@@ -223,7 +232,7 @@ test.describe('mobile conversion', () => {
     test.skip(!isMobile, 'Phone layout only');
     // First screen: the hero's own buttons are visible.
     await expect(page.locator('.hero__ctas a[href^="tel:"]')).toBeInViewport();
-    await expect(page.locator('.hero__ctas a[href="/#enquiry"]')).toBeInViewport();
+    await expect(page.locator('.hero__ctas a[href="/#quote-form"]')).toBeInViewport();
     // Further down, the fixed bar takes over.
     await page.locator('#work').scrollIntoViewIfNeeded();
     const bar = page.getByRole('region', { name: 'Quick contact' });
@@ -234,7 +243,7 @@ test.describe('mobile conversion', () => {
     );
     await expect(bar.getByRole('link', { name: /request a free quote/i })).toHaveAttribute(
       'href',
-      '/#enquiry',
+      '/#quote-form',
     );
   });
 

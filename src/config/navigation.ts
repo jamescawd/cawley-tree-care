@@ -29,4 +29,5 @@ export const primaryNav: NavItem[] = [
 export const navHref = (item: NavItem): string => (item.ready ? item.href : item.anchor);
 
 /** Where every "Request a quote" button points. */
-export const quoteHref = '/#enquiry';
+/** Quote buttons go straight to the form (the Contact link goes to the whole section). */
+export const quoteHref = '/#quote-form';
