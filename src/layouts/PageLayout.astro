@@ -8,6 +8,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import SiteHeader from '@/components/layout/SiteHeader.astro';
 import SiteFooter from '@/components/layout/SiteFooter.astro';
 import MobileActionBar from '@/components/layout/MobileActionBar.astro';
+import WhatsAppButton from '@/components/layout/WhatsAppButton.astro';
 import type { ComponentProps } from 'astro/types';
 
 type Props = ComponentProps<typeof BaseLayout> & { quoteLink?: string };
@@ -19,4 +20,5 @@ const { quoteLink, ...props } = Astro.props;
   <slot />
   <SiteFooter slot="footer" quoteLink={quoteLink} />
   <MobileActionBar slot="footer" quoteLink={quoteLink} />
+  <WhatsAppButton slot="footer" />
 </BaseLayout>

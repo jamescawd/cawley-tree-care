@@ -65,6 +65,10 @@ export const business = {
     phone: '+353871199816', // CONFIRMED by the business (Nov 2026)
     /** How the number is shown on the page. */
     phoneDisplay: '087 119 9816',
+    /** CONFIRMED by the business (Nov 2026): WhatsApp on the same mobile. Digits only, for wa.me. */
+    whatsapp: '353871199816',
+    whatsappMessage:
+      "Hi Cawley's, I'd like to enquire about some tree work and request a free quotation.",
     /**
      * NOT CONFIRMED. Suggested: info@qualitytreecare.com or
      * info@qualitytreecare.ie, but neither matches the website domain
@@ -132,9 +136,8 @@ export const business = {
    * be delivered (see worker/index.ts). Until then submissions go to
    * /quote-error, which gives the phone number.
    */
-  enquiryDelivery: placeholder(
-    'Add the RESEND_API_KEY secret in Cloudflare Pages, then confirm a test enquiry arrives (functions/api/quote.ts)',
-  ),
+  /** CONFIRMED by the business (Nov 2026): test enquiry delivered to the owner's inbox. */
+  enquiryDelivery: true as Maybe<boolean>,
 
   /**
    * CONFIRMED by the business (Nov 2026): the reviews in
@@ -158,6 +161,7 @@ export const business = {
     googleHasReviews: false,
     /** CONFIRMED by the business (Nov 2026): Facebook share link. */
     facebook: 'https://www.facebook.com/share/1CZ7hHgcMq/' as Maybe<string>,
-    instagram: placeholder('Instagram profile URL (remove if not used)'),
+    /** No Instagram account (confirmed Nov 2026). Add the URL here if one is created. */
+    instagram: undefined as Maybe<string> | undefined,
   },
 } as const;

@@ -226,6 +226,21 @@ test.describe('homepage conversion paths', () => {
   });
 });
 
+test('the WhatsApp button opens a chat with the pre-filled enquiry', async ({ page }) => {
+  for (const path of ['/', '/tree-removal']) {
+    await page.goto(path);
+    // Located directly: it may be stepped aside (hidden) over a call button.
+    const wa = page.locator('a.wa-button');
+    await expect(wa).toHaveAttribute('aria-label', /chat with us on whatsapp/i);
+    await expect(wa).toHaveCount(1);
+    const href = new URL((await wa.getAttribute('href'))!);
+    expect(href.origin + href.pathname).toBe('https://wa.me/353871199816');
+    expect(href.searchParams.get('text')).toBe(
+      "Hi Cawley's, I'd like to enquire about some tree work and request a free quotation.",
+    );
+  }
+});
+
 test.describe('service pages', () => {
   test('every page has a unique title and description', async ({ page }) => {
     const titles = new Set<string>();

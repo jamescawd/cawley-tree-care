@@ -19,6 +19,8 @@
   /* ---------- 1. Primitives: colour ---------- */
   --orange-400: #ff9433; /* hover on dark surfaces */
   --orange-500: #f58216; /* BRAND ORANGE */
+  --whatsapp-green: #25d366; /* WhatsApp's own brand colour, WhatsApp button only */
+  --whatsapp-glyph: #ffffff;
   --orange-600: #e5730a; /* pressed */
 
   --charcoal-900: #171717; /* BRAND CHARCOAL */
