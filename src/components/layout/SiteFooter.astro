@@ -5,7 +5,7 @@ import Pending from '@/components/ui/Pending.astro';
 import PhoneLink from '@/components/ui/PhoneLink.astro';
 import { business } from '@/config/business';
 import { serviceAreas, countyLabel } from '@/config/areas';
-import { navHref } from '@/config/navigation';
+import { navHref, quoteHref } from '@/config/navigation';
 import { getNavigation } from '@/lib/navigation';
 import { provided } from '@/lib/placeholder';
 import { services, serviceHref } from '@/config/services';
@@ -58,7 +58,7 @@ const primaryNav = await getNavigation();
           </li>
         ))}
         <li>
-          <a href="/#enquiry">Request a free quote</a>
+          <a href={quoteHref}>Request a free quote</a>
         </li>
       </ul>
     </nav>
