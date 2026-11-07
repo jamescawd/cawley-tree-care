@@ -11,13 +11,14 @@ import { placeholder, type Maybe } from '@/lib/placeholder';
  */
 
 export interface PostalAddress {
-  streetAddress: Maybe<string>;
+  /** Omitted: service-area business, town only (confirmed Nov 2026). */
+  streetAddress?: Maybe<string>;
   /** Town / city. */
   locality: Maybe<string>;
   /** County, e.g. "Co. Kildare". */
   region: Maybe<string>;
   /** Eircode. */
-  postalCode: Maybe<string>;
+  postalCode?: Maybe<string>;
   /** ISO 3166-1 alpha-2. */
   country: 'IE';
 }
@@ -77,18 +78,18 @@ export const business = {
 
   /** Base / registered location. Must match the Google Business Profile. */
   address: {
-    streetAddress: placeholder('Street address (or omit if a service-area business)'),
     locality: 'Athlone', // CONFIRMED by the business (Nov 2026)
     region: 'Co. Westmeath', // CONFIRMED by the business (Nov 2026)
-    postalCode: placeholder('Eircode'),
     country: 'IE',
   } satisfies PostalAddress,
 
-  /** Latitude / longitude of the base, for maps and structured data. */
-  geo: placeholder('Map coordinates of the base location') as Maybe<{
-    latitude: number;
-    longitude: number;
-  }>,
+  /**
+   * CONFIRMED by the business (Nov 2026): show the town only, no street
+   * address, Eircode or map pin (service-area business).
+   */
+  locationLine: 'Based in Athlone, Co. Westmeath | Serving surrounding counties',
+  /** Latitude / longitude of the base: not published (town only). */
+  geo: undefined as { latitude: number; longitude: number } | undefined,
 
   /**
    * CONFIRMED by the business (Nov 2026): 8am to 6pm, Monday to Saturday;
