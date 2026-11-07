@@ -133,7 +133,7 @@ export const business = {
    * /quote-error, which gives the phone number.
    */
   enquiryDelivery: placeholder(
-    'Quote form not live: the site is on Cloudflare Pages, which does not run worker/index.ts. Connect the handler, then set RESEND_API_KEY, ENQUIRY_TO, ENQUIRY_FROM',
+    'Add the RESEND_API_KEY secret in Cloudflare Pages, then confirm a test enquiry arrives (functions/api/quote.ts)',
   ),
 
   /**

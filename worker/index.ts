@@ -17,7 +17,7 @@
  * the phone number, so no enquiry is silently lost.
  */
 
-interface Env {
+export interface Env {
   ASSETS: { fetch(request: Request): Promise<Response> };
   RESEND_API_KEY?: string;
   ENQUIRY_TO?: string;
@@ -105,19 +105,29 @@ async function handleQuote(request: Request, env: Env, url: URL): Promise<Respon
       '',
     )}</table><h3>About the job</h3><p>${escapeHtml(message).replace(/\n/g, '<br>')}</p><p>Photos attached: ${attachments.length}</p>`;
 
-  const res = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      from: env.ENQUIRY_FROM,
-      to: [env.ENQUIRY_TO],
-      reply_to: email || undefined,
-      subject: `Quote request: ${service} – ${name}, ${location}`,
-      text,
-      html,
-      attachments,
-    }),
-  });
+  let res: Response;
+  try {
+    res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: env.ENQUIRY_FROM,
+        to: [env.ENQUIRY_TO],
+        reply_to: email || undefined,
+        subject: `Quote request: ${service} – ${name}, ${location}`,
+        text,
+        html,
+        attachments,
+      }),
+    });
+  } catch (err) {
+    // Provider unreachable: show the friendly error page (with the phone number).
+    console.error('Email provider could not be reached', err);
+    return redirect(url, '/quote-error');
+  }
 
   if (!res.ok) {
     console.error('Email provider rejected the enquiry', res.status, await res.text());
