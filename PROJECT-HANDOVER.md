@@ -291,13 +291,23 @@ items also have reserved paths (`/services`, `/projects`, `/about`,
 | Google Business Profile, Facebook, Instagram        | not supplied                                                                                        | Placeholders                                                                                                                                               |
 | Privacy notice                                      | `/privacy`                                                                                          | Drafted; owner review pending                                                                                                                              |
 
-Service area (`src/config/areas.ts`, confirmed, complete):
+Service area (`src/config/areas.ts`, confirmed, complete): five counties, 74 towns
+and villages (34 original + 40 added Nov 2026; Ballygar listed under Galway, where it is).
 
-- **Westmeath:** Mullingar, Athlone, Moate, Kinnegad, Castlepollard, Kilbeggan, Rochfortbridge
-- **Roscommon:** Roscommon Town, Boyle, Castlerea, Ballaghaderreen, Strokestown, Elphin
-- **Longford:** Longford Town, Edgeworthstown, Granard, Ballymahon, Lanesborough
-- **Offaly:** Tullamore, Birr, Edenderry, Clara, Kilcormac, Banagher, Ferbane
-- **Galway:** Galway City, Tuam, Ballinasloe, Loughrea, Athenry, Oranmore, Gort, Portumna, Clifden
+- **Westmeath (15):** Mullingar, Athlone, Moate, Kinnegad, Castlepollard, Kilbeggan, Rochfortbridge,
+  Glasson, Delvin, Tyrrellspass, Ballymore, Ballynacarrigy, Multyfarnham, Killucan, Milltownpass
+- **Roscommon (13):** Roscommon Town, Boyle, Castlerea, Ballaghaderreen, Strokestown, Elphin,
+  Athleague, Knockcroghery, Frenchpark, Roosky, Ballyleague, Ballinlough, Keadue
+- **Longford (13):** Longford Town, Edgeworthstown, Granard, Ballymahon, Lanesborough, Drumlish,
+  Newtownforbes, Keenagh, Ballinalee, Ardagh, Abbeyshrule, Ballinamuck, Newtowncashel
+- **Offaly (15):** Tullamore, Birr, Edenderry, Clara, Kilcormac, Banagher, Ferbane, Daingean,
+  Kinnitty, Geashill, Killeigh, Shinrone, Cloghan, Shannonbridge, Mucklagh
+- **Galway (18):** Galway City, Tuam, Ballinasloe, Loughrea, Athenry, Oranmore, Gort, Portumna,
+  Clifden, Ballygar, Mountbellew, Glenamaddy, Ahascragh, Dunmore, Eyrecourt, Claregalway,
+  Craughwell, Headford
+
+Every town is also a dot on the areas map. To add one, add it to `areas.ts` **and** to `TOWNS`
+in `scripts/maps/build-ireland-map.py`, then re-run the script (see `scripts/maps/README.md`).
 
 ### Quote form and handler
 
