@@ -350,6 +350,11 @@ const imgWidths = (w: number) => [400, 640, 960, 1280, 1600].filter((x) => x <= 
             </li>
           ))}
         </ul>
+        {page.localPage && (
+          <p class="svc-related__more">
+            Near Athlone? <a href={page.localPage.href}>{page.localPage.label}</a>
+          </p>
+        )}
         <p class="svc-related__more">
           <a href="/#services">All services</a> · <a href="/#work">Our work</a> ·{' '}
           <a href="/#enquiry">Contact us</a>
