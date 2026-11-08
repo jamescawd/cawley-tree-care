@@ -183,5 +183,6 @@ export const treeSurgery: ServicePage = {
     text: 'Call us, or send a few photos with a quote request. We cover Westmeath, Roscommon, Longford, Offaly and Galway, and every quotation is free.',
   },
 
+  localPage: { href: '/tree-surgeon-athlone', label: 'Tree surgeons in Athlone' },
   related: ['tree-pruning', 'tree-removal', 'stump-grinding', 'emergency-tree-services'],
 };

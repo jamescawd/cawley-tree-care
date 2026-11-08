@@ -62,4 +62,6 @@ export interface ServicePage {
   cta: Heading & { text: string };
   /** Slugs of related service pages. */
   related: string[];
+  /** Optional link to a town page, shown under related services. */
+  localPage?: { href: string; label: string };
 }
