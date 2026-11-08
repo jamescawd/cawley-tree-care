@@ -63,7 +63,7 @@ export const athlone: LocationPage = {
     items: [
       {
         title: 'Tree surgery',
-        text: 'The place to start if you are not sure what a tree needs. We check its health, its size and what it is close to, then suggest the least work that solves the problem.',
+        text: 'The place to start if you are not sure what a tree needs. We check its health, its size and what it is close to, then recommend what it actually needs.',
         href: '/tree-surgery',
       },
       {
@@ -78,17 +78,17 @@ export const athlone: LocationPage = {
       },
       {
         title: 'Stump grinding',
-        text: 'For the stump left behind after a tree comes down. It is ground out below the surface, so the ground can be turfed or planted again.',
+        text: 'For the stump left behind after a tree comes down. Where the site suits it, the stump is ground down below ground level so the area can be levelled and used again.',
         href: '/stump-grinding',
       },
       {
         title: 'Emergency tree services',
-        text: 'For a tree or limb down on a house, car, road or driveway, or one left split and hanging after a storm. Ring us 24/7 and we will tell you honestly how soon we can get there.',
+        text: 'For a tree or limb down on a house, car, road or driveway, or one left split and hanging after a storm. You can ring us 24/7, and we will tell you honestly how soon we can get to you.',
         href: '/emergency-tree-services',
       },
       {
         title: 'Hedge cutting',
-        text: 'Regular trims, overgrown hedges brought back down to a manageable size, or a hedge taken out completely. Laurel, beech and conifer are the ones we cut most.',
+        text: 'Regular trims, overgrown hedges brought back down to a manageable size, or a hedge taken out completely. Laurel, beech and conifer hedges included.',
         href: '/hedge-cutting',
       },
       {
@@ -134,17 +134,17 @@ export const athlone: LocationPage = {
   advice: {
     title: 'Useful to know',
     accent: 'before you book',
-    intro: 'The questions people in and around Athlone most often need answered first.',
+    intro: 'Worth knowing before any work is booked.',
     faqs: [
       {
         question: 'Do I need permission to cut or remove a tree?',
         answer:
-          'It depends on the tree and where it is. A tree can be protected by a tree preservation order, stand in an architectural conservation area, or be covered by a condition of a planning permission. Athlone is split between two councils: most of the town, east of the Shannon, is in Co. Westmeath, and the west side is in Co. Roscommon. Check with Westmeath County Council or Roscommon County Council, depending on which side the tree is on, before any work is booked.',
+          'It depends on the tree, and there are three separate things to check. First, a felling licence: under the Forestry Act 2014 many trees need a licence from the Department of Agriculture, Food and the Marine before they are felled, but there are exemptions, including trees in urban areas (in Athlone, the area of the former Athlone Town Council) and trees within 30 metres of a building, unless the building is newer than the tree. Second, a tree preservation order: the county council can protect individual trees or groups of trees, and the licence exemptions do not override one. Third, planning: a tree can be protected by a condition of a planning permission or because it stands in an architectural conservation area. Athlone is split between Westmeath County Council, east of the Shannon, and Roscommon County Council, on the west side. We will help you work out what applies to your tree before any work is booked, and if there is any doubt, check with the council or the Department first.',
       },
       {
         question: 'When can hedges be cut back?',
         answer:
-          'The Wildlife Acts restrict cutting hedgerows from 1 March to 31 August, with certain exemptions, and nesting birds are protected all year round. Some garden hedges are treated differently, so if you are unsure whether yours can be cut, ask us or check before the work is done. Autumn and winter are the safest times for hard cutting.',
+          'Under Section 40 of the Wildlife Acts, cutting, grubbing or burning vegetation in hedges and ditches, and on uncultivated land, is restricted from 1 March to 31 August. There are limited legal exemptions, for example for public health and safety, for road safety, and for some work in the ordinary course of agriculture or forestry, so not every piece of hedge work is ruled out. Separately, nesting birds and their nests are protected all year round. If a hedge needs work during the restricted months, ask us first and we will tell you honestly whether it can be done now or should wait.',
       },
       {
         question: 'What helps you give an accurate quote?',

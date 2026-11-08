@@ -10,9 +10,9 @@ export const treeSurgery: ServicePage = {
   navLabel: 'Tree Surgery',
   teaser: 'All-round tree care, from pruning and deadwood to removal.',
   services: ['tree-surgery'],
-  seoTitle: "Tree Surgeons in Athlone, Westmeath & Midlands | Cawley's",
+  seoTitle: "Tree Surgery in Westmeath & the Midlands | Cawley's",
   description:
-    'Experienced tree surgeons based in Athlone, covering Westmeath, Roscommon, Longford, Offaly and Galway. Pruning, reduction, deadwood and removal. Fully insured.',
+    'Tree surgery across Westmeath, Roscommon, Longford, Offaly and Galway: pruning, crown reduction, deadwood and removal. 15+ years, fully insured. Free quotes.',
 
   hero: {
     eyebrow: 'Tree surgery',
