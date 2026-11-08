@@ -58,7 +58,7 @@ const sizes: Record<string, string> = {
                 <Picture
                   src={p.src}
                   alt={p.alt}
-                  widths={[400, 640, 960, 1280].filter((w) => w <= p.src.width)}
+                  widths={[400, 640, 800, 960, 1280].filter((w) => w <= p.src.width)}
                   sizes={sizes[item.size]}
                   formats={['avif', 'webp']}
                   layout="none"
