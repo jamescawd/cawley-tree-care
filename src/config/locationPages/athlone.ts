@@ -2,6 +2,9 @@ import type { LocationPage } from './types';
 import cutting from '@/assets/images/work/arborist-cutting-trunk-section.jpg';
 import before from '@/assets/images/work/mature-tree-before-removal.jpg';
 import during from '@/assets/images/work/mature-tree-reduced-to-trunk.jpg';
+import jobStart from '@/assets/images/work/tree-removal-tracked-access-platform.jpg';
+import jobDuring from '@/assets/images/work/arborist-on-tracked-platform-removing-tree.jpg';
+import jobAfter from '@/assets/images/work/garden-tidy-after-tree-removal.jpg';
 import dismantling from '@/assets/images/work/sectional-dismantling-beside-building.jpg';
 
 /**
@@ -100,6 +103,32 @@ export const athlone: LocationPage = {
         title: 'Landscaping',
         text: 'For what comes after the tree work: lawns, planting, paving and fencing, from the same team.',
         href: '/landscaping',
+      },
+    ],
+  },
+
+  // Genuine job near Athlone (confirmed by the owner, Nov 2026). The owner
+  // asked for the exact place not to be named.
+  job: {
+    title: 'Tree removal',
+    accent: 'near Athlone',
+    intro:
+      'Larger and more complex removals are taken down in sections, using suitable access equipment such as a cherry picker where the job needs it. This tree, in a garden near Athlone, came down limb by limb, and the garden was left tidy with the timber stacked.',
+    photos: [
+      {
+        src: jobStart,
+        alt: "Cawley's crew starting work on a large tree near Athlone, with an arborist in a cherry picker basket in the crown and a wood chipper below.",
+        caption: '1. The start: working into the crown from a cherry picker',
+      },
+      {
+        src: jobDuring,
+        alt: 'The same tree near Athlone dismantled to its main stems, with an arborist cutting the last limbs from a cherry picker and logs stacked below.',
+        caption: '2. Taken down limb by limb',
+      },
+      {
+        src: jobAfter,
+        alt: 'The garden near Athlone after the tree removal: lawn clear, seating area tidy and the timber stacked as logs.',
+        caption: '3. Finished: garden tidy, timber stacked',
       },
     ],
   },

@@ -31,6 +31,8 @@ export interface LocationPage {
     /** `href` must be an existing service page. Text is written for this page. */
     items: { title: string; text: string; href: string }[];
   };
+  /** Optional photo story of one genuine local job, in order (before → during → after). */
+  job?: Heading & { intro: string; photos: Photo[] };
   proof: Heading & {
     intro: string;
     /** Id of a genuine testimonial in src/content/testimonials (file name without .yaml). */
