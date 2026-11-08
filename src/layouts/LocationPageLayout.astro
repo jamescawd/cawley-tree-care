@@ -1,0 +1,935 @@
+---
+/**
+ * Town page (e.g. /tree-surgeon-athlone). Content comes from
+ * src/config/locationPages/<town>.ts; see docs/LOCATION-PAGES.md.
+ *
+ * Section order (each one answers a customer question):
+ *   A hero (who, where, how to get in touch) → B local introduction (why a
+ *   local firm) → C services (which one do I need?) → D proof (a genuine
+ *   local review + real photos) → E advice (what to know before booking) →
+ *   F nearby areas (do you cover me?) → G call to action → quote form.
+ *
+ * Built from the same system as the service pages (surfaces, SectionHeader,
+ * Button, TrustList, HomeEnquiry) so it looks like part of the same site.
+ * Structured data: Service (area: the town), BreadcrumbList and FAQPage. The
+ * business itself is described once, site-wide, by BaseLayout.
+ */
+import { Picture, getImage } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import PageLayout from '@/layouts/PageLayout.astro';
+import Button from '@/components/ui/Button.astro';
+import SectionHeader from '@/components/ui/SectionHeader.astro';
+import TrustList from '@/components/ui/TrustList.astro';
+import HomeEnquiry from '@/components/home/HomeEnquiry.astro';
+import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
+import { business } from '@/config/business';
+import { serviceAreas, countyLabel } from '@/config/areas';
+import { servicePages } from '@/config/servicePages';
+import { serviceById } from '@/config/services';
+import type { LocationPage } from '@/config/locationPages';
+
+interface Props {
+  page: LocationPage;
+}
+
+const { page } = Astro.props;
+const path = `/${page.slug}`;
+const site = Astro.site ?? Astro.url;
+const quote = '#quote-form';
+const phoneHref = `tel:${business.contact.phone}`;
+const { whatsapp, whatsappMessage, phoneDisplay } = business.contact;
+const whatsappHref = `https://wa.me/${whatsapp}?text=${encodeURIComponent(whatsappMessage)}`;
+
+// Guard the facts: links must point at real service pages, nearby towns must
+// be in the confirmed service area, and the review must exist.
+for (const item of page.services.items) {
+  if (!servicePages.some((p) => `/${p.slug}` === item.href)) {
+    throw new Error(`${page.slug}: "${item.href}" is not a service page`);
+  }
+}
+for (const group of page.nearby.groups) {
+  const area = serviceAreas.find((a) => a.county === group.county);
+  for (const town of group.towns) {
+    if (!area?.towns.includes(town)) {
+      throw new Error(`${page.slug}: ${town} is not listed under ${group.county} in areas.ts`);
+    }
+  }
+}
+const review = page.proof.testimonial
+  ? (await getEntry('testimonials', page.proof.testimonial))?.data
+  : undefined;
+if (page.proof.testimonial && !review) {
+  throw new Error(`${page.slug}: testimonial "${page.proof.testimonial}" not found`);
+}
+
+const schema = [
+  serviceSchema(
+    {
+      name: `Tree surgery in ${page.town}`,
+      description: page.description,
+      path,
+      serviceType: 'Tree surgery',
+      areaServed: [
+        { '@type': 'City', name: page.town },
+        ...page.nearby.groups.flatMap((g) => g.towns.map((name) => ({ '@type': 'Place', name }))),
+      ],
+    },
+    site,
+  ),
+  breadcrumbSchema(
+    [
+      // Matches the visible breadcrumb: Home / Areas / town.
+      { name: 'Home', path: '/' },
+      { name: 'Areas', path: '/#areas' },
+      { name: page.town, path },
+    ],
+    site,
+  ),
+  faqSchema(page.advice.faqs),
+];
+
+// Link-preview image: the hero photo cropped to 1.91:1, never enlarged.
+const shareWidth = Math.min(1200, page.hero.image.src.width);
+const shareHeight = Math.round(shareWidth / 1.905);
+const shareImage = await getImage({
+  src: page.hero.image.src,
+  width: shareWidth,
+  height: shareHeight,
+  fit: 'cover',
+  position: 'centre',
+  format: 'jpg',
+  quality: 80,
+});
+const imgWidths = (w: number) => [400, 640, 960, 1280, 1600].filter((x) => x <= w);
+---
+
+<PageLayout
+  title={page.seoTitle}
+  absoluteTitle
+  description={page.description}
+  image={{ src: shareImage.src, alt: page.hero.image.alt, width: shareWidth, height: shareHeight }}
+  schema={schema}
+  quoteLink={quote}
+>
+  {/* A. Hero */}
+  <section class="loc-hero surface-dark" aria-labelledby="loc-title">
+    <div class="loc-hero__media">
+      <Picture
+        src={page.hero.image.src}
+        alt={page.hero.image.alt}
+        widths={imgWidths(page.hero.image.src.width)}
+        sizes="(min-width: 64em) 45vw, 100vw"
+        formats={['avif', 'webp']}
+        priority
+        layout="none"
+        style={page.hero.image.focus ? `object-position: ${page.hero.image.focus}` : undefined}
+      />
+      <span class="loc-hero__caption">{page.hero.image.caption}</span>
+    </div>
+
+    <div class="loc-hero__content">
+      <nav aria-label="Breadcrumb" class="crumbs">
+        <ol role="list">
+          <li>
+            <a href="/">Home</a>
+          </li>
+          <li>
+            <a href="/#areas">Areas</a>
+          </li>
+          <li aria-current="page">{page.town}</li>
+        </ol>
+      </nav>
+      <p class="eyebrow">{page.hero.eyebrow}</p>
+      <h1 id="loc-title" class="loc-hero__title">
+        {`${page.hero.title} `}
+        <em>{page.hero.accent}</em>
+        {page.hero.end && ` ${page.hero.end}`}
+      </h1>
+      <p class="lead loc-hero__lead">{page.hero.intro}</p>
+      <div class="loc-hero__ctas">
+        <Button href={quote} size="lg" arrow>
+          Request a free quote
+        </Button>
+        <Button href={phoneHref} variant="secondary" size="lg">
+          Call {phoneDisplay}
+        </Button>
+      </div>
+      <a class="loc-hero__wa" href={whatsappHref} target="_blank" rel="noopener">
+        Or send photos on WhatsApp<span class="visually-hidden"> (opens WhatsApp)</span>
+      </a>
+      <TrustList class="loc-hero__trust" />
+    </div>
+  </section>
+
+  {/* B. Local introduction */}
+  <section class="section-lg loc-intro" aria-labelledby="intro-title">
+    <div class="container loc-intro__grid">
+      <div class="loc-intro__text reveal">
+        <h2 id="intro-title">
+          {`${page.intro.title} `}
+          <em>{page.intro.accent}</em>
+          {page.intro.end && ` ${page.intro.end}`}
+        </h2>
+        {page.intro.paragraphs.map((p) => (
+          <p>{p}</p>
+        ))}
+      </div>
+      <aside class="loc-intro__panel surface-dark reveal" aria-labelledby="facts-title">
+        <h3 id="facts-title">At a glance</h3>
+        <ul role="list">
+          {page.intro.facts.map((f) => (
+            <li>{f}</li>
+          ))}
+        </ul>
+        <a class="loc-intro__call" href={phoneHref}>
+          Call {phoneDisplay}
+        </a>
+      </aside>
+    </div>
+  </section>
+
+  {/* C. Services */}
+  <section class="section-lg surface-dark loc-services" aria-labelledby="services-title">
+    <div class="container loc-stack">
+      <SectionHeader id="services-title" eyebrow="Services" split>
+        <Fragment slot="title">
+          {`${page.services.title} `}
+          <em>{page.services.accent}</em>
+          {page.services.end && ` ${page.services.end}`}
+        </Fragment>
+        <p>{page.services.intro}</p>
+      </SectionHeader>
+      <ul class="loc-services__list" role="list">
+        {page.services.items.map((item) => (
+          <li class="reveal">
+            <h3>
+              <a class="loc-services__link" href={item.href}>
+                {item.title}
+                <span aria-hidden="true">→</span>
+              </a>
+            </h3>
+            <p>{item.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {/* D. Proof: a genuine local review and real photos */}
+  <section class="section-lg loc-proof" aria-labelledby="proof-title">
+    <div class="container loc-stack">
+      <SectionHeader id="proof-title" eyebrow="Our work" split>
+        <Fragment slot="title">
+          {`${page.proof.title} `}
+          <em>{page.proof.accent}</em>
+          {page.proof.end && ` ${page.proof.end}`}
+        </Fragment>
+        <p>{page.proof.intro}</p>
+      </SectionHeader>
+      <div class="loc-proof__grid">
+        {review && (
+          <figure class="loc-review surface-dark reveal">
+            {review.rating && (
+              <p
+                class="loc-review__stars"
+                role="img"
+                aria-label={`Rated ${review.rating} out of 5`}
+              >
+                {Array.from({ length: 5 }, (_, i) => (
+                  <svg
+                    viewBox="0 0 20 20"
+                    aria-hidden="true"
+                    class:list={{ off: i >= review.rating! }}
+                  >
+                    <path d="M10 1.6l2.5 5.4 5.9.6-4.4 4 1.3 5.8L10 14.5l-5.3 2.9L6 11.6l-4.4-4 5.9-.6z" />
+                  </svg>
+                ))}
+              </p>
+            )}
+            <blockquote>
+              <p>{review.quote}</p>
+            </blockquote>
+            <figcaption>
+              <span class="loc-review__name">{review.name}</span>
+              {review.location && <span class="loc-review__place">{review.location}</span>}
+            </figcaption>
+          </figure>
+        )}
+        <ul class="loc-proof__photos" role="list">
+          {page.proof.photos.map((p) => (
+            <li>
+              <figure>
+                <Picture
+                  src={p.src}
+                  alt={p.alt}
+                  widths={imgWidths(p.src.width)}
+                  sizes="(min-width: 64em) 30vw, (min-width: 48em) 50vw, 100vw"
+                  formats={['avif', 'webp']}
+                  layout="none"
+                  style={p.focus ? `object-position: ${p.focus}` : undefined}
+                />
+                <figcaption>{p.caption}</figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <Button href="/#work" variant="secondary" arrow>
+        See more of our work
+      </Button>
+    </div>
+  </section>
+
+  {/* E. Advice */}
+  <section class="section-lg loc-advice" aria-labelledby="advice-title">
+    <div class="container loc-advice__grid">
+      <SectionHeader id="advice-title" eyebrow="Before you book">
+        <Fragment slot="title">
+          {`${page.advice.title} `}
+          <em>{page.advice.accent}</em>
+          {page.advice.end && ` ${page.advice.end}`}
+        </Fragment>
+        <p>{page.advice.intro}</p>
+      </SectionHeader>
+      <div>
+        {page.advice.faqs.map((f) => (
+          <details class="faq">
+            <summary>
+              <span class="faq__q">{f.question}</span>
+              <span class="faq__icon" aria-hidden="true" />
+            </summary>
+            <p>{f.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* F. Nearby areas */}
+  <section class="section-lg surface-dark texture loc-nearby" aria-labelledby="nearby-title">
+    <div class="container loc-stack">
+      <SectionHeader id="nearby-title" eyebrow="Areas we serve" split>
+        <Fragment slot="title">
+          {`${page.nearby.title} `}
+          <em>{page.nearby.accent}</em>
+          {page.nearby.end && ` ${page.nearby.end}`}
+        </Fragment>
+        <p>{page.nearby.intro}</p>
+      </SectionHeader>
+      <ul class="loc-nearby__groups" role="list">
+        {page.nearby.groups.map((g) => (
+          <li>
+            <h3>{countyLabel(g.county)}</h3>
+            <p>{g.towns.join(', ')}</p>
+          </li>
+        ))}
+      </ul>
+      <Button href="/#areas" variant="secondary" arrow>
+        See every area we cover
+      </Button>
+    </div>
+  </section>
+
+  {/* G. Call to action */}
+  <section class="loc-cta surface-accent texture" aria-labelledby="cta-title">
+    <div class="container loc-cta__inner reveal">
+      <h2 id="cta-title">
+        {`${page.cta.title} `}
+        <em>{page.cta.accent}</em>
+        {page.cta.end && ` ${page.cta.end}`}
+      </h2>
+      <p class="lead">{page.cta.text}</p>
+      <div class="loc-cta__actions">
+        <Button href={phoneHref} size="lg">
+          Call {phoneDisplay}
+        </Button>
+        <Button href={whatsappHref} variant="secondary" size="lg" target="_blank" rel="noopener">
+          WhatsApp us<span class="visually-hidden"> (opens WhatsApp)</span>
+        </Button>
+        <Button href={quote} variant="secondary" size="lg" arrow>
+          Request a free quote
+        </Button>
+      </div>
+    </div>
+  </section>
+
+  <HomeEnquiry service={serviceById('tree-surgery').name} />
+</PageLayout>
+
+<style>
+  .loc-stack {
+    display: grid;
+    gap: var(--space-xl);
+    justify-items: start;
+  }
+
+  .loc-stack > :global(*) {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .loc-stack > :global(.btn) {
+    width: auto;
+  }
+
+  /* ---------- A. Hero (same proportions as the service pages) ---------- */
+  .loc-hero {
+    display: grid;
+    margin-block-start: calc(var(--header-height) * -1);
+  }
+
+  .loc-hero__media {
+    position: relative;
+    overflow: hidden;
+    height: min(34svh, 18rem);
+    margin-block-start: var(--header-height);
+    background: var(--charcoal-800);
+  }
+
+  .loc-hero__media :global(picture),
+  .loc-hero__media :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .loc-hero__media :global(img) {
+    object-fit: cover;
+  }
+
+  .loc-hero__caption {
+    position: absolute;
+    inset: auto 0 0;
+    padding: var(--space-xl) var(--gutter) var(--space-s);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    color: var(--ivory-100);
+    background: linear-gradient(to top, rgb(17 17 17 / 0.8), rgb(17 17 17 / 0));
+  }
+
+  .loc-hero__content {
+    display: grid;
+    gap: var(--space-s);
+    align-content: center;
+    padding: var(--space-l) var(--gutter) var(--space-2xl);
+  }
+
+  .crumbs ol {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4em;
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .crumbs li + li::before {
+    content: '/';
+    margin-inline-end: 0.4em;
+    color: var(--color-text-muted);
+  }
+
+  .crumbs a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+  }
+
+  .crumbs a:hover,
+  .crumbs [aria-current] {
+    color: var(--color-text);
+  }
+
+  .loc-hero__title {
+    max-width: 13ch;
+    font-size: clamp(2.5rem, 1.6rem + 4vw, 5rem);
+    line-height: 1.02;
+  }
+
+  .loc-hero__lead {
+    max-width: 44ch;
+  }
+
+  .loc-hero__ctas {
+    display: grid;
+    gap: var(--space-2xs);
+    margin-block-start: var(--space-2xs);
+  }
+
+  .loc-hero__ctas :global(.btn) {
+    justify-self: stretch;
+  }
+
+  .loc-hero__wa {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap-target);
+    font-weight: var(--weight-semibold);
+    text-decoration-color: var(--orange-500);
+    text-underline-offset: 0.25em;
+  }
+
+  :global(.loc-hero__trust) {
+    margin-block-start: var(--space-xs);
+  }
+
+  @media (min-width: 30em) {
+    .loc-hero__ctas {
+      grid-template-columns: auto auto;
+      justify-content: start;
+    }
+  }
+
+  @media (min-width: 64em) {
+    .loc-hero {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      min-height: max(40rem, min(92svh, 56rem));
+    }
+
+    .loc-hero__media {
+      order: 2;
+      height: auto;
+      margin-block-start: 0;
+    }
+
+    .loc-hero__caption {
+      padding-inline: var(--space-l);
+    }
+
+    .loc-hero__content {
+      padding: calc(var(--header-height) + var(--space-2xl)) clamp(2rem, 5vw, 5.5rem)
+        var(--space-2xl) max(var(--gutter), calc((100vw - var(--container-max, 80rem)) / 2));
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .loc-hero__media :global(img) {
+      animation: loc-settle 2.4s var(--ease-out) both;
+    }
+
+    .loc-hero__content > :global(*) {
+      animation: loc-rise 0.9s var(--ease-out) both;
+    }
+  }
+
+  @keyframes loc-settle {
+    from {
+      transform: scale(1.06);
+    }
+  }
+
+  @keyframes loc-rise {
+    from {
+      opacity: 0;
+      transform: translateY(1rem);
+    }
+  }
+
+  /* ---------- B. Introduction ---------- */
+  .loc-intro__grid {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .loc-intro__text {
+    display: grid;
+    gap: var(--space-s);
+    align-content: start;
+  }
+
+  .loc-intro__text h2 {
+    font-size: var(--text-3xl);
+    line-height: 1.08;
+    max-width: 16ch;
+    margin-block-end: var(--space-2xs);
+  }
+
+  .loc-intro__text p {
+    max-width: 60ch;
+    color: var(--color-text-secondary);
+  }
+
+  .loc-intro__text p:first-of-type {
+    font-size: var(--text-lg);
+    color: var(--color-text);
+  }
+
+  .loc-intro__panel {
+    display: grid;
+    gap: var(--space-s);
+    align-content: start;
+    padding: var(--space-l) var(--space-m);
+  }
+
+  .loc-intro__panel h3 {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--color-accent-text);
+  }
+
+  .loc-intro__panel li {
+    display: flex;
+    gap: 0.8em;
+    align-items: baseline;
+    padding-block: var(--space-2xs);
+    border-block-end: 1px solid var(--color-border);
+    max-width: none;
+  }
+
+  .loc-intro__panel li::before {
+    content: '';
+    flex-shrink: 0;
+    width: 0.4rem;
+    height: 0.4rem;
+    background: var(--orange-500);
+    transform: translateY(-0.15em) rotate(45deg);
+  }
+
+  .loc-intro__call {
+    justify-self: start;
+    min-height: var(--tap-target);
+    display: inline-flex;
+    align-items: center;
+    font-weight: var(--weight-semibold);
+    text-decoration-color: var(--orange-500);
+    text-underline-offset: 0.25em;
+  }
+
+  @media (min-width: 64em) {
+    .loc-intro__grid {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: var(--space-2xl);
+      align-items: start;
+    }
+
+    .loc-intro__panel {
+      padding: var(--space-xl) var(--space-l);
+    }
+  }
+
+  /* ---------- C. Services ---------- */
+  .loc-services__list {
+    display: grid;
+    gap: 0 var(--space-l);
+  }
+
+  .loc-services__list li {
+    display: grid;
+    gap: var(--space-3xs);
+    padding-block: var(--space-m);
+    border-block-start: 1px solid var(--color-border);
+    max-width: none;
+  }
+
+  .loc-services__list h3 {
+    font-size: var(--text-xl);
+    line-height: 1.2;
+  }
+
+  .loc-services__link {
+    text-decoration: none;
+  }
+
+  .loc-services__link span {
+    display: inline-block;
+    margin-inline-start: 0.35em;
+    color: var(--orange-500);
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+
+  .loc-services__link:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--orange-500);
+    text-underline-offset: 0.2em;
+  }
+
+  .loc-services__link:hover span {
+    transform: translateX(4px);
+  }
+
+  .loc-services__list p {
+    color: var(--color-text-secondary);
+    max-width: 46ch;
+  }
+
+  @media (min-width: 48em) {
+    .loc-services__list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 72em) {
+    .loc-services__list {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* ---------- D. Proof ---------- */
+  .loc-proof__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-3xs);
+  }
+
+  .loc-review {
+    display: grid;
+    gap: var(--space-m);
+    align-content: center;
+    padding: var(--space-xl) var(--space-l);
+  }
+
+  .loc-review__stars {
+    display: flex;
+    gap: 0.2rem;
+  }
+
+  .loc-review__stars svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    fill: var(--orange-500);
+  }
+
+  .loc-review__stars svg.off {
+    fill: var(--color-border-strong);
+  }
+
+  .loc-review blockquote p {
+    font-family: var(--font-serif);
+    font-size: var(--text-2xl);
+    line-height: 1.3;
+    max-width: 30ch;
+  }
+
+  .loc-review figcaption {
+    display: grid;
+    gap: 0.1em;
+  }
+
+  .loc-review__name {
+    font-weight: var(--weight-semibold);
+  }
+
+  .loc-review__place {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .loc-proof__photos {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-3xs);
+  }
+
+  .loc-proof__photos li {
+    max-width: none;
+  }
+
+  .loc-proof__photos figure {
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    aspect-ratio: 4 / 3;
+    background: var(--charcoal-700);
+  }
+
+  .loc-proof__photos :global(picture),
+  .loc-proof__photos :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .loc-proof__photos :global(img) {
+    object-fit: cover;
+  }
+
+  .loc-proof__photos figcaption {
+    position: absolute;
+    inset: auto 0 0;
+    padding: var(--space-xl) var(--space-s) var(--space-s);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--ivory-100);
+    background: linear-gradient(to top, rgb(17 17 17 / 0.88), rgb(17 17 17 / 0));
+  }
+
+  @media (min-width: 48em) {
+    .loc-proof__photos {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .loc-proof__photos li:last-child {
+      grid-column: span 2;
+    }
+  }
+
+  @media (min-width: 64em) {
+    .loc-proof__grid {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    }
+
+    .loc-proof__photos {
+      grid-template-rows: repeat(2, minmax(16rem, 1fr));
+    }
+
+    .loc-proof__photos figure {
+      aspect-ratio: auto;
+    }
+  }
+
+  /* ---------- E. Advice (FAQ accordion, as on the service pages) ---------- */
+  .loc-advice__grid {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  @media (min-width: 64em) {
+    .loc-advice__grid {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+      gap: var(--space-2xl) clamp(2rem, 6vw, 6rem);
+      align-items: start;
+    }
+  }
+
+  .faq {
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  .faq:first-child {
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .faq summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-s);
+    min-height: var(--tap-target);
+    padding-block: var(--space-s);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__q {
+    font-family: var(--font-sans);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-semibold);
+    line-height: 1.35;
+  }
+
+  .faq__icon {
+    position: relative;
+    flex-shrink: 0;
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 50%;
+  }
+
+  .faq__icon::before,
+  .faq__icon::after {
+    content: '';
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: 0.75rem;
+    height: 1.5px;
+    background: currentColor;
+    translate: -50% -50%;
+    transition: rotate var(--duration-base) var(--ease-out);
+  }
+
+  .faq__icon::after {
+    rotate: 90deg;
+  }
+
+  .faq[open] .faq__icon::after {
+    rotate: 0deg;
+  }
+
+  .faq p {
+    max-width: 64ch;
+    padding-block-end: var(--space-m);
+    color: var(--color-text-secondary);
+  }
+
+  /* ---------- F. Nearby ---------- */
+  .loc-nearby__groups {
+    display: grid;
+    gap: 0 var(--space-l);
+  }
+
+  .loc-nearby__groups li {
+    display: grid;
+    gap: var(--space-3xs);
+    padding-block: var(--space-s);
+    border-block-start: 1px solid var(--color-border);
+    max-width: none;
+  }
+
+  .loc-nearby__groups h3 {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--color-accent-text);
+  }
+
+  .loc-nearby__groups p {
+    font-size: var(--text-lg);
+  }
+
+  @media (min-width: 48em) {
+    .loc-nearby__groups {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 72em) {
+    .loc-nearby__groups {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  /* ---------- G. Call to action ---------- */
+  .loc-cta {
+    padding-block: var(--section-space);
+  }
+
+  .loc-cta__inner {
+    display: grid;
+    gap: var(--space-s);
+    justify-items: start;
+  }
+
+  .loc-cta h2 {
+    font-size: var(--text-4xl);
+    line-height: 1.04;
+    max-width: 16ch;
+  }
+
+  .loc-cta .lead {
+    max-width: 46ch;
+  }
+
+  .loc-cta__actions {
+    display: grid;
+    gap: var(--space-2xs);
+    width: 100%;
+    margin-block-start: var(--space-xs);
+  }
+
+  @media (min-width: 30em) {
+    .loc-cta__actions {
+      display: flex;
+      flex-wrap: wrap;
+      width: auto;
+    }
+  }
+</style>

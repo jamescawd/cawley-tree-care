@@ -15,6 +15,7 @@ const SERVICE_PAGES = [
   '/site-clearance',
   '/landscaping',
 ];
+const LOCATION_PAGES = ['/tree-surgeon-athlone'];
 const PAGES = [
   '/',
   '/privacy',
@@ -23,6 +24,7 @@ const PAGES = [
   '/404',
   '/styleguide',
   ...SERVICE_PAGES,
+  ...LOCATION_PAGES,
 ];
 
 for (const path of PAGES) {
@@ -245,7 +247,7 @@ test.describe('service pages', () => {
   test('every page has a unique title and description', async ({ page }) => {
     const titles = new Set<string>();
     const descriptions = new Set<string>();
-    for (const path of SERVICE_PAGES) {
+    for (const path of [...SERVICE_PAGES, ...LOCATION_PAGES]) {
       await page.goto(path);
       const title = await page.title();
       const description = await page.locator('meta[name="description"]').getAttribute('content');
@@ -254,8 +256,8 @@ test.describe('service pages', () => {
       titles.add(title);
       descriptions.add(description!);
     }
-    expect(titles.size).toBe(SERVICE_PAGES.length);
-    expect(descriptions.size).toBe(SERVICE_PAGES.length);
+    expect(titles.size).toBe(SERVICE_PAGES.length + LOCATION_PAGES.length);
+    expect(descriptions.size).toBe(SERVICE_PAGES.length + LOCATION_PAGES.length);
   });
 
   test('each page is linked from the Services menu', async ({ page }) => {

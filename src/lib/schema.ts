@@ -137,7 +137,14 @@ export const breadcrumbSchema = (crumbs: Crumb[], site: URL): JsonLd =>
   });
 
 export const serviceSchema = (
-  service: { name: string; description: string; path: string; serviceType?: string },
+  service: {
+    name: string;
+    description: string;
+    path: string;
+    serviceType?: string;
+    /** Overrides the five-county default, e.g. a town page's own area. */
+    areaServed?: JsonLd | JsonLd[];
+  },
   site: URL,
 ): JsonLd =>
   withContext({
@@ -147,7 +154,7 @@ export const serviceSchema = (
     description: service.description,
     url: new URL(service.path, site).href,
     provider: { '@id': businessId(site) },
-    areaServed: areaServed(),
+    areaServed: service.areaServed ?? areaServed(),
   });
 
 export const faqSchema = (items: { question: string; answer: string }[]): JsonLd =>
