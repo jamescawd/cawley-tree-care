@@ -35,7 +35,7 @@ import { quoteHref } from '@/config/navigation';
             <Picture
               src={c.image.src}
               alt={c.image.alt}
-              widths={[480, 720, 960, 1280, 1600].filter((w) => w <= c.image!.src.width)}
+              widths={[480, 720, 800, 960, 1280, 1600].filter((w) => w <= c.image!.src.width)}
               sizes="(min-width: 64em) 58vw, 100vw"
               formats={['avif', 'webp']}
               layout="none"
