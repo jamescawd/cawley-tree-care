@@ -1,4 +1,4 @@
-import { placeholder, type Maybe } from '@/lib/placeholder';
+import type { Maybe } from '@/lib/placeholder';
 
 /**
  * Single source of truth for business facts.
@@ -69,15 +69,8 @@ export const business = {
     whatsapp: '353871199816',
     whatsappMessage:
       "Hi Cawley's, I'd like to enquire about some tree work and request a free quotation.",
-    /**
-     * NOT CONFIRMED. Suggested: info@qualitytreecare.com or
-     * info@qualitytreecare.ie, but neither matches the website domain
-     * (cawleytreecare.ie). Confirm the exact address before launch.
-     */
-    email: placeholder(
-      'Enquiries email: info@qualitytreecare.com or .ie? Neither matches cawleytreecare.ie',
-      'Email to be confirmed',
-    ),
+    /** CONFIRMED by the business (Nov 2026): forwards to the owner's inbox via Cloudflare Email Routing. */
+    email: 'info@cawleytreecare.ie' as Maybe<string>,
   },
 
   /** Base / registered location. Must match the Google Business Profile. */
