@@ -40,15 +40,15 @@ const gtagCalls = (page: Page) =>
 const fbqCalls = (page: Page) =>
   page.evaluate(() => (window as unknown as { fbq?: { queue?: unknown[][] } }).fbq?.queue ?? []);
 
-const banner = (page: Page) => page.getByRole('region', { name: 'Cookies on this website' });
+const banner = (page: Page) => page.getByRole('region', { name: 'Cookie consent' });
 
 test.describe('cookie consent', () => {
   test('nothing loads before a choice, and the banner is shown', async ({ page, baseURL }) => {
     const calls = await stubThirdParties(page, baseURL!);
     await page.goto('/');
     await expect(banner(page)).toBeVisible();
-    // The detailed choices stay closed until "Choose" is pressed.
-    await expect(page.getByRole('button', { name: 'Save my choices' })).toBeHidden();
+    // The detailed settings stay closed until "Cookie settings" is pressed.
+    await expect(page.getByRole('dialog', { name: 'Cookie settings' })).toBeHidden();
     await page.waitForLoadState('networkidle');
     expect(calls.google).toEqual([]);
     expect(calls.meta).toEqual([]);
@@ -57,8 +57,8 @@ test.describe('cookie consent', () => {
 
   test('accept and reject are equally prominent', async ({ page }) => {
     await page.goto('/');
-    const accept = page.getByRole('button', { name: 'Accept all' });
-    const reject = page.getByRole('button', { name: 'Reject all' });
+    const accept = banner(page).getByRole('button', { name: 'Accept all' });
+    const reject = banner(page).getByRole('button', { name: 'Reject all' });
     const [a, r] = [await accept.boundingBox(), await reject.boundingBox()];
     expect(a && r).toBeTruthy();
     expect(Math.abs(a!.width - r!.width)).toBeLessThan(2);
@@ -88,7 +88,7 @@ test.describe('cookie consent', () => {
   test('reject all: nothing loads, now or on later pages', async ({ page, baseURL }) => {
     const calls = await stubThirdParties(page, baseURL!);
     await page.goto('/');
-    await page.getByRole('button', { name: 'Reject all' }).click();
+    await banner(page).getByRole('button', { name: 'Reject all' }).click();
     await expect(banner(page)).toBeHidden();
     await page.goto('/tree-surgeon-athlone');
     await expect(banner(page)).toBeHidden();
@@ -102,7 +102,7 @@ test.describe('cookie consent', () => {
   test('accept all: Google and Meta load with consent granted', async ({ page, baseURL }) => {
     const calls = await stubThirdParties(page, baseURL!);
     await page.goto('/');
-    await page.getByRole('button', { name: 'Accept all' }).click();
+    await banner(page).getByRole('button', { name: 'Accept all' }).click();
     await expect(banner(page)).toBeHidden();
     await expect.poll(() => calls.google.length).toBe(1);
     await expect.poll(() => calls.meta.length).toBe(1);
@@ -129,8 +129,10 @@ test.describe('cookie consent', () => {
   test('analytics only: GA4 loads, advertising does not', async ({ page, baseURL }) => {
     const calls = await stubThirdParties(page, baseURL!);
     await page.goto('/');
-    await page.getByRole('button', { name: 'Choose' }).click();
-    await page.getByRole('checkbox', { name: /Analytics/ }).check();
+    await banner(page).getByRole('button', { name: 'Cookie settings' }).click();
+    const dialog = page.getByRole('dialog', { name: 'Cookie settings' });
+    await expect(dialog).toBeVisible();
+    await dialog.getByRole('checkbox', { name: /Analytics/ }).check();
     await page.getByRole('button', { name: 'Save my choices' }).click();
     await expect.poll(() => calls.google.length).toBe(1);
     const g = await gtagCalls(page);
@@ -146,7 +148,7 @@ test.describe('cookie consent', () => {
   test('a phone tap is counted as a call conversion', async ({ page, baseURL }) => {
     await stubThirdParties(page, baseURL!);
     await page.goto('/');
-    await page.getByRole('button', { name: 'Accept all' }).click();
+    await banner(page).getByRole('button', { name: 'Accept all' }).click();
     await page.locator('a[href^="tel:"]').first().dispatchEvent('click');
     expect(await gtagCalls(page)).toContainEqual([
       'event',
@@ -159,7 +161,7 @@ test.describe('cookie consent', () => {
   test('a sent quote is counted once', async ({ page, baseURL }) => {
     await stubThirdParties(page, baseURL!);
     await page.goto('/');
-    await page.getByRole('button', { name: 'Accept all' }).click();
+    await banner(page).getByRole('button', { name: 'Accept all' }).click();
     // Submit the real form (validation is skipped: only the tracking is under test).
     await page.evaluate(() => {
       const form = document.querySelector<HTMLFormElement>('form[action="/api/quote"]')!;
@@ -179,7 +181,7 @@ test.describe('cookie consent', () => {
   test('visiting /quote-sent directly is not a conversion', async ({ page, baseURL }) => {
     await stubThirdParties(page, baseURL!);
     await page.goto('/');
-    await page.getByRole('button', { name: 'Accept all' }).click();
+    await banner(page).getByRole('button', { name: 'Accept all' }).click();
     await page.goto('/quote-sent');
     const g = await gtagCalls(page);
     expect(g.some((c) => c[1] === 'conversion' || c[1] === 'generate_lead')).toBe(false);
@@ -188,13 +190,14 @@ test.describe('cookie consent', () => {
   test('consent can be withdrawn from the footer', async ({ page, baseURL }) => {
     const calls = await stubThirdParties(page, baseURL!);
     await page.goto('/');
-    await page.getByRole('button', { name: 'Accept all' }).click();
+    await banner(page).getByRole('button', { name: 'Accept all' }).click();
     await expect.poll(() => calls.google.length).toBe(1);
-    await page.getByRole('button', { name: 'Cookie settings' }).click();
-    await expect(banner(page)).toBeVisible();
+    await page.locator('footer').getByRole('button', { name: 'Cookie settings' }).click();
+    const dialog = page.getByRole('dialog', { name: 'Cookie settings' });
+    await expect(dialog).toBeVisible();
     await Promise.all([
       page.waitForEvent('load'),
-      page.getByRole('button', { name: 'Reject all' }).click(),
+      dialog.getByRole('button', { name: 'Reject all' }).click(),
     ]);
     await expect(banner(page)).toBeHidden();
     await page.waitForLoadState('networkidle');
@@ -202,10 +205,51 @@ test.describe('cookie consent', () => {
     expect(await gtagCalls(page)).toEqual([]);
   });
 
+  test('the bar is slim and never covers the Call / Quote bar', async ({ page }, info) => {
+    await page.goto('/tree-surgery');
+    await page.mouse.wheel(0, 1500); // past the hero, so the phone bar shows
+    await expect(banner(page)).toBeVisible();
+    const viewport = page.viewportSize()!;
+    const bar = (await banner(page).boundingBox())!;
+    expect(bar.height / viewport.height).toBeLessThan(
+      info.project.name.includes('mobile') ? 0.22 : 0.12,
+    );
+    const quick = page.getByRole('region', { name: 'Quick contact' });
+    if (await quick.isVisible()) {
+      await page.waitForTimeout(400); // let the bar finish sliding in
+      const q = (await quick.boundingBox())!;
+      expect(bar.y + bar.height).toBeLessThanOrEqual(q.y + 1);
+      await expect(quick.getByRole('link', { name: /Call now/ })).toBeInViewport();
+      await expect(quick.getByRole('link', { name: /Request a free quote/ })).toBeInViewport();
+    }
+  });
+
+  test('settings panel: necessary always on, the rest off until chosen', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.goto('/');
+    await banner(page).getByRole('button', { name: 'Cookie settings' }).click();
+    const dialog = page.getByRole('dialog', { name: 'Cookie settings' });
+    await expect(dialog).toBeVisible();
+    const necessary = dialog.getByRole('checkbox', { name: /Necessary/ });
+    await expect(necessary).toBeChecked();
+    await expect(necessary).toBeDisabled();
+    await expect(dialog.getByRole('checkbox', { name: /Analytics/ })).not.toBeChecked();
+    await expect(dialog.getByRole('checkbox', { name: /Marketing/ })).not.toBeChecked();
+    const results = await new AxeBuilder({ page })
+      .include('#consent-prefs')
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+      .analyze();
+    expect(results.violations).toEqual([]);
+    // Closing without choosing keeps the bar, so nothing is assumed.
+    await dialog.getByRole('button', { name: 'Close' }).click();
+    await expect(dialog).toBeHidden();
+    await expect(banner(page)).toBeVisible();
+  });
+
   test('no third parties other than Google and Meta are contacted', async ({ page, baseURL }) => {
     const calls = await stubThirdParties(page, baseURL!);
     await page.goto('/');
-    await page.getByRole('button', { name: 'Accept all' }).click();
+    await banner(page).getByRole('button', { name: 'Accept all' }).click();
     await page.waitForLoadState('networkidle');
     expect(calls.other).toEqual([]);
   });
