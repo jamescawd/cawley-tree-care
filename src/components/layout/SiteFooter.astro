@@ -2,6 +2,7 @@
 /** Site footer: identity, credentials, navigation, areas and contact. */
 import Wordmark from '@/components/ui/Wordmark.astro';
 import Pending from '@/components/ui/Pending.astro';
+import { trackingEnabled } from '@/config/tracking';
 import PhoneLink from '@/components/ui/PhoneLink.astro';
 import { business } from '@/config/business';
 import { serviceAreas, countyLabel } from '@/config/areas';
@@ -114,11 +115,30 @@ const primaryNav = await getNavigation();
       ) : (
         <Pending value={business.links.privacyPolicy} compact />
       )}
+      {trackingEnabled && (
+        <>
+          {' · '}
+          <button type="button" class="site-footer__cookies" data-consent-open>
+            Cookie settings
+          </button>
+        </>
+      )}
     </p>
   </div>
 </footer>
 
 <style>
+  .site-footer__cookies {
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 0;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    cursor: pointer;
+  }
+
   .site-footer {
     padding-block: var(--space-2xl) var(--space-m);
     font-size: var(--text-sm);

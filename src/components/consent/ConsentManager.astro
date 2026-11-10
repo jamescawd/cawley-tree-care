@@ -1,0 +1,651 @@
+---
+/**
+ * Cookie consent + tracking loader. Rendered only when at least one tracking
+ * ID is configured (src/config/tracking.ts).
+ *
+ * Two parts:
+ * - A slim bar at the bottom of the screen: one short sentence, "Reject all"
+ *   and "Accept all" (identical buttons) and a small "Cookie settings" link.
+ *   On phones it sits just above the Call / Quote bar, never over it.
+ * - A preferences panel (modal dialog), opened only from "Cookie settings"
+ *   (in the bar, the footer or the privacy notice), with the Necessary
+ *   (always on), Analytics and Marketing categories.
+ *
+ * Rules:
+ * - Nothing non-essential loads until the visitor chooses. Google's tag
+ *   (gtag.js) and the Meta Pixel are not even requested before consent.
+ *   Analytics and Marketing are off until the visitor turns them on.
+ * - The choice is kept in localStorage (strictly necessary: it records the
+ *   choice itself) for 6 months, then the visitor is asked again.
+ * - Withdrawing consent clears the tracking cookies and reloads the page
+ *   without the tags.
+ *
+ * Conversions (sent only with the matching consent):
+ * - Phone tap (any tel: link): GA4 `click_to_call`, Google Ads call
+ *   conversion, Meta `Contact`.
+ * - WhatsApp tap: GA4 `whatsapp_click`, Meta `Contact`.
+ * - Quote sent: the form marks the submission; /quote-sent then sends GA4
+ *   `generate_lead`, the Google Ads quote conversion and Meta `Lead`, once
+ *   (a refresh or direct visit to /quote-sent does not count again).
+ */
+import { tracking, hasAnalytics, hasMarketing } from '@/config/tracking';
+
+const ads = tracking.googleAds;
+const marketingTools = [ads && 'Google Ads', tracking.metaPixelId && 'Meta (Facebook, Instagram)']
+  .filter(Boolean)
+  .join(' and ');
+---
+
+<section
+  id="consent"
+  class="consent surface-dark"
+  aria-label="Cookie consent"
+  hidden
+  data-ga4={tracking.ga4Id}
+  data-ads={ads?.id}
+  data-ads-quote={ads?.quoteLabel}
+  data-ads-call={ads?.callLabel}
+  data-pixel={tracking.metaPixelId}
+>
+  <div class="consent__inner">
+    <p class="consent__text">
+      We use optional cookies for{' '}
+      {hasAnalytics && hasMarketing
+        ? 'analytics and advertising'
+        : hasAnalytics
+          ? 'analytics'
+          : 'advertising'}
+      , only if you agree.
+      <button type="button" class="consent__link" data-consent-open>
+        Cookie settings
+      </button>
+    </p>
+    <div class="consent__actions">
+      <button type="button" class="consent__btn" data-consent="reject">
+        Reject all
+      </button>
+      <button type="button" class="consent__btn" data-consent="accept">
+        Accept all
+      </button>
+    </div>
+  </div>
+</section>
+
+<dialog id="consent-prefs" class="prefs surface-dark" aria-labelledby="prefs-title">
+  <form method="dialog" class="prefs__form" id="consent-choices">
+    <div class="prefs__head">
+      <h2 id="prefs-title" class="prefs__title">
+        Cookie settings
+      </h2>
+      <button type="button" class="prefs__close" data-consent="close" aria-label="Close">
+        <span aria-hidden="true">×</span>
+      </button>
+    </div>
+    <p class="prefs__intro">
+      Choose which optional cookies we may use. Nothing optional is set unless you turn it on. You
+      can change this at any time. <a href="/privacy#cookies">Privacy notice</a>
+    </p>
+
+    <fieldset class="prefs__list">
+      <legend class="visually-hidden">Cookie categories</legend>
+      <div class="prefs__item">
+        <label class="prefs__label" for="consent-necessary">
+          <strong>Necessary</strong>
+          <span>Remembers your cookie choice. Always on.</span>
+        </label>
+        <input type="checkbox" class="prefs__switch" id="consent-necessary" checked disabled />
+      </div>
+      {hasAnalytics && (
+        <div class="prefs__item">
+          <label class="prefs__label" for="consent-analytics">
+            <strong>Analytics</strong>
+            <span>Google Analytics: which pages are visited and how.</span>
+          </label>
+          <input type="checkbox" class="prefs__switch" id="consent-analytics" name="analytics" />
+        </div>
+      )}
+      {hasMarketing && (
+        <div class="prefs__item">
+          <label class="prefs__label" for="consent-marketing">
+            <strong>Marketing</strong>
+            <span>{marketingTools}: whether our adverts lead to calls and quote requests.</span>
+          </label>
+          <input type="checkbox" class="prefs__switch" id="consent-marketing" name="marketing" />
+        </div>
+      )}
+    </fieldset>
+
+    <div class="prefs__actions">
+      <button type="button" class="consent__btn" data-consent="reject">
+        Reject all
+      </button>
+      <button type="button" class="consent__btn" data-consent="accept">
+        Accept all
+      </button>
+      <button type="submit" class="consent__btn prefs__save">
+        Save my choices
+      </button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+  type Choice = { v: 1; analytics: boolean; marketing: boolean; ts: number };
+  type Fn = (...args: unknown[]) => void;
+  type W = Window & {
+    dataLayer: unknown[];
+    gtag?: Fn;
+    fbq?: Fn & { queue?: unknown[]; callMethod?: Fn; loaded?: boolean; version?: string };
+    _fbq?: unknown;
+  };
+
+  const KEY = 'cawley-consent';
+  const QUOTE_FLAG = 'cawley-quote-pending';
+  const MAX_AGE = 1000 * 60 * 60 * 24 * 182; // about 6 months
+  const w = window as unknown as W;
+  const root = document.getElementById('consent');
+  const prefs = document.getElementById('consent-prefs') as HTMLDialogElement | null;
+
+  if (root && prefs) {
+    const cfg = root.dataset;
+    const hasAnalytics = Boolean(cfg.ga4);
+    const hasMarketing = Boolean(cfg.ads || cfg.pixel);
+    const form = prefs.querySelector<HTMLFormElement>('#consent-choices')!;
+
+    const read = (): Choice | null => {
+      try {
+        const c = JSON.parse(localStorage.getItem(KEY) ?? 'null') as Choice | null;
+        return c && c.v === 1 && Date.now() - c.ts < MAX_AGE ? c : null;
+      } catch {
+        return null;
+      }
+    };
+    const write = (analytics: boolean, marketing: boolean) => {
+      const c: Choice = {
+        v: 1,
+        analytics: hasAnalytics && analytics,
+        marketing: hasMarketing && marketing,
+        ts: Date.now(),
+      };
+      try {
+        localStorage.setItem(KEY, JSON.stringify(c));
+      } catch {
+        /* storage blocked: the choice applies to this page only */
+      }
+      return c;
+    };
+
+    const load = (src: string) => {
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = src;
+      document.head.append(s);
+    };
+
+    let started = false;
+    const start = (c: Choice) => {
+      if (started || !(c.analytics || c.marketing)) return;
+      started = true;
+      const useGoogle = (c.analytics && cfg.ga4) || (c.marketing && cfg.ads);
+      if (useGoogle) {
+        w.dataLayer = w.dataLayer || [];
+        w.gtag = function () {
+          // gtag.js needs the real `arguments` object.
+          // eslint-disable-next-line prefer-rest-params
+          w.dataLayer.push(arguments);
+        };
+        w.gtag('consent', 'default', {
+          analytics_storage: c.analytics ? 'granted' : 'denied',
+          ad_storage: c.marketing ? 'granted' : 'denied',
+          ad_user_data: c.marketing ? 'granted' : 'denied',
+          ad_personalization: c.marketing ? 'granted' : 'denied',
+        });
+        w.gtag('js', new Date());
+        if (c.analytics && cfg.ga4) w.gtag('config', cfg.ga4);
+        if (c.marketing && cfg.ads) w.gtag('config', cfg.ads);
+        load(
+          `https://www.googletagmanager.com/gtag/js?id=${c.analytics && cfg.ga4 ? cfg.ga4 : cfg.ads}`,
+        );
+      }
+      if (c.marketing && cfg.pixel) {
+        const f = function (...args: unknown[]) {
+          if (f.callMethod) f.callMethod(...args);
+          else f.queue!.push(args);
+        } as NonNullable<W['fbq']>;
+        f.queue = [];
+        f.loaded = true;
+        f.version = '2.0';
+        w.fbq = f;
+        w._fbq = f;
+        f('init', cfg.pixel);
+        f('track', 'PageView');
+        load('https://connect.facebook.net/en_US/fbevents.js');
+      }
+    };
+
+    // Events, each sent only where the matching consent was given.
+    const events = {
+      call(c: Choice) {
+        if (c.analytics && cfg.ga4) w.gtag?.('event', 'click_to_call', { link_url: 'tel' });
+        if (c.marketing && cfg.ads && cfg.adsCall)
+          w.gtag?.('event', 'conversion', { send_to: `${cfg.ads}/${cfg.adsCall}` });
+        if (c.marketing && cfg.pixel) w.fbq?.('track', 'Contact');
+      },
+      whatsapp(c: Choice) {
+        if (c.analytics && cfg.ga4) w.gtag?.('event', 'whatsapp_click');
+        if (c.marketing && cfg.pixel) w.fbq?.('track', 'Contact');
+      },
+      quote(c: Choice) {
+        if (c.analytics && cfg.ga4) w.gtag?.('event', 'generate_lead', { form: 'quote' });
+        if (c.marketing && cfg.ads && cfg.adsQuote)
+          w.gtag?.('event', 'conversion', { send_to: `${cfg.ads}/${cfg.adsQuote}` });
+        if (c.marketing && cfg.pixel) w.fbq?.('track', 'Lead');
+      },
+    };
+
+    // Clear tracking cookies when consent is withdrawn.
+    const clearCookies = () => {
+      const host = location.hostname;
+      for (const pair of document.cookie.split(';')) {
+        const name = pair.split('=')[0]!.trim();
+        if (/^(_ga|_gid|_gcl|_fbp|_fbc)/.test(name)) {
+          for (const domain of [
+            '',
+            `; domain=${host}`,
+            `; domain=.${host.replace(/^www\./, '')}`,
+          ]) {
+            document.cookie = `${name}=; max-age=0; path=/${domain}`;
+          }
+        }
+      }
+    };
+
+    // Keep page content clear of the bar: the page gets matching bottom space.
+    const syncHeight = () =>
+      document.documentElement.style.setProperty(
+        '--consent-h',
+        root.hidden ? '0px' : `${root.offsetHeight}px`,
+      );
+    if ('ResizeObserver' in window) new ResizeObserver(syncHeight).observe(root);
+
+    const showBar = () => {
+      root.hidden = false;
+      syncHeight();
+    };
+    const hideBar = () => {
+      root.hidden = true;
+      syncHeight();
+    };
+
+    const openPrefs = () => {
+      const c = read();
+      // Off unless the visitor has already turned them on.
+      const boxes = form.elements as unknown as Record<string, HTMLInputElement | undefined>;
+      if (boxes.analytics) boxes.analytics.checked = Boolean(c?.analytics);
+      if (boxes.marketing) boxes.marketing.checked = Boolean(c?.marketing);
+      if (!prefs.open) prefs.showModal();
+    };
+
+    const decide = (analytics: boolean, marketing: boolean) => {
+      const before = read();
+      const c = write(analytics, marketing);
+      if (prefs.open) prefs.close();
+      hideBar();
+      const withdrawn =
+        before && ((before.analytics && !c.analytics) || (before.marketing && !c.marketing));
+      if (withdrawn && started) {
+        // Tags already running cannot be unloaded: clear and reload without them.
+        clearCookies();
+        location.reload();
+        return;
+      }
+      if (withdrawn) clearCookies();
+      start(c);
+    };
+
+    const onAction = (e: Event) => {
+      const action = (e.target as HTMLElement).closest<HTMLElement>('[data-consent]')?.dataset
+        .consent;
+      if (action === 'accept') decide(true, true);
+      else if (action === 'reject') decide(false, false);
+      else if (action === 'close') prefs.close();
+    };
+    root.addEventListener('click', onAction);
+    prefs.addEventListener('click', onAction);
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      decide(data.has('analytics'), data.has('marketing'));
+    });
+    // Clicking the dimmed area outside the panel closes it (same as Close).
+    prefs.addEventListener('click', (e) => {
+      if (e.target === prefs) prefs.close();
+    });
+
+    // "Cookie settings" in the bar, the footer and the privacy notice.
+    document.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('[data-consent-open]')) {
+        e.preventDefault();
+        openPrefs();
+      }
+    });
+
+    // Conversions. Listeners are passive and never block the link or form.
+    document.addEventListener(
+      'click',
+      (e) => {
+        const c = read();
+        if (!c) return;
+        const link = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href]');
+        if (!link) return;
+        if (link.href.startsWith('tel:')) events.call(c);
+        else if (link.hostname === 'wa.me') events.whatsapp(c);
+      },
+      { capture: true, passive: true },
+    );
+    document.addEventListener('submit', (e) => {
+      const target = e.target as HTMLFormElement;
+      if (target.matches?.('form[action="/api/quote"]')) {
+        try {
+          sessionStorage.setItem(QUOTE_FLAG, '1');
+        } catch {
+          /* storage blocked: the conversion is not counted */
+        }
+      }
+    });
+
+    const current = read();
+    if (current) start(current);
+    else showBar();
+
+    if (location.pathname === '/quote-sent') {
+      let pending = false;
+      try {
+        pending = sessionStorage.getItem(QUOTE_FLAG) === '1';
+        sessionStorage.removeItem(QUOTE_FLAG);
+      } catch {
+        /* ignore */
+      }
+      if (pending && current) events.quote(current);
+    }
+  }
+</script>
+
+<style>
+  /* ---------- Slim bar ---------- */
+  .consent {
+    position: fixed;
+    inset-inline: 0;
+    inset-block-end: 0;
+    z-index: calc(var(--z-header) + 1);
+    background-color: var(--charcoal-900);
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .consent[hidden] {
+    display: none;
+  }
+
+  /* Phones and tablets: sit directly above the Call / Quote bar. */
+  @media (max-width: 74.99em) {
+    :global(body:has(.action-bar:not([data-hidden]))) .consent {
+      inset-block-end: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+    }
+
+    :global(body:has(.action-bar[data-hidden])) .consent {
+      padding-block-end: env(safe-area-inset-bottom, 0px);
+    }
+  }
+
+  /* Matching space at the end of the page, so nothing stays hidden under it. */
+  :global(body:has(.consent:not([hidden]))) {
+    padding-block-end: calc(4.5rem + var(--consent-h, 0px));
+  }
+
+  @media (min-width: 75em) {
+    :global(body:has(.consent:not([hidden]))) {
+      padding-block-end: var(--consent-h, 0px);
+    }
+  }
+
+  /* The WhatsApp button would sit on the bar: step aside until a choice is made. */
+  :global(body:has(.consent:not([hidden])) .wa-button) {
+    display: none;
+  }
+
+  .consent__inner {
+    display: grid;
+    gap: var(--space-2xs);
+    max-width: var(--container-max, 80rem);
+    margin-inline: auto;
+    padding: var(--space-xs) var(--gutter);
+  }
+
+  .consent__text {
+    font-size: var(--text-xs);
+    line-height: 1.45;
+    color: var(--color-text-secondary);
+    max-width: none;
+  }
+
+  .consent__link {
+    display: inline;
+    padding: 0.35em 0;
+    margin-inline-start: 0.35em;
+    font: inherit;
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+    background: none;
+    border: 0;
+    text-decoration: underline;
+    text-decoration-color: var(--orange-500);
+    text-underline-offset: 0.2em;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .consent__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xs);
+  }
+
+  /* Accept and Reject are deliberately identical everywhere. */
+  .consent__btn {
+    min-height: 2.75rem;
+    padding: 0.5em 1em;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    line-height: 1.2;
+    color: var(--color-text);
+    background: transparent;
+    border: 1px solid var(--color-border-strong);
+    cursor: pointer;
+    transition: border-color var(--duration-base) var(--ease-out);
+  }
+
+  .consent__btn:hover {
+    border-color: currentColor;
+  }
+
+  .consent__btn:focus-visible,
+  .consent__link:focus-visible,
+  .prefs__close:focus-visible,
+  .prefs__switch:focus-visible {
+    outline: 2px solid var(--orange-500);
+    outline-offset: 2px;
+  }
+
+  @media (min-width: 40em) {
+    .consent__inner {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      column-gap: var(--space-m);
+    }
+
+    .consent__text {
+      font-size: var(--text-sm);
+    }
+
+    .consent__actions {
+      grid-template-columns: repeat(2, minmax(7.5rem, auto));
+    }
+  }
+
+  /* ---------- Preferences panel ---------- */
+  .prefs {
+    width: min(100% - 2 * var(--gutter), 32rem);
+    max-height: min(90svh, 40rem);
+    padding: 0;
+    margin: auto;
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 0.5);
+  }
+
+  .prefs::backdrop {
+    background: rgb(17 17 17 / 0.6);
+  }
+
+  .prefs__form {
+    display: grid;
+    gap: var(--space-xs);
+    padding: var(--space-s) var(--space-m) var(--space-m);
+  }
+
+  .prefs__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s);
+  }
+
+  .prefs__title {
+    font-family: var(--font-sans);
+    font-size: var(--text-lg);
+    font-weight: var(--weight-semibold);
+  }
+
+  .prefs__close {
+    display: grid;
+    place-items: center;
+    width: var(--tap-target);
+    height: var(--tap-target);
+    margin: calc(var(--space-2xs) * -1);
+    font-size: 1.6rem;
+    line-height: 1;
+    color: var(--color-text);
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .prefs__intro {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .prefs__intro a {
+    color: var(--color-text);
+    text-underline-offset: 0.2em;
+  }
+
+  .prefs__list {
+    display: grid;
+    padding: 0;
+    margin: 0;
+    border: 0;
+  }
+
+  .prefs__item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-s);
+    padding-block: var(--space-xs);
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .prefs__item:last-child {
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  .prefs__label {
+    cursor: pointer;
+    display: grid;
+    gap: 0.15em;
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+
+  .prefs__label {
+    line-height: 1.4;
+  }
+
+  .prefs__label strong {
+    font-size: var(--text-base);
+    color: var(--color-text);
+  }
+
+  /* Switch-style checkbox (still a native, keyboard-accessible checkbox). */
+  .prefs__switch {
+    appearance: none;
+    flex-shrink: 0;
+    position: relative;
+    width: 2.75rem;
+    height: 1.5rem;
+    margin: 0;
+    background: var(--charcoal-700);
+    border: 1px solid var(--color-border-strong);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color var(--duration-base) var(--ease-out);
+  }
+
+  .prefs__switch::after {
+    content: '';
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 0.2rem;
+    width: 1rem;
+    height: 1rem;
+    background: var(--ivory-100);
+    border-radius: 50%;
+    translate: 0 -50%;
+    transition: translate var(--duration-base) var(--ease-out);
+  }
+
+  .prefs__switch:checked {
+    background: var(--orange-500);
+    border-color: var(--orange-500);
+  }
+
+  .prefs__switch:checked::after {
+    translate: 1.2rem -50%;
+    background: var(--charcoal-900);
+  }
+
+  .prefs__switch:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .prefs__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xs);
+  }
+
+  .prefs__save {
+    grid-column: 1 / -1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .prefs__switch,
+    .prefs__switch::after,
+    .consent__btn {
+      transition: none;
+    }
+  }
+</style>

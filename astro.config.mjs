@@ -21,6 +21,8 @@ const SITE_URL = process.env.SITE_URL?.replace(/\/$/, '') || 'http://localhost:4
 // https://docs.astro.build/en/reference/configuration-reference/
 export default defineConfig({
   site: SITE_URL,
+  // Tests build a second copy with sample tracking IDs (see playwright.config.ts).
+  outDir: process.env.ASTRO_OUT_DIR || './dist',
   trailingSlash: 'never',
   build: {
     // `/services/tree-surgery` is served from `services/tree-surgery.html`,
