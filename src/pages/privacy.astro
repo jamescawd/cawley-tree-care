@@ -9,6 +9,7 @@ import PageLayout from '@/layouts/PageLayout.astro';
 import Pending from '@/components/ui/Pending.astro';
 import { business } from '@/config/business';
 import { provided } from '@/lib/placeholder';
+import { tracking, trackingEnabled } from '@/config/tracking';
 
 const email = provided(business.contact.email);
 ---
@@ -66,12 +67,54 @@ const email = provided(business.contact.email);
       follows, and for any period required for our business records.
     </p>
 
-    <h2>Cookies and tracking</h2>
-    <p>
-      This website does not use cookies or advertising trackers. We use Cloudflare Web Analytics to
-      count visits and see which pages are useful. It does not use cookies, does not identify you
-      and does not follow you across other websites.
-    </p>
+    <h2 id="cookies">Cookies and tracking</h2>
+    {trackingEnabled ? (
+      <>
+        <p>
+          We only set cookies that are not strictly necessary if you agree to them in the cookie
+          banner. Reject all and Accept all are equally easy, and you can change your choice at any
+          time.
+        </p>
+        <ul>
+          {tracking.ga4Id && (
+            <li>
+              <strong>Analytics (Google Analytics 4, Google Ireland Ltd):</strong> shows which pages
+              are visited and how the website is used. Cookies: _ga, _ga_*. Kept for up to 2 years.
+            </li>
+          )}
+          {tracking.googleAds && (
+            <li>
+              <strong>Marketing (Google Ads, Google Ireland Ltd):</strong> tells us whether our
+              Google adverts led to a phone call or quote request. Cookies: _gcl_*. Kept for up to
+              90 days.
+            </li>
+          )}
+          {tracking.metaPixelId && (
+            <li>
+              <strong>Marketing (Meta Pixel, Meta Platforms Ireland Ltd):</strong> tells us whether
+              our Facebook or Instagram adverts led to an enquiry. Cookies: _fbp, _fbc. Kept for up
+              to 90 days.
+            </li>
+          )}
+        </ul>
+        <p>
+          Your choice itself is stored on your device for 6 months so we do not ask again on every
+          page. We also use Cloudflare Web Analytics, which counts visits without cookies and
+          without identifying you.
+        </p>
+        <p>
+          <button type="button" class="privacy__cookies" data-consent-open>
+            Change cookie settings
+          </button>
+        </p>
+      </>
+    ) : (
+      <p>
+        This website does not use cookies or advertising trackers. We use Cloudflare Web Analytics
+        to count visits and see which pages are useful. It does not use cookies, does not identify
+        you and does not follow you across other websites.
+      </p>
+    )}
 
     <h2>Your rights</h2>
     <p>
@@ -93,5 +136,16 @@ const email = provided(business.contact.email);
 
   .legal h1 {
     margin-block-start: var(--space-xs);
+  }
+
+  .privacy__cookies {
+    min-height: var(--tap-target);
+    padding: 0.6em 1.2em;
+    font: inherit;
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+    background: none;
+    border: 1px solid var(--color-border-strong);
+    cursor: pointer;
   }
 </style>

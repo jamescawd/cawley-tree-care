@@ -1,0 +1,467 @@
+---
+/**
+ * Cookie consent + tracking loader. Rendered only when at least one tracking
+ * ID is configured (src/config/tracking.ts).
+ *
+ * Rules:
+ * - Nothing non-essential loads until the visitor chooses. Google's tag
+ *   (gtag.js) and the Meta Pixel are not even requested before consent.
+ * - "Reject all" and "Accept all" are identical buttons, side by side.
+ * - Two purposes: Analytics (GA4) and Marketing (Google Ads, Meta Pixel).
+ * - The choice is kept in localStorage (strictly necessary: it records the
+ *   choice itself) for 6 months, then the visitor is asked again.
+ * - "Cookie settings" in the footer reopens the banner; withdrawing consent
+ *   clears the tracking cookies and reloads the page without the tags.
+ *
+ * Conversions (sent only with the matching consent):
+ * - Phone tap (any tel: link): GA4 `click_to_call`, Google Ads call
+ *   conversion, Meta `Contact`.
+ * - WhatsApp tap: GA4 `whatsapp_click`, Meta `Contact`.
+ * - Quote sent: the form marks the submission; /quote-sent then sends GA4
+ *   `generate_lead`, the Google Ads quote conversion and Meta `Lead`, once
+ *   (a refresh or direct visit to /quote-sent does not count again).
+ */
+import { tracking, hasAnalytics, hasMarketing } from '@/config/tracking';
+
+const ads = tracking.googleAds;
+---
+
+<section
+  id="consent"
+  class="consent surface-dark"
+  aria-labelledby="consent-title"
+  hidden
+  data-ga4={tracking.ga4Id}
+  data-ads={ads?.id}
+  data-ads-quote={ads?.quoteLabel}
+  data-ads-call={ads?.callLabel}
+  data-pixel={tracking.metaPixelId}
+>
+  <div class="consent__inner">
+    <div class="consent__text">
+      <h2 id="consent-title" class="consent__title">
+        Cookies on this website
+      </h2>
+      <p>
+        With your permission we use cookies to see how the website is used
+        {hasMarketing && ' and to measure our advertising'}. Nothing is set unless you accept. You
+        can change your mind at any time in <a href="/privacy#cookies">Cookie settings</a>.
+      </p>
+    </div>
+
+    <form class="consent__choices" id="consent-choices" hidden>
+      <fieldset>
+        <legend class="visually-hidden">Choose which cookies to allow</legend>
+        <label class="consent__option">
+          <input type="checkbox" checked disabled />
+          <span>
+            <strong>Necessary</strong> Remembers this choice. Always on.
+          </span>
+        </label>
+        {hasAnalytics && (
+          <label class="consent__option">
+            <input type="checkbox" name="analytics" />
+            <span>
+              <strong>Analytics</strong> Google Analytics: which pages are visited and how.
+            </span>
+          </label>
+        )}
+        {hasMarketing && (
+          <label class="consent__option">
+            <input type="checkbox" name="marketing" />
+            <span>
+              <strong>Marketing</strong>{' '}
+              {[ads && 'Google Ads', tracking.metaPixelId && 'Meta (Facebook and Instagram)']
+                .filter(Boolean)
+                .join(' and ')}
+              : measures whether our adverts lead to calls and quote requests.
+            </span>
+          </label>
+        )}
+      </fieldset>
+      <button type="submit" class="consent__btn">
+        Save my choices
+      </button>
+    </form>
+
+    <div class="consent__actions">
+      <button type="button" class="consent__btn" data-consent="reject">
+        Reject all
+      </button>
+      <button type="button" class="consent__btn" data-consent="accept">
+        Accept all
+      </button>
+      <button type="button" class="consent__manage" data-consent="manage" aria-expanded="false">
+        Choose
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  type Choice = { v: 1; analytics: boolean; marketing: boolean; ts: number };
+  type Fn = (...args: unknown[]) => void;
+  type W = Window & {
+    dataLayer: unknown[];
+    gtag?: Fn;
+    fbq?: Fn & { queue?: unknown[]; callMethod?: Fn; loaded?: boolean; version?: string };
+    _fbq?: unknown;
+  };
+
+  const KEY = 'cawley-consent';
+  const QUOTE_FLAG = 'cawley-quote-pending';
+  const MAX_AGE = 1000 * 60 * 60 * 24 * 182; // about 6 months
+  const w = window as unknown as W;
+  const root = document.getElementById('consent');
+
+  if (root) {
+    const cfg = root.dataset;
+    const hasAnalytics = Boolean(cfg.ga4);
+    const hasMarketing = Boolean(cfg.ads || cfg.pixel);
+    const choices = root.querySelector<HTMLFormElement>('#consent-choices')!;
+    const manage = root.querySelector<HTMLButtonElement>('[data-consent="manage"]')!;
+
+    const read = (): Choice | null => {
+      try {
+        const c = JSON.parse(localStorage.getItem(KEY) ?? 'null') as Choice | null;
+        return c && c.v === 1 && Date.now() - c.ts < MAX_AGE ? c : null;
+      } catch {
+        return null;
+      }
+    };
+    const write = (analytics: boolean, marketing: boolean) => {
+      const c: Choice = {
+        v: 1,
+        analytics: hasAnalytics && analytics,
+        marketing: hasMarketing && marketing,
+        ts: Date.now(),
+      };
+      try {
+        localStorage.setItem(KEY, JSON.stringify(c));
+      } catch {
+        /* storage blocked: the choice applies to this page only */
+      }
+      return c;
+    };
+
+    const load = (src: string) => {
+      const s = document.createElement('script');
+      s.async = true;
+      s.src = src;
+      document.head.append(s);
+    };
+
+    let started = false;
+    const start = (c: Choice) => {
+      if (started || !(c.analytics || c.marketing)) return;
+      started = true;
+      const useGoogle = (c.analytics && cfg.ga4) || (c.marketing && cfg.ads);
+      if (useGoogle) {
+        w.dataLayer = w.dataLayer || [];
+        w.gtag = function () {
+          // gtag.js needs the real `arguments` object.
+          // eslint-disable-next-line prefer-rest-params
+          w.dataLayer.push(arguments);
+        };
+        w.gtag('consent', 'default', {
+          analytics_storage: c.analytics ? 'granted' : 'denied',
+          ad_storage: c.marketing ? 'granted' : 'denied',
+          ad_user_data: c.marketing ? 'granted' : 'denied',
+          ad_personalization: c.marketing ? 'granted' : 'denied',
+        });
+        w.gtag('js', new Date());
+        if (c.analytics && cfg.ga4) w.gtag('config', cfg.ga4);
+        if (c.marketing && cfg.ads) w.gtag('config', cfg.ads);
+        load(
+          `https://www.googletagmanager.com/gtag/js?id=${c.analytics && cfg.ga4 ? cfg.ga4 : cfg.ads}`,
+        );
+      }
+      if (c.marketing && cfg.pixel) {
+        const f = function (...args: unknown[]) {
+          if (f.callMethod) f.callMethod(...args);
+          else f.queue!.push(args);
+        } as NonNullable<W['fbq']>;
+        f.queue = [];
+        f.loaded = true;
+        f.version = '2.0';
+        w.fbq = f;
+        w._fbq = f;
+        f('init', cfg.pixel);
+        f('track', 'PageView');
+        load('https://connect.facebook.net/en_US/fbevents.js');
+      }
+    };
+
+    // Events, each sent only where the matching consent was given.
+    const events = {
+      call(c: Choice) {
+        if (c.analytics && cfg.ga4) w.gtag?.('event', 'click_to_call', { link_url: 'tel' });
+        if (c.marketing && cfg.ads && cfg.adsCall)
+          w.gtag?.('event', 'conversion', { send_to: `${cfg.ads}/${cfg.adsCall}` });
+        if (c.marketing && cfg.pixel) w.fbq?.('track', 'Contact');
+      },
+      whatsapp(c: Choice) {
+        if (c.analytics && cfg.ga4) w.gtag?.('event', 'whatsapp_click');
+        if (c.marketing && cfg.pixel) w.fbq?.('track', 'Contact');
+      },
+      quote(c: Choice) {
+        if (c.analytics && cfg.ga4) w.gtag?.('event', 'generate_lead', { form: 'quote' });
+        if (c.marketing && cfg.ads && cfg.adsQuote)
+          w.gtag?.('event', 'conversion', { send_to: `${cfg.ads}/${cfg.adsQuote}` });
+        if (c.marketing && cfg.pixel) w.fbq?.('track', 'Lead');
+      },
+    };
+
+    // Clear tracking cookies when consent is withdrawn.
+    const clearCookies = () => {
+      const host = location.hostname;
+      for (const pair of document.cookie.split(';')) {
+        const name = pair.split('=')[0]!.trim();
+        if (/^(_ga|_gid|_gcl|_fbp|_fbc)/.test(name)) {
+          for (const domain of [
+            '',
+            `; domain=${host}`,
+            `; domain=.${host.replace(/^www\./, '')}`,
+          ]) {
+            document.cookie = `${name}=; max-age=0; path=/${domain}`;
+          }
+        }
+      }
+    };
+
+    const show = () => {
+      const c = read();
+      const boxes = choices.elements as unknown as Record<string, HTMLInputElement | undefined>;
+      if (boxes.analytics) boxes.analytics.checked = Boolean(c?.analytics);
+      if (boxes.marketing) boxes.marketing.checked = Boolean(c?.marketing);
+      root.hidden = false;
+    };
+    const decide = (analytics: boolean, marketing: boolean) => {
+      const before = read();
+      const c = write(analytics, marketing);
+      root.hidden = true;
+      choices.hidden = true;
+      manage.setAttribute('aria-expanded', 'false');
+      const withdrawn =
+        before && ((before.analytics && !c.analytics) || (before.marketing && !c.marketing));
+      if (withdrawn && started) {
+        // Tags already running cannot be unloaded: clear and reload without them.
+        clearCookies();
+        location.reload();
+        return;
+      }
+      if (withdrawn) clearCookies();
+      start(c);
+    };
+
+    root.addEventListener('click', (e) => {
+      const action = (e.target as HTMLElement).closest<HTMLElement>('[data-consent]')?.dataset
+        .consent;
+      if (action === 'accept') decide(true, true);
+      else if (action === 'reject') decide(false, false);
+      else if (action === 'manage') {
+        choices.hidden = !choices.hidden;
+        manage.setAttribute('aria-expanded', String(!choices.hidden));
+      }
+    });
+    choices.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(choices);
+      decide(data.has('analytics'), data.has('marketing'));
+    });
+
+    // Footer / privacy page "Cookie settings" buttons.
+    document.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('[data-consent-open]')) {
+        e.preventDefault();
+        show();
+        root.querySelector<HTMLButtonElement>('[data-consent="reject"]')?.focus();
+      }
+    });
+
+    // Conversions. Listeners are passive and never block the link or form.
+    document.addEventListener(
+      'click',
+      (e) => {
+        const c = read();
+        if (!c) return;
+        const link = (e.target as HTMLElement).closest<HTMLAnchorElement>('a[href]');
+        if (!link) return;
+        if (link.href.startsWith('tel:')) events.call(c);
+        else if (link.hostname === 'wa.me') events.whatsapp(c);
+      },
+      { capture: true, passive: true },
+    );
+    document.addEventListener('submit', (e) => {
+      const form = e.target as HTMLFormElement;
+      if (form.matches?.('form[action="/api/quote"]')) {
+        try {
+          sessionStorage.setItem(QUOTE_FLAG, '1');
+        } catch {
+          /* storage blocked: the conversion is not counted */
+        }
+      }
+    });
+
+    const current = read();
+    if (current) start(current);
+    else show();
+
+    if (location.pathname === '/quote-sent') {
+      let pending = false;
+      try {
+        pending = sessionStorage.getItem(QUOTE_FLAG) === '1';
+        sessionStorage.removeItem(QUOTE_FLAG);
+      } catch {
+        /* ignore */
+      }
+      if (pending && current) events.quote(current);
+    }
+  }
+</script>
+
+<style>
+  .consent {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 100;
+    border-block-start: 1px solid var(--color-border);
+    box-shadow: 0 -0.5rem 2rem rgb(0 0 0 / 0.35);
+    max-height: 85svh;
+    overflow-y: auto;
+  }
+
+  .consent__inner {
+    display: grid;
+    gap: var(--space-s);
+    max-width: var(--container-max, 80rem);
+    margin-inline: auto;
+    padding: var(--space-m) var(--gutter);
+  }
+
+  .consent__title {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    font-weight: var(--weight-semibold);
+    margin-block-end: var(--space-3xs);
+  }
+
+  .consent__text p {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    max-width: 70ch;
+  }
+
+  .consent__text a {
+    color: var(--color-text);
+    text-underline-offset: 0.2em;
+  }
+
+  .consent[hidden],
+  .consent__choices[hidden] {
+    display: none;
+  }
+
+  .consent__choices {
+    display: grid;
+    gap: var(--space-s);
+    justify-items: start;
+  }
+
+  .consent__choices fieldset {
+    display: grid;
+    gap: var(--space-2xs);
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .consent__option {
+    display: flex;
+    gap: var(--space-2xs);
+    align-items: flex-start;
+    min-height: var(--tap-target);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    cursor: pointer;
+  }
+
+  .consent__option input {
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-block-start: 0.1rem;
+    accent-color: var(--orange-500);
+  }
+
+  .consent__option strong {
+    color: var(--color-text);
+    margin-inline-end: 0.3em;
+  }
+
+  .consent__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xs);
+    align-items: center;
+  }
+
+  /* Accept and Reject are deliberately identical. */
+  .consent__btn {
+    min-height: var(--tap-target);
+    padding: 0.7em 1.2em;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+    background: transparent;
+    border: 1px solid var(--color-border-strong);
+    cursor: pointer;
+  }
+
+  .consent__btn:hover {
+    border-color: currentColor;
+  }
+
+  .consent__manage {
+    grid-column: 1 / -1;
+    justify-self: center;
+    min-height: var(--tap-target);
+    padding-inline: var(--space-s);
+    font: inherit;
+    font-size: var(--text-sm);
+    color: var(--color-text);
+    background: none;
+    border: 0;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    cursor: pointer;
+  }
+
+  .consent__btn:focus-visible,
+  .consent__manage:focus-visible {
+    outline: 2px solid var(--orange-500);
+    outline-offset: 2px;
+  }
+
+  @media (min-width: 48em) {
+    .consent__inner {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      column-gap: var(--space-l);
+    }
+
+    .consent__choices {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+
+    .consent__actions {
+      grid-template-columns: repeat(2, minmax(8.5rem, auto)) auto;
+    }
+
+    .consent__manage {
+      grid-column: auto;
+    }
+  }
+</style>
