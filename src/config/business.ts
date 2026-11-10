@@ -152,8 +152,8 @@ export const business = {
      * button then reads "Read our reviews on Google" instead of "Find us on Google".
      */
     googleHasReviews: false,
-    /** CONFIRMED by the business (Nov 2026): Facebook share link. */
-    facebook: 'https://www.facebook.com/share/1CZ7hHgcMq/' as Maybe<string>,
+    /** CONFIRMED by the business (Nov 2026): Facebook page address. */
+    facebook: 'https://www.facebook.com/cawleytreeandlandscaping/' as Maybe<string>,
     /** No Instagram account (confirmed Nov 2026). Add the URL here if one is created. */
     instagram: undefined as Maybe<string> | undefined,
   },
