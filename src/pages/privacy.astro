@@ -1,7 +1,8 @@
 ---
 /**
  * Privacy notice. Describes how the website actually handles data (quote
- * form only, no cookies or analytics). The business should review it
+ * form only, no cookies; cookieless Cloudflare Web Analytics, enabled in the
+ * Cloudflare Pages dashboard rather than in the code). The business should review it
  * before launch (see business.privacyReviewed).
  */
 import PageLayout from '@/layouts/PageLayout.astro';
@@ -66,7 +67,11 @@ const email = provided(business.contact.email);
     </p>
 
     <h2>Cookies and tracking</h2>
-    <p>This website does not use cookies, advertising trackers or analytics that identify you.</p>
+    <p>
+      This website does not use cookies or advertising trackers. We use Cloudflare Web Analytics to
+      count visits and see which pages are useful. It does not use cookies, does not identify you
+      and does not follow you across other websites.
+    </p>
 
     <h2>Your rights</h2>
     <p>
