@@ -130,7 +130,9 @@ const marketingTools = [ads && 'Google Ads', tracking.metaPixelId && 'Meta (Face
 </dialog>
 
 <script>
-  type Choice = { v: 1; analytics: boolean; marketing: boolean; ts: number };
+  type Purpose = 'analytics' | 'marketing';
+  /** `asked`: the purposes the visitor was offered when choosing. */
+  type Choice = { v: 1; analytics: boolean; marketing: boolean; ts: number; asked?: Purpose[] };
   type Fn = (...args: unknown[]) => void;
   type W = Window & {
     dataLayer: unknown[];
@@ -160,12 +162,23 @@ const marketingTools = [ads && 'Google Ads', tracking.metaPixelId && 'Meta (Face
         return null;
       }
     };
+    const offered: Purpose[] = [
+      ...(hasAnalytics ? (['analytics'] as const) : []),
+      ...(hasMarketing ? (['marketing'] as const) : []),
+    ];
+    // Choices saved before `asked` existed were made when only Analytics was
+    // configured (Nov 2026), so they never covered Marketing.
+    const askedFor = (c: Choice): Purpose[] => c.asked ?? ['analytics'];
+    /** False when a kind of tracking has been added since the visitor chose. */
+    const coversAll = (c: Choice) => offered.every((p) => askedFor(c).includes(p));
+
     const write = (analytics: boolean, marketing: boolean) => {
       const c: Choice = {
         v: 1,
         analytics: hasAnalytics && analytics,
         marketing: hasMarketing && marketing,
         ts: Date.now(),
+        asked: offered,
       };
       try {
         localStorage.setItem(KEY, JSON.stringify(c));
@@ -300,6 +313,13 @@ const marketingTools = [ads && 'Google Ads', tracking.metaPixelId && 'Meta (Face
         return;
       }
       if (withdrawn) clearCookies();
+      const added =
+        before && ((!before.analytics && c.analytics) || (!before.marketing && c.marketing));
+      if (added && started) {
+        // Tags already running with the old choice: reload so the new ones load cleanly.
+        location.reload();
+        return;
+      }
       start(c);
     };
 
@@ -355,8 +375,9 @@ const marketingTools = [ads && 'Google Ads', tracking.metaPixelId && 'Meta (Face
     });
 
     const current = read();
+    // Keep what the visitor already agreed to; never assume anything new.
     if (current) start(current);
-    else showBar();
+    if (!current || !coversAll(current)) showBar();
 
     if (location.pathname === '/quote-sent') {
       let pending = false;

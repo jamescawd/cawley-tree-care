@@ -246,6 +246,43 @@ test.describe('cookie consent', () => {
     await expect(banner(page)).toBeVisible();
   });
 
+  test('asks again when a new kind of tracking is added', async ({ page, baseURL }) => {
+    const calls = await stubThirdParties(page, baseURL!);
+    // A choice saved when only Analytics existed (no `asked` list).
+    await page.addInitScript(() => {
+      if (!sessionStorage.getItem('seeded')) {
+        localStorage.setItem(
+          'cawley-consent',
+          JSON.stringify({ v: 1, analytics: true, marketing: false, ts: Date.now() }),
+        );
+        sessionStorage.setItem('seeded', '1');
+      }
+    });
+    await page.goto('/');
+    // Analytics keeps working, but the visitor is asked about advertising.
+    await expect(banner(page)).toBeVisible();
+    await expect.poll(() => calls.google.length).toBe(1);
+    expect(await gtagCalls(page)).not.toContainEqual(['config', 'AW-123456789']);
+    expect(calls.meta).toEqual([]);
+    // Accepting loads advertising too, and the bar stays away afterwards.
+    await Promise.all([
+      page.waitForEvent('load'),
+      banner(page).getByRole('button', { name: 'Accept all' }).click(),
+    ]);
+    await expect(banner(page)).toBeHidden();
+    await expect.poll(() => calls.meta.length).toBe(1);
+    expect(await gtagCalls(page)).toContainEqual(['config', 'AW-123456789']);
+    await page.goto('/tree-removal');
+    await expect(banner(page)).toBeHidden();
+  });
+
+  test('a choice covering everything is not asked again', async ({ page }) => {
+    await page.goto('/');
+    await banner(page).getByRole('button', { name: 'Reject all' }).click();
+    await page.goto('/tree-pruning');
+    await expect(banner(page)).toBeHidden();
+  });
+
   test('no third parties other than Google and Meta are contacted', async ({ page, baseURL }) => {
     const calls = await stubThirdParties(page, baseURL!);
     await page.goto('/');
