@@ -3,7 +3,8 @@
  * planting, lawns and turfing, patios and paving, fencing, garden
  * maintenance and garden clearance. No photographs of finished
  * landscaping projects exist yet, so this page uses genuine photos of
- * finished garden work; replace when landscaping photos are available.
+ * finished garden work, plus empty before/after slots (below) for the
+ * owner's landscaping photos.
  */
 import type { ServicePage } from './types';
 import lawn from '@/assets/images/work/conifer-hedge-trimmed-beside-lawn.jpg';
@@ -72,6 +73,7 @@ export const landscaping: ServicePage = {
       },
       {
         title: 'Fencing',
+        href: '/fencing',
         text: 'New boundary fencing and replacement of old or damaged panels.',
       },
       {
@@ -89,9 +91,10 @@ export const landscaping: ServicePage = {
   why: 'Good landscaping starts with good ground, and that is where our tree and clearance work comes in. You get one experienced team from start to finish and a clear price up front.',
 
   photos: {
-    title: 'Finished gardens from',
-    accent: 'our own jobs',
-    intro: 'Genuine photographs of finished garden work by the Cawley’s team.',
+    title: 'Landscaping',
+    accent: 'before and after',
+    intro:
+      'Before and after photos of landscaping jobs, followed by more finished garden work by the Cawley’s team.',
     items: [
       {
         src: gravelled,
@@ -110,6 +113,21 @@ export const landscaping: ServicePage = {
         alt: 'A laurel hedge cut back to a tidy, even shape.',
         caption: 'A tidy hedge line framing the garden',
       },
+    ],
+  },
+
+  /**
+   * Empty slots for the owner's landscaping photos. For each pair: add the
+   * files to src/assets/images/work/, import them at the top, set `src` and
+   * `alt`, and update the title/summary to describe the real job. Empty
+   * pairs show as "Photo to come" in previews and are hidden at launch.
+   */
+  beforeAfter: {
+    pairs: [
+      { title: 'Patio and paving', before: {}, after: {} },
+      { title: 'New lawn and turf', before: {}, after: {} },
+      { title: 'Planting and borders', before: {}, after: {} },
+      { title: 'Full garden makeover', before: {}, after: {} },
     ],
   },
 
@@ -157,7 +175,8 @@ export const landscaping: ServicePage = {
     },
     {
       question: 'Can you put up fencing after a hedge is removed?',
-      answer: 'Yes. Removing an old hedge and fencing the boundary can be quoted as one job.',
+      answer:
+        'Yes. Removing an old hedge and fencing the boundary can be quoted as one job. See our fencing page for more.',
     },
     {
       question: 'How much does landscaping cost?',
@@ -177,5 +196,5 @@ export const landscaping: ServicePage = {
     text: 'Tell us what you have in mind. We cover Westmeath, Roscommon, Longford, Offaly and Galway, and we will talk it through and give you a free, clear quotation.',
   },
 
-  related: ['site-clearance', 'hedge-cutting', 'tree-removal', 'stump-grinding'],
+  related: ['fencing', 'site-clearance', 'hedge-cutting', 'tree-removal'],
 };

@@ -24,6 +24,26 @@ export interface Photo {
   focus?: string;
 }
 
+/**
+ * One side of a before/after pair. Leave `src` out until the owner's photo
+ * arrives: previews show a "photo to come" frame, and on the launched site
+ * (ALLOW_INDEXING=true) a pair with a missing photo is hidden automatically.
+ */
+export interface PhotoSlot {
+  src?: ImageMetadata;
+  /** Describe what the real photo shows once it is added. */
+  alt?: string;
+  focus?: string;
+}
+
+export interface BeforeAfterPair {
+  /** Short title, e.g. "New boundary fence". Update to describe the real job. */
+  title: string;
+  summary?: string;
+  before: PhotoSlot;
+  after: PhotoSlot;
+}
+
 export interface ServicePage {
   /** URL without the leading slash, e.g. "tree-removal". */
   slug: string;
@@ -55,7 +75,10 @@ export interface ServicePage {
   work: Heading & { intro: string; items: { title: string; text: string; href?: string }[] };
   /** Page-specific opening line for the shared "Why Cawley's" section. */
   why: string;
+  /** Genuine photos. May be empty when the page relies on `beforeAfter`. */
   photos: Heading & { intro: string; items: Photo[] };
+  /** Optional before/after pairs, shown at the top of the photos section. */
+  beforeAfter?: { pairs: BeforeAfterPair[] };
   process: Heading & { steps: { title: string; text: string }[] };
   areas: string;
   faqs: { question: string; answer: string }[];

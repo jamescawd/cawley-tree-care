@@ -111,7 +111,7 @@ export const serviceChapters: ServiceChapter[] = [
       'Once the trees and hedges are right, the rest of the garden often needs attention too. We take on planting, lawns and turfing, patios and paving, fencing and ongoing garden maintenance.',
     benefit:
       'One team who already knows your garden, working to the same standard from the treeline to the lawn.',
-    services: [serviceById('landscaping')],
+    services: [serviceById('landscaping'), serviceById('fencing')],
     image: {
       src: landscapingImg,
       alt: 'A sunlit lawn running alongside a long, neatly trimmed conifer hedge beside a white bungalow.',
