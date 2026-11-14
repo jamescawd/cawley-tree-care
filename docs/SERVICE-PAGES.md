@@ -55,3 +55,16 @@ that permission is not needed.
 The same rule applies. Do not generate a page per town. A location page is
 only worth adding when it has genuinely local content, such as real jobs
 completed in that area.
+
+## Before/after photo slots (Landscaping and Fencing)
+
+`beforeAfter.pairs` in a page's content file lists before/after pairs.
+Each side (`before`, `after`) is a slot: leave `src` out until the owner's
+photo arrives. Previews (ALLOW_INDEXING unset) show empty slots as
+"Photo to come" frames; the launched site shows only complete pairs, and
+hides the whole photo section if a page has nothing to show.
+
+To fill a slot: put the photo in `src/assets/images/work/` with a
+descriptive file name, import it at the top of the content file, set
+`src` and `alt` (what the photo shows), and update the pair's `title` and
+optional `summary` to describe the real job. Remove pairs that won't be used.

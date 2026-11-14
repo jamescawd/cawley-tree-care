@@ -23,6 +23,7 @@ import { breadcrumbSchema, faqSchema, serviceSchema } from '@/lib/schema';
 import { business } from '@/config/business';
 import { serviceById } from '@/config/services';
 import { servicePages, type ServicePage } from '@/config/servicePages';
+import { site as siteConfig } from '@/config/site';
 
 interface Props {
   page: ServicePage;
@@ -88,6 +89,12 @@ const shareImage = await getImage({
   format: 'jpg',
   quality: 80,
 });
+// Before/after pairs: previews show empty slots as "photo to come" frames so
+// the owner can see where photos go; the launched site shows complete pairs only.
+const pairs = (page.beforeAfter?.pairs ?? []).filter(
+  (p) => siteConfig.showPreviewContent || (p.before.src && p.after.src),
+);
+const showPhotos = pairs.length > 0 || page.photos.items.length > 0;
 const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => x <= w);
 ---
 
@@ -246,43 +253,87 @@ const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => 
     </div>
   </section>
 
-  {/* E. Photos */}
-  <section class="section-lg surface-dark svc-photos" aria-labelledby="photos-title">
-    <div class="container svc-stack">
-      <SectionHeader id="photos-title" eyebrow="Our work" split>
-        <Fragment slot="title">
-          {`${page.photos.title} `}
-          <em>{page.photos.accent}</em>
-          {page.photos.end && ` ${page.photos.end}`}
-        </Fragment>
-        <p>{page.photos.intro}</p>
-      </SectionHeader>
-      <ul
-        class:list={['svc-photos__grid', `svc-photos__grid--${page.photos.items.length}`]}
-        role="list"
-      >
-        {page.photos.items.map((p) => (
-          <li>
-            <figure>
-              <Picture
-                src={p.src}
-                alt={p.alt}
-                widths={imgWidths(p.src.width)}
-                sizes="(min-width: 64em) 40vw, (min-width: 48em) 50vw, 100vw"
-                formats={['avif', 'webp']}
-                layout="none"
-                style={p.focus ? `object-position: ${p.focus}` : undefined}
-              />
-              <figcaption>{p.caption}</figcaption>
-            </figure>
-          </li>
-        ))}
-      </ul>
-      <Button href="/#work" variant="secondary" arrow>
-        See more of our work
-      </Button>
-    </div>
-  </section>
+  {/* E. Photos (before/after pairs first, then the photo grid) */}
+  {showPhotos && (
+    <section class="section-lg surface-dark svc-photos" aria-labelledby="photos-title">
+      <div class="container svc-stack">
+        <SectionHeader id="photos-title" eyebrow="Our work" split>
+          <Fragment slot="title">
+            {`${page.photos.title} `}
+            <em>{page.photos.accent}</em>
+            {page.photos.end && ` ${page.photos.end}`}
+          </Fragment>
+          <p>{page.photos.intro}</p>
+        </SectionHeader>
+        {pairs.length > 0 && (
+          <ul class="svc-ba" role="list">
+            {pairs.map((pair) => (
+              <li class="svc-ba__pair reveal">
+                <div class="svc-ba__frames">
+                  {(['before', 'after'] as const).map((side) => {
+                    const slot = pair[side];
+                    const label = side === 'before' ? 'Before' : 'After';
+                    return (
+                      <figure class="svc-ba__frame">
+                        {slot.src ? (
+                          <Picture
+                            src={slot.src}
+                            alt={slot.alt ?? `${pair.title}: ${label.toLowerCase()}`}
+                            widths={imgWidths(slot.src.width)}
+                            sizes="(min-width: 64em) 25vw, 50vw"
+                            formats={['avif', 'webp']}
+                            layout="none"
+                            style={slot.focus ? `object-position: ${slot.focus}` : undefined}
+                          />
+                        ) : (
+                          <div
+                            class="svc-ba__empty"
+                            role="img"
+                            aria-label={`${label} photo to come: ${pair.title}`}
+                          >
+                            <span>Photo to come</span>
+                          </div>
+                        )}
+                        <span class="svc-ba__tag">{label}</span>
+                      </figure>
+                    );
+                  })}
+                </div>
+                <h3 class="svc-ba__title">{pair.title}</h3>
+                {pair.summary && <p class="svc-ba__summary">{pair.summary}</p>}
+              </li>
+            ))}
+          </ul>
+        )}
+        {page.photos.items.length > 0 && (
+          <ul
+            class:list={['svc-photos__grid', `svc-photos__grid--${page.photos.items.length}`]}
+            role="list"
+          >
+            {page.photos.items.map((p) => (
+              <li>
+                <figure>
+                  <Picture
+                    src={p.src}
+                    alt={p.alt}
+                    widths={imgWidths(p.src.width)}
+                    sizes="(min-width: 64em) 40vw, (min-width: 48em) 50vw, 100vw"
+                    formats={['avif', 'webp']}
+                    layout="none"
+                    style={p.focus ? `object-position: ${p.focus}` : undefined}
+                  />
+                  <figcaption>{p.caption}</figcaption>
+                </figure>
+              </li>
+            ))}
+          </ul>
+        )}
+        <Button href="/#work" variant="secondary" arrow>
+          See more of our work
+        </Button>
+      </div>
+    </section>
+  )}
 
   {/* F. How it works */}
   <section class="section-lg svc-process" aria-labelledby="process-title">
@@ -774,6 +825,84 @@ const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => 
   }
 
   /* ---------- E. Photos ---------- */
+  /* Before/after pairs */
+  .svc-ba {
+    display: grid;
+    gap: var(--space-l) var(--space-m);
+  }
+
+  .svc-ba__pair {
+    display: grid;
+    gap: var(--space-2xs);
+    align-content: start;
+    max-width: none;
+  }
+
+  .svc-ba__frames {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3xs);
+  }
+
+  .svc-ba__frame {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    background: var(--charcoal-800);
+  }
+
+  .svc-ba__frame :global(picture),
+  .svc-ba__frame :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .svc-ba__frame :global(img) {
+    object-fit: cover;
+  }
+
+  .svc-ba__empty {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    padding: var(--space-s);
+    border: 1px dashed var(--color-border);
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+    text-align: center;
+  }
+
+  .svc-ba__tag {
+    position: absolute;
+    inset-block-start: var(--space-2xs);
+    inset-inline-start: var(--space-2xs);
+    padding: 0.3em 0.65em;
+    font-size: 0.6875rem;
+    font-weight: var(--weight-semibold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--charcoal-900);
+    background: var(--orange-500);
+  }
+
+  .svc-ba__title {
+    margin-block-start: var(--space-2xs);
+    font-size: var(--text-xl);
+    line-height: 1.2;
+  }
+
+  .svc-ba__summary {
+    color: var(--color-text-secondary);
+    max-width: 46ch;
+  }
+
+  @media (min-width: 48em) {
+    .svc-ba {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
   .svc-photos__grid {
     display: grid;
     gap: var(--space-3xs);

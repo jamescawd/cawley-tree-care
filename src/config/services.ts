@@ -108,6 +108,14 @@ export const services: Service[] = [
     page: true,
     summary: 'Planting, lawns, paving, fencing and improvements to the wider garden.',
   },
+  {
+    id: 'fencing',
+    name: 'Fencing',
+    group: 'garden',
+    path: '/fencing',
+    page: true,
+    summary: 'New boundary fencing and replacement of old or damaged fencing.',
+  },
 ];
 
 export const serviceById = (id: string): Service => {
