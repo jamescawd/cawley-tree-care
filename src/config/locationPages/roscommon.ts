@@ -5,42 +5,33 @@ import { roof, stormBeech, lane, climbing } from './photos';
  * Roscommon Town: DRAFT (not in live.json) until the owner supplies a real
  * local job, photo or review.
  *
- * RESEARCH NOTES (checked Nov 2026):
- * - Storm Éowyn, 24 Jan 2025: winds of up to about 160 km/h in parts of the
- *   county; up to 10,000 premises without power, some for close to three
- *   weeks. In the town, fallen trees blocked the entrance to the Abbey Hotel
- *   and a tree was uprooted beside the Arts Centre. Trees partly blocked the
- *   N61 between Athlone and Roscommon. [Roscommon Herald]
- * - Mote Park forest, just outside the town, was closed for weeks while
- *   fallen trees were cleared. [RTÉ; Shannonside; Roscommon Herald]
- * - Loughnaneane Park lies beside Roscommon Castle (general knowledge).
- * - Distance from Athlone (about 30 km on the N61 via Knockcroghery) is
- *   approximate: owner to confirm.
- * - No council content. No Cawley's job in Roscommon Town is claimed.
+ * Local notes are kept to what affects tree work: lasting storm damage after
+ * Storm Éowyn, Jan 2025 (Roscommon Herald). Distance (about 30 km on the N61)
+ * to be confirmed by the owner. No council content. No Cawley's job in
+ * Roscommon is claimed.
  */
 export const roscommon: LocationPage = {
   slug: 'tree-surgeon-roscommon',
   town: 'Roscommon Town',
   seoTitle: "Tree Surgeons in Roscommon Town | Cawley's Tree Care",
   description:
-    'Tree surgeons for Roscommon Town: storm-damaged and leaning trees made safe, removals, pruning, hedges and stumps. Over 15 years. Quotes free.',
+    'Tree surgeons for Roscommon Town: storm-damaged trees made safe, removals, pruning, hedges and stump grinding. Over 15 years, fully insured. Quotes free.',
 
   hero: {
     eyebrow: 'Roscommon Town',
-    title: 'Still looking at a tree the',
-    accent: 'storm left behind?',
+    title: 'Tree surgeons for',
+    accent: 'Roscommon Town',
     intro:
-      'Roscommon took as hard a hit from Storm Éowyn as anywhere in the country. If there is a tree in your garden that has not been right since, or one you have been meaning to sort for years, we are half an hour down the N61.',
+      'Storm-damaged trees made safe, tree removal, pruning, hedge cutting and stump grinding in Roscommon Town and the surrounding area. Experienced, fully insured, and free to quote.',
     image: roof,
   },
 
   intro: {
-    title: 'The morning of',
-    accent: '24 January 2025',
+    title: 'Damaged trees need',
+    accent: 'careful handling',
     paragraphs: [
-      'You will remember it. Winds of up to 160 km/h in parts of the county. Ten thousand homes and businesses without power, some of them for the guts of three weeks. In the town, trees down across the entrance to the Abbey Hotel and one torn out of the ground beside the Arts Centre. Mote Park shut for weeks while the fallen timber was cleared. The N61 to Athlone half blocked in places.',
-      'The fallen trees have mostly been dealt with since. The damaged ones have not. All over Roscommon there are trees with a limb ripped out, a top snapped off, or a lean they did not have before, and each one is weaker than it was.',
-      'We are based in Athlone, about 30 km down the N61 through Knockcroghery. We have been taking down difficult trees for over fifteen years, and storm-damaged trees are some of the most difficult there are.',
+      'A tree that is split, leaning or hung up in another tree is under tension, and the timber can move suddenly when it is cut. That makes it work for trained, insured tree surgeons rather than a weekend job with a chainsaw.',
+      'We have over fifteen years of experience taking down difficult trees in sections, close to houses and outbuildings. We will assess the tree, explain what is needed and give you a clear price before starting.',
     ],
     facts: [
       'About 30 km from Athlone on the N61',
@@ -52,41 +43,14 @@ export const roscommon: LocationPage = {
     ],
   },
 
-  local: {
-    title: 'Why a damaged tree',
-    accent: 'is not a job for the weekend',
-    paragraphs: [
-      'After the storm a lot of people did what people in Roscommon do: got out the chainsaw and helped the neighbours. Fair play to every one of them. But a tree that is hung up in another tree, or bent over under tension, or split down the stem, does not behave like a tree lying on the ground. The timber is loaded like a spring. Cut it in the wrong place and it kicks, rolls or drops in a direction nobody expected.',
-      'That is work we have years of experience in, and are insured for. A hung-up tree is winched or dismantled from a safe position. A split stem is strapped before it is cut. A leaning tree near a house is taken down from the top in small pieces, with a rope on every one.',
-    ],
-    points: [
-      {
-        title: 'Lifted roots',
-        text: 'A tree that rocked in the storm and settled back can look normal. Check the ground on the side the wind came from: a ridge, a crack or a gap under the roots means the anchor is broken.',
-      },
-      {
-        title: 'Torn limbs',
-        text: 'Where a big branch has ripped away, the wound lets rot into the trunk. The tree can often be saved with a clean cut and a lighter crown, if it is done soon.',
-      },
-      {
-        title: 'Shelter belts with gaps',
-        text: 'When half a row of conifers goes over, the rest are suddenly exposed to wind they never grew up with. They tend to follow, a few at a time, in ordinary winter gales.',
-      },
-      {
-        title: 'The edge of town',
-        text: 'Houses out the Athlone, Galway and Castlerea roads with mature trees on the boundary: have them looked at before this winter, not during it.',
-      },
-    ],
-  },
-
   services: {
     title: 'What we can do',
     accent: 'for you',
-    intro: 'Storm work and everything else.',
+    intro: 'Storm work, and everything else a tree might need.',
     items: [
       {
         title: 'Making a damaged tree safe',
-        text: 'Hung-up, split and leaning trees dismantled or reduced. If it is urgent, ring; do not use the form.',
+        text: 'Hung-up, split and leaning trees dismantled or reduced. If it is urgent, ring rather than using the form.',
         href: '/emergency-tree-services',
       },
       {
@@ -117,6 +81,28 @@ export const roscommon: LocationPage = {
     ],
   },
 
+  local: {
+    title: 'Storm damage',
+    accent: 'that is easy to miss',
+    paragraphs: [
+      'Storm Éowyn hit Roscommon hard in January 2025, and many trees that are still standing were weakened. If a tree near your home came through it, these are the signs worth checking:',
+    ],
+    points: [
+      {
+        title: 'Lifted roots',
+        text: 'A ridge, crack or gap in the ground on one side of the tree means the roots have moved.',
+      },
+      {
+        title: 'Torn limbs',
+        text: 'Where a big branch ripped away, rot can get into the trunk. A clean cut and a lighter crown, done soon, can often save the tree.',
+      },
+      {
+        title: 'Gaps in a shelter belt',
+        text: 'When part of a row of conifers goes over, the rest are exposed to wind they never had to stand up to.',
+      },
+    ],
+  },
+
   jobsDone: {
     title: 'Work we have done',
     accent: 'in Roscommon',
@@ -143,7 +129,7 @@ export const roscommon: LocationPage = {
       {
         question: 'Will my house insurance pay for a storm-damaged tree?',
         answer:
-          'It depends on the policy. Many cover the damage a fallen tree does to the house, and some cover removing it; few cover a tree that is damaged but has not hit anything. Ring your insurer before work starts and take photos first. We can give you a quotation to send them.',
+          'It depends on the policy. Check with your insurer before work starts and take photos first. We can give you a quotation to send them.',
       },
       {
         question: 'The tree fell from my neighbour’s side. Who deals with it?',
@@ -153,16 +139,12 @@ export const roscommon: LocationPage = {
       {
         question: 'Is a leaning tree always dangerous?',
         answer:
-          'No. Plenty of trees grow with a lean and stand for a century. The worrying ones are those that started leaning recently, especially with lifted or cracked ground at the base. If it moved in the storm, treat it as unsafe until someone has looked at it.',
+          'No. Plenty of trees grow with a lean and stand for a century. The worrying ones are those that started leaning recently, especially with lifted or cracked ground at the base. If it moved in a storm, treat it as unsafe until someone has looked at it.',
       },
       {
         question: 'A branch is resting on an electricity wire. What do I do?',
         answer:
-          'Stay well away from it and ring ESB Networks on their emergency line. Do not touch the tree, and do not let anyone else cut it. Once the line is made safe, we can deal with the tree.',
-      },
-      {
-        question: 'Do you come to the villages around the town?',
-        answer: 'Yes: Athleague, Knockcroghery, Strokestown, Ballyleague and the country between.',
+          'Stay well away and ring ESB Networks on their emergency line. Do not touch the tree or let anyone else cut it. Once the line is made safe, we can deal with the tree.',
       },
     ],
   },
@@ -180,8 +162,8 @@ export const roscommon: LocationPage = {
   },
 
   cta: {
-    title: 'Get it looked at',
-    accent: 'before the next one',
+    title: 'Get a damaged tree',
+    accent: 'looked at',
     text: 'WhatsApp us photos or ring. We do not charge to quote. If a tree is down or about to go, phone straight away, whatever the hour.',
   },
 };

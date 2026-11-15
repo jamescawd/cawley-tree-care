@@ -194,34 +194,6 @@ const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => 
     </div>
   </section>
 
-  {/* B2. Trees and gardens in this town */}
-  {page.local && (
-    <section class="section-lg surface-dark loc-local" aria-labelledby="local-title">
-      <div class="container loc-local__grid">
-        <div class="loc-local__text reveal">
-          <h2 id="local-title">
-            {`${page.local.title} `}
-            <em>{page.local.accent}</em>
-            {page.local.end && ` ${page.local.end}`}
-          </h2>
-          {page.local.paragraphs.map((p) => (
-            <p>{p}</p>
-          ))}
-        </div>
-        {page.local.points && (
-          <ul class="loc-local__points" role="list">
-            {page.local.points.map((pt) => (
-              <li class="reveal">
-                <h3>{pt.title}</h3>
-                <p>{pt.text}</p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-    </section>
-  )}
-
   {/* C. Services */}
   <section class="section-lg surface-dark loc-services" aria-labelledby="services-title">
     <div class="container loc-stack">
@@ -282,6 +254,34 @@ const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => 
         <Button href="/tree-removal" variant="secondary" arrow>
           More about tree removal
         </Button>
+      </div>
+    </section>
+  )}
+
+  {/* C1. Local notes: only what affects tree work in this town */}
+  {page.local && (
+    <section class="section-lg loc-local" aria-labelledby="local-title">
+      <div class="container loc-local__grid">
+        <div class="loc-local__text reveal">
+          <h2 id="local-title">
+            {`${page.local.title} `}
+            <em>{page.local.accent}</em>
+            {page.local.end && ` ${page.local.end}`}
+          </h2>
+          {page.local.paragraphs.map((p) => (
+            <p>{p}</p>
+          ))}
+        </div>
+        {page.local.points && (
+          <ul class="loc-local__points" role="list">
+            {page.local.points.map((pt) => (
+              <li class="reveal">
+                <h3>{pt.title}</h3>
+                <p>{pt.text}</p>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </section>
   )}

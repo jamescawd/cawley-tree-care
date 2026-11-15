@@ -1,56 +1,37 @@
 import type { LocationPage } from './types';
-import hero from '@/assets/images/work/sectional-dismantling-beside-building.jpg';
-import stormBeech from '@/assets/images/work/storm-fallen-beech-chainsaw-clearance.jpg';
-import uprooted from '@/assets/images/work/uprooted-tree-across-garden.jpg';
-import hedge from '@/assets/images/work/conifer-hedge-trimmed-beside-lawn.jpg';
+import { dismantling, stormBeech, uprooted, conifer } from './photos';
 
 /**
  * Mullingar: DRAFT (not in live.json) until the owner supplies a real local
  * job, photo or review.
  *
- * RESEARCH NOTES (checked Nov 2026; sources in brackets):
- * - Royal Canal loops the north side of the town; fed by a 3.2 km feeder from
- *   Lough Owel. Lough Ennell lies south, Lough Owel north. [Wikipedia;
- *   irishwaterwayshistory.com]
- * - Belvedere's woods line Lough Ennell and were planted with beech in the
- *   18th century. [belvedere-house.ie]
- * - Old Rail Trail: 43 km greenway, Athlone to Mullingar. [Wikipedia]
- * - Storm Éowyn, 24 Jan 2025: gusts over 100 km/h locally; trees down in
- *   Ballinderry, Petitswood, Woodlands and on the Dublin Road.
- *   [Westmeath Examiner live blog]
- * - The owner asked for no council content on town pages.
- * - No Cawley's job in Mullingar is claimed anywhere: photos are genuine
- *   Cawley's work with captions that do not name a place.
+ * Local notes are kept to what affects tree work. Sources (checked Nov 2026):
+ * Storm Éowyn brought trees down across Mullingar on 24 Jan 2025 (Westmeath
+ * Examiner live blog). No council content (owner's instruction). No Cawley's
+ * job in Mullingar is claimed.
  */
 export const mullingar: LocationPage = {
   slug: 'tree-surgeon-mullingar',
   town: 'Mullingar',
   seoTitle: "Tree Surgeons in Mullingar | Cawley's Tree Care",
   description:
-    'Tree surgery in Mullingar and around the lakes: storm-damaged trees, removals, pruning, hedges and stumps. A Westmeath firm. Quotes are free.',
+    'Tree surgeons in Mullingar: tree removal, pruning, hedge cutting, stump grinding and storm call-outs. Experienced and fully insured. Free quotations.',
 
   hero: {
     eyebrow: 'Mullingar, Co. Westmeath',
     title: 'Tree surgeons for',
     accent: 'Mullingar',
-    end: 'and the lakes',
     intro:
-      'From the estates inside the canal to the houses out along Lough Ennell and Lough Owel, we take down, prune and tidy trees and hedges around Mullingar. A Westmeath firm, with a free quotation before anything is cut.',
-    image: {
-      src: hero,
-      alt: 'A climber roped high in a large tree, taking it down in sections right beside a timber building.',
-      caption: 'Dismantling a tree a few feet from a building',
-      focus: '50% 35%',
-    },
+      'Tree removal, pruning, hedge cutting, stump grinding and storm work for homes and businesses in Mullingar and the villages around it. Experienced, fully insured, and a free quotation before anything is cut.',
+    image: dismantling,
   },
 
   intro: {
-    title: 'Same county,',
-    accent: 'down the road',
+    title: 'Experienced tree care,',
+    accent: 'priced up front',
     paragraphs: [
-      'We are a Westmeath firm, based in Athlone at the other end of the Old Rail Trail, and Mullingar is part of our own county. Coming to look at your tree is no trouble.',
-      'Mullingar is an easy town to describe to a tree surgeon. The canal wraps around the north of it, there is a lake on either side, and between them is a mix of old gardens with big trees and newer estates where the planting from the Celtic Tiger years has now grown up. Most of what we are asked about comes from one of those two things: a mature tree that has got too big or too tired for where it stands, or a hedge that was a few feet high when the house was bought.',
-      'Tell us where you are and send a photo or two. We will tell you straight what we think it needs, including when the answer is nothing.',
+      'Whether it is one tree that has outgrown the garden or a boundary of overgrown leylandii, we look at the job, explain what we would do and give you a clear price. If a tree does not need any work, we will tell you that too.',
+      'We have more than fifteen years of experience in tree surgery and carry full insurance. Trees close to houses, sheds and boundaries are taken down in controlled sections, and the site is cleaned up before we leave.',
     ],
     facts: [
       'A Westmeath firm',
@@ -61,65 +42,50 @@ export const mullingar: LocationPage = {
     ],
   },
 
-  local: {
-    title: 'Trees in a town',
-    accent: 'between two lakes',
-    paragraphs: [
-      'Wind is the thing to understand about trees around Mullingar. Lough Owel to the north and Lough Ennell to the south are both wide, open water, and a tree on the shore side of a garden gets none of the shelter a tree in the middle of town does. The woods along Lough Ennell at Belvedere were planted with beech back in the 1700s, and beech of that age is typical of the old properties on this side of the county: magnificent, heavy in the crown and shallow in the root.',
-      'Anyone who was in Mullingar on 24 January 2025 knows what that means. Storm Éowyn brought gusts of over 100 km/h and trees came down in Ballinderry, in Petitswood, in Woodlands and across the Dublin Road. Plenty of the trees that fell that morning had looked fine the week before. Many more were left standing but damaged: a limb torn out, a crack in a fork, a root plate that has lifted and settled back. Those are the ones worth having looked at now, in calm weather, because they do not get better.',
-      'The other quiet problem is ash. Ash dieback is all through the hedgerows of the Midlands, and a dead ash on a boundary beside a road or a neighbour’s shed turns brittle fast. It is safer and cheaper to take one down while there is still some life in it than to wait until nobody can climb it.',
-    ],
-    points: [
-      {
-        title: 'Along the canal',
-        text: 'Houses that back onto the Royal Canal and its feeder from Lough Owel often have alder, willow and sycamore along the bank side. They grow fast in the damp ground and lean out for the light, usually over somebody’s fence.',
-      },
-      {
-        title: 'The lake roads',
-        text: 'Out towards Lough Ennell and Lough Owel the gardens are bigger and so are the trees. Old beech, lime and Scots pine close to a house want a proper look every few years, and after any big storm.',
-      },
-      {
-        title: 'The estates',
-        text: 'In the estates that went up through the 1990s and 2000s, the usual call is a leylandii or laurel hedge that has got away, or a birch or cherry planted too near the house that is now at the gutters.',
-      },
-    ],
-  },
-
   services: {
     title: 'What people in Mullingar',
     accent: 'ring us about',
-    intro: 'The common jobs, and where to read more about each.',
+    intro: 'The most common jobs, with a page on each if you want the detail.',
     items: [
       {
         title: 'Trees hit by a storm',
-        text: 'A tree down on a fence, shed or driveway, or one left cracked and hanging. Ring any time; we will tell you honestly how soon we can be with you.',
+        text: 'A tree down on a fence, shed or driveway, or one left cracked and hanging. Ring at any hour and we will tell you honestly how soon we can be with you.',
         href: '/emergency-tree-services',
       },
       {
         title: 'Taking a tree down',
-        text: 'Dead ash, a leaning conifer, or a tree that has simply outgrown the garden. Close to a house or boundary it comes down in sections on ropes, not in one piece.',
+        text: 'Dead, leaning or simply too big for the garden. Close to a house or boundary it comes down in sections on ropes, not in one piece.',
         href: '/tree-removal',
       },
       {
         title: 'Reducing a big tree',
-        text: 'For a beech, lime or sycamore you want to keep: weight taken out of the crown and long limbs shortened, so it catches less wind and lets in more light.',
+        text: 'For a tree you want to keep: weight taken out of the crown and long limbs shortened, so it catches less wind and lets in more light.',
         href: '/tree-pruning',
       },
       {
         title: 'Hedges that got away',
-        text: 'Leylandii, laurel and beech hedges brought back down to a height you can keep, or taken out altogether and replaced with a fence.',
+        text: 'Leylandii, laurel and beech hedges brought back to a height you can manage, or removed and replaced with a fence.',
         href: '/hedge-cutting',
       },
       {
         title: 'Stumps',
-        text: 'The stump ground out below the surface where the site suits it, so you can put the lawn back.',
+        text: 'Ground out below the surface where the site suits it, so the lawn can go back.',
         href: '/stump-grinding',
       },
       {
         title: 'Not sure what it needs?',
-        text: 'Start here. We look at the tree, what is near it and what you want, and give you an honest opinion.',
+        text: 'We look at the tree, what is near it and what you want from it, and give you an honest opinion.',
         href: '/tree-surgery',
       },
+    ],
+  },
+
+  local: {
+    title: 'Worth knowing',
+    accent: 'in Mullingar',
+    paragraphs: [
+      'Storm Éowyn brought trees down across Mullingar in January 2025, and many that stayed standing were damaged: a torn-out limb, a split fork, or roots that lifted and settled back. Those are worth having checked in calm weather, before the next storm finds them.',
+      'Ash dieback is also widespread in the hedgerows around the town. A dead ash next to a road, house or shed turns brittle and becomes harder to take down safely, so it is better dealt with early.',
     ],
   },
 
@@ -140,22 +106,9 @@ export const mullingar: LocationPage = {
     accent: 'we mean',
     intro: 'Storm call-outs and garden jobs, photographed by us on the day.',
     photos: [
-      {
-        src: stormBeech,
-        alt: 'A large beech brought down by a storm being cut up with a chainsaw.',
-        caption: 'A storm-fallen beech being cleared',
-      },
-      {
-        src: uprooted,
-        alt: 'A tree uprooted by wind lying across a garden, its root plate lifted out of the ground.',
-        caption: 'Uprooted: the root plate lifted clean out',
-      },
-      {
-        src: hedge,
-        alt: 'A long conifer hedge trimmed to an even line beside a lawn.',
-        caption: 'A conifer hedge back under control',
-        focus: '50% 60%',
-      },
+      stormBeech,
+      uprooted,
+      { ...conifer, caption: 'A tall conifer hedge back under control' },
     ],
   },
 
@@ -165,29 +118,24 @@ export const mullingar: LocationPage = {
     intro: 'Short, straight answers.',
     faqs: [
       {
-        question: 'A tree in my garden survived Storm Éowyn. Should I still have it checked?',
+        question: 'A tree in my garden came through the storm. Should I still have it checked?',
         answer:
-          'If it lost a big limb, if you can see a split where two stems meet, or if the ground on one side of it has lifted or cracked, yes. Those are signs of damage that the next strong wind will find. If it came through with nothing more than small twigs down, it is probably fine. Send us a photo and we will tell you which it looks like.',
+          'If it lost a big limb, if there is a split where two stems meet, or if the ground on one side has lifted or cracked, yes. The next strong wind will find that damage. If it only lost twigs, it is probably fine. Send us a photo and we will tell you which it looks like.',
       },
       {
         question: 'How do I know if my ash tree has dieback?',
         answer:
-          'Look at the top of the tree in summer. Bare tips, thin leaf cover and clumps of new shoots lower down the trunk are the usual signs, along with dark, sunken patches on the bark. A tree that is mostly bare by July is far gone. The sooner a badly affected ash near a road, house or boundary comes down, the safer the job is.',
+          'Look at the top of the tree in summer. Bare tips, thin leaf cover and clumps of new shoots lower down the trunk are the usual signs, along with dark patches on the bark. An ash that is mostly bare by July is badly affected and, near a road or building, should be dealt with soon.',
       },
       {
         question: 'My neighbour’s leylandii is blocking my light. What can be done?',
         answer:
-          'Talk to the neighbour first; it is their hedge. You are generally entitled to cut back what overhangs your side as far as the boundary, but not to reduce the height. Very often the neighbour is as tired of it as you are and the best result is one job that brings the whole hedge down, with the cost shared. We are happy to price it that way.',
+          'Talk to the neighbour first; it is their hedge. You can generally cut back what overhangs your side as far as the boundary, but not reduce its height. Often the neighbour is as tired of it as you are, and one job that brings the whole hedge down, with the cost shared, is the best result. We are happy to price it that way.',
       },
       {
-        question: 'Do you come out to the villages around Mullingar?',
+        question: 'Do you cover the villages around Mullingar?',
         answer:
-          'Yes. Multyfarnham, Killucan, Ballynacarrigy, Castlepollard, Kinnegad, Rochfortbridge and the country in between are all part of our normal area.',
-      },
-      {
-        question: 'Is there a closed season for cutting hedges?',
-        answer:
-          'Yes. From the start of March to the end of August the law restricts hedge cutting so that birds can nest in peace; there are a few exceptions, road safety among them. Autumn and winter suit most garden hedges better anyway. If you are unsure about yours, ask us.',
+          'Yes: Multyfarnham, Killucan, Ballynacarrigy, Castlepollard, Kinnegad, Rochfortbridge, Delvin and the country in between.',
       },
     ],
   },
@@ -214,8 +162,8 @@ export const mullingar: LocationPage = {
   },
 
   cta: {
-    title: 'A tree in Mullingar that needs',
-    accent: 'looking at?',
-    text: 'WhatsApp us a couple of photos, or pick up the phone. It costs nothing to get a price, and the line is open 24/7 when a tree is down.',
+    title: 'Need a tree surgeon',
+    accent: 'in Mullingar?',
+    text: 'Send a couple of photos on WhatsApp or give us a call. You will get an honest opinion and a free, no-obligation quotation, and if a tree has come down you can ring us any time.',
   },
 };

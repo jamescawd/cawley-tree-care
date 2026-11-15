@@ -5,44 +5,33 @@ import { stormBeech, chipper, drive, cutting } from './photos';
  * Longford Town: DRAFT (not in live.json) until the owner supplies a real
  * local job, photo or review.
  *
- * RESEARCH NOTES (checked Nov 2026):
- * - Storm Éowyn, 24 Jan 2025: falling trees disrupted traffic on Battery
- *   Road; The Mall park was badly damaged and partly closed into February;
- *   Longford Town FC's ground was damaged; thousands were without power.
- *   [Longford Leader; Shannonside]
- * - The sycamore at Ballinamuck associated with General George Blake and
- *   1798 was blown down. [Longford Leader]
- * - Afterwards there were public calls for landowners to deal with roadside
- *   trees. [Longford Leader]
- * - The Camlin river runs through the town and past The Mall (general
- *   knowledge).
- * - Route from Athlone (about 45 km via Ballymahon and Keenagh) is
- *   approximate: owner to confirm.
- * - No council content. No Cawley's job in Longford is claimed.
+ * Local notes are kept to what affects tree work: a short checklist of
+ * warning signs on trees near roads and houses. No distance given (owner's
+ * instruction for far towns). No council content. No Cawley's job in
+ * Longford is claimed.
  */
 export const longford: LocationPage = {
   slug: 'tree-surgeon-longford',
   town: 'Longford Town',
   seoTitle: "Tree Surgeons in Longford Town | Cawley's Tree Care",
   description:
-    'Tree surgery in Longford Town: roadside and boundary trees, storm damage, removals, crown reductions, hedges and stump grinding. Fully insured; quotations free.',
+    'Tree surgery in Longford Town: tree safety checks, removals, crown reductions, hedge cutting, stump grinding and storm clear-ups. Insured. Free quotes.',
 
   hero: {
     eyebrow: 'Longford Town',
-    title: 'Sound advice on trees in',
+    title: 'Tree surgeons in',
     accent: 'Longford',
     intro:
-      'Which trees are safe, which need work and which should come down: that is what most people in Longford want to know since the big storm. We will give you a straight answer and a free quotation.',
+      'Tree checks, removal, crown reduction, hedge cutting, stump grinding and storm clear-ups across Longford Town and the county. Experienced, insured and honest about what a tree really needs.',
     image: stormBeech,
   },
 
   intro: {
-    title: 'What Éowyn',
-    accent: 'taught Longford',
+    title: 'A clear answer',
+    accent: 'on every tree',
     paragraphs: [
-      'On the morning of 24 January 2025, trees fell across Battery Road and stopped the traffic. The Mall lost so many that part of the park was still closed weeks later. Up in Ballinamuck the old sycamore that had stood since the time of General Blake and 1798 went over. Thousands of homes across the county had no power.',
-      'In the months after, the talk in Longford turned to the trees still standing along the roads, and whose job it is to mind them. The short answer is: whoever owns the land. If that is you, this page is meant to help.',
-      'We are a tree surgery firm with over fifteen years behind us and full insurance, and Co. Longford is one of the five counties we cover.',
+      'Most people who contact us want to know whether a tree is safe. We look at its condition and at what it could fall on, then tell you whether it needs pruning, removal or nothing at all.',
+      'With over fifteen years of experience and full insurance, we take down roadside and boundary trees in controlled sections, and the site is left clean afterwards.',
     ],
     facts: [
       'All of Co. Longford covered',
@@ -54,37 +43,6 @@ export const longford: LocationPage = {
     ],
   },
 
-  local: {
-    title: 'Which trees to',
-    accent: 'worry about',
-    paragraphs: [
-      'Most trees are fine, and we do not go around telling people to cut down healthy ones. A tree becomes a concern when two things are true together: something is wrong with it, and there is something under it that matters. A dead ash in the middle of a field can stand until it falls. The same tree over the school run cannot.',
-      'So start with what the tree could hit: a road, a footpath, a house, a neighbour’s garden, a power line. Then look at the tree itself. You do not need to be an expert to spot the main warning signs, and the list on this page covers them.',
-    ],
-    points: [
-      {
-        title: 'Dead wood in the top',
-        text: 'Bare branches in summer, especially in ash. A few dead twigs are normal; whole limbs are not.',
-      },
-      {
-        title: 'Fungus at the base',
-        text: 'Brackets or clusters of toadstools on the trunk or roots usually mean decay inside, where it counts.',
-      },
-      {
-        title: 'Cracks and splits',
-        text: 'A crack running down from a fork, or a seam opening in the trunk. These fail suddenly.',
-      },
-      {
-        title: 'Ivy to the top',
-        text: 'Heavy ivy hides defects and acts like a sail in the wind. On a roadside tree it is worth having it cut at the base.',
-      },
-      {
-        title: 'A new lean',
-        text: 'A tree that has shifted, with the ground heaved or cracked on one side. Treat it as urgent.',
-      },
-    ],
-  },
-
   services: {
     title: 'What we do',
     accent: 'in Longford',
@@ -92,7 +50,7 @@ export const longford: LocationPage = {
     items: [
       {
         title: 'An honest look at your trees',
-        text: 'We tell you which are sound, which need work and which can be left alone.',
+        text: 'Which are sound, which need work and which can be left alone.',
         href: '/tree-surgery',
       },
       {
@@ -107,18 +65,44 @@ export const longford: LocationPage = {
       },
       {
         title: 'Storm clear-ups',
-        text: 'Fallen and hanging trees cleared. Ring us any time, day or night.',
+        text: 'Fallen and hanging trees cleared. Ring us at any time of day or night.',
         href: '/emergency-tree-services',
       },
       {
         title: 'Roadside and garden hedges',
-        text: 'Roadside and garden hedges cut back and kept in order.',
+        text: 'Hedges cut back and kept in order.',
         href: '/hedge-cutting',
       },
       {
         title: 'Stumps',
-        text: 'Stumps ground out where the site suits it.',
+        text: 'Ground out where the site suits it.',
         href: '/stump-grinding',
+      },
+    ],
+  },
+
+  local: {
+    title: 'Warning signs',
+    accent: 'to look for',
+    paragraphs: [
+      'Since Storm Éowyn, many people in Longford have been looking harder at the trees along their roads and boundaries. If a tree is near a road, a house or a power line, these are the signs worth acting on:',
+    ],
+    points: [
+      {
+        title: 'Dead wood in the top',
+        text: 'Bare branches in summer, especially in ash. A few dead twigs are normal; whole limbs are not.',
+      },
+      {
+        title: 'Fungus at the base',
+        text: 'Brackets or clusters of toadstools on the trunk or roots usually mean decay inside.',
+      },
+      {
+        title: 'Cracks and splits',
+        text: 'A crack running down from a fork, or a seam opening in the trunk.',
+      },
+      {
+        title: 'Heavy ivy',
+        text: 'Ivy to the top hides defects and catches the wind. On a roadside tree, have it cut at the base.',
       },
     ],
   },
@@ -147,24 +131,19 @@ export const longford: LocationPage = {
     intro: 'Plain answers.',
     faqs: [
       {
-        question: 'Am I responsible for the trees along the road outside my land?',
-        answer:
-          'If they grow on your land, including on the ditch or hedge that bounds it, yes. The Roads Act requires landowners to take reasonable care that trees and hedges are not a danger to people using the public road. Looking them over once a year, and after storms, and acting on anything obviously wrong, is what reasonable care means in practice.',
-      },
-      {
         question: 'How much does it cost to take down a roadside tree?',
         answer:
-          'It varies with the size of the tree, what is under it, whether there are wires, and how busy the road is. A row of trees done together costs less per tree than one at a time. Send us photos and the location and we will give you a free quotation.',
+          'It depends on the size of the tree, what is under it, whether there are wires and how busy the road is. Several trees done together cost less per tree than one at a time. Send us photos and the location for a free quotation.',
       },
       {
         question: 'Can a tree be made safe without removing it?',
         answer:
-          'Often. Taking out dead wood and reducing the crown deals with most of the risk on a tree that is otherwise healthy. A tree with serious decay at the base is different, and we will say so.',
+          'Often. Taking out dead wood and reducing the crown deals with most of the risk on a tree that is otherwise healthy. A tree with serious decay at the base is a different matter, and we will tell you so.',
       },
       {
-        question: 'There are wires through the tree. Can you still do it?',
+        question: 'Can you cut ivy off a big tree?',
         answer:
-          'Do not touch a tree that is in contact with electricity lines. ESB Networks need to be told first, and they will advise on making the line safe. We then deal with the tree.',
+          'Yes. The usual way is to cut through the ivy stems at the base and let the growth above die back, which is safer for the tree than pulling it off. Once it has died back, the tree’s condition is easier to see.',
       },
       {
         question: 'Which parts of Longford do you cover?',
@@ -189,15 +168,15 @@ export const longford: LocationPage = {
           'Lanesborough',
           'Keenagh',
           'Ballymahon',
-          'Ballinamuck',
+          'Granard',
         ],
       },
     ],
   },
 
   cta: {
-    title: 'Not sure about a tree',
-    accent: 'on your boundary?',
-    text: 'Take a photo of the tree and send it on WhatsApp, or ring and describe it. We will tell you what we think, free. For emergencies, call 24/7.',
+    title: 'Unsure about',
+    accent: 'a tree?',
+    text: 'Take a photo and send it on WhatsApp, or ring and describe it. We will tell you what we think and give you a free quotation. For emergencies, call 24/7.',
   },
 };

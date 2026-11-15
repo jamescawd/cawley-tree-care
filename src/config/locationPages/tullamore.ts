@@ -5,45 +5,33 @@ import { wall, climbing, tidy, conifer } from './photos';
  * Tullamore: DRAFT (not in live.json) until the owner supplies a real local
  * job, photo or review.
  *
- * RESEARCH NOTES (checked Nov 2026):
- * - Charleville demesne, about a mile south of the town on the Birr road,
- *   is old oak woodland. The King Oak inside the main entrance is estimated
- *   at 400 to 800 years old and came third in European Tree of the Year
- *   2013. It was struck by lightning in 1963. In the Big Wind of 1839 about
- *   5,000 oaks were blown down in the Charleville woods.
- *   [Wikipedia; Offaly History blog no. 772]
- * - Storm Éowyn, 24 Jan 2025: trees down on Charleville Road near the
- *   Fingerboard, at Chancery Lane and Clonminch; the R420 to Clara blocked;
- *   about 4,400 premises in the town without power; the town park closed
- *   because of fallen trees. [Offaly Express; Offaly Independent]
- * - The Grand Canal runs through the town (general knowledge).
- * - Route from Athlone (about 40 km via Moate and Clara) is approximate:
- *   owner to confirm.
- * - No council content. No Cawley's job in Tullamore is claimed.
+ * Local notes are kept to what affects tree work: mature oak, beech and lime
+ * in older gardens and estates; canal-side willow and alder. No distance
+ * given (owner's instruction for far towns). No council content. No Cawley's
+ * job in Tullamore is claimed.
  */
 export const tullamore: LocationPage = {
   slug: 'tree-surgeon-tullamore',
   town: 'Tullamore',
   seoTitle: "Tree Surgeons in Tullamore, Co. Offaly | Cawley's Tree Care",
   description:
-    'Tree surgeons for Tullamore: oak, beech and lime pruned with care, removals, canal-side trees, hedges and storm damage. Free quotations.',
+    'Tree surgeons for Tullamore: pruning and crown reduction done properly, tree removal, hedges, stump grinding and storm damage. Quotes are free.',
 
   hero: {
     eyebrow: 'Tullamore, Co. Offaly',
-    title: 'Tree care in the town of the',
-    accent: 'King Oak',
+    title: 'Tree surgery and pruning in',
+    accent: 'Tullamore',
     intro:
-      'Tullamore has an oak at its gate that was old when the town was built. Not every tree deserves that kind of patience, but more of them do than people think. We prune, reduce and remove trees around Tullamore, and we will tell you honestly which yours needs.',
+      'Pruning, crown reduction and tree removal for oak, beech, lime and conifers, plus hedge cutting and stump grinding, in Tullamore and across Offaly. Fully insured, with a free quotation.',
     image: wall,
   },
 
   intro: {
-    title: 'Four hundred years,',
-    accent: 'at least',
+    title: 'Pruning done',
+    accent: 'properly',
     paragraphs: [
-      'The King Oak stands just inside the gates of Charleville, a mile out the Birr road. Nobody knows its age for certain; the estimates run from four hundred to eight hundred years. Its lowest limbs reach so far they rest on the ground. It was split by lightning in 1963 and carried on. In 2013 it came third in the whole of Europe as Tree of the Year.',
-      'The woods behind it tell the other half of the story. On the Night of the Big Wind in 1839, some five thousand oaks were flattened in Charleville forest in a few hours. Old trees are tougher than they look, and storms are stronger than we remember. Good tree work lives between those two facts.',
-      'We have been in the trade for over fifteen years and are fully insured. Tullamore and the rest of Offaly are a core part of the area we cover, and we are happy to look at one tree or twenty.',
+      'Good pruning keeps a tree healthy and in shape. We shorten branches back to suitable side branches instead of topping, so the tree keeps its form and recovers well.',
+      'Where removal is the right answer, the tree is taken down in sections and the site cleared. Our team has over fifteen years of experience, and every job is insured.',
     ],
     facts: [
       'Careful pruning of oak, beech and lime',
@@ -52,30 +40,6 @@ export const tullamore: LocationPage = {
       'Quotes free of charge',
       'Mon to Sat, 8am to 6pm',
       'Storm emergencies: phone 24/7',
-    ],
-  },
-
-  local: {
-    title: 'Hardwoods, canal banks',
-    accent: 'and new estates',
-    paragraphs: [
-      'The country around Tullamore suits oak, and you find good ones well beyond Charleville: on old farm boundaries, in the grounds of older houses on the roads out of town, and left standing as features in newer estates built around them. An oak in a garden is an asset. It rarely needs more than the dead wood taken out and the odd low limb lifted, and it should never be topped.',
-      'Beech and lime, the other big trees of the town, are less forgiving. Beech drops heavy limbs without much warning in old age. Lime throws up a thicket of shoots from the base and gets dense and top-heavy. Both respond well to a proper reduction by somebody who knows where to cut.',
-      'Éowyn tested all of them. On 24 January 2025 there were trees down on Charleville Road near the Fingerboard, at Chancery Lane and at Clonminch. The Clara road was blocked, the town park was closed for fallen trees, and around 4,400 homes and businesses in the town had no power by midday.',
-    ],
-    points: [
-      {
-        title: 'Along the Grand Canal',
-        text: 'Gardens backing onto the canal tend to have willow, alder and ash on the bank. They grow fast in the wet and need cutting back every few years.',
-      },
-      {
-        title: 'Trees kept in new estates',
-        text: 'A mature tree left standing when houses were built around it has often had its roots cut by services and driveways. If one near you is thinning at the top, have it checked.',
-      },
-      {
-        title: 'Leylandii boundaries',
-        text: 'Planted as a quick screen and now eight metres tall. They can be reduced, within limits: cut back too far into old wood and leylandii will not green up again.',
-      },
     ],
   },
 
@@ -117,6 +81,14 @@ export const tullamore: LocationPage = {
     ],
   },
 
+  local: {
+    title: 'Mature trees',
+    accent: 'around the town',
+    paragraphs: [
+      'Tullamore has a lot of mature oak, beech and lime, in older gardens and kept as features in newer estates. Trees in estates often had their roots disturbed when houses, services and driveways went in, so an older tree that is thinning at the top is worth having checked. Gardens backing onto the Grand Canal tend to have fast-growing willow and alder on the bank that need cutting back every few years.',
+    ],
+  },
+
   jobsDone: {
     title: 'Completed',
     accent: 'in Tullamore',
@@ -143,27 +115,22 @@ export const tullamore: LocationPage = {
       {
         question: 'Why should a tree not be topped?',
         answer:
-          'Topping means cutting the main stems straight across to shorten the tree. It leaves large wounds that rot, and the tree answers with a burst of weak, fast shoots that are more likely to break than the branches they replaced. A proper crown reduction shortens each branch back to a side branch, so the tree keeps its shape and heals. It takes more skill and more time, and it lasts.',
+          'Topping cuts the main stems straight across. It leaves large wounds that rot, and the tree answers with a burst of weak shoots that break more easily than the branches they replaced. A proper crown reduction shortens each branch back to a side branch, so the tree keeps its shape and heals.',
       },
       {
         question: 'When is the best time to prune?',
         answer:
-          'Most trees can be pruned through late autumn and winter, when they are dormant and you can see the structure. Cherry and plum are better done in summer. Dead or dangerous wood can come out at any time. We will advise on your particular tree.',
+          'Most trees can be pruned through late autumn and winter, when they are dormant and the structure is easy to see. Cherry and plum are better done in summer. Dead or dangerous wood can come out at any time.',
       },
       {
         question: 'Can you reduce my leylandii hedge by half?',
         answer:
-          'In height, usually yes. In width, only as far as there is green growth, because leylandii does not regrow from bare brown wood. If the hedge has got too wide to reduce, taking it out and putting up a fence is often the better money.',
+          'In height, usually yes. In width, only as far as there is green growth, because leylandii does not regrow from bare brown wood. If the hedge is too wide to reduce, taking it out and putting up a fence is often better value.',
       },
       {
-        question: 'My oak has dead branches. Is it dying?',
+        question: 'My oak has dead branches. Is it on its way out?',
         answer:
-          'Probably not. Oaks shed branches they no longer need and can carry dead wood for years while being perfectly healthy. Have the dead wood removed if it is over a path, a road or a place people sit. Worry more if the leaves are sparse and small all over the crown.',
-      },
-      {
-        question: 'Do you work outside the town?',
-        answer:
-          'Yes, across Offaly: Clara, Kilcormac, Daingean, Geashill, Killeigh, Mucklagh and on to Edenderry and Birr.',
+          'Probably not. Oaks shed branches they no longer need and can carry dead wood for years while healthy. Have it removed if it is over a path, a road or a seating area. Be more concerned if the leaves are sparse and small all over the crown.',
       },
     ],
   },
@@ -182,8 +149,8 @@ export const tullamore: LocationPage = {
   },
 
   cta: {
-    title: 'A tree worth',
-    accent: 'doing right?',
-    text: 'Show us the tree: a few photos by WhatsApp, or a phone call. You will get an honest opinion and a price without charge. Fallen tree? Ring at any time.',
+    title: 'Book a tree surgeon',
+    accent: 'in Tullamore',
+    text: 'Show us the tree with a few photos by WhatsApp, or give us a call. You will get an honest opinion and a price without charge. Fallen tree? Ring at any time.',
   },
 };
