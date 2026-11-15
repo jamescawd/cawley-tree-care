@@ -4,8 +4,9 @@
  * src/config/locationPages/<town>.ts; see docs/LOCATION-PAGES.md.
  *
  * Section order (each one answers a customer question):
- *   A hero (who, where, how to get in touch) → B local introduction (why a
- *   local firm) → C services (which one do I need?) → D proof (a genuine
+ *   A hero (who, where, how to get in touch) → B introduction (why us) →
+ *   B1 jobs completed in the town → C services (which one do I need?) →
+ *   C1 short local notes → D proof (a genuine
  *   local review + real photos) → E advice (what to know before booking) →
  *   F nearby areas (do you cover me?) → G call to action → quote form.
  *
@@ -26,7 +27,8 @@ import { business } from '@/config/business';
 import { serviceAreas, countyLabel } from '@/config/areas';
 import { servicePages } from '@/config/servicePages';
 import { serviceById } from '@/config/services';
-import type { LocationPage } from '@/config/locationPages';
+import { isLiveLocation, type LocationPage } from '@/config/locationPages';
+import { site as siteConfig } from '@/config/site';
 
 interface Props {
   page: LocationPage;
@@ -36,6 +38,10 @@ const { page } = Astro.props;
 const path = `/${page.slug}`;
 const site = Astro.site ?? Astro.url;
 const quote = '#quote-form';
+const live = isLiveLocation(page.slug);
+const jobSlots = (page.jobsDone?.slots ?? []).filter(
+  (s) => siteConfig.showPreviewContent || s.photo.src,
+);
 const phoneHref = `tel:${business.contact.phone}`;
 const { whatsapp, whatsappMessage, phoneDisplay } = business.contact;
 const whatsappHref = `https://wa.me/${whatsapp}?text=${encodeURIComponent(whatsappMessage)}`;
@@ -107,6 +113,7 @@ const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => 
   title={page.seoTitle}
   absoluteTitle
   description={page.description}
+  noindex={!live}
   image={{ src: shareImage.src, alt: page.hero.image.alt, width: shareWidth, height: shareHeight }}
   schema={schema}
   quoteLink={quote}
@@ -188,6 +195,50 @@ const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => 
     </div>
   </section>
 
+  {/* B1. Jobs completed in this town, shown early as local proof (slots until the owner supplies them) */}
+  {page.jobsDone && jobSlots.length > 0 && (
+    <section class="section-lg loc-jobs loc-jobs--early" aria-labelledby="jobs-title">
+      <div class="container loc-stack">
+        <SectionHeader id="jobs-title" eyebrow="Local work" split>
+          <Fragment slot="title">
+            {`${page.jobsDone.title} `}
+            <em>{page.jobsDone.accent}</em>
+            {page.jobsDone.end && ` ${page.jobsDone.end}`}
+          </Fragment>
+          <p>{page.jobsDone.intro}</p>
+        </SectionHeader>
+        <ul class="loc-jobs__grid" role="list">
+          {jobSlots.map((slot) => (
+            <li class="loc-jobs__item reveal">
+              <div class="loc-jobs__frame">
+                {slot.photo.src ? (
+                  <Picture
+                    src={slot.photo.src}
+                    alt={slot.photo.alt ?? ''}
+                    formats={['avif', 'webp']}
+                    widths={imgWidths(slot.photo.src.width)}
+                    sizes="(min-width: 60em) 30vw, (min-width: 40em) 45vw, 92vw"
+                    style={slot.photo.focus ? `object-position: ${slot.photo.focus}` : undefined}
+                  />
+                ) : (
+                  <div
+                    class="loc-jobs__empty"
+                    role="img"
+                    aria-label={`Photo to come: ${slot.title}`}
+                  >
+                    <span>Photo to come</span>
+                  </div>
+                )}
+              </div>
+              <h3>{slot.title}</h3>
+              {slot.summary && <p>{slot.summary}</p>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
   {/* C. Services */}
   <section class="section-lg surface-dark loc-services" aria-labelledby="services-title">
     <div class="container loc-stack">
@@ -219,7 +270,7 @@ const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => 
   {page.job && (
     <section class="section-lg surface-dark loc-job" aria-labelledby="job-title">
       <div class="container loc-stack">
-        <SectionHeader id="job-title" eyebrow="Local work" split>
+        <SectionHeader id="job-title" eyebrow={page.job.eyebrow ?? 'Local work'} split>
           <Fragment slot="title">
             {`${page.job.title} `}
             <em>{page.job.accent}</em>
@@ -245,9 +296,37 @@ const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => 
             </li>
           ))}
         </ol>
-        <Button href="/tree-removal" variant="secondary" arrow>
-          More about tree removal
+        <Button href={page.job.link?.href ?? '/tree-removal'} variant="secondary" arrow>
+          {page.job.link?.label ?? 'More about tree removal'}
         </Button>
+      </div>
+    </section>
+  )}
+
+  {/* C1. Local notes: only what affects tree work in this town */}
+  {page.local && (
+    <section class="section-lg loc-local" aria-labelledby="local-title">
+      <div class="container loc-local__grid">
+        <div class="loc-local__text reveal">
+          <h2 id="local-title">
+            {`${page.local.title} `}
+            <em>{page.local.accent}</em>
+            {page.local.end && ` ${page.local.end}`}
+          </h2>
+          {page.local.paragraphs.map((p) => (
+            <p>{p}</p>
+          ))}
+        </div>
+        {page.local.points && (
+          <ul class="loc-local__points" role="list">
+            {page.local.points.map((pt) => (
+              <li class="reveal">
+                <h3>{pt.title}</h3>
+                <p>{pt.text}</p>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </section>
   )}
@@ -1017,5 +1096,125 @@ const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => 
       flex-wrap: wrap;
       width: auto;
     }
+  }
+
+  /* B2. Local section */
+  .loc-local__grid {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .loc-local__text {
+    display: grid;
+    gap: var(--space-s);
+    align-content: start;
+  }
+
+  .loc-local__text h2 {
+    font-size: var(--text-3xl);
+    line-height: 1.08;
+    max-width: 18ch;
+    margin-block-end: var(--space-2xs);
+  }
+
+  .loc-local__text p {
+    max-width: 62ch;
+    color: var(--color-text-secondary);
+  }
+
+  .loc-local__points {
+    display: grid;
+    gap: var(--space-m);
+    align-content: start;
+  }
+
+  .loc-local__points li {
+    padding-block-start: var(--space-s);
+    border-block-start: 1px solid var(--color-border);
+  }
+
+  .loc-local__points h3 {
+    font-size: var(--text-xl);
+    line-height: 1.2;
+    margin-block-end: var(--space-2xs);
+  }
+
+  .loc-local__points p {
+    color: var(--color-text-secondary);
+    max-width: 52ch;
+  }
+
+  @media (min-width: 60em) {
+    .loc-local__grid {
+      grid-template-columns: 1.1fr 1fr;
+      gap: var(--space-2xl);
+    }
+  }
+
+  /* C2. Jobs completed */
+  .loc-jobs__grid {
+    display: grid;
+    gap: var(--space-l);
+  }
+
+  .loc-jobs__item {
+    display: grid;
+    gap: var(--space-2xs);
+    align-content: start;
+  }
+
+  .loc-jobs__frame {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    margin-block-end: var(--space-2xs);
+  }
+
+  .loc-jobs__frame :global(picture),
+  .loc-jobs__frame :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .loc-jobs__empty {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    border: 1px dashed var(--color-border);
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  .loc-jobs__item h3 {
+    font-size: var(--text-xl);
+    line-height: 1.2;
+  }
+
+  .loc-jobs__item p {
+    color: var(--color-text-secondary);
+    max-width: 46ch;
+  }
+
+  @media (min-width: 40em) {
+    .loc-jobs__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 60em) {
+    .loc-jobs__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* B1 follows the light introduction: a rule keeps the two apart. */
+  .loc-jobs--early {
+    padding-block-start: 0;
+  }
+
+  .loc-jobs--early > .container {
+    padding-block-start: var(--section-space-lg);
+    border-block-start: 1px solid var(--color-border);
   }
 </style>

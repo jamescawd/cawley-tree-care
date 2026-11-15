@@ -17,7 +17,19 @@ const SERVICE_PAGES = [
   '/fencing',
   '/artificial-grass',
 ];
-const LOCATION_PAGES = ['/tree-surgeon-athlone'];
+const LOCATION_PAGES = [
+  '/tree-surgeon-athlone',
+  '/tree-surgeon-mullingar',
+  '/tree-surgeon-birr',
+  '/tree-surgeon-moate',
+  '/tree-surgeon-kilbeggan',
+  '/tree-surgeon-roscommon',
+  '/tree-surgeon-boyle',
+  '/tree-surgeon-longford',
+  '/tree-surgeon-tullamore',
+  '/tree-surgeon-ballinasloe',
+  '/tree-surgeon-galway',
+];
 const PAGES = [
   '/',
   '/privacy',
