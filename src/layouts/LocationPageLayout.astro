@@ -4,8 +4,9 @@
  * src/config/locationPages/<town>.ts; see docs/LOCATION-PAGES.md.
  *
  * Section order (each one answers a customer question):
- *   A hero (who, where, how to get in touch) → B local introduction (why a
- *   local firm) → C services (which one do I need?) → D proof (a genuine
+ *   A hero (who, where, how to get in touch) → B introduction (why us) →
+ *   B1 jobs completed in the town → C services (which one do I need?) →
+ *   C1 short local notes → D proof (a genuine
  *   local review + real photos) → E advice (what to know before booking) →
  *   F nearby areas (do you cover me?) → G call to action → quote form.
  *
@@ -194,6 +195,50 @@ const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => 
     </div>
   </section>
 
+  {/* B1. Jobs completed in this town, shown early as local proof (slots until the owner supplies them) */}
+  {page.jobsDone && jobSlots.length > 0 && (
+    <section class="section-lg loc-jobs loc-jobs--early" aria-labelledby="jobs-title">
+      <div class="container loc-stack">
+        <SectionHeader id="jobs-title" eyebrow="Local work" split>
+          <Fragment slot="title">
+            {`${page.jobsDone.title} `}
+            <em>{page.jobsDone.accent}</em>
+            {page.jobsDone.end && ` ${page.jobsDone.end}`}
+          </Fragment>
+          <p>{page.jobsDone.intro}</p>
+        </SectionHeader>
+        <ul class="loc-jobs__grid" role="list">
+          {jobSlots.map((slot) => (
+            <li class="loc-jobs__item reveal">
+              <div class="loc-jobs__frame">
+                {slot.photo.src ? (
+                  <Picture
+                    src={slot.photo.src}
+                    alt={slot.photo.alt ?? ''}
+                    formats={['avif', 'webp']}
+                    widths={imgWidths(slot.photo.src.width)}
+                    sizes="(min-width: 60em) 30vw, (min-width: 40em) 45vw, 92vw"
+                    style={slot.photo.focus ? `object-position: ${slot.photo.focus}` : undefined}
+                  />
+                ) : (
+                  <div
+                    class="loc-jobs__empty"
+                    role="img"
+                    aria-label={`Photo to come: ${slot.title}`}
+                  >
+                    <span>Photo to come</span>
+                  </div>
+                )}
+              </div>
+              <h3>{slot.title}</h3>
+              {slot.summary && <p>{slot.summary}</p>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
   {/* C. Services */}
   <section class="section-lg surface-dark loc-services" aria-labelledby="services-title">
     <div class="container loc-stack">
@@ -282,50 +327,6 @@ const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => 
             ))}
           </ul>
         )}
-      </div>
-    </section>
-  )}
-
-  {/* C2. Jobs completed in this town (slots until the owner supplies them) */}
-  {page.jobsDone && jobSlots.length > 0 && (
-    <section class="section-lg loc-jobs" aria-labelledby="jobs-title">
-      <div class="container loc-stack">
-        <SectionHeader id="jobs-title" eyebrow="Local work" split>
-          <Fragment slot="title">
-            {`${page.jobsDone.title} `}
-            <em>{page.jobsDone.accent}</em>
-            {page.jobsDone.end && ` ${page.jobsDone.end}`}
-          </Fragment>
-          <p>{page.jobsDone.intro}</p>
-        </SectionHeader>
-        <ul class="loc-jobs__grid" role="list">
-          {jobSlots.map((slot) => (
-            <li class="loc-jobs__item reveal">
-              <div class="loc-jobs__frame">
-                {slot.photo.src ? (
-                  <Picture
-                    src={slot.photo.src}
-                    alt={slot.photo.alt ?? ''}
-                    formats={['avif', 'webp']}
-                    widths={imgWidths(slot.photo.src.width)}
-                    sizes="(min-width: 60em) 30vw, (min-width: 40em) 45vw, 92vw"
-                    style={slot.photo.focus ? `object-position: ${slot.photo.focus}` : undefined}
-                  />
-                ) : (
-                  <div
-                    class="loc-jobs__empty"
-                    role="img"
-                    aria-label={`Photo to come: ${slot.title}`}
-                  >
-                    <span>Photo to come</span>
-                  </div>
-                )}
-              </div>
-              <h3>{slot.title}</h3>
-              {slot.summary && <p>{slot.summary}</p>}
-            </li>
-          ))}
-        </ul>
       </div>
     </section>
   )}
@@ -1205,5 +1206,15 @@ const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => 
     .loc-jobs__grid {
       grid-template-columns: repeat(3, 1fr);
     }
+  }
+
+  /* B1 follows the light introduction: a rule keeps the two apart. */
+  .loc-jobs--early {
+    padding-block-start: 0;
+  }
+
+  .loc-jobs--early > .container {
+    padding-block-start: var(--section-space-lg);
+    border-block-start: 1px solid var(--color-border);
   }
 </style>
