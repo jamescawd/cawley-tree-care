@@ -225,7 +225,7 @@ const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => 
   {page.job && (
     <section class="section-lg surface-dark loc-job" aria-labelledby="job-title">
       <div class="container loc-stack">
-        <SectionHeader id="job-title" eyebrow="Local work" split>
+        <SectionHeader id="job-title" eyebrow={page.job.eyebrow ?? 'Local work'} split>
           <Fragment slot="title">
             {`${page.job.title} `}
             <em>{page.job.accent}</em>
@@ -251,8 +251,8 @@ const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => 
             </li>
           ))}
         </ol>
-        <Button href="/tree-removal" variant="secondary" arrow>
-          More about tree removal
+        <Button href={page.job.link?.href ?? '/tree-removal'} variant="secondary" arrow>
+          {page.job.link?.label ?? 'More about tree removal'}
         </Button>
       </div>
     </section>

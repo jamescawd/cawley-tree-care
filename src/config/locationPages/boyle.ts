@@ -1,6 +1,9 @@
 import type { LocationPage } from './types';
 import { dismantling, lane, stacked, pruning } from './photos';
 
+import spruceStart from '@/assets/images/work/climber-starting-in-tall-spruce.jpg';
+import spruceTop from '@/assets/images/work/climber-limbing-tall-spruce-to-the-top.jpg';
+import spruceLast from '@/assets/images/work/last-section-of-spruce-stem-above-houses.jpg';
 /**
  * Boyle: DRAFT (not in live.json) until the owner supplies a real local job,
  * photo or review.
@@ -72,6 +75,36 @@ export const boyle: LocationPage = {
         title: 'Not sure? Ask',
         text: 'Send photos and we will tell you what we think the tree needs.',
         href: '/tree-surgery',
+      },
+    ],
+  },
+
+  // One of the owner's own jobs (photos supplied Nov 2026). Its location was
+  // not given, so it is NOT presented as a Boyle job.
+  job: {
+    eyebrow: 'From our jobs',
+    title: 'A tall spruce,',
+    accent: 'taken down between houses',
+    intro:
+      'This spruce stood in a back garden with houses and a shed on every side, so there was no room to fell it. Our climber worked up the stem removing the branches, then took the top and the trunk down in short sections, each one lowered on a rope. Nothing touched the roofs or the fences.',
+    photos: [
+      {
+        src: spruceStart,
+        alt: 'A climber in a harness and helmet starting work in the lower branches of a tall spruce in a back garden.',
+        caption: '1. Starting in the lower crown',
+        focus: '55% 40%',
+      },
+      {
+        src: spruceTop,
+        alt: 'The spruce stripped of its lower branches, with the climber working high on the stem below the top.',
+        caption: '2. Limbed up to the top',
+        focus: '50% 35%',
+      },
+      {
+        src: spruceLast,
+        alt: 'The climber at the top of the bare spruce stem, high above the roofs of the surrounding houses.',
+        caption: '3. The stem coming down in sections',
+        focus: '50% 30%',
       },
     ],
   },

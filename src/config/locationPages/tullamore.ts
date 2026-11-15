@@ -1,6 +1,9 @@
 import type { LocationPage } from './types';
 import { wall, climbing, tidy, conifer } from './photos';
 
+import bigBefore from '@/assets/images/work/large-ivy-covered-tree-beside-garage-before.jpg';
+import bigPlatform from '@/assets/images/work/crown-reduced-from-access-platform.jpg';
+import bigRounds from '@/assets/images/work/large-tree-rounds-cut-on-site.jpg';
 /**
  * Tullamore: DRAFT (not in live.json) until the owner supplies a real local
  * job, photo or review.
@@ -77,6 +80,36 @@ export const tullamore: LocationPage = {
         title: 'Landscaping and fencing',
         text: 'The garden finished after the tree work, by the same team.',
         href: '/landscaping',
+      },
+    ],
+  },
+
+  // One of the owner's own jobs (photos supplied Nov 2026). Its location was
+  // not given, so it is NOT presented as a Tullamore job.
+  job: {
+    eyebrow: 'From our jobs',
+    title: 'A large tree beside',
+    accent: 'a garage and a house',
+    intro:
+      'A big, ivy-covered tree standing right beside a timber garage, with a house and fences close by. The crown was taken down limb by limb from an access platform, so every cut could be controlled, and the timber was cut into rounds on site.',
+    photos: [
+      {
+        src: bigBefore,
+        alt: 'A large mature tree with ivy on its trunk standing beside a timber garage and a fence, before work started.',
+        caption: '1. Before: the tree over the garage',
+        focus: '50% 40%',
+      },
+      {
+        src: bigPlatform,
+        alt: 'An arborist in the basket of an access platform cutting back the bare limbs of the large tree.',
+        caption: '2. Crown reduced from a platform',
+        focus: '50% 40%',
+      },
+      {
+        src: bigRounds,
+        alt: 'Large rounds of the felled tree on the ground, with a chainsaw resting on the biggest one.',
+        caption: '3. Timber cut into rounds',
+        focus: '40% 55%',
       },
     ],
   },

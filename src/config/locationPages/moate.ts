@@ -1,6 +1,9 @@
 import type { LocationPage } from './types';
 import { snapped, drive, tripod, stacked } from './photos';
 
+import laneBefore from '@/assets/images/work/trees-along-rural-boundary-fence-before.jpg';
+import laneAfter from '@/assets/images/work/boundary-opened-up-after-tree-removal.jpg';
+import laneClear from '@/assets/images/work/lane-clear-after-boundary-trees-removed.jpg';
 /**
  * Moate: DRAFT (not in live.json) until the owner supplies a real local job,
  * photo or review.
@@ -72,6 +75,36 @@ export const moate: LocationPage = {
         title: 'Clearing an overgrown plot',
         text: 'Scrub, brambles and old hedging cleared and chipped, ready for building, fencing or grass.',
         href: '/site-clearance',
+      },
+    ],
+  },
+
+  // One of the owner's own jobs (photos supplied Nov 2026). Its location was
+  // not given, so it is NOT presented as a Moate job.
+  job: {
+    eyebrow: 'From our jobs',
+    title: 'Boundary trees',
+    accent: 'cleared beside a lane',
+    intro:
+      'A row of trees had grown up along the fence of a country house, crowding the lane and the overhead wires. We took them out, cleared the boundary and left the lane open, with the view across the fields back.',
+    photos: [
+      {
+        src: laneBefore,
+        alt: 'Tall bare trees growing along a black timber boundary fence beside a lawn and a lane, before the work.',
+        caption: '1. Before: trees along the boundary',
+        focus: '50% 45%',
+      },
+      {
+        src: laneAfter,
+        alt: 'The same corner of the garden after the trees were removed, open to the fields beyond.',
+        caption: '2. After: the boundary opened up',
+        focus: '50% 55%',
+      },
+      {
+        src: laneClear,
+        alt: 'The country lane beside the house, clear of the trees, under a blue sky.',
+        caption: '3. The lane left clear',
+        focus: '40% 55%',
       },
     ],
   },

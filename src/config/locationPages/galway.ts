@@ -1,6 +1,9 @@
 import type { LocationPage } from './types';
 import { climbing, tripod, roof, dismantling } from './photos';
 
+import cypressBefore from '@/assets/images/work/wind-bent-cypress-over-mobile-home-before.jpg';
+import cypressDuring from '@/assets/images/work/cypress-stems-being-cut-back.jpg';
+import cypressAfter from '@/assets/images/work/cypress-cut-back-to-low-stems.jpg';
 /**
  * Galway City: DRAFT (not in live.json) until the owner supplies a real
  * local job, photo or review.
@@ -74,6 +77,37 @@ export const galway: LocationPage = {
         href: '/stump-grinding',
       },
     ],
+  },
+
+  // One of the owner's own jobs (photos supplied Nov 2026). Its location was
+  // not given, so it is NOT presented as a Galway job.
+  job: {
+    eyebrow: 'From our jobs',
+    title: 'Wind-bent cypress',
+    accent: 'cut back from a home',
+    intro:
+      'A group of cypress, bent over by years of wind, was leaning over a mobile home, with overhead lines just beyond. The stems were cut back in stages to low, safe stumps, keeping everything clear of the home, and the brash was cleared from the garden.',
+    photos: [
+      {
+        src: cypressBefore,
+        alt: 'Tall wind-bent cypress trees leaning over the side of a mobile home, before the work.',
+        caption: '1. Before: leaning over the home',
+        focus: '45% 40%',
+      },
+      {
+        src: cypressDuring,
+        alt: 'The cypress partly cut back, with cut stems visible and branches on the ground beside a gravel path.',
+        caption: '2. Stems cut back in stages',
+        focus: '45% 45%',
+      },
+      {
+        src: cypressAfter,
+        alt: 'The cypress cut down to low stumps beside a stone wall, with the mobile home and overhead lines clear.',
+        caption: '3. After: cut back to low stems',
+        focus: '45% 55%',
+      },
+    ],
+    link: { href: '/tree-pruning', label: 'More about cutting back trees' },
   },
 
   local: {

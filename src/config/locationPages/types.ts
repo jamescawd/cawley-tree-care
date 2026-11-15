@@ -50,7 +50,14 @@ export interface LocationPage {
     items: { title: string; text: string; href: string }[];
   };
   /** Optional photo story of one genuine local job, in order (before → during → after). */
-  job?: Heading & { intro: string; photos: Photo[] };
+  job?: Heading & {
+    intro: string;
+    photos: Photo[];
+    /** Small label above the heading. Default "Local work": only use that when the job really was in this town. */
+    eyebrow?: string;
+    /** Button under the photos. Default: tree removal. */
+    link?: { href: string; label: string };
+  };
   proof: Heading & {
     intro: string;
     /** Id of a genuine testimonial in src/content/testimonials (file name without .yaml). */
