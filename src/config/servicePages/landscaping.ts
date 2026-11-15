@@ -10,6 +10,8 @@ import type { ServicePage } from './types';
 import lawn from '@/assets/images/work/conifer-hedge-trimmed-beside-lawn.jpg';
 import gravelled from '@/assets/images/work/border-cleared-and-gravelled.jpg';
 import tidy from '@/assets/images/work/garden-tidy-after-tree-removal.jpg';
+import patioBefore from '@/assets/images/work/overgrown-back-garden-before-sandstone-patio.jpg';
+import patioAfter from '@/assets/images/work/indian-sandstone-patio-sleeper-steps-finished.jpg';
 import laurel from '@/assets/images/work/laurel-hedge-after-cutting.jpg';
 
 export const landscaping: ServicePage = {
@@ -65,7 +67,12 @@ export const landscaping: ServicePage = {
       },
       {
         title: 'Lawns & turfing',
-        text: 'New lawns laid and tired ones brought back to life.',
+        text: 'New lawns laid and tired ones brought back to life, or artificial grass.',
+      },
+      {
+        title: 'Artificial grass',
+        href: '/artificial-grass',
+        text: 'A green, mud-free lawn all year with no mowing.',
       },
       {
         title: 'Patios & paving',
@@ -124,7 +131,19 @@ export const landscaping: ServicePage = {
    */
   beforeAfter: {
     pairs: [
-      { title: 'Patio and paving', before: {}, after: {} },
+      {
+        title: 'Overgrown garden to Indian sandstone patio',
+        summary:
+          'A neglected, weed-covered back garden turned into a tiered Indian sandstone patio with timber sleeper steps, decorative stone edging and new fencing.',
+        before: {
+          src: patioBefore,
+          alt: 'An overgrown back garden of long grass, weeds and broken paving slabs behind a terraced house.',
+        },
+        after: {
+          src: patioAfter,
+          alt: 'The same garden laid as a tiered Indian sandstone patio with timber sleeper steps, white stone edging and new timber fencing.',
+        },
+      },
       { title: 'New lawn and turf', before: {}, after: {} },
       { title: 'Planting and borders', before: {}, after: {} },
       { title: 'Full garden makeover', before: {}, after: {} },

@@ -34,6 +34,8 @@ export interface PhotoSlot {
   /** Describe what the real photo shows once it is added. */
   alt?: string;
   focus?: string;
+  /** Overrides the "Before"/"After" tag, e.g. "During". */
+  label?: string;
 }
 
 export interface BeforeAfterPair {

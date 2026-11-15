@@ -15,6 +15,7 @@ const SERVICE_PAGES = [
   '/site-clearance',
   '/landscaping',
   '/fencing',
+  '/artificial-grass',
 ];
 const LOCATION_PAGES = ['/tree-surgeon-athlone'];
 const PAGES = [
@@ -247,13 +248,15 @@ test('the WhatsApp button opens a chat with the pre-filled enquiry', async ({ pa
 test('before/after slots show "photo to come" frames until photos are added', async ({ page }) => {
   // Previews (ALLOW_INDEXING unset) show empty slots; the launch build hides
   // incomplete pairs (checked by building with ALLOW_INDEXING=true).
-  for (const [path, pairs] of [
-    ['/landscaping', 4],
-    ['/fencing', 4],
+  // [page, pairs shown, empty frames still waiting for photos]
+  for (const [path, pairs, empty] of [
+    ['/landscaping', 4, 6],
+    ['/fencing', 4, 2],
+    ['/artificial-grass', 5, 0],
   ] as const) {
     await page.goto(path);
     await expect(page.locator('.svc-ba__pair')).toHaveCount(pairs);
-    await expect(page.getByRole('img', { name: /photo to come/i })).toHaveCount(pairs * 2);
+    await expect(page.getByRole('img', { name: /photo to come/i })).toHaveCount(empty);
   }
 });
 
@@ -339,7 +342,7 @@ test('structured data lists the business and its services accurately', async ({ 
     .find((d) => d['@type'] === 'HomeAndConstructionBusiness');
   expect(biz.telephone).toBe('+353871199816');
   expect(biz.address.addressLocality).toBe('Athlone');
-  expect(biz.hasOfferCatalog.itemListElement).toHaveLength(11);
+  expect(biz.hasOfferCatalog.itemListElement).toHaveLength(12);
   expect(JSON.stringify(blocks)).not.toMatch(/aggregateRating|"review"/);
 });
 
