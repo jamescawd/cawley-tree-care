@@ -24,7 +24,7 @@ export const galway: LocationPage = {
   town: 'Galway City',
   seoTitle: "Tree Surgeons in Galway City | Cawley's Tree Care",
   description:
-    'Tree surgery in Galway City: wind-exposed and coastal trees, tight city gardens, removals, reductions, hedges and storm damage. Fully insured. Free quotes.',
+    'Tree surgery in Galway City: wind-exposed and coastal trees, tight city gardens, removals, reductions, hedges and storm damage. Insured. Free quote from photos.',
 
   hero: {
     eyebrow: 'Galway City',
@@ -41,15 +41,15 @@ export const galway: LocationPage = {
     paragraphs: [
       'That was the gust measured at Mace Head, out in Connemara, on the morning of 24 January 2025. It is the strongest wind ever recorded in Ireland. The city did not get quite that, but it got enough: trees came down across the entrance to the Riverside estate, in Renmore, at the Browne roundabout and beside Pearse Stadium in Salthill. Merlin Woods lost so many that it is being replanted.',
       'Galway has always been a windy place for a tree. What has changed is how big some of them have been allowed to get in small gardens, and how hard the storms now hit.',
-      'We are a tree surgery firm from Athlone, at the other end of the M6, about 85 km east. Galway is the western edge of the area we cover. Send us photos first and we will tell you plainly what the job involves and what it will cost.',
+      'We are a tree surgery firm with over fifteen years of climbing behind us, and Galway is one of the five counties we cover. Send us photos first and we will tell you plainly what the job involves and what it will cost.',
     ],
     facts: [
-      'Covering Galway City from Athlone',
       'Tight-access and exposed sites',
-      'Over 15 years of experience',
-      'Fully insured',
-      'Free quotations',
-      'Emergencies: call us 24/7',
+      'Salt- and wind-damaged trees and hedges',
+      'Over 15 years working at height',
+      'Full insurance',
+      'A free quote from your photos',
+      '24-hour emergency calls',
     ],
   },
 
@@ -102,12 +102,12 @@ export const galway: LocationPage = {
         href: '/hedge-cutting',
       },
       {
-        title: 'Storm damage',
+        title: 'Storm-hit trees',
         text: 'Fallen and hanging trees made safe. Ring us 24/7 and we will tell you honestly how soon we can get to you.',
         href: '/emergency-tree-services',
       },
       {
-        title: 'Stump grinding',
+        title: 'Stump removal',
         text: 'Stumps ground out where a machine can reach them.',
         href: '/stump-grinding',
       },
@@ -128,13 +128,13 @@ export const galway: LocationPage = {
   proof: {
     title: 'Climbing work',
     accent: 'and storm work',
-    intro: 'From our own jobs. No stock photos.',
+    intro: 'Climbing and storm jobs from our own files.',
     photos: [dismantling, tripod, roof],
   },
 
   advice: {
     title: 'Galway',
-    accent: 'tree questions',
+    accent: 'asks',
     intro: 'What city customers ask.',
     faqs: [
       {
@@ -143,7 +143,8 @@ export const galway: LocationPage = {
           'If it is the side facing the sea or the prevailing wind, and it happened after a winter gale, it is most likely salt and wind scorch. Many hedges grow out of it by summer. Leylandii is the exception: once it browns back to bare wood it does not recover, and the choice is to live with it or replace the hedge with something that tolerates salt.',
       },
       {
-        question: 'The only way into my back garden is through the house. Is that a problem?',
+        question:
+          'The only way into my back garden is through the house. Does that rule the job out?',
         answer:
           'It is common in Galway and we plan for it. Everything is cut to a size that can be carried, and the work is done by climbing so no machinery comes through. It adds time, which we allow for in the quotation.',
       },
@@ -180,6 +181,6 @@ export const galway: LocationPage = {
   cta: {
     title: 'A tree catching',
     accent: 'too much wind?',
-    text: 'Send photos on WhatsApp and tell us where in the city you are. Quotations are free, and you can call 24/7 if a tree has come down.',
+    text: 'WhatsApp us photos and say which part of the city you are in. Pricing costs nothing. If a tree has come down, ring, any hour of the day or night.',
   },
 };

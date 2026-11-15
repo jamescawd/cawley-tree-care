@@ -23,7 +23,7 @@ export const roscommon: LocationPage = {
   town: 'Roscommon Town',
   seoTitle: "Tree Surgeons in Roscommon Town | Cawley's Tree Care",
   description:
-    'Tree surgeons for Roscommon Town: storm-damaged and leaning trees made safe, removals, pruning, hedges and stumps. Over 15 years, fully insured. Free quotes.',
+    'Tree surgeons for Roscommon Town: storm-damaged and leaning trees made safe, removals, pruning, hedges and stumps. Over 15 years. Quotes free.',
 
   hero: {
     eyebrow: 'Roscommon Town',
@@ -45,10 +45,10 @@ export const roscommon: LocationPage = {
     facts: [
       'About 30 km from Athlone on the N61',
       'Storm-damaged trees made safe',
-      'Over 15 years of experience',
-      'Fully insured',
-      'Free quotations',
-      'Emergencies: call us 24/7',
+      'In business over 15 years',
+      'Insurance in place on every job',
+      'You pay nothing for a quotation',
+      'Urgent? Phone, day or night',
     ],
   },
 
@@ -90,22 +90,22 @@ export const roscommon: LocationPage = {
         href: '/emergency-tree-services',
       },
       {
-        title: 'Tree removal',
+        title: 'Taking a tree out altogether',
         text: 'Dead and unwanted trees taken down in sections and cleared away, with the timber left for you if you want it.',
         href: '/tree-removal',
       },
       {
-        title: 'Crown reduction and pruning',
+        title: 'Lightening a tree you want to keep',
         text: 'A good tree made smaller and lighter so it stands up better to the next storm.',
         href: '/tree-pruning',
       },
       {
-        title: 'Stump grinding',
+        title: 'Stumps and root plates',
         text: 'Storm-thrown stumps and old ones ground out where the site allows.',
         href: '/stump-grinding',
       },
       {
-        title: 'Hedge cutting',
+        title: 'Hedges and shelter belts',
         text: 'Hedges and shelter belts trimmed, topped or removed.',
         href: '/hedge-cutting',
       },
@@ -131,7 +131,7 @@ export const roscommon: LocationPage = {
   proof: {
     title: 'Storm work,',
     accent: 'from our own camera',
-    intro: 'Photos from our storm call-outs. None are stock images.',
+    intro: 'Pictures from our own storm call-outs.',
     photos: [stormBeech, lane, climbing],
   },
 
@@ -182,6 +182,6 @@ export const roscommon: LocationPage = {
   cta: {
     title: 'Get it looked at',
     accent: 'before the next one',
-    text: 'Send photos on WhatsApp or ring us. Quotations are free. If a tree is down or about to come down, call, day or night.',
+    text: 'WhatsApp us photos or ring. We do not charge to quote. If a tree is down or about to go, phone straight away, whatever the hour.',
   },
 };

@@ -26,7 +26,7 @@ export const tullamore: LocationPage = {
   town: 'Tullamore',
   seoTitle: "Tree Surgeons in Tullamore, Co. Offaly | Cawley's Tree Care",
   description:
-    'Tree surgeons for Tullamore: oak, beech and lime pruned with care, removals, canal-side trees, hedges and storm damage. Over 15 years, insured. Free quotes.',
+    'Tree surgeons for Tullamore: oak, beech and lime pruned with care, removals, canal-side trees, hedges and storm damage. Free quotations.',
 
   hero: {
     eyebrow: 'Tullamore, Co. Offaly',
@@ -43,15 +43,15 @@ export const tullamore: LocationPage = {
     paragraphs: [
       'The King Oak stands just inside the gates of Charleville, a mile out the Birr road. Nobody knows its age for certain; the estimates run from four hundred to eight hundred years. Its lowest limbs reach so far they rest on the ground. It was split by lightning in 1963 and carried on. In 2013 it came third in the whole of Europe as Tree of the Year.',
       'The woods behind it tell the other half of the story. On the Night of the Big Wind in 1839, some five thousand oaks were flattened in Charleville forest in a few hours. Old trees are tougher than they look, and storms are stronger than we remember. Good tree work lives between those two facts.',
-      'We are based in Athlone, about 40 km away through Moate and Clara. Over fifteen years in the trade, fully insured, and happy to look at one tree or twenty.',
+      'We have been in the trade for over fifteen years and are fully insured. Tullamore and the rest of Offaly are a core part of the area we cover, and we are happy to look at one tree or twenty.',
     ],
     facts: [
-      'About 40 km from our Athlone base',
-      'Over 15 years of experience',
-      'Fully insured',
-      'Free quotations',
-      'Monday to Saturday, 8am to 6pm',
-      'Emergencies: call us 24/7',
+      'Careful pruning of oak, beech and lime',
+      'More than fifteen years of experience',
+      'An insured team',
+      'Quotes free of charge',
+      'Mon to Sat, 8am to 6pm',
+      'Storm emergencies: phone 24/7',
     ],
   },
 
@@ -90,17 +90,17 @@ export const tullamore: LocationPage = {
         href: '/tree-pruning',
       },
       {
-        title: 'Tree removal',
+        title: 'Removal, when it has to be',
         text: 'Dead, diseased and unsafe trees taken down in sections and cleared.',
         href: '/tree-removal',
       },
       {
-        title: 'Hedge cutting',
+        title: 'Hedge reduction and trimming',
         text: 'Leylandii, laurel and beech hedges trimmed or brought back down in height.',
         href: '/hedge-cutting',
       },
       {
-        title: 'Stump grinding',
+        title: 'Grinding out stumps',
         text: 'The stump ground below the surface where the site suits it.',
         href: '/stump-grinding',
       },
@@ -131,13 +131,13 @@ export const tullamore: LocationPage = {
   proof: {
     title: 'Careful work,',
     accent: 'shown honestly',
-    intro: 'Our own photos of our own jobs.',
+    intro: 'Photographs of jobs we carried out ourselves.',
     photos: [climbing, conifer, tidy],
   },
 
   advice: {
     title: 'Tullamore',
-    accent: 'tree questions',
+    accent: 'asks about trees',
     intro: 'Answers to what we are asked.',
     faqs: [
       {
@@ -184,6 +184,6 @@ export const tullamore: LocationPage = {
   cta: {
     title: 'A tree worth',
     accent: 'doing right?',
-    text: 'Send us a few photos on WhatsApp, or ring. Quotations are free, and you can call 24/7 if a tree is down.',
+    text: 'Show us the tree: a few photos by WhatsApp, or a phone call. You will get an honest opinion and a price without charge. Fallen tree? Ring at any time.',
   },
 };

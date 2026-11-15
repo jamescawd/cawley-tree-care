@@ -21,7 +21,7 @@ export const ballinasloe: LocationPage = {
   town: 'Ballinasloe',
   seoTitle: "Tree Surgeons in Ballinasloe | Cawley's Tree Care",
   description:
-    'Tree surgeons for Ballinasloe and east Galway, from just over the Shannon: removals, pruning, wet-ground trees, hedges, stumps and storm work. Free quotes.',
+    'Tree surgeons for Ballinasloe and east Galway, from just over the Shannon: removals, pruning, hedges, stumps and storm work. No charge to quote.',
 
   hero: {
     eyebrow: 'Ballinasloe, Co. Galway',
@@ -41,11 +41,10 @@ export const ballinasloe: LocationPage = {
     ],
     facts: [
       'About 25 km from Athlone on the M6',
-      'Over 15 years of experience',
-      'Fully insured',
-      'Homes, farms and businesses',
-      'Free quotations',
-      'Emergencies: call us 24/7',
+      'Over 15 years in business',
+      'Fully insured, for homes and farms',
+      'Quotations at no cost',
+      'Phone any time if a tree is down',
     ],
   },
 
@@ -75,7 +74,7 @@ export const ballinasloe: LocationPage = {
     intro: 'The everyday jobs and the awkward ones.',
     items: [
       {
-        title: 'Tree removal',
+        title: 'Taking trees down',
         text: 'Dead, leaning and storm-thrown trees taken down and cleared, in sections where space is tight.',
         href: '/tree-removal',
       },
@@ -85,17 +84,17 @@ export const ballinasloe: LocationPage = {
         href: '/tree-pruning',
       },
       {
-        title: 'Hedge cutting',
+        title: 'Hedge work',
         text: 'Garden and boundary hedges trimmed, reduced or taken out.',
         href: '/hedge-cutting',
       },
       {
-        title: 'Stump grinding',
+        title: 'Stumps and root plates out',
         text: 'Stumps and lifted root plates dealt with where the site suits it.',
         href: '/stump-grinding',
       },
       {
-        title: 'Storm call-outs',
+        title: 'Storm emergencies',
         text: 'A tree on a house, shed or road. We are close: ring any time.',
         href: '/emergency-tree-services',
       },
@@ -121,7 +120,7 @@ export const ballinasloe: LocationPage = {
   proof: {
     title: 'From our',
     accent: 'own jobs',
-    intro: 'Genuine photos of our work.',
+    intro: 'Real photos from real jobs of ours.',
     photos: [uprooted, laurel, stacked],
   },
 
@@ -175,6 +174,6 @@ export const ballinasloe: LocationPage = {
   cta: {
     title: 'Need a tree surgeon',
     accent: 'close to Ballinasloe?',
-    text: 'Ring us or send a couple of photos on WhatsApp. Quotations are free and you can call 24/7 in an emergency.',
+    text: 'Phone, or WhatsApp a couple of pictures of the tree. A quotation is free. The number is answered 24/7 for emergencies.',
   },
 };

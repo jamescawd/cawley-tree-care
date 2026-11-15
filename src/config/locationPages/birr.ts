@@ -29,7 +29,7 @@ export const birr: LocationPage = {
   town: 'Birr',
   seoTitle: "Tree Surgeons in Birr, Co. Offaly | Cawley's Tree Care",
   description:
-    'Careful tree surgery in Birr: mature trees in walled gardens, crown reductions, removals in tight spaces, hedges and storm damage. Fully insured. Free quotes.',
+    'Careful tree surgery in Birr: mature trees in walled gardens, crown reductions, removals in tight spaces, hedges and storm damage. Ask for a free quote.',
 
   hero: {
     eyebrow: 'Birr, Co. Offaly',
@@ -51,15 +51,14 @@ export const birr: LocationPage = {
     paragraphs: [
       'You cannot live in Birr and be indifferent to trees. The demesne at the end of the town holds more than forty champion trees and box hedges that have been growing for over three hundred years. The limes and chestnuts along the malls are part of what the town looks like. People here tend to want a tree kept if it can be kept, and that suits the way we work.',
       'Most of the time a big tree that is worrying you does not need to come down. Taking weight out of the crown, shortening the limbs over the roof and clearing out the dead wood will often buy it another twenty years. We will always tell you if that is an option before we talk about felling.',
-      'We come down from Athlone on the N62, through Ferbane and Cloghan. It is about 45 km.',
+      'We are an Athlone firm and we come down the N62 through Ferbane and Cloghan, so west and south Offaly are well within our reach.',
     ],
     facts: [
-      'About 45 km from our Athlone base',
       'Pruning first, removal when needed',
-      'Over 15 years of experience',
-      'Fully insured',
-      'Free quotations',
-      'Emergencies: call us 24/7',
+      'More than 15 years climbing trees',
+      'Full insurance cover',
+      'Quotations cost nothing',
+      'A tree down? Ring at any hour',
     ],
   },
 
@@ -99,7 +98,7 @@ export const birr: LocationPage = {
         href: '/tree-surgery',
       },
       {
-        title: 'Crown reduction and pruning',
+        title: 'Reducing the crown',
         text: 'The first choice for a good tree in a tight garden. Height and spread brought in, dead wood out, branches lifted clear of roofs and walls.',
         href: '/tree-pruning',
       },
@@ -109,7 +108,7 @@ export const birr: LocationPage = {
         href: '/tree-removal',
       },
       {
-        title: 'Storm damage',
+        title: 'Storm damage, day or night',
         text: 'A tree or heavy limb down on a house, wall or road. Ring us at any hour and we will tell you honestly how soon we can get there.',
         href: '/emergency-tree-services',
       },
@@ -140,7 +139,7 @@ export const birr: LocationPage = {
   proof: {
     title: 'How a big tree',
     accent: 'comes down safely',
-    intro: 'Our own photos of the kind of work a tight garden calls for. None are stock images.',
+    intro: 'What working in a tight garden looks like, in photographs we took ourselves.',
     photos: [
       {
         src: before,
@@ -211,6 +210,6 @@ export const birr: LocationPage = {
   cta: {
     title: 'An old tree you would like',
     accent: 'an honest opinion on?',
-    text: 'Send us a few photos on WhatsApp, or ring. Quotations are free, and you can call 24/7 if a tree has come down.',
+    text: 'A few photos on WhatsApp is the quickest way to start, or ring for a chat. There is no charge for an opinion or a price. For a fallen tree, the phone is answered 24/7.',
   },
 };

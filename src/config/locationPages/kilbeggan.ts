@@ -23,7 +23,7 @@ export const kilbeggan: LocationPage = {
   town: 'Kilbeggan',
   seoTitle: "Tree Surgeons in Kilbeggan | Cawley's Tree Care",
   description:
-    'Tree work in Kilbeggan: riverside and canal-bank trees, big boundary trees, hedges, stumps and storm damage. Westmeath firm, fully insured. Free quotes.',
+    'Tree work in Kilbeggan: riverside and canal-bank trees, big boundary trees, hedges, stumps and storm damage. Fully insured, with free quotations.',
 
   hero: {
     eyebrow: 'Kilbeggan, Co. Westmeath',
@@ -44,11 +44,11 @@ export const kilbeggan: LocationPage = {
     ],
     facts: [
       'About 32 km from Athlone on the M6',
-      'Over 15 years of experience',
-      'Fully insured',
-      'Free quotations',
-      'Monday to Saturday, 8am to 6pm',
-      'Emergencies: call us 24/7',
+      'Over fifteen years at it',
+      'A fully insured team',
+      'A clear price first, at no cost',
+      'Open Monday to Saturday, 8am to 6pm',
+      '24/7 number for fallen trees',
     ],
   },
 
@@ -78,7 +78,7 @@ export const kilbeggan: LocationPage = {
         href: '/tree-removal',
       },
       {
-        title: 'Stump grinding',
+        title: 'Getting rid of the stump',
         text: 'Old stumps ground out where the site suits it, so the ground can be used again.',
         href: '/stump-grinding',
       },
@@ -113,7 +113,7 @@ export const kilbeggan: LocationPage = {
   proof: {
     title: 'What our work',
     accent: 'looks like',
-    intro: 'Our own photos from jobs like the ones described above.',
+    intro: 'A few of our own photos showing the sort of job described on this page.',
     photos: [uprooted, laurel, tidy],
   },
 
@@ -166,6 +166,6 @@ export const kilbeggan: LocationPage = {
   cta: {
     title: 'Got a tree by the',
     accent: 'river or the road?',
-    text: 'Send a photo or two on WhatsApp, or ring. Quotations are free and you can call 24/7 in an emergency.',
+    text: 'Two or three photos on WhatsApp will usually get you a price the same way a visit would. Asking is free, and for emergencies the phone is on 24/7.',
   },
 };

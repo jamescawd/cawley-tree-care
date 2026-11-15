@@ -22,7 +22,7 @@ export const boyle: LocationPage = {
   town: 'Boyle',
   seoTitle: "Tree Surgeons in Boyle, Co. Roscommon | Cawley's Tree Care",
   description:
-    'Tree surgery in Boyle and around Lough Key: tall conifers and old estate trees near houses, removals, pruning and storm clearance. Fully insured. Free quotes.',
+    'Tree surgery in Boyle and around Lough Key: tall conifers and old estate trees near houses, removals, pruning and storm clearance. Quotes at no charge.',
 
   hero: {
     eyebrow: 'Boyle, Co. Roscommon',
@@ -34,19 +34,19 @@ export const boyle: LocationPage = {
   },
 
   intro: {
-    title: 'The north end of',
-    accent: 'our patch',
+    title: 'Start with',
+    accent: 'a few photos',
     paragraphs: [
-      'We will be straight with you: Boyle is the far end of the area we cover, about 75 km from our base in Athlone, up the N61 through Roscommon and Tulsk. We come anyway, because the kind of tree work this part of the county needs is the kind we are set up for.',
-      'The easiest way to start is with photos. Send a few on WhatsApp, showing the whole tree and what it is standing beside, and tell us where you are. For most jobs we can give you a clear price from that, and for the bigger ones we will arrange to come up and walk it with you.',
+      'North Roscommon is big-tree country, and big trees are the work we like best. We cover Boyle and the villages around it as part of our Roscommon area.',
+      'The easiest way to start is with photos. Send a few on WhatsApp, showing the whole tree and what it is standing beside, and tell us where you are. For most jobs we can give you a clear price from that, and for the bigger ones we will arrange to come and walk it with you.',
     ],
     facts: [
-      'Covering Boyle from Athlone, about 75 km',
       'Large and awkward trees',
-      'Over 15 years of experience',
-      'Fully insured',
-      'Free quotations',
-      'Emergencies: call us 24/7',
+      'Estate hardwoods and tall conifers',
+      'Over 15 years of climbing and felling',
+      'Covered by full insurance',
+      'A price from your photos, free',
+      'Emergency line open 24/7',
     ],
   },
 
@@ -85,7 +85,7 @@ export const boyle: LocationPage = {
         href: '/tree-removal',
       },
       {
-        title: 'Storm-damaged trees',
+        title: 'Windblown and hung-up trees',
         text: 'Windblown, hung-up and snapped trees made safe and cleared. Ring at any hour.',
         href: '/emergency-tree-services',
       },
@@ -120,7 +120,7 @@ export const boyle: LocationPage = {
   proof: {
     title: 'Large trees,',
     accent: 'taken down safely',
-    intro: 'Our own photographs. None are stock images.',
+    intro: 'Photographs of our own work on large trees.',
     photos: [lane, pruning, stacked],
   },
 
@@ -140,7 +140,7 @@ export const boyle: LocationPage = {
           'Possibly. Felling generally needs a licence from the Department of Agriculture, Food and the Marine, but there are exemptions, including for trees within 30 metres of a building (unless the building was put up after the trees were planted) and for trees that are a danger. Forestry plantations are a different matter and almost always need one. We will go through it with you before any work is booked.',
       },
       {
-        question: 'Can you give a price without coming up to see it?',
+        question: 'Can you give a price without seeing it in person?',
         answer:
           'For most garden jobs, yes, from good photos. For a number of large trees, or anything with awkward access, we would want to see it first.',
       },
@@ -167,6 +167,6 @@ export const boyle: LocationPage = {
   cta: {
     title: 'A tree too big',
     accent: 'to ignore?',
-    text: 'Send photos on WhatsApp and tell us where you are. Quotations are free, and you can call 24/7 if a tree has come down.',
+    text: 'Photos on WhatsApp, with a note of where you are, is all we need to begin. Pricing is free. If a tree has already fallen, ring: the phone is answered around the clock.',
   },
 };

@@ -22,7 +22,7 @@ export const moate: LocationPage = {
   town: 'Moate',
   seoTitle: "Tree Surgeons in Moate, Co. Westmeath | Cawley's Tree Care",
   description:
-    'Tree surgeons for Moate and the country around it, from next door in Athlone: roadside trees, ash dieback, hedges, removals and storm call-outs. Free quotes.',
+    'Tree surgeons for Moate, from next door in Athlone: roadside trees, ash dieback, hedges, removals and storm call-outs. Quotes cost nothing.',
 
   hero: {
     eyebrow: 'Moate, Co. Westmeath',
@@ -42,11 +42,11 @@ export const moate: LocationPage = {
     ],
     facts: [
       'About 16 km from our Athlone base',
-      'Over 15 years of experience',
-      'Fully insured',
-      'Homes, farms and businesses',
-      'Free quotations',
-      'Emergencies: call us 24/7',
+      '15+ years of tree work',
+      'Insured',
+      'Householders, farmers and businesses',
+      'Free to quote',
+      'Emergency calls taken 24/7',
     ],
   },
 
@@ -85,12 +85,12 @@ export const moate: LocationPage = {
         href: '/tree-removal',
       },
       {
-        title: 'Storm call-outs',
+        title: 'When a tree comes down',
         text: 'A tree across a gateway, lane or shed. We are close; ring at any hour and we will tell you honestly how soon we can be there.',
         href: '/emergency-tree-services',
       },
       {
-        title: 'Hedge cutting',
+        title: 'Hedges and ditches',
         text: 'Garden hedges trimmed and overgrown ones reduced. Tall conifer hedges brought down to a height you can manage.',
         href: '/hedge-cutting',
       },
@@ -121,7 +121,7 @@ export const moate: LocationPage = {
   proof: {
     title: 'Our own',
     accent: 'photos',
-    intro: 'From our jobs, not from a stock library.',
+    intro: 'Taken on our own jobs, not bought from a picture library.',
     photos: [drive, tripod, stacked],
   },
 
@@ -146,9 +146,9 @@ export const moate: LocationPage = {
           'Yes. Ash and beech are good firewood and it is yours. We can leave it in lengths, ring it up for splitting, or take it away if you have no use for it.',
       },
       {
-        question: 'When can hedges be cut?',
+        question: 'Can I have a field hedge cut in summer?',
         answer:
-          'Cutting hedges and ditches is restricted by law from 1 March to 31 August to protect nesting birds, with exceptions that include road safety. Plan routine hedge work for September to February.',
+          'Generally not. Hedges and ditches are off limits by law between 1 March and 31 August because of nesting birds, unless there is a genuine road-safety reason. Book ordinary hedge cutting for the months from September to February.',
       },
     ],
   },
@@ -166,6 +166,6 @@ export const moate: LocationPage = {
   cta: {
     title: 'Something leaning',
     accent: 'out over the road?',
-    text: 'Ring us or send a photo on WhatsApp. We are only out the road, quotations are free, and you can call 24/7 if a tree is down.',
+    text: 'Give us a ring or WhatsApp a photo. We are only out the road and a price costs you nothing. If a tree is down, phone at any hour.',
   },
 };

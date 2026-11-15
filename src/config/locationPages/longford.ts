@@ -25,7 +25,7 @@ export const longford: LocationPage = {
   town: 'Longford Town',
   seoTitle: "Tree Surgeons in Longford Town | Cawley's Tree Care",
   description:
-    'Tree surgery in Longford Town: roadside and boundary trees, storm damage, removals, crown reductions, hedges and stump grinding. Fully insured. Free quotes.',
+    'Tree surgery in Longford Town: roadside and boundary trees, storm damage, removals, crown reductions, hedges and stump grinding. Fully insured; quotations free.',
 
   hero: {
     eyebrow: 'Longford Town',
@@ -42,15 +42,15 @@ export const longford: LocationPage = {
     paragraphs: [
       'On the morning of 24 January 2025, trees fell across Battery Road and stopped the traffic. The Mall lost so many that part of the park was still closed weeks later. Up in Ballinamuck the old sycamore that had stood since the time of General Blake and 1798 went over. Thousands of homes across the county had no power.',
       'In the months after, the talk in Longford turned to the trees still standing along the roads, and whose job it is to mind them. The short answer is: whoever owns the land. If that is you, this page is meant to help.',
-      'We are a tree surgery firm based in Athlone, about 45 km south through Ballymahon and Keenagh, with over fifteen years behind us and full insurance.',
+      'We are a tree surgery firm with over fifteen years behind us and full insurance, and Co. Longford is one of the five counties we cover.',
     ],
     facts: [
-      'About 45 km from our Athlone base',
-      'Over 15 years of experience',
-      'Fully insured',
-      'Homes, farms and businesses',
-      'Free quotations',
-      'Emergencies: call us 24/7',
+      'All of Co. Longford covered',
+      'Honest advice on which trees need work',
+      '15 years plus in tree surgery',
+      'Insurance cover in place',
+      'Free, no-obligation quotes',
+      'Round-the-clock emergency number',
     ],
   },
 
@@ -106,17 +106,17 @@ export const longford: LocationPage = {
         href: '/tree-pruning',
       },
       {
-        title: 'Storm damage',
+        title: 'Storm clear-ups',
         text: 'Fallen and hanging trees cleared. Ring us any time, day or night.',
         href: '/emergency-tree-services',
       },
       {
-        title: 'Hedge cutting',
+        title: 'Roadside and garden hedges',
         text: 'Roadside and garden hedges cut back and kept in order.',
         href: '/hedge-cutting',
       },
       {
-        title: 'Stump grinding',
+        title: 'Stumps',
         text: 'Stumps ground out where the site suits it.',
         href: '/stump-grinding',
       },
@@ -137,7 +137,7 @@ export const longford: LocationPage = {
   proof: {
     title: 'Boundaries and',
     accent: 'big trees',
-    intro: 'Photos from our own jobs.',
+    intro: 'Our own pictures, from jobs like these.',
     photos: [chipper, drive, cutting],
   },
 
@@ -198,6 +198,6 @@ export const longford: LocationPage = {
   cta: {
     title: 'Not sure about a tree',
     accent: 'on your boundary?',
-    text: 'Send a photo on WhatsApp or ring us. Quotations are free, and you can call 24/7 in an emergency.',
+    text: 'Take a photo of the tree and send it on WhatsApp, or ring and describe it. We will tell you what we think, free. For emergencies, call 24/7.',
   },
 };

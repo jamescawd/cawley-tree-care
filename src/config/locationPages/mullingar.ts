@@ -27,7 +27,7 @@ export const mullingar: LocationPage = {
   town: 'Mullingar',
   seoTitle: "Tree Surgeons in Mullingar | Cawley's Tree Care",
   description:
-    'Tree surgery in Mullingar and around the lakes: storm-damaged trees, removals, pruning, hedges and stumps. Westmeath firm, fully insured. Free quotes.',
+    'Tree surgery in Mullingar and around the lakes: storm-damaged trees, removals, pruning, hedges and stumps. A Westmeath firm. Quotes are free.',
 
   hero: {
     eyebrow: 'Mullingar, Co. Westmeath',
@@ -39,7 +39,7 @@ export const mullingar: LocationPage = {
     image: {
       src: hero,
       alt: 'A climber roped high in a large tree, taking it down in sections right beside a timber building.',
-      caption: 'Taking a tree down in sections beside a building',
+      caption: 'Dismantling a tree a few feet from a building',
       focus: '50% 35%',
     },
   },
@@ -48,17 +48,16 @@ export const mullingar: LocationPage = {
     title: 'Same county,',
     accent: 'down the road',
     paragraphs: [
-      'We are based in Athlone, at the other end of the Old Rail Trail. By road Mullingar is about 50 km: out the M6 to Kilbeggan and up the N52. It is a straightforward run, so coming to look at your tree is no trouble.',
+      'We are a Westmeath firm, based in Athlone at the other end of the Old Rail Trail, and Mullingar is part of our own county. Coming to look at your tree is no trouble.',
       'Mullingar is an easy town to describe to a tree surgeon. The canal wraps around the north of it, there is a lake on either side, and between them is a mix of old gardens with big trees and newer estates where the planting from the Celtic Tiger years has now grown up. Most of what we are asked about comes from one of those two things: a mature tree that has got too big or too tired for where it stands, or a hedge that was a few feet high when the house was bought.',
       'Tell us where you are and send a photo or two. We will tell you straight what we think it needs, including when the answer is nothing.',
     ],
     facts: [
-      'Westmeath firm, based in Athlone',
-      'About 50 km from Mullingar by the N52',
-      'Over 15 years of experience',
-      'Fully insured',
-      'Free quotations',
-      'Emergencies: call us 24/7',
+      'A Westmeath firm',
+      'Fifteen years and more in the trade',
+      'Insured for all our tree work',
+      'No charge for a quotation',
+      'Storm call-outs: phone day or night',
     ],
   },
 
@@ -92,7 +91,7 @@ export const mullingar: LocationPage = {
     intro: 'The common jobs, and where to read more about each.',
     items: [
       {
-        title: 'Storm-damaged trees',
+        title: 'Trees hit by a storm',
         text: 'A tree down on a fence, shed or driveway, or one left cracked and hanging. Ring any time; we will tell you honestly how soon we can be with you.',
         href: '/emergency-tree-services',
       },
@@ -139,7 +138,7 @@ export const mullingar: LocationPage = {
   proof: {
     title: 'The kind of work',
     accent: 'we mean',
-    intro: 'These are our own photos from storm call-outs and garden jobs. None are stock images.',
+    intro: 'Storm call-outs and garden jobs, photographed by us on the day.',
     photos: [
       {
         src: stormBeech,
@@ -186,9 +185,9 @@ export const mullingar: LocationPage = {
           'Yes. Multyfarnham, Killucan, Ballynacarrigy, Castlepollard, Kinnegad, Rochfortbridge and the country in between are all part of our normal area.',
       },
       {
-        question: 'When can hedges be cut?',
+        question: 'Is there a closed season for cutting hedges?',
         answer:
-          'Hedge cutting is restricted by law from 1 March to 31 August to protect nesting birds, with some exceptions such as road safety. Most garden hedges are best done from September through February in any case. If you are not sure whether yours can be cut now, ask us.',
+          'Yes. From the start of March to the end of August the law restricts hedge cutting so that birds can nest in peace; there are a few exceptions, road safety among them. Autumn and winter suit most garden hedges better anyway. If you are unsure about yours, ask us.',
       },
     ],
   },
@@ -217,6 +216,6 @@ export const mullingar: LocationPage = {
   cta: {
     title: 'A tree in Mullingar that needs',
     accent: 'looking at?',
-    text: 'Send a couple of photos on WhatsApp or ring us. Quotations are free, and you can call 24/7 if a tree is down.',
+    text: 'WhatsApp us a couple of photos, or pick up the phone. It costs nothing to get a price, and the line is open 24/7 when a tree is down.',
   },
 };
