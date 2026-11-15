@@ -116,6 +116,14 @@ export const services: Service[] = [
     page: true,
     summary: 'New boundary fencing and replacement of old or damaged fencing.',
   },
+  {
+    id: 'artificial-grass',
+    name: 'Artificial Grass',
+    group: 'garden',
+    path: '/artificial-grass',
+    page: true,
+    summary: 'Artificial grass lawns: green all year, no mud and no mowing.',
+  },
 ];
 
 export const serviceById = (id: string): Service => {

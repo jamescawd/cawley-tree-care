@@ -13,6 +13,7 @@ import { treeSurgery } from './tree-surgery';
 import { siteClearance } from './site-clearance';
 import { landscaping } from './landscaping';
 import { fencing } from './fencing';
+import { artificialGrass } from './artificial-grass';
 
 export type { ServicePage } from './types';
 
@@ -26,6 +27,7 @@ export const servicePages: ServicePage[] = [
   siteClearance,
   landscaping,
   fencing,
+  artificialGrass,
 ];
 
 export const servicePageBySlug = (slug: string): ServicePage => {

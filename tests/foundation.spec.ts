@@ -15,6 +15,7 @@ const SERVICE_PAGES = [
   '/site-clearance',
   '/landscaping',
   '/fencing',
+  '/artificial-grass',
 ];
 const LOCATION_PAGES = ['/tree-surgeon-athlone'];
 const PAGES = [
@@ -251,6 +252,7 @@ test('before/after slots show "photo to come" frames until photos are added', as
   for (const [path, pairs, empty] of [
     ['/landscaping', 4, 8],
     ['/fencing', 4, 2],
+    ['/artificial-grass', 5, 0],
   ] as const) {
     await page.goto(path);
     await expect(page.locator('.svc-ba__pair')).toHaveCount(pairs);
@@ -340,7 +342,7 @@ test('structured data lists the business and its services accurately', async ({ 
     .find((d) => d['@type'] === 'HomeAndConstructionBusiness');
   expect(biz.telephone).toBe('+353871199816');
   expect(biz.address.addressLocality).toBe('Athlone');
-  expect(biz.hasOfferCatalog.itemListElement).toHaveLength(11);
+  expect(biz.hasOfferCatalog.itemListElement).toHaveLength(12);
   expect(JSON.stringify(blocks)).not.toMatch(/aggregateRating|"review"/);
 });
 

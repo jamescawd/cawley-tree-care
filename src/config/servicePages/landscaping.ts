@@ -65,7 +65,12 @@ export const landscaping: ServicePage = {
       },
       {
         title: 'Lawns & turfing',
-        text: 'New lawns laid and tired ones brought back to life.',
+        text: 'New lawns laid and tired ones brought back to life, or artificial grass.',
+      },
+      {
+        title: 'Artificial grass',
+        href: '/artificial-grass',
+        text: 'A green, mud-free lawn all year with no mowing.',
       },
       {
         title: 'Patios & paving',
