@@ -6,7 +6,7 @@ import { trackingEnabled } from '@/config/tracking';
 import PhoneLink from '@/components/ui/PhoneLink.astro';
 import { business } from '@/config/business';
 import { serviceAreas, countyLabel } from '@/config/areas';
-import { locationPages } from '@/config/locationPages';
+import { locationPages, isLiveLocation } from '@/config/locationPages';
 import { navHref, quoteHref } from '@/config/navigation';
 import { getNavigation } from '@/lib/navigation';
 import { provided } from '@/lib/placeholder';
@@ -72,11 +72,13 @@ const primaryNav = await getNavigation();
         {serviceAreas.map((area) => (
           <li>{countyLabel(area.county as string)}</li>
         ))}
-        {locationPages.map((loc) => (
-          <li>
-            <a href={`/${loc.slug}`}>Tree surgeons in {loc.town}</a>
-          </li>
-        ))}
+        {locationPages
+          .filter((loc) => isLiveLocation(loc.slug))
+          .map((loc) => (
+            <li>
+              <a href={`/${loc.slug}`}>Tree surgeons in {loc.town}</a>
+            </li>
+          ))}
       </ul>
     </div>
 

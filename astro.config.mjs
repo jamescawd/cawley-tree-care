@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 // @ts-check
 import { defineConfig, envField, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
@@ -19,6 +20,10 @@ const FONTS = {
 const SITE_URL = process.env.SITE_URL?.replace(/\/$/, '') || 'http://localhost:4321';
 
 // https://docs.astro.build/en/reference/configuration-reference/
+const liveLocations = JSON.parse(
+  readFileSync(new URL('./src/config/locationPages/live.json', import.meta.url), 'utf8'),
+);
+
 export default defineConfig({
   site: SITE_URL,
   // Tests build a second copy with sample tracking IDs (see playwright.config.ts).
@@ -104,7 +109,13 @@ export default defineConfig({
   integrations: [
     sitemap({
       // Internal tooling routes are never listed.
-      filter: (page) => !/^\/(styleguide|quote-sent|quote-error|404)/.test(new URL(page).pathname),
+      // Draft town pages (not in live.json) stay out too.
+      filter: (page) => {
+        const path = new URL(page).pathname;
+        if (/^\/(styleguide|quote-sent|quote-error|404)/.test(path)) return false;
+        const slug = path.replace(/^\/|\/$/g, '');
+        return !slug.startsWith('tree-surgeon-') || liveLocations.includes(slug);
+      },
     }),
     placeholderReport(),
   ],

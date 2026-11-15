@@ -8,7 +8,7 @@
  * docs/LOCATION-PAGES.md: a town page needs its own genuine local content,
  * not the Athlone text with the name swapped.
  */
-import type { Heading, Photo } from '@/config/servicePages/types';
+import type { Heading, Photo, PhotoSlot } from '@/config/servicePages/types';
 
 export interface LocationPage {
   /** URL without the leading slash, e.g. "tree-surgeon-athlone". */
@@ -25,6 +25,24 @@ export interface LocationPage {
     paragraphs: string[];
     /** Short confirmed facts for the side panel. */
     facts: string[];
+  };
+  /**
+   * "Trees and gardens in <town>": what is particular to this town. Every
+   * claim must be checked (see the research notes at the top of the file).
+   */
+  local?: Heading & {
+    paragraphs: string[];
+    /** Named places or situations locals will recognise, each tied to tree work. */
+    points?: { title: string; text: string }[];
+  };
+  /**
+   * "Jobs we've completed in <town>". Leave `photo` empty and the text as a
+   * prompt until the owner supplies a real job: previews show a "photo to
+   * come" frame; the launched site shows only slots with a photo.
+   */
+  jobsDone?: Heading & {
+    intro: string;
+    slots: { title: string; summary?: string; photo: PhotoSlot }[];
   };
   services: Heading & {
     intro: string;

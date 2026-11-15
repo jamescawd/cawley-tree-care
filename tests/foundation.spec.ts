@@ -17,7 +17,7 @@ const SERVICE_PAGES = [
   '/fencing',
   '/artificial-grass',
 ];
-const LOCATION_PAGES = ['/tree-surgeon-athlone'];
+const LOCATION_PAGES = ['/tree-surgeon-athlone', '/tree-surgeon-mullingar', '/tree-surgeon-birr'];
 const PAGES = [
   '/',
   '/privacy',
