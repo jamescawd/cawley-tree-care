@@ -247,13 +247,14 @@ test('the WhatsApp button opens a chat with the pre-filled enquiry', async ({ pa
 test('before/after slots show "photo to come" frames until photos are added', async ({ page }) => {
   // Previews (ALLOW_INDEXING unset) show empty slots; the launch build hides
   // incomplete pairs (checked by building with ALLOW_INDEXING=true).
-  for (const [path, pairs] of [
-    ['/landscaping', 4],
-    ['/fencing', 4],
+  // [page, pairs shown, empty frames still waiting for photos]
+  for (const [path, pairs, empty] of [
+    ['/landscaping', 4, 8],
+    ['/fencing', 4, 6],
   ] as const) {
     await page.goto(path);
     await expect(page.locator('.svc-ba__pair')).toHaveCount(pairs);
-    await expect(page.getByRole('img', { name: /photo to come/i })).toHaveCount(pairs * 2);
+    await expect(page.getByRole('img', { name: /photo to come/i })).toHaveCount(empty);
   }
 });
 

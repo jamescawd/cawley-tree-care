@@ -272,7 +272,7 @@ const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => 
                 <div class="svc-ba__frames">
                   {(['before', 'after'] as const).map((side) => {
                     const slot = pair[side];
-                    const label = side === 'before' ? 'Before' : 'After';
+                    const label = slot.label ?? (side === 'before' ? 'Before' : 'After');
                     return (
                       <figure class="svc-ba__frame">
                         {slot.src ? (
@@ -976,6 +976,15 @@ const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => 
 
     .svc-photos__grid--4 li:last-child {
       grid-column: span 2;
+    }
+
+    .svc-photos__grid--5 {
+      grid-template-columns: 4fr 3fr 3fr;
+      grid-template-rows: repeat(2, 18rem);
+    }
+
+    .svc-photos__grid--5 li:first-child {
+      grid-row: span 2;
     }
 
     .svc-photos__grid--3 {

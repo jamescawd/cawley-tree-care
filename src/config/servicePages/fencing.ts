@@ -1,26 +1,36 @@
 /**
- * Fencing is on the owner's confirmed landscaping list ("fencing"; new
- * boundary fencing and replacement of old or damaged fencing). Fence types,
- * materials and heights are NOT confirmed, so none are claimed here.
+ * Fencing: confirmed by the owner (Nov 2026) - "we do all sorts of fencing",
+ * including composite, PVC and timber fencing. Heights, brands and
+ * guarantees are NOT confirmed, so none are claimed.
  *
- * PHOTOS: no fencing photos exist yet. The hero uses a genuine photo of a
- * boundary cleared of hedging, captioned as exactly that. The before/after
- * pairs below are empty slots for the owner's photos: add each file to
+ * PHOTOS: the owner's own fencing jobs (supplied Nov 2026, cropped from
+ * phone screenshots and lightly sharpened). Locations were not given, so
+ * captions describe the work only. Panel material is named only where the
+ * photo clearly shows it (timber; woodgrain composite).
+ *
+ * Remaining before/after pairs are empty slots: add each photo to
  * src/assets/images/work/, import it here, set `src` and `alt`, and update
- * the pair's title/summary to describe the real job. Empty pairs show as
- * "Photo to come" in previews and are hidden on the launched site.
+ * the pair's title/summary. Empty pairs show as "Photo to come" in
+ * previews and are hidden on the launched site.
  */
 import type { ServicePage } from './types';
-import boundary from '@/assets/images/work/beech-hedge-after-reduction.jpg';
+import heroFence from '@/assets/images/work/slatted-fence-concrete-posts-new-boundary.jpg';
+import postsSet from '@/assets/images/work/concrete-fence-posts-set-new-boundary.jpg';
+import longFence from '@/assets/images/work/long-slatted-boundary-fence-finished.jpg';
+import timber from '@/assets/images/work/timber-fence-patio-and-lawn.jpg';
+import charcoal from '@/assets/images/work/charcoal-composite-fence-along-driveway.jpg';
+import greyComposite from '@/assets/images/work/grey-composite-fence-dark-posts.jpg';
+import gravelGarden from '@/assets/images/work/slatted-fence-concrete-posts-gravel-garden.jpg';
+import woodgrain from '@/assets/images/work/woodgrain-composite-fence-gravel-yard.jpg';
 
 export const fencing: ServicePage = {
   slug: 'fencing',
   navLabel: 'Fencing',
-  teaser: 'New boundary fencing and replacement of old or damaged fences.',
+  teaser: 'Composite, PVC and timber fencing, new or replacing old fences.',
   services: ['fencing'],
   seoTitle: "Fencing & Boundary Fences in Athlone & Westmeath | Cawley's",
   description:
-    'New boundary fencing and replacement of old or damaged fences across Westmeath, Roscommon, Longford, Offaly and Galway. Hedges cleared first if needed.',
+    'Composite, PVC and timber fencing: new boundary fences and replacements across Westmeath, Roscommon, Longford, Offaly and Galway. Free quotes.',
 
   hero: {
     eyebrow: 'Fencing',
@@ -28,12 +38,12 @@ export const fencing: ServicePage = {
     accent: 'boundary',
     end: 'properly.',
     intro:
-      'New boundary fencing and replacement of old or damaged fences, from the team that can also clear the hedge or trees in the way first. Across Westmeath, Roscommon, Longford, Offaly and Galway, with a free quotation first.',
+      'Composite, PVC and timber fencing, new or replacing old and damaged fences, from the team that can also clear the hedge or trees in the way first. Across Westmeath, Roscommon, Longford, Offaly and Galway, with a free quotation first.',
     image: {
-      src: boundary,
-      alt: 'A gravel driveway after an overgrown beech hedge was cleared, opening the boundary to the road.',
-      caption: 'A boundary cleared of overgrown hedging',
-      focus: '45% 60%',
+      src: heroFence,
+      alt: 'A new boundary fence of dark grey slatted panels between concrete posts and gravel boards, beside a white house.',
+      caption: 'A new slatted boundary fence on concrete posts',
+      focus: '60% 50%',
     },
   },
 
@@ -42,7 +52,7 @@ export const fencing: ServicePage = {
     accent: 'rely on',
     paragraphs: [
       'A fence marks your boundary, keeps children and pets in, and gives the garden privacy and a finished look. When it is leaning, broken or simply old, it lets the whole garden down.',
-      'We put up new boundary fencing and replace fences that are past repair. Because we also cut and remove hedges and trees, the whole job can be done by one team: an old hedge or a fallen tree cleared first, then the new fence put in, and the site left tidy.',
+      'We put up all sorts of fencing, including composite, PVC and timber, on new boundaries and in place of fences that are past repair. Because we also cut and remove hedges and trees, the whole job can be done by one team: an old hedge or a fallen tree cleared first, then the new fence put in, and the site left tidy.',
     ],
     situationsTitle: 'Fencing jobs we are asked about',
     situations: [
@@ -61,8 +71,20 @@ export const fencing: ServicePage = {
     intro: 'Fencing on its own, or as part of hedge, tree or landscaping work in the same garden.',
     items: [
       {
+        title: 'Composite fencing',
+        text: 'Modern composite panels, including woodgrain finishes, for a clean, low-maintenance boundary.',
+      },
+      {
+        title: 'PVC fencing',
+        text: 'PVC fencing for a neat, uniform finish along gardens and driveways.',
+      },
+      {
+        title: 'Timber fencing',
+        text: 'Traditional timber fencing and gates for gardens and boundaries.',
+      },
+      {
         title: 'New boundary fencing',
-        text: 'New fences along garden and property boundaries.',
+        text: 'New fences along garden and property boundaries, from the posts up.',
       },
       {
         title: 'Replacing old fencing',
@@ -93,16 +115,62 @@ export const fencing: ServicePage = {
   why: 'A fence is only as good as the work that goes into it. You get an experienced, fully insured team, a clear price up front and a site left clean.',
 
   photos: {
-    title: 'Fencing',
-    accent: 'before and after',
+    title: 'Fencing from',
+    accent: 'our own jobs',
     intro:
-      'Before and after photos of fencing jobs by the Cawley’s team. More photos are being added.',
-    items: [],
+      'Genuine photos of composite, PVC and timber fencing put up by the Cawley’s team, from the posts going in to the finished boundary.',
+    items: [
+      {
+        src: woodgrain,
+        alt: 'A long run of new grey woodgrain composite fence panels on concrete posts and gravel boards, beside a gravel yard.',
+        caption: 'Woodgrain composite fencing, just finished',
+        focus: '40% 45%',
+      },
+      {
+        src: charcoal,
+        alt: 'Charcoal composite fence panels between concrete posts along a curving brick-paved driveway.',
+        caption: 'Charcoal composite fencing along a driveway',
+        focus: '55% 50%',
+      },
+      {
+        src: timber,
+        alt: 'A timber close-board fence with concrete posts and a matching timber gate around a patio and lawn.',
+        caption: 'Timber fencing with a matching gate',
+        focus: '50% 30%',
+      },
+      {
+        src: gravelGarden,
+        alt: 'Dark grey slatted fence panels on concrete posts in a gravel garden with potted plants.',
+        caption: 'Slatted fencing on concrete posts',
+        focus: '50% 45%',
+      },
+      {
+        src: greyComposite,
+        alt: 'Light grey slatted fence panels with dark posts in front of trees and shrubs.',
+        caption: 'Grey slatted fencing with dark posts',
+        focus: '50% 50%',
+      },
+    ],
   },
 
   beforeAfter: {
     pairs: [
-      { title: 'New boundary fence', before: {}, after: {} },
+      {
+        title: 'New boundary fence, posts to finish',
+        summary:
+          'Concrete posts set along a new boundary, then finished with dark slatted panels on gravel boards.',
+        before: {
+          src: postsSet,
+          label: 'During',
+          alt: 'A line of new concrete fence posts set into freshly dug ground along a boundary beside a house.',
+          focus: '45% 50%',
+        },
+        after: {
+          src: longFence,
+          alt: 'The finished boundary: a long run of dark slatted fence panels on concrete posts beside a house.',
+          focus: '45% 55%',
+        },
+      },
       { title: 'Old fencing replaced', before: {}, after: {} },
       { title: 'Hedge removed and fenced', before: {}, after: {} },
       { title: 'Storm-damaged fencing replaced', before: {}, after: {} },
