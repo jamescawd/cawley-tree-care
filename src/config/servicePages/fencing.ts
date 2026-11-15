@@ -21,6 +21,10 @@ import timber from '@/assets/images/work/timber-fence-patio-and-lawn.jpg';
 import charcoal from '@/assets/images/work/charcoal-composite-fence-along-driveway.jpg';
 import greyComposite from '@/assets/images/work/grey-composite-fence-dark-posts.jpg';
 import gravelGarden from '@/assets/images/work/slatted-fence-concrete-posts-gravel-garden.jpg';
+import hedgeFrame from '@/assets/images/work/hedge-cut-back-timber-fence-frame.jpg';
+import featherEdge from '@/assets/images/work/close-board-timber-fence-finished.jpg';
+import lawnBefore from '@/assets/images/work/lawn-before-new-fence-line-marked.jpg';
+import panelFence from '@/assets/images/work/feather-edge-panel-fence-concrete-posts-finished.jpg';
 import woodgrain from '@/assets/images/work/woodgrain-composite-fence-gravel-yard.jpg';
 
 export const fencing: ServicePage = {
@@ -171,8 +175,37 @@ export const fencing: ServicePage = {
           focus: '45% 55%',
         },
       },
-      { title: 'Old fencing replaced', before: {}, after: {} },
-      { title: 'Hedge removed and fenced', before: {}, after: {} },
+      {
+        title: 'Open garden, new feather edge panel fence',
+        summary:
+          'The fence line marked out across an open garden, then feather edge panels put in on concrete posts and gravel boards.',
+        before: {
+          src: lawnBefore,
+          alt: 'An open lawn with marker pegs and tape setting out a new fence line, with trees and shrubs behind.',
+          focus: '50% 50%',
+        },
+        after: {
+          src: panelFence,
+          alt: 'A long run of new feather edge timber fence panels on concrete posts and gravel boards along the lawn.',
+          focus: '40% 50%',
+        },
+      },
+      {
+        title: 'Hedge cut back, feather edge fence put in',
+        summary:
+          'An overgrown hedge cut back hard and a timber frame put in front of it, then finished with feather edge boards.',
+        before: {
+          src: hedgeFrame,
+          label: 'During',
+          alt: 'New timber fence posts and rails set in front of a hedge cut back to bare stems, beside a garden shed.',
+          focus: '50% 50%',
+        },
+        after: {
+          src: featherEdge,
+          alt: 'The finished feather edge timber fence running along the boundary beside a lawn, with trees behind.',
+          focus: '55% 50%',
+        },
+      },
       { title: 'Storm-damaged fencing replaced', before: {}, after: {} },
     ],
   },

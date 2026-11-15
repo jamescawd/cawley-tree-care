@@ -250,7 +250,7 @@ test('before/after slots show "photo to come" frames until photos are added', as
   // [page, pairs shown, empty frames still waiting for photos]
   for (const [path, pairs, empty] of [
     ['/landscaping', 4, 8],
-    ['/fencing', 4, 6],
+    ['/fencing', 4, 2],
   ] as const) {
     await page.goto(path);
     await expect(page.locator('.svc-ba__pair')).toHaveCount(pairs);
