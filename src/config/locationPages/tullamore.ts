@@ -1,17 +1,15 @@
 import type { LocationPage } from './types';
 import { wall, climbing, tidy, conifer } from './photos';
-
 import bigBefore from '@/assets/images/work/large-ivy-covered-tree-beside-garage-before.jpg';
 import bigPlatform from '@/assets/images/work/crown-reduced-from-access-platform.jpg';
 import bigRounds from '@/assets/images/work/large-tree-rounds-cut-on-site.jpg';
+
 /**
- * Tullamore: DRAFT (not in live.json) until the owner supplies a real local
- * job, photo or review.
+ * Tullamore: has a genuine local job (see jobsDone).
  *
  * Local notes are kept to what affects tree work: mature oak, beech and lime
  * in older gardens and estates; canal-side willow and alder. No distance
- * given (owner's instruction for far towns). No council content. No Cawley's
- * job in Tullamore is claimed.
+ * given (owner's instruction for far towns). No council content.
  */
 export const tullamore: LocationPage = {
   slug: 'tree-surgeon-tullamore',
@@ -84,36 +82,6 @@ export const tullamore: LocationPage = {
     ],
   },
 
-  // One of the owner's own jobs (photos supplied Nov 2026). Its location was
-  // not given, so it is NOT presented as a Tullamore job.
-  job: {
-    eyebrow: 'From our jobs',
-    title: 'A large tree beside',
-    accent: 'a garage and a house',
-    intro:
-      'A big, ivy-covered tree standing right beside a timber garage, with a house and fences close by. The crown was taken down limb by limb from an access platform, so every cut could be controlled, and the timber was cut into rounds on site.',
-    photos: [
-      {
-        src: bigBefore,
-        alt: 'A large mature tree with ivy on its trunk standing beside a timber garage and a fence, before work started.',
-        caption: '1. Before: the tree over the garage',
-        focus: '50% 40%',
-      },
-      {
-        src: bigPlatform,
-        alt: 'An arborist in the basket of an access platform cutting back the bare limbs of the large tree.',
-        caption: '2. Crown reduced from a platform',
-        focus: '50% 40%',
-      },
-      {
-        src: bigRounds,
-        alt: 'Large rounds of the felled tree on the ground, with a chainsaw resting on the biggest one.',
-        caption: '3. Timber cut into rounds',
-        focus: '40% 55%',
-      },
-    ],
-  },
-
   local: {
     title: 'Mature trees',
     accent: 'around the town',
@@ -122,14 +90,43 @@ export const tullamore: LocationPage = {
     ],
   },
 
+  // Genuine job in Tullamore (photos supplied and location confirmed by
+  // the owner, Nov 2026).
   jobsDone: {
-    title: 'Completed',
+    title: 'Jobs we have done',
     accent: 'in Tullamore',
-    intro: 'Photos and a few words on real jobs around the town will appear here.',
+    intro: 'A large tree beside a timber garage in Tullamore, taken down from an access platform.',
     slots: [
-      { title: 'Tullamore job to be added', photo: {} },
-      { title: 'Tullamore job to be added', photo: {} },
-      { title: 'Tullamore job to be added', photo: {} },
+      {
+        title: 'Before the work',
+        summary:
+          'A big, ivy-covered tree right beside a timber garage, with a house and fences close by.',
+        photo: {
+          src: bigBefore,
+          alt: 'A large mature tree with ivy on its trunk standing beside a timber garage and a fence, before work started.',
+          focus: '50% 40%',
+        },
+      },
+      {
+        title: 'Working from the platform',
+        summary:
+          'The crown was taken down limb by limb from an access platform, so every cut could be controlled.',
+        photo: {
+          src: bigPlatform,
+          alt: 'An arborist in the basket of an access platform cutting back the bare limbs of the large tree.',
+          focus: '50% 40%',
+        },
+      },
+      {
+        title: 'Timber cut on site',
+        summary:
+          'The trunk and big limbs were cut into rounds on site, ready to be split for firewood or taken away.',
+        photo: {
+          src: bigRounds,
+          alt: 'Large rounds of the felled tree on the ground, with a chainsaw resting on the biggest one.',
+          focus: '40% 55%',
+        },
+      },
     ],
   },
 

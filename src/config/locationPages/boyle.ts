@@ -1,17 +1,16 @@
 import type { LocationPage } from './types';
 import { dismantling, lane, stacked, pruning } from './photos';
-
 import spruceStart from '@/assets/images/work/climber-starting-in-tall-spruce.jpg';
 import spruceTop from '@/assets/images/work/climber-limbing-tall-spruce-to-the-top.jpg';
 import spruceLast from '@/assets/images/work/last-section-of-spruce-stem-above-houses.jpg';
+
 /**
- * Boyle: DRAFT (not in live.json) until the owner supplies a real local job,
- * photo or review.
+ * Boyle: has a genuine local job (see jobsDone).
  *
  * Local notes are kept to what affects tree work: tall conifers and shelter
  * belts near homes, exposed after storms Darragh and Éowyn (Shannonside; RTÉ
  * on Lough Key losses). No distance given (owner's instruction for far
- * towns). No council content. No Cawley's job in Boyle is claimed.
+ * towns). No council content.
  */
 export const boyle: LocationPage = {
   slug: 'tree-surgeon-boyle',
@@ -79,36 +78,6 @@ export const boyle: LocationPage = {
     ],
   },
 
-  // One of the owner's own jobs (photos supplied Nov 2026). Its location was
-  // not given, so it is NOT presented as a Boyle job.
-  job: {
-    eyebrow: 'From our jobs',
-    title: 'A tall spruce,',
-    accent: 'taken down between houses',
-    intro:
-      'This spruce stood in a back garden with houses and a shed on every side, so there was no room to fell it. Our climber worked up the stem removing the branches, then took the top and the trunk down in short sections, each one lowered on a rope. Nothing touched the roofs or the fences.',
-    photos: [
-      {
-        src: spruceStart,
-        alt: 'A climber in a harness and helmet starting work in the lower branches of a tall spruce in a back garden.',
-        caption: '1. Starting in the lower crown',
-        focus: '55% 40%',
-      },
-      {
-        src: spruceTop,
-        alt: 'The spruce stripped of its lower branches, with the climber working high on the stem below the top.',
-        caption: '2. Limbed up to the top',
-        focus: '50% 35%',
-      },
-      {
-        src: spruceLast,
-        alt: 'The climber at the top of the bare spruce stem, high above the roofs of the surrounding houses.',
-        caption: '3. The stem coming down in sections',
-        focus: '50% 30%',
-      },
-    ],
-  },
-
   local: {
     title: 'Conifers and',
     accent: 'shelter belts',
@@ -117,13 +86,44 @@ export const boyle: LocationPage = {
     ],
   },
 
+  // Genuine job in Boyle (photos supplied and location confirmed by
+  // the owner, Nov 2026).
   jobsDone: {
-    title: 'Jobs',
-    accent: 'around Boyle',
-    intro: 'Photos and notes from real jobs in the area will go here.',
+    title: 'Jobs we have done',
+    accent: 'in Boyle',
+    intro:
+      'A tall spruce we took down in a back garden in Boyle, with houses and a shed on every side.',
     slots: [
-      { title: 'Boyle job to be added', photo: {} },
-      { title: 'Boyle job to be added', photo: {} },
+      {
+        title: 'Starting in the crown',
+        summary:
+          'Our climber working up through the lower branches. There was no room to fell the tree, so it all had to come down in pieces.',
+        photo: {
+          src: spruceStart,
+          alt: 'A climber in a harness and helmet starting work in the lower branches of a tall spruce in a back garden.',
+          focus: '55% 40%',
+        },
+      },
+      {
+        title: 'Limbed to the top',
+        summary:
+          'With the branches off, only the top was left. Each section was cut and lowered on a rope, clear of the roofs.',
+        photo: {
+          src: spruceTop,
+          alt: 'The spruce stripped of its lower branches, with the climber working high on the stem below the top.',
+          focus: '50% 35%',
+        },
+      },
+      {
+        title: 'The last of the stem',
+        summary:
+          'The bare stem coming down in short sections above the neighbouring houses, with nothing dropped on a roof or fence.',
+        photo: {
+          src: spruceLast,
+          alt: 'The climber at the top of the bare spruce stem, high above the roofs of the surrounding houses.',
+          focus: '50% 30%',
+        },
+      },
     ],
   },
 

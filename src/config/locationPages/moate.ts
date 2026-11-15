@@ -1,17 +1,16 @@
 import type { LocationPage } from './types';
 import { snapped, drive, tripod, stacked } from './photos';
-
 import laneBefore from '@/assets/images/work/trees-along-rural-boundary-fence-before.jpg';
 import laneAfter from '@/assets/images/work/boundary-opened-up-after-tree-removal.jpg';
 import laneClear from '@/assets/images/work/lane-clear-after-boundary-trees-removed.jpg';
+
 /**
- * Moate: DRAFT (not in live.json) until the owner supplies a real local job,
- * photo or review.
+ * Moate: has a genuine local job (see jobsDone).
  *
  * Local notes are kept to what affects tree work. Sources (checked Nov 2026):
  * at least 15 trees down on the R446 between Kilbeggan and Moate in Storm
  * Éowyn (Midlands 103, quoting Gardaí). Distance (about 16 km) to be confirmed
- * by the owner. No council content. No Cawley's job in Moate is claimed.
+ * by the owner. No council content.
  */
 export const moate: LocationPage = {
   slug: 'tree-surgeon-moate',
@@ -79,36 +78,6 @@ export const moate: LocationPage = {
     ],
   },
 
-  // One of the owner's own jobs (photos supplied Nov 2026). Its location was
-  // not given, so it is NOT presented as a Moate job.
-  job: {
-    eyebrow: 'From our jobs',
-    title: 'Boundary trees',
-    accent: 'cleared beside a lane',
-    intro:
-      'A row of trees had grown up along the fence of a country house, crowding the lane and the overhead wires. We took them out, cleared the boundary and left the lane open, with the view across the fields back.',
-    photos: [
-      {
-        src: laneBefore,
-        alt: 'Tall bare trees growing along a black timber boundary fence beside a lawn and a lane, before the work.',
-        caption: '1. Before: trees along the boundary',
-        focus: '50% 45%',
-      },
-      {
-        src: laneAfter,
-        alt: 'The same corner of the garden after the trees were removed, open to the fields beyond.',
-        caption: '2. After: the boundary opened up',
-        focus: '50% 55%',
-      },
-      {
-        src: laneClear,
-        alt: 'The country lane beside the house, clear of the trees, under a blue sky.',
-        caption: '3. The lane left clear',
-        focus: '40% 55%',
-      },
-    ],
-  },
-
   local: {
     title: 'Roadside',
     accent: 'and boundary trees',
@@ -118,14 +87,43 @@ export const moate: LocationPage = {
     ],
   },
 
+  // Genuine job in Moate (photos supplied and location confirmed by
+  // the owner, Nov 2026).
   jobsDone: {
     title: 'Recent work',
     accent: 'in Moate',
-    intro: 'Real jobs from in and around the town will be shown here as we add them.',
+    intro: 'Boundary trees cleared beside a country lane in the Moate area.',
     slots: [
-      { title: 'Moate job to be added', photo: {} },
-      { title: 'Moate job to be added', photo: {} },
-      { title: 'Moate job to be added', photo: {} },
+      {
+        title: 'Before: trees on the boundary',
+        summary:
+          'A row of trees had grown up along the fence of the house, crowding the lane and the overhead wires.',
+        photo: {
+          src: laneBefore,
+          alt: 'Tall bare trees growing along a black timber boundary fence beside a lawn and a lane, before the work.',
+          focus: '50% 45%',
+        },
+      },
+      {
+        title: 'After: the boundary opened up',
+        summary:
+          'The trees were taken out and the boundary cleared, opening the garden back up to the fields.',
+        photo: {
+          src: laneAfter,
+          alt: 'The same corner of the garden after the trees were removed, open to the fields beyond.',
+          focus: '50% 55%',
+        },
+      },
+      {
+        title: 'The lane left clear',
+        summary:
+          'The lane beside the house, clear of overhanging branches, with the site tidied before we left.',
+        photo: {
+          src: laneClear,
+          alt: 'The country lane beside the house, clear of the trees, under a blue sky.',
+          focus: '40% 55%',
+        },
+      },
     ],
   },
 
