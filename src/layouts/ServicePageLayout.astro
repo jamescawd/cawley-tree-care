@@ -146,17 +146,12 @@ const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => 
         {page.hero.end && ` ${page.hero.end}`}
       </h1>
       <p class="lead svc-hero__lead">{page.hero.intro}</p>
-      <div class:list={['svc-hero__ctas', { 'svc-hero__ctas--call': page.hero.callFirst }]}>
-        <Button
-          href={quote}
-          size="lg"
-          arrow
-          variant={page.hero.callFirst ? 'secondary' : 'primary'}
-        >
-          Request a free quote
-        </Button>
-        <Button href={phoneHref} variant={page.hero.callFirst ? 'primary' : 'secondary'} size="lg">
+      <div class="svc-hero__ctas">
+        <Button href={phoneHref} size="lg">
           Call {business.contact.phoneDisplay}
+        </Button>
+        <Button href={quote} variant="secondary" size="lg" arrow>
+          Request a free quote
         </Button>
       </div>
       <TrustList class="svc-hero__trust" />
@@ -547,11 +542,6 @@ const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => 
 
   .svc-hero__ctas :global(.btn) {
     justify-self: stretch;
-  }
-
-  /* Urgent pages: the call button comes first. */
-  .svc-hero__ctas--call :global(.btn:last-child) {
-    order: -1;
   }
 
   :global(.svc-hero__trust) {

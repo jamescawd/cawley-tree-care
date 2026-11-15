@@ -407,26 +407,15 @@ const marketingTools = [ads && 'Google Ads', tracking.metaPixelId && 'Meta (Face
     display: none;
   }
 
-  /* Phones and tablets: sit directly above the Call / Quote bar. */
-  @media (max-width: 74.99em) {
-    :global(body:has(.action-bar:not([data-hidden]))) .consent {
-      inset-block-end: calc(4.5rem + env(safe-area-inset-bottom, 0px));
-    }
-
-    :global(body:has(.action-bar[data-hidden])) .consent {
-      padding-block-end: env(safe-area-inset-bottom, 0px);
-    }
+  /* At the very bottom on every screen. On phones the call bar steps aside
+     while this is open and returns in its place once a choice is made. */
+  .consent {
+    padding-block-end: env(safe-area-inset-bottom, 0px);
   }
 
   /* Matching space at the end of the page, so nothing stays hidden under it. */
   :global(body:has(.consent:not([hidden]))) {
-    padding-block-end: calc(4.5rem + var(--consent-h, 0px));
-  }
-
-  @media (min-width: 75em) {
-    :global(body:has(.consent:not([hidden]))) {
-      padding-block-end: var(--consent-h, 0px);
-    }
+    padding-block-end: var(--consent-h, 0px);
   }
 
   /* The WhatsApp button would sit on the bar: step aside until a choice is made. */
@@ -436,10 +425,10 @@ const marketingTools = [ads && 'Google Ads', tracking.metaPixelId && 'Meta (Face
 
   .consent__inner {
     display: grid;
-    gap: var(--space-2xs);
+    gap: 0.4rem;
     max-width: var(--container-max, 80rem);
     margin-inline: auto;
-    padding: var(--space-xs) var(--gutter);
+    padding: 0.5rem var(--gutter);
   }
 
   .consent__text {
@@ -468,7 +457,15 @@ const marketingTools = [ads && 'Google Ads', tracking.metaPixelId && 'Meta (Face
   .consent__actions {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: var(--space-2xs);
+    gap: 0.4rem;
+  }
+
+  /* Phones: a slim strip, so it covers as little of the page as possible. */
+  @media (max-width: 39.99em) {
+    .consent__btn {
+      min-height: 2.5rem;
+      padding-block: 0.35em;
+    }
   }
 
   /* Accept and Reject are deliberately identical everywhere. */
@@ -503,6 +500,7 @@ const marketingTools = [ads && 'Google Ads', tracking.metaPixelId && 'Meta (Face
       grid-template-columns: 1fr auto;
       align-items: center;
       column-gap: var(--space-m);
+      padding-block: var(--space-xs);
     }
 
     .consent__text {
