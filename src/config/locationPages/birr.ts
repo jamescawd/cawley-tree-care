@@ -51,7 +51,7 @@ export const birr: LocationPage = {
     paragraphs: [
       'You cannot live in Birr and be indifferent to trees. The demesne at the end of the town holds more than forty champion trees and box hedges that have been growing for over three hundred years. The limes and chestnuts along the malls are part of what the town looks like. People here tend to want a tree kept if it can be kept, and that suits the way we work.',
       'Most of the time a big tree that is worrying you does not need to come down. Taking weight out of the crown, shortening the limbs over the roof and clearing out the dead wood will often buy it another twenty years. We will always tell you if that is an option before we talk about felling.',
-      'We come down from Athlone on the N62, through Ferbane and Cloghan. It is about 45 km, and south Offaly is a regular part of our week.',
+      'We come down from Athlone on the N62, through Ferbane and Cloghan. It is about 45 km.',
     ],
     facts: [
       'About 45 km from our Athlone base',

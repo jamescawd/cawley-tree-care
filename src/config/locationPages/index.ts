@@ -2,12 +2,32 @@ import type { LocationPage } from './types';
 import { athlone } from './athlone';
 import { mullingar } from './mullingar';
 import { birr } from './birr';
+import { moate } from './moate';
+import { kilbeggan } from './kilbeggan';
+import { roscommon } from './roscommon';
+import { boyle } from './boyle';
+import { longford } from './longford';
+import { tullamore } from './tullamore';
+import { ballinasloe } from './ballinasloe';
+import { galway } from './galway';
 import live from './live.json';
 
 export type { LocationPage } from './types';
 
 /** Town pages. Add one only when it has genuine local content (docs/LOCATION-PAGES.md). */
-export const locationPages: LocationPage[] = [athlone, mullingar, birr];
+export const locationPages: LocationPage[] = [
+  athlone,
+  mullingar,
+  birr,
+  moate,
+  kilbeggan,
+  roscommon,
+  boyle,
+  longford,
+  tullamore,
+  ballinasloe,
+  galway,
+];
 
 /**
  * A town page goes live (indexable, in the sitemap and footer) only once it

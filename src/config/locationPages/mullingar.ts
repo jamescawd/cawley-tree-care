@@ -48,7 +48,7 @@ export const mullingar: LocationPage = {
     title: 'Same county,',
     accent: 'down the road',
     paragraphs: [
-      'We are based in Athlone, at the other end of the Old Rail Trail. By road Mullingar is about 50 km: out the M6 to Kilbeggan and up the N52. It is a run we are well used to, and it means a look at your tree does not have to wait for a day when we happen to be passing.',
+      'We are based in Athlone, at the other end of the Old Rail Trail. By road Mullingar is about 50 km: out the M6 to Kilbeggan and up the N52. It is a straightforward run, so coming to look at your tree is no trouble.',
       'Mullingar is an easy town to describe to a tree surgeon. The canal wraps around the north of it, there is a lake on either side, and between them is a mix of old gardens with big trees and newer estates where the planting from the Celtic Tiger years has now grown up. Most of what we are asked about comes from one of those two things: a mature tree that has got too big or too tired for where it stands, or a hedge that was a few feet high when the house was bought.',
       'Tell us where you are and send a photo or two. We will tell you straight what we think it needs, including when the answer is nothing.',
     ],
