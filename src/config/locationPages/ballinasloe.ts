@@ -31,7 +31,7 @@ export const ballinasloe: LocationPage = {
     accent: 'tree care',
     paragraphs: [
       'We work for householders, farmers and businesses, from a single overgrown tree to a full boundary. You get a clear explanation of what we recommend, a price before work begins, and a tidy site afterwards.',
-      'We have more than fifteen years of experience in tree surgery and full insurance, and windblown and storm-damaged trees are part of what we deal with.',
+      'We have more than fifteen years of experience in tree surgery and full insurance, and the timber is cut up, stacked or taken away, whichever you prefer.',
     ],
     facts: [
       'About 25 km from Athlone on the M6',

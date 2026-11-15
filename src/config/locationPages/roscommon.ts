@@ -85,7 +85,7 @@ export const roscommon: LocationPage = {
     title: 'Storm damage',
     accent: 'that is easy to miss',
     paragraphs: [
-      'Storm Éowyn hit Roscommon hard in January 2025, and many trees that are still standing were weakened. If a tree near your home came through it, these are the signs worth checking:',
+      'A tree can come through a storm looking fine and still be weakened. If one near your home has taken a battering, these are the signs worth checking:',
     ],
     points: [
       {

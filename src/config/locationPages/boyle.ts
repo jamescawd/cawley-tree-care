@@ -113,7 +113,7 @@ export const boyle: LocationPage = {
     title: 'Conifers and',
     accent: 'shelter belts',
     paragraphs: [
-      'Around Boyle, many homes have tall spruce or a conifer shelter belt nearby, planted decades ago and never thinned. Storms Darragh and Éowyn left gaps in a lot of them, and the trees left standing nearest the house are now more exposed than before. Those are the ones worth assessing first.',
+      'Around Boyle, many homes have tall spruce or a conifer shelter belt nearby, planted decades ago and never thinned. Where part of a belt has blown over, the trees left standing nearest the house are more exposed than they were. Those are the ones worth assessing first.',
     ],
   },
 

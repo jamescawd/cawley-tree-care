@@ -87,7 +87,7 @@ export const birr: LocationPage = {
     accent: 'walled gardens',
     paragraphs: [
       'Many gardens in the centre of Birr are long, narrow and walled, with a mature beech or lime close to the house and no way in for machinery. That work is done by climbing, with branches cut small enough to carry out.',
-      'Trees pushing against old stone walls, or ones that lost limbs in Storm Éowyn, are worth having looked at sooner rather than later.',
+      'Trees pushing against old stone walls, or ones that have lost a big limb, are worth having looked at sooner rather than later.',
     ],
   },
 

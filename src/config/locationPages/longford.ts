@@ -85,7 +85,7 @@ export const longford: LocationPage = {
     title: 'Warning signs',
     accent: 'to look for',
     paragraphs: [
-      'Since Storm Éowyn, many people in Longford have been looking harder at the trees along their roads and boundaries. If a tree is near a road, a house or a power line, these are the signs worth acting on:',
+      'If a tree on your property is near a road, a house or a power line, these are the signs worth acting on:',
     ],
     points: [
       {

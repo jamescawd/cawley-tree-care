@@ -113,7 +113,7 @@ export const moate: LocationPage = {
     title: 'Roadside',
     accent: 'and boundary trees',
     paragraphs: [
-      'Much of the tree work around Moate involves mature ash, sycamore and beech on farm ditches and road boundaries. Storm Éowyn brought down at least fifteen trees on the R446 between Moate and Kilbeggan, and ash dieback has left many more dead or dying.',
+      'Much of the tree work around Moate involves mature ash, sycamore and beech on farm ditches and road boundaries. Many of them are ash, and dieback has left a lot of those dead or dying.',
       'If a tree on your land overhangs a road, lane or yard, it is your responsibility. We can walk the boundary with you and recommend which trees need work, and in what order.',
     ],
   },

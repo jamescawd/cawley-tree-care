@@ -84,7 +84,7 @@ export const mullingar: LocationPage = {
     title: 'Worth knowing',
     accent: 'in Mullingar',
     paragraphs: [
-      'Storm Éowyn brought trees down across Mullingar in January 2025, and many that stayed standing were damaged: a torn-out limb, a split fork, or roots that lifted and settled back. Those are worth having checked in calm weather, before the next storm finds them.',
+      'In many of the estates around Mullingar, trees and hedges that were planted small when the houses were built are now up against gutters, walls and neighbours’ fences. Most can be reduced and kept in check rather than removed.',
       'Ash dieback is also widespread in the hedgerows around the town. A dead ash next to a road, house or shed turns brittle and becomes harder to take down safely, so it is better dealt with early.',
     ],
   },
@@ -118,9 +118,9 @@ export const mullingar: LocationPage = {
     intro: 'Short, straight answers.',
     faqs: [
       {
-        question: 'A tree in my garden came through the storm. Should I still have it checked?',
+        question: 'A tree is growing too close to the house. Does it have to come down?',
         answer:
-          'If it lost a big limb, if there is a split where two stems meet, or if the ground on one side has lifted or cracked, yes. The next strong wind will find that damage. If it only lost twigs, it is probably fine. Send us a photo and we will tell you which it looks like.',
+          'Not always. Many trees can be reduced and the branches cut back clear of the roof and gutters, which keeps the tree at a size that suits the spot. If it is a fast-growing species that will keep pushing against the house, or its roots are lifting paths or drains, removal may be the better long-term answer. We will give you both options and a price for each.',
       },
       {
         question: 'How do I know if my ash tree has dieback?',
