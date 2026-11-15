@@ -250,7 +250,7 @@ test('before/after slots show "photo to come" frames until photos are added', as
   // incomplete pairs (checked by building with ALLOW_INDEXING=true).
   // [page, pairs shown, empty frames still waiting for photos]
   for (const [path, pairs, empty] of [
-    ['/landscaping', 4, 8],
+    ['/landscaping', 4, 6],
     ['/fencing', 4, 2],
     ['/artificial-grass', 5, 0],
   ] as const) {
