@@ -1208,10 +1208,10 @@ const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => 
     }
   }
 
-  /* Two or four photos (before/after pairs): two columns, so pairs line up. */
+  /* An even number of photos (before/after pairs): two columns, so each
+     pair sits side by side. */
   @media (min-width: 60em) {
-    .loc-jobs__grid:has(> li:nth-child(2):last-child),
-    .loc-jobs__grid:has(> li:nth-child(4):last-child) {
+    .loc-jobs__grid:has(> li:nth-child(even):last-child) {
       grid-template-columns: repeat(2, 1fr);
       max-width: 60rem;
     }

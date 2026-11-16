@@ -1,14 +1,20 @@
 import type { LocationPage } from './types';
 import { stormBeech, chipper, drive, cutting } from './photos';
+import lfA1 from '@/assets/images/work/longford-tall-trees-among-conifers-before.jpg';
+import lfA2 from '@/assets/images/work/longford-tall-trees-removed-timber-in-rounds.jpg';
+import lfB1 from '@/assets/images/work/longford-two-conifers-in-back-garden-before.jpg';
+import lfB2 from '@/assets/images/work/longford-taller-conifer-removed-one-kept.jpg';
+import lfC1 from '@/assets/images/work/longford-tall-conifer-in-garden-before.jpg';
+import lfC2 from '@/assets/images/work/longford-conifer-down-logs-stacked.jpg';
+import lfD1 from '@/assets/images/work/longford-climber-in-tall-tree-beside-house.jpg';
+import lfD2 from '@/assets/images/work/longford-tall-tree-gone-garden-clear.jpg';
 
 /**
- * Longford Town: DRAFT (not in live.json) until the owner supplies a real
- * local job, photo or review.
+ * Longford Town: has genuine local work (see jobsDone).
  *
  * Local notes are kept to what affects tree work: a short checklist of
  * warning signs on trees near roads and houses. No distance given (owner's
- * instruction for far towns). No council content. No Cawley's job in
- * Longford is claimed.
+ * instruction for far towns). No council content.
  */
 export const longford: LocationPage = {
   slug: 'tree-surgeon-longford',
@@ -107,14 +113,92 @@ export const longford: LocationPage = {
     ],
   },
 
+  // Genuine jobs in and around Longford (photos supplied and locations
+  // confirmed by the owner, Nov 2026).
   jobsDone: {
     title: 'Our jobs',
-    accent: 'in Longford',
-    intro: 'Real work from in and around the town, added as we go.',
+    accent: 'around Longford',
+    intro: 'Trees taken down and cleared in and around Longford, before and after.',
     slots: [
-      { title: 'Longford job to be added', photo: {} },
-      { title: 'Longford job to be added', photo: {} },
-      { title: 'Longford job to be added', photo: {} },
+      {
+        title: 'Before: tall trees among the conifers',
+        summary:
+          'Tall broadleaf trees growing up through a belt of conifers at the edge of a large garden.',
+        photo: {
+          src: lfA1,
+          alt: 'Tall broadleaf trees standing among dark conifers at the edge of a sunny lawn.',
+          focus: '50% 45%',
+        },
+      },
+      {
+        title: 'After: taken down, timber in rounds',
+        summary:
+          'The tall trees climbed and taken down in sections, with the timber cut into rounds and stacked.',
+        photo: {
+          src: lfA2,
+          alt: 'The same edge of the garden with the tall trees gone and cut timber stacked in rounds on the ground.',
+          focus: '50% 45%',
+        },
+      },
+      {
+        title: 'Before: two conifers in a back garden',
+        summary:
+          'Two large conifers beside the garden path, the taller one towering over the garden and the houses around it.',
+        photo: {
+          src: lfB1,
+          alt: 'Two large conifers in a back garden beside a stepping-stone path, with a climber getting ready below.',
+          focus: '50% 45%',
+        },
+      },
+      {
+        title: 'After: one removed, one kept',
+        summary:
+          'The taller conifer taken down and the shapely one kept, so the garden keeps its feature tree.',
+        photo: {
+          src: lfB2,
+          alt: 'The same garden with the taller conifer gone and the rounded conifer kept beside the path.',
+          focus: '50% 45%',
+        },
+      },
+      {
+        title: 'Before: a tall conifer in the corner',
+        summary:
+          'A tall, dense conifer in the corner of a back garden, close to the fence and the houses behind.',
+        photo: {
+          src: lfC1,
+          alt: 'A tall, dense conifer in the corner of a back garden beside a timber fence.',
+          focus: '50% 45%',
+        },
+      },
+      {
+        title: 'After: down and stacked',
+        summary:
+          'The conifer taken down and the timber cut into logs and stacked neatly on the lawn.',
+        photo: {
+          src: lfC2,
+          alt: 'A neat stack of cut logs on a lawn, with the corner of the garden now clear.',
+          focus: '50% 45%',
+        },
+      },
+      {
+        title: 'During: climbing a tall tree',
+        summary:
+          'Our climber working high in a tall tree growing right beside the house, taking it down piece by piece.',
+        photo: {
+          src: lfD1,
+          alt: 'A climber in orange high in a tall tree beside a house, above a garden full of shrubs and flowers.',
+          focus: '50% 45%',
+        },
+      },
+      {
+        title: 'After: the tree gone',
+        summary: 'The tree removed without harming the shrubs and flower beds below it.',
+        photo: {
+          src: lfD2,
+          alt: 'The same garden corner after the tall tree was removed, with the shrubs and flowers left in place.',
+          focus: '50% 45%',
+        },
+      },
     ],
   },
 
