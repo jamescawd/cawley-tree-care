@@ -1,14 +1,14 @@
 import type { LocationPage } from './types';
 import { cutting, uprooted, laurel, tidy } from './photos';
+import kbBefore from '@/assets/images/work/tree-beside-garage-and-fence-before-removal.jpg';
+import kbAfter from '@/assets/images/work/garden-corner-clear-after-tree-removal.jpg';
 
 /**
- * Kilbeggan: DRAFT (not in live.json) until the owner supplies a real local
- * job, photo or review.
+ * Kilbeggan: has a genuine local job (see jobsDone).
  *
  * Local notes are kept to what affects tree work: the River Brosna and the
  * old canal branch beside the town (riverside willow and alder). Distance
  * (about 32 km on the M6) to be confirmed by the owner. No council content.
- * No Cawley's job in Kilbeggan is claimed.
  */
 export const kilbeggan: LocationPage = {
   slug: 'tree-surgeon-kilbeggan',
@@ -89,13 +89,33 @@ export const kilbeggan: LocationPage = {
     ],
   },
 
+  // Genuine job in Kilbeggan (photos supplied and location confirmed by the
+  // owner, Nov 2026).
   jobsDone: {
     title: 'Jobs',
     accent: 'in Kilbeggan',
-    intro: 'We will add photos and notes from real jobs around the town here.',
+    intro: 'A tall tree taken down in a back garden in Kilbeggan.',
     slots: [
-      { title: 'Kilbeggan job to be added', photo: {} },
-      { title: 'Kilbeggan job to be added', photo: {} },
+      {
+        title: 'Before: tight against the garage',
+        summary:
+          'A tall tree growing in the corner of the garden, right beside a garage and a new timber fence, and overhanging both.',
+        photo: {
+          src: kbBefore,
+          alt: 'A tall bare tree in the corner of a back garden, beside a white garage and a new timber fence, with houses behind.',
+          focus: '50% 40%',
+        },
+      },
+      {
+        title: 'After: the corner cleared',
+        summary:
+          'The tree taken down without touching the garage or the fence, and the corner of the garden left clear.',
+        photo: {
+          src: kbAfter,
+          alt: 'The same corner of the garden after the tree was removed, clear beside the garage and the timber fence.',
+          focus: '50% 60%',
+        },
+      },
     ],
   },
 

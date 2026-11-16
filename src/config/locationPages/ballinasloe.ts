@@ -1,14 +1,14 @@
 import type { LocationPage } from './types';
 import { pruning, laurel, uprooted, stacked } from './photos';
+import blBefore from '@/assets/images/work/tall-ivy-covered-trees-before-work.jpg';
+import blAfter from '@/assets/images/work/ivy-covered-trees-reduced-to-main-stems.jpg';
 
 /**
- * Ballinasloe: DRAFT (not in live.json) until the owner supplies a real
- * local job, photo or review.
+ * Ballinasloe: has a genuine local job (see jobsDone).
  *
  * Local notes are kept to what affects tree work: wet ground near the River
  * Suck and shallow-rooted trees. Distance (about 25 km on the M6) to be
- * confirmed by the owner. No council content. No Cawley's job in
- * Ballinasloe is claimed.
+ * confirmed by the owner. No council content.
  */
 export const ballinasloe: LocationPage = {
   slug: 'tree-surgeon-ballinasloe',
@@ -88,14 +88,34 @@ export const ballinasloe: LocationPage = {
     ],
   },
 
+  // Genuine job in Ballinasloe (photos supplied and location confirmed by
+  // the owner, Nov 2026).
   jobsDone: {
     title: 'Jobs done',
-    accent: 'around Ballinasloe',
-    intro: 'Real jobs from the town and east Galway will be added here.',
+    accent: 'in Ballinasloe',
+    intro:
+      'Two tall, ivy-covered trees taken down in Ballinasloe, working from an access platform.',
     slots: [
-      { title: 'Ballinasloe job to be added', photo: {} },
-      { title: 'Ballinasloe job to be added', photo: {} },
-      { title: 'Ballinasloe job to be added', photo: {} },
+      {
+        title: 'Before: two tall, ivy-covered trees',
+        summary:
+          'Two big trees, their trunks thick with ivy, standing close to a shed and the buildings around it.',
+        photo: {
+          src: blBefore,
+          alt: 'Two tall bare trees with ivy covering their trunks, against a blue sky, before work began.',
+          focus: '50% 45%',
+        },
+      },
+      {
+        title: 'Crowns off, piece by piece',
+        summary:
+          'Working from an access platform, the crowns were cut away in sections, bringing both trees down to their main stems.',
+        photo: {
+          src: blAfter,
+          alt: 'The same two trees with their crowns removed, cut back to their ivy-covered main stems.',
+          focus: '50% 40%',
+        },
+      },
     ],
   },
 
