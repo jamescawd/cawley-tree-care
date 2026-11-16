@@ -358,6 +358,30 @@ test('structured data lists the business and its services accurately', async ({ 
   expect(JSON.stringify(blocks)).not.toMatch(/aggregateRating|"review"/);
 });
 
+test.describe('call button on every page', () => {
+  // Every public page (the internal style guide is not part of the site).
+  for (const path of PAGES.filter((p) => p !== '/styleguide')) {
+    test(`${path}: Call in the first screen, and the call bar on phones`, async ({
+      page,
+      isMobile,
+    }) => {
+      await page.goto(path);
+      const call = isMobile
+        ? page.locator('.call-strip a[href="tel:+353871199816"]')
+        : page.locator('.site-header__call');
+      await expect(call).toBeInViewport();
+      await expect(call).toHaveAttribute('href', 'tel:+353871199816');
+      const bar = page.getByRole('region', { name: 'Quick contact' });
+      if (isMobile) {
+        await expect(bar.getByRole('link', { name: /call now/i })).toBeVisible();
+        await expect(bar.getByRole('link', { name: /free quote/i })).toBeVisible();
+      } else {
+        await expect(bar).toBeHidden();
+      }
+    });
+  }
+});
+
 test.describe('mobile conversion', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/');
@@ -365,9 +389,14 @@ test.describe('mobile conversion', () => {
 
   test('call and quote are always one tap away on phones', async ({ page, isMobile }) => {
     test.skip(!isMobile, 'Phone layout only');
-    // First screen: the hero's own buttons are visible.
-    await expect(page.locator('.hero__ctas a[href^="tel:"]')).toBeInViewport();
-    await expect(page.locator('.hero__ctas a[href="/#quote-form"]')).toBeInViewport();
+    // First screen: a large Call button under the header, with the quote second.
+    const strip = page.locator('.call-strip');
+    await expect(strip.getByRole('link', { name: /call 087 119 9816/i })).toBeInViewport();
+    await expect(strip.getByRole('link', { name: /call 087/i })).toHaveAttribute(
+      'href',
+      'tel:+353871199816',
+    );
+    await expect(strip.getByRole('link', { name: /free quote/i })).toBeInViewport();
     // Further down, the fixed bar takes over.
     await page.locator('#work').scrollIntoViewIfNeeded();
     const bar = page.getByRole('region', { name: 'Quick contact' });
@@ -376,7 +405,7 @@ test.describe('mobile conversion', () => {
       'href',
       'tel:+353871199816',
     );
-    await expect(bar.getByRole('link', { name: /request a free quote/i })).toHaveAttribute(
+    await expect(bar.getByRole('link', { name: /free quote/i })).toHaveAttribute(
       'href',
       '/#quote-form',
     );

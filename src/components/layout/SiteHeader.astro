@@ -8,6 +8,7 @@
 import Wordmark from '@/components/ui/Wordmark.astro';
 import Button from '@/components/ui/Button.astro';
 import PhoneLink from '@/components/ui/PhoneLink.astro';
+import { provided } from '@/lib/placeholder';
 import { navHref, quoteHref } from '@/config/navigation';
 import { getNavigation } from '@/lib/navigation';
 import { business } from '@/config/business';
@@ -17,6 +18,12 @@ const { quoteLink = quoteHref } = Astro.props as { quoteLink?: string | undefine
 const primaryNav = await getNavigation();
 const serviceLinks = servicePages.map((p) => ({ label: p.navLabel, href: `/${p.slug}` }));
 const current = Astro.url.pathname.replace(/\/$/, '');
+// Call button on every page (in the header from 768px, a strip under the
+// header on phones). Any tel: link is counted as a call conversion by ConsentManager.
+const phone = provided(business.contact.phone);
+const telHref = phone ? `tel:${phone.replace(/[^\d+]/g, '')}` : undefined;
+const phoneIcon =
+  'M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z';
 ---
 
 <header class="site-header surface-dark">
@@ -54,8 +61,15 @@ const current = Astro.url.pathname.replace(/\/$/, '');
     </nav>
 
     <div class="site-header__actions">
-      <PhoneLink class="site-header__phone" />
-      <Button href={quoteLink} class="site-header__quote">
+      {telHref && (
+        <Button href={telHref} class="site-header__call">
+          <svg class="call-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d={phoneIcon} />
+          </svg>
+          Call {business.contact.phoneDisplay}
+        </Button>
+      )}
+      <Button href={quoteLink} variant="secondary" class="site-header__quote">
         Request a free quote
       </Button>
       <button class="menu-toggle" type="button" popovertarget="mobile-menu" aria-label="Open menu">
@@ -111,6 +125,20 @@ const current = Astro.url.pathname.replace(/\/$/, '');
     </div>
   </div>
 </header>
+
+{telHref && (
+  <div class="call-strip surface-dark">
+    <Button href={telHref} size="lg" class="call-strip__call">
+      <svg class="call-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d={phoneIcon} />
+      </svg>
+      Call {business.contact.phoneDisplay}
+    </Button>
+    <Button href={quoteLink} variant="secondary" size="lg" class="call-strip__quote">
+      Free quote
+    </Button>
+  </div>
+)}
 
 <script>
   // Close the mobile menu once an in-page link is chosen.
@@ -306,16 +334,51 @@ const current = Astro.url.pathname.replace(/\/$/, '');
     gap: var(--space-s);
   }
 
-  .site-header__actions :global(.site-header__phone) {
+  .site-header__actions :global(.site-header__call),
+  .site-header__actions :global(.site-header__quote) {
     display: none;
-    font-size: var(--text-sm);
-    font-weight: var(--weight-medium);
-    text-decoration: none;
     white-space: nowrap;
   }
 
-  .site-header__actions :global(.site-header__quote) {
-    display: none;
+  .call-icon {
+    width: 1.1em;
+    height: 1.1em;
+    flex: none;
+    fill: currentColor;
+  }
+
+  .site-header__actions :global(.site-header__call > span),
+  .call-strip :global(.btn > span) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    white-space: nowrap;
+  }
+
+  /* Phones: a full-width Call button under the header (it scrolls away; the
+     bottom call bar takes over). Call is the main button, quote second. */
+  .call-strip {
+    display: flex;
+    gap: var(--space-2xs);
+    padding: var(--space-2xs) var(--gutter);
+    border-block-end: 1px solid var(--color-border);
+  }
+
+  .call-strip :global(.call-strip__call) {
+    flex: 1;
+    min-width: 0;
+    justify-content: center;
+  }
+
+  .call-strip :global(.btn) {
+    padding-inline: 1em;
+  }
+
+  @media (max-width: 23.49em) {
+    .call-strip :global(.btn) {
+      font-size: var(--text-sm);
+      padding-inline: 0.8em;
+    }
   }
 
   .menu-toggle,
@@ -367,20 +430,26 @@ const current = Astro.url.pathname.replace(/\/$/, '');
     }
   }
 
-  @media (min-width: 40em) {
+  @media (min-width: 48em) {
+    .call-strip {
+      display: none;
+    }
+
+    .site-header__actions :global(.site-header__call) {
+      display: inline-flex;
+    }
+  }
+
+  @media (min-width: 64em) {
     .site-header__actions :global(.site-header__quote) {
       display: inline-flex;
     }
   }
 
-  /* Full navigation needs ~1150px alongside the logo, phone and quote button. */
-  @media (min-width: 75em) {
+  /* Full navigation needs ~1340px alongside the logo and the Call and quote buttons. */
+  @media (min-width: 86em) {
     .site-nav {
       display: block;
-    }
-
-    .site-header__actions :global(.site-header__phone) {
-      display: inline;
     }
 
     .menu-toggle {

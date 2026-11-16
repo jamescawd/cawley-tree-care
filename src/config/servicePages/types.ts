@@ -65,7 +65,7 @@ export interface ServicePage {
     eyebrow: string;
     intro: string;
     image: Photo;
-    /** Urgent services: make "Call" the primary hero button. */
+    /** No longer used: every hero now leads with the Call button. */
     callFirst?: boolean;
   };
   overview: Heading & {

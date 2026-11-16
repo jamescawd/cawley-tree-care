@@ -154,11 +154,11 @@ const imgWidths = (w: number) => [400, 640, 800, 960, 1280, 1600].filter((x) => 
       </h1>
       <p class="lead loc-hero__lead">{page.hero.intro}</p>
       <div class="loc-hero__ctas">
-        <Button href={quote} size="lg" arrow>
-          Request a free quote
-        </Button>
-        <Button href={phoneHref} variant="secondary" size="lg">
+        <Button href={phoneHref} size="lg">
           Call {phoneDisplay}
+        </Button>
+        <Button href={quote} variant="secondary" size="lg" arrow>
+          Request a free quote
         </Button>
       </div>
       <a class="loc-hero__wa" href={whatsappHref} target="_blank" rel="noopener">

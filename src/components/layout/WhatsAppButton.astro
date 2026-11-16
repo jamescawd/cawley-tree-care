@@ -75,7 +75,7 @@ const href = `https://wa.me/${whatsapp}?text=${encodeURIComponent(whatsappMessag
     position: fixed;
     z-index: var(--z-header);
     inset-inline-end: var(--gutter);
-    /* Phones and tablets: just above the call/quote bar (61–73px tall). */
+    /* Phones (under 768px): just above the call bar (61–73px tall). */
     inset-block-end: calc(4.75rem + env(safe-area-inset-bottom, 0px) + 0.5rem);
     display: grid;
     place-items: center;
@@ -122,8 +122,8 @@ const href = `https://wa.me/${whatsapp}?text=${encodeURIComponent(whatsappMessag
       visibility 0s linear var(--duration-base);
   }
 
-  /* Desktop: no call/quote bar, so sit in the corner. */
-  @media (min-width: 75em) {
+  /* Tablets and desktop: no call bar, so sit in the corner. */
+  @media (min-width: 48em) {
     .wa-button {
       inset-block-end: 1.5rem;
       inset-inline-end: 1.5rem;
