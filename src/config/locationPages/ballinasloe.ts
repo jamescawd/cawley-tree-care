@@ -1,14 +1,18 @@
 import type { LocationPage } from './types';
 import { pruning, laurel, uprooted, stacked } from './photos';
+import blE1 from '@/assets/images/work/ballinasloe-large-tree-felled-in-lawn.jpg';
+import blE2 from '@/assets/images/work/ballinasloe-stump-cut-low-and-tidy.jpg';
+import blF1 from '@/assets/images/work/ballinasloe-row-of-tall-conifers-by-wall-before.jpg';
+import blF2 from '@/assets/images/work/ballinasloe-conifers-removed-wall-clear.jpg';
+import blBefore from '@/assets/images/work/tall-ivy-covered-trees-before-work.jpg';
+import blAfter from '@/assets/images/work/ivy-covered-trees-reduced-to-main-stems.jpg';
 
 /**
- * Ballinasloe: DRAFT (not in live.json) until the owner supplies a real
- * local job, photo or review.
+ * Ballinasloe: has a genuine local job (see jobsDone).
  *
  * Local notes are kept to what affects tree work: wet ground near the River
  * Suck and shallow-rooted trees. Distance (about 25 km on the M6) to be
- * confirmed by the owner. No council content. No Cawley's job in
- * Ballinasloe is claimed.
+ * confirmed by the owner. No council content.
  */
 export const ballinasloe: LocationPage = {
   slug: 'tree-surgeon-ballinasloe',
@@ -44,7 +48,7 @@ export const ballinasloe: LocationPage = {
 
   services: {
     title: 'What we do',
-    accent: 'in Ballinasloe',
+    accent: 'around Ballinasloe',
     intro: 'The everyday jobs and the awkward ones.',
     items: [
       {
@@ -88,14 +92,73 @@ export const ballinasloe: LocationPage = {
     ],
   },
 
+  // Genuine jobs in and around Ballinasloe (photos supplied and locations
+  // confirmed by the owner, Nov 2026).
   jobsDone: {
     title: 'Jobs done',
     accent: 'around Ballinasloe',
-    intro: 'Real jobs from the town and east Galway will be added here.',
+    intro:
+      'Jobs in and around Ballinasloe, from tall trees cut back from a platform to a row of conifers cleared from a garden.',
     slots: [
-      { title: 'Ballinasloe job to be added', photo: {} },
-      { title: 'Ballinasloe job to be added', photo: {} },
-      { title: 'Ballinasloe job to be added', photo: {} },
+      {
+        title: 'Before: two tall, ivy-covered trees',
+        summary:
+          'Two big trees, their trunks thick with ivy, standing close to a shed and the buildings around it.',
+        photo: {
+          src: blBefore,
+          alt: 'Two tall bare trees with ivy covering their trunks, against a blue sky, before work began.',
+          focus: '50% 45%',
+        },
+      },
+      {
+        title: 'Crowns off, piece by piece',
+        summary:
+          'Working from an access platform, the crowns were cut away in sections, bringing both trees down to their main stems.',
+        photo: {
+          src: blAfter,
+          alt: 'The same two trees with their crowns removed, cut back to their ivy-covered main stems.',
+          focus: '50% 40%',
+        },
+      },
+      {
+        title: 'A large tree felled in a lawn',
+        summary:
+          'A big tree taken down in the middle of an open lawn, with the brash cleared and the grass left tidy.',
+        photo: {
+          src: blE1,
+          alt: 'An open lawn with a cut stump where a large tree stood, with tall trees and conifers behind.',
+          focus: '50% 45%',
+        },
+      },
+      {
+        title: 'The stump cut low',
+        summary: 'The stump cut low and clean, with the area raked over.',
+        photo: {
+          src: blE2,
+          alt: 'A close view of the large, freshly cut stump in the lawn, cut low and level.',
+          focus: '50% 45%',
+        },
+      },
+      {
+        title: 'Before: a row of tall conifers',
+        summary:
+          'A row of tall conifers along the garden wall, blocking the light and towering over the garden.',
+        photo: {
+          src: blF1,
+          alt: 'A row of tall conifers along a garden wall behind a lawn and a shed.',
+          focus: '50% 45%',
+        },
+      },
+      {
+        title: 'After: the wall and garden clear',
+        summary:
+          'The whole row taken down, the stumps cut low and the garden opened up to the light.',
+        photo: {
+          src: blF2,
+          alt: 'The same garden with the conifers gone, the wall clear and the lawn open.',
+          focus: '50% 45%',
+        },
+      },
     ],
   },
 

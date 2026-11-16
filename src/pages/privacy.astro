@@ -10,6 +10,7 @@ import Pending from '@/components/ui/Pending.astro';
 import { business } from '@/config/business';
 import { provided } from '@/lib/placeholder';
 import { tracking, trackingEnabled } from '@/config/tracking';
+import EmailLink from '@/components/ui/EmailLink.astro';
 
 const email = provided(business.contact.email);
 ---
@@ -32,12 +33,7 @@ const email = provided(business.contact.email);
       can contact us by phone on{' '}
       <a href={`tel:${business.contact.phone}`}>{business.contact.phoneDisplay}</a>
       or by email at{' '}
-      {email ? (
-        <a href={`mailto:${email}`}>{email}</a>
-      ) : (
-        <Pending value={business.contact.email} compact />
-      )}
-      .
+      {email ? <EmailLink email={email} /> : <Pending value={business.contact.email} compact />}.
     </p>
 
     <h2>What we collect</h2>

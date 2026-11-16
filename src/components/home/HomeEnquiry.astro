@@ -4,6 +4,7 @@ import EnquiryForm from '@/components/sections/EnquiryForm.astro';
 import TrustList from '@/components/ui/TrustList.astro';
 import { business } from '@/config/business';
 import { isPlaceholder, provided } from '@/lib/placeholder';
+import EmailLink from '@/components/ui/EmailLink.astro';
 
 interface Props {
   /** Service name to pre-select in "Type of work" (service pages). */
@@ -42,7 +43,7 @@ const hours = business.openingHours;
             <div>
               <dt>Email</dt>
               <dd>
-                <a href={`mailto:${email}`}>{email}</a>
+                <EmailLink email={email} />
               </dd>
             </div>
           )}

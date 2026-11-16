@@ -1,14 +1,14 @@
 import type { LocationPage } from './types';
 import { roof, stormBeech, lane, climbing } from './photos';
+import rcBefore from '@/assets/images/work/large-conifer-beside-house-and-road-before.jpg';
+import rcDuring from '@/assets/images/work/large-conifer-being-taken-down-in-stages.jpg';
 
 /**
- * Roscommon Town: DRAFT (not in live.json) until the owner supplies a real
- * local job, photo or review.
+ * Roscommon Town: has genuine local work (see jobsDone).
  *
  * Local notes are kept to what affects tree work: lasting storm damage after
  * Storm Éowyn, Jan 2025 (Roscommon Herald). Distance (about 30 km on the N61)
- * to be confirmed by the owner. No council content. No Cawley's job in
- * Roscommon is claimed.
+ * to be confirmed by the owner. No council content.
  */
 export const roscommon: LocationPage = {
   slug: 'tree-surgeon-roscommon',
@@ -103,14 +103,32 @@ export const roscommon: LocationPage = {
     ],
   },
 
+  // Genuine job in Co. Roscommon (photos supplied and location confirmed by the owner, Nov 2026).
   jobsDone: {
     title: 'Work we have done',
     accent: 'in Roscommon',
-    intro: 'Photos and details of real jobs in and near the town will be added here.',
+    intro: 'A large conifer taken down beside a house and a roadside wall in Co. Roscommon.',
     slots: [
-      { title: 'Roscommon job to be added', photo: {} },
-      { title: 'Roscommon job to be added', photo: {} },
-      { title: 'Roscommon job to be added', photo: {} },
+      {
+        title: 'Before: a big conifer by the road',
+        summary:
+          'A large, dense conifer standing between the house, the drive and a stone wall on the roadside, with an overhead line nearby.',
+        photo: {
+          src: rcBefore,
+          alt: 'A very large conifer beside a house, a stone wall and a country road, before work began.',
+          focus: '50% 40%',
+        },
+      },
+      {
+        title: 'Taken down in stages',
+        summary:
+          'Our climber working down through the tree in sections, keeping everything clear of the house, the wall and the road.',
+        photo: {
+          src: rcDuring,
+          alt: 'The same conifer partly taken down, with much of its crown removed and branches on the ground by the wall.',
+          focus: '50% 40%',
+        },
+      },
     ],
   },
 
