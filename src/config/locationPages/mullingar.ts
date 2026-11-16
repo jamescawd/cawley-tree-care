@@ -1,14 +1,16 @@
 import type { LocationPage } from './types';
 import { dismantling, stormBeech, uprooted, conifer } from './photos';
+import mgCherryBefore from '@/assets/images/work/overgrown-cherry-tree-in-back-garden-before.jpg';
+import mgCherryAfter from '@/assets/images/work/cherry-tree-crown-cut-back.jpg';
+import mgFallen from '@/assets/images/work/fallen-tree-across-garden-path.jpg';
+import mgClear from '@/assets/images/work/garden-path-clear-after-fallen-tree-removed.jpg';
 
 /**
- * Mullingar: DRAFT (not in live.json) until the owner supplies a real local
- * job, photo or review.
+ * Mullingar: has genuine local work (see jobsDone).
  *
  * Local notes are kept to what affects tree work. Sources (checked Nov 2026):
  * Storm Éowyn brought trees down across Mullingar on 24 Jan 2025 (Westmeath
- * Examiner live blog). No council content (owner's instruction). No Cawley's
- * job in Mullingar is claimed.
+ * Examiner live blog). No council content (owner's instruction).
  */
 export const mullingar: LocationPage = {
   slug: 'tree-surgeon-mullingar',
@@ -89,15 +91,53 @@ export const mullingar: LocationPage = {
     ],
   },
 
+  // Genuine jobs in and just outside Mullingar (photos supplied and location confirmed by the owner, Nov 2026).
   jobsDone: {
     title: 'Jobs we have done',
     accent: 'around Mullingar',
     intro:
-      'Photos and a few lines on real jobs in and around the town will go here as we add them.',
+      'A cherry tree cut back in a back garden in Mullingar, and a fallen tree cleared just outside the town.',
     slots: [
-      { title: 'Mullingar job to be added', photo: {} },
-      { title: 'Mullingar job to be added', photo: {} },
-      { title: 'Mullingar job to be added', photo: {} },
+      {
+        title: 'Before: a cherry tree taking over',
+        summary:
+          'A big cherry tree filling the end of a back garden, over the fence, the shed and the gravel area behind.',
+        photo: {
+          src: mgCherryBefore,
+          alt: 'A large, dense cherry tree at the end of a back garden, behind a wooden arch and beside a shed.',
+          focus: '50% 35%',
+        },
+      },
+      {
+        title: 'After: crown cut back',
+        summary:
+          'The crown brought back hard all round, so the tree is a manageable size again and lets the light back into the garden.',
+        photo: {
+          src: mgCherryAfter,
+          alt: 'The same cherry tree with its crown cut back, much smaller and lighter, behind the garden arch.',
+          focus: '50% 35%',
+        },
+      },
+      {
+        title: 'Before: a tree down across the path',
+        summary:
+          'Just outside Mullingar, a tree had come down across the garden and the path beside the house.',
+        photo: {
+          src: mgFallen,
+          alt: 'A fallen tree lying across a lawn and garden path beside a white house.',
+          focus: '50% 50%',
+        },
+      },
+      {
+        title: 'After: path and garden clear',
+        summary:
+          'The tree cut up and cleared away, with the path and lawn left clean and usable again.',
+        photo: {
+          src: mgClear,
+          alt: 'The same garden after the fallen tree was removed, with the path, lawn and bench clear.',
+          focus: '50% 55%',
+        },
+      },
     ],
   },
 
