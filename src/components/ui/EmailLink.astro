@@ -1,0 +1,15 @@
+---
+/**
+ * mailto: link wrapped in Cloudflare's email_off markers. Cloudflare's Email
+ * Obfuscation otherwise rewrites it to /cdn-cgi/l/email-protection, which
+ * Google then reports as a "Not found (404)" page.
+ */
+interface Props {
+  email: string;
+}
+const { email } = Astro.props;
+---
+
+<Fragment set:html="<!--email_off-->" />
+<a href={`mailto:${email}`}>{email}</a>
+<Fragment set:html="<!--/email_off-->" />

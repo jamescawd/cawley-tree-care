@@ -12,6 +12,7 @@ import { getNavigation } from '@/lib/navigation';
 import { provided } from '@/lib/placeholder';
 import { services, serviceHref } from '@/config/services';
 import { serviceAnchor } from '@/config/homeServices';
+import EmailLink from '@/components/ui/EmailLink.astro';
 
 const anchorFor = (id: string) => `/#${serviceAnchor(id)}`;
 
@@ -91,7 +92,7 @@ const primaryNav = await getNavigation();
           </li>
           {email && (
             <li>
-              <a href={`mailto:${email}`}>{email}</a>
+              <EmailLink email={email} />
             </li>
           )}
           <li>{business.locationLine}</li>
