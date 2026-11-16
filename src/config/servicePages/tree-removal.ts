@@ -1,4 +1,20 @@
 import type { ServicePage } from './types';
+import garageBefore from '@/assets/images/work/tree-beside-garage-and-fence-before-removal.jpg';
+import garageAfter from '@/assets/images/work/garden-corner-clear-after-tree-removal.jpg';
+import boundaryBefore from '@/assets/images/work/trees-along-rural-boundary-fence-before.jpg';
+import boundaryAfter from '@/assets/images/work/boundary-opened-up-after-tree-removal.jpg';
+import rowBefore from '@/assets/images/work/ballinasloe-row-of-tall-conifers-by-wall-before.jpg';
+import rowAfter from '@/assets/images/work/ballinasloe-conifers-removed-wall-clear.jpg';
+import tallBefore from '@/assets/images/work/longford-tall-trees-among-conifers-before.jpg';
+import tallAfter from '@/assets/images/work/longford-tall-trees-removed-timber-in-rounds.jpg';
+import pairBefore from '@/assets/images/work/longford-two-conifers-in-back-garden-before.jpg';
+import pairAfter from '@/assets/images/work/longford-taller-conifer-removed-one-kept.jpg';
+import cornerBefore from '@/assets/images/work/longford-tall-conifer-in-garden-before.jpg';
+import cornerAfter from '@/assets/images/work/longford-conifer-down-logs-stacked.jpg';
+import houseBefore from '@/assets/images/work/longford-climber-in-tall-tree-beside-house.jpg';
+import houseAfter from '@/assets/images/work/longford-tall-tree-gone-garden-clear.jpg';
+import fallenBefore from '@/assets/images/work/fallen-tree-across-garden-path.jpg';
+import fallenAfter from '@/assets/images/work/garden-path-clear-after-fallen-tree-removed.jpg';
 import dismantling from '@/assets/images/work/sectional-dismantling-beside-building.jpg';
 import before from '@/assets/images/work/mature-tree-before-removal.jpg';
 import reduced from '@/assets/images/work/mature-tree-reduced-to-trunk.jpg';
@@ -112,6 +128,114 @@ export const treeRemoval: ServicePage = {
         alt: 'A garden after tree removal: lawn clear, logs stacked by a pond and the seating area tidy under a blue sky.',
         caption: 'The garden left clear after removal',
         focus: '50% 70%',
+      },
+    ],
+  },
+
+  beforeAfter: {
+    pairs: [
+      {
+        title: 'Tree tight against a garage and fence',
+        summary:
+          'Taken down without touching the garage roof or the new fence beside it, and the corner left clear.',
+        before: {
+          src: garageBefore,
+          alt: 'A tall bare tree in the corner of a back garden, beside a white garage and a new timber fence, with houses behind.',
+        },
+        after: {
+          src: garageAfter,
+          alt: 'The same corner of the garden after the tree was removed, clear beside the garage and the timber fence.',
+        },
+      },
+      {
+        title: 'Boundary trees beside a lane',
+        summary:
+          'A line of tall trees along a boundary fence taken out, opening the garden up to the fields.',
+        before: {
+          src: boundaryBefore,
+          alt: 'Tall bare trees growing along a black timber boundary fence beside a lawn and a lane, before the work.',
+        },
+        after: {
+          src: boundaryAfter,
+          alt: 'The same corner of the garden after the trees were removed, open to the fields beyond.',
+        },
+      },
+      {
+        title: 'A row of tall conifers along a wall',
+        summary: 'The whole row removed, leaving the wall clear and the lawn open to the light.',
+        before: {
+          src: rowBefore,
+          alt: 'A row of tall conifers along a garden wall behind a lawn and a shed.',
+        },
+        after: {
+          src: rowAfter,
+          alt: 'The same garden with the conifers gone, the wall clear and the lawn open.',
+        },
+      },
+      {
+        title: 'Tall trees among the conifers',
+        summary:
+          'The tall trees taken down and the timber cut into rounds, with the conifers around them left standing.',
+        before: {
+          src: tallBefore,
+          alt: 'Tall broadleaf trees standing among dark conifers at the edge of a sunny lawn.',
+        },
+        after: {
+          src: tallAfter,
+          alt: 'The same edge of the garden with the tall trees gone and cut timber stacked in rounds on the ground.',
+        },
+      },
+      {
+        title: 'One conifer removed, one kept',
+        summary:
+          'The taller conifer taken out and the rounded one beside the path kept, as the owner wanted.',
+        before: {
+          src: pairBefore,
+          alt: 'Two large conifers in a back garden beside a stepping-stone path, with a climber getting ready below.',
+        },
+        after: {
+          src: pairAfter,
+          alt: 'The same garden with the taller conifer gone and the rounded conifer kept beside the path.',
+        },
+      },
+      {
+        title: 'A tall conifer in the corner',
+        summary:
+          'Taken down beside the fence, with the timber cut into logs and stacked on the lawn.',
+        before: {
+          src: cornerBefore,
+          alt: 'A tall, dense conifer in the corner of a back garden beside a timber fence.',
+        },
+        after: {
+          src: cornerAfter,
+          alt: 'A neat stack of cut logs on a lawn, with the corner of the garden now clear.',
+        },
+      },
+      {
+        title: 'A tall tree beside a house',
+        summary:
+          'Climbed and taken down piece by piece right beside the house, without harming the shrubs and flower beds below.',
+        before: {
+          src: houseBefore,
+          label: 'During',
+          alt: 'A climber in orange high in a tall tree beside a house, above a garden full of shrubs and flowers.',
+        },
+        after: {
+          src: houseAfter,
+          alt: 'The same garden corner after the tall tree was removed, with the shrubs and flowers left in place.',
+        },
+      },
+      {
+        title: 'A fallen tree across the garden',
+        summary: 'A tree brought down across the lawn and path cut up and cleared away.',
+        before: {
+          src: fallenBefore,
+          alt: 'A fallen tree lying across a lawn and garden path beside a white house.',
+        },
+        after: {
+          src: fallenAfter,
+          alt: 'The same garden after the fallen tree was removed, with the path, lawn and bench clear.',
+        },
       },
     ],
   },
