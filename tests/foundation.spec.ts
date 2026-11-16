@@ -262,9 +262,11 @@ test('before/after slots show "photo to come" frames until photos are added', as
   // incomplete pairs (checked by building with ALLOW_INDEXING=true).
   // [page, pairs shown, empty frames still waiting for photos]
   for (const [path, pairs, empty] of [
-    ['/landscaping', 4, 6],
+    ['/landscaping', 12, 6],
     ['/fencing', 4, 2],
     ['/artificial-grass', 5, 0],
+    ['/tree-removal', 8, 0],
+    ['/tree-surgery', 6, 0],
   ] as const) {
     await page.goto(path);
     await expect(page.locator('.svc-ba__pair')).toHaveCount(pairs);

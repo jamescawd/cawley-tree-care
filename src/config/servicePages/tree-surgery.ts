@@ -1,4 +1,16 @@
 import type { ServicePage } from './types';
+import cherryBefore from '@/assets/images/work/overgrown-cherry-tree-in-back-garden-before.jpg';
+import cherryAfter from '@/assets/images/work/cherry-tree-crown-cut-back.jpg';
+import ivyBefore from '@/assets/images/work/tall-ivy-covered-trees-before-work.jpg';
+import ivyAfter from '@/assets/images/work/ivy-covered-trees-reduced-to-main-stems.jpg';
+import garageTree from '@/assets/images/work/large-ivy-covered-tree-beside-garage-before.jpg';
+import platform from '@/assets/images/work/crown-reduced-from-access-platform.jpg';
+import cypressBefore from '@/assets/images/work/wind-bent-cypress-over-mobile-home-before.jpg';
+import cypressAfter from '@/assets/images/work/cypress-cut-back-to-low-stems.jpg';
+import coniferBefore from '@/assets/images/work/large-conifer-beside-house-and-road-before.jpg';
+import coniferDuring from '@/assets/images/work/large-conifer-being-taken-down-in-stages.jpg';
+import spruceStart from '@/assets/images/work/climber-starting-in-tall-spruce.jpg';
+import spruceLast from '@/assets/images/work/last-section-of-spruce-stem-above-houses.jpg';
 import cutting from '@/assets/images/work/arborist-cutting-trunk-section.jpg';
 import pruning from '@/assets/images/work/arborist-pruning-at-height.jpg';
 import dismantling from '@/assets/images/work/sectional-dismantling-beside-building.jpg';
@@ -113,6 +125,90 @@ export const treeSurgery: ServicePage = {
         alt: 'A climber high in a large mature tree beside a stone wall, with a ground worker below.',
         caption: 'Climbing a mature tree beside a stone wall',
         focus: '50% 35%',
+      },
+    ],
+  },
+
+  beforeAfter: {
+    pairs: [
+      {
+        title: 'Cherry tree cut back',
+        summary:
+          'A dense cherry tree that had taken over the end of the garden, its crown cut back so it is smaller and lighter.',
+        before: {
+          src: cherryBefore,
+          alt: 'A large, dense cherry tree at the end of a back garden, behind a wooden arch and beside a shed.',
+        },
+        after: {
+          src: cherryAfter,
+          alt: 'The same cherry tree with its crown cut back, much smaller and lighter, behind the garden arch.',
+        },
+      },
+      {
+        title: 'Ivy-covered trees cut back',
+        summary:
+          'Two tall trees with heavy ivy had their crowns taken off piece by piece, back to the main stems.',
+        before: {
+          src: ivyBefore,
+          alt: 'Two tall bare trees with ivy covering their trunks, against a blue sky, before work began.',
+        },
+        after: {
+          src: ivyAfter,
+          alt: 'The same two trees with their crowns removed, cut back to their ivy-covered main stems.',
+        },
+      },
+      {
+        title: 'Large tree beside a garage',
+        summary: 'The crown taken down from an access platform, clear of the garage and fence.',
+        before: {
+          src: garageTree,
+          alt: 'A large mature tree with ivy on its trunk standing beside a timber garage and a fence, before work started.',
+        },
+        after: {
+          src: platform,
+          label: 'During',
+          alt: 'An arborist in the basket of an access platform cutting back the bare limbs of the large tree.',
+        },
+      },
+      {
+        title: 'Wind-bent cypress over a mobile home',
+        summary: 'Cut back a piece at a time so nothing fell on the home, leaving low, safe stems.',
+        before: {
+          src: cypressBefore,
+          alt: 'Tall wind-bent cypress trees leaning over the side of a mobile home, before the work.',
+        },
+        after: {
+          src: cypressAfter,
+          alt: 'The cypress cut down to low stumps beside a stone wall, with the mobile home and overhead lines clear.',
+        },
+      },
+      {
+        title: 'Big conifer by a house and road',
+        summary: 'Taken down in stages, with the wall, house and road kept clear throughout.',
+        before: {
+          src: coniferBefore,
+          alt: 'A very large conifer beside a house, a stone wall and a country road, before work began.',
+        },
+        after: {
+          src: coniferDuring,
+          label: 'During',
+          alt: 'The same conifer partly taken down, with much of its crown removed and branches on the ground by the wall.',
+        },
+      },
+      {
+        title: 'Tall spruce between houses',
+        summary:
+          'Climbed, limbed to the top and taken down in sections above the neighbouring roofs.',
+        before: {
+          src: spruceStart,
+          label: 'Start',
+          alt: 'A climber in a harness and helmet starting work in the lower branches of a tall spruce in a back garden.',
+        },
+        after: {
+          src: spruceLast,
+          label: 'Last section',
+          alt: 'The climber at the top of the bare spruce stem, high above the roofs of the surrounding houses.',
+        },
       },
     ],
   },
