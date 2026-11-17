@@ -14,6 +14,7 @@ const TRACKING_ENV = [
   'PUBLIC_GOOGLE_ADS_QUOTE=quoteLabel01',
   'PUBLIC_GOOGLE_ADS_CALL=callLabel01',
   'PUBLIC_META_PIXEL_ID=1234567890123456',
+  'PUBLIC_CLARITY_ID=testclar01',
 ].join(' ');
 
 export default defineConfig({
