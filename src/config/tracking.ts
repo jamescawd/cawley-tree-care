@@ -11,10 +11,15 @@
  *   PUBLIC_GOOGLE_ADS_QUOTE    Conversion label for a sent quote request
  *   PUBLIC_GOOGLE_ADS_CALL     Conversion label for a phone-number tap
  *   PUBLIC_META_PIXEL_ID       Meta (Facebook/Instagram) Pixel ID, e.g. 123456789012345
+ *   PUBLIC_CLARITY_ID          Microsoft Clarity project ID, e.g. abcd1234ef. On the
+ *                              live site (ALLOW_INDEXING=true) it defaults to the
+ *                              business's project, zezjg6ulrt; previews get none.
  *
  * Nothing non-essential loads before the visitor chooses in the consent
  * banner (src/components/consent/ConsentManager.astro).
  */
+
+import { site } from './site';
 
 const env = import.meta.env as Record<string, string | undefined>;
 
@@ -40,10 +45,14 @@ export const tracking = {
       }
     : undefined,
   metaPixelId: read('PUBLIC_META_PIXEL_ID', /^\d{10,20}$/, '123456789012345'),
+  /** Microsoft Clarity (heatmaps and session recordings). Counts as Analytics. */
+  clarityId:
+    read('PUBLIC_CLARITY_ID', /^[a-z0-9]{8,14}$/, 'abcd1234ef') ??
+    (site.allowIndexing ? 'zezjg6ulrt' : undefined),
 };
 
-/** Analytics: GA4. Marketing: Google Ads and Meta Pixel. */
-export const hasAnalytics = Boolean(tracking.ga4Id);
+/** Analytics: GA4 and Microsoft Clarity. Marketing: Google Ads and Meta Pixel. */
+export const hasAnalytics = Boolean(tracking.ga4Id || tracking.clarityId);
 export const hasMarketing = Boolean(tracking.googleAds || tracking.metaPixelId);
 /** True when any non-essential tracking is configured, so consent is needed. */
 export const trackingEnabled = hasAnalytics || hasMarketing;

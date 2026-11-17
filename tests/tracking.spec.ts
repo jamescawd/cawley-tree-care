@@ -8,16 +8,17 @@ import AxeBuilder from '@axe-core/playwright';
  * site makes are read from window.dataLayer and the fbq queue.
  */
 
-type Calls = { google: string[]; meta: string[]; other: string[] };
+type Calls = { google: string[]; meta: string[]; clarity: string[]; other: string[] };
 
 async function stubThirdParties(page: Page, baseURL: string): Promise<Calls> {
-  const calls: Calls = { google: [], meta: [], other: [] };
+  const calls: Calls = { google: [], meta: [], clarity: [], other: [] };
   await page.route(
     (url) => !url.href.startsWith(baseURL),
     async (route) => {
       const url = route.request().url();
       if (url.includes('googletagmanager.com')) calls.google.push(url);
       else if (url.includes('connect.facebook.net')) calls.meta.push(url);
+      else if (url.includes('clarity.ms')) calls.clarity.push(url);
       else calls.other.push(url);
       await route.fulfill({ status: 200, contentType: 'text/javascript', body: '' });
     },
@@ -40,6 +41,16 @@ const gtagCalls = (page: Page) =>
 const fbqCalls = (page: Page) =>
   page.evaluate(() => (window as unknown as { fbq?: { queue?: unknown[][] } }).fbq?.queue ?? []);
 
+/** Calls queued for Microsoft Clarity, e.g. ['consentv2', {...}]. */
+const clarityCalls = (page: Page) =>
+  page.evaluate(() =>
+    ((window as unknown as { clarity?: { q?: unknown[] } }).clarity?.q ?? []).map((a) =>
+      Array.from(a as ArrayLike<unknown>),
+    ),
+  );
+const CLARITY_TAG = 'https://www.clarity.ms/tag/testclar01';
+const CLARITY_GRANTED = ['consentv2', { ad_Storage: 'denied', analytics_Storage: 'granted' }];
+
 const banner = (page: Page) => page.getByRole('region', { name: 'Cookie consent' });
 
 test.describe('cookie consent', () => {
@@ -52,6 +63,8 @@ test.describe('cookie consent', () => {
     await page.waitForLoadState('networkidle');
     expect(calls.google).toEqual([]);
     expect(calls.meta).toEqual([]);
+    expect(calls.clarity).toEqual([]);
+    expect(await clarityCalls(page)).toEqual([]);
     expect(await page.context().cookies()).toEqual([]);
   });
 
@@ -96,7 +109,9 @@ test.describe('cookie consent', () => {
     await page.waitForLoadState('networkidle');
     expect(calls.google).toEqual([]);
     expect(calls.meta).toEqual([]);
+    expect(calls.clarity).toEqual([]);
     expect(await gtagCalls(page)).toEqual([]);
+    expect(await clarityCalls(page)).toEqual([]);
   });
 
   test('accept all: Google and Meta load with consent granted', async ({ page, baseURL }) => {
@@ -120,10 +135,13 @@ test.describe('cookie consent', () => {
     expect(g).toContainEqual(['config', 'G-TEST000001']);
     expect(g).toContainEqual(['config', 'AW-123456789']);
     expect(await fbqCalls(page)).toContainEqual(['init', '1234567890123456']);
+    expect(calls.clarity).toEqual([CLARITY_TAG]);
+    expect(await clarityCalls(page)).toContainEqual(CLARITY_GRANTED);
     // Remembered on the next page, without asking again.
     await page.goto('/tree-removal');
     await expect(banner(page)).toBeHidden();
     await expect.poll(() => calls.google.length).toBe(2);
+    await expect.poll(() => calls.clarity.length).toBe(2);
   });
 
   test('analytics only: GA4 loads, advertising does not', async ({ page, baseURL }) => {
@@ -139,6 +157,8 @@ test.describe('cookie consent', () => {
     expect(g).toContainEqual(['config', 'G-TEST000001']);
     expect(g).not.toContainEqual(['config', 'AW-123456789']);
     expect(calls.meta).toEqual([]);
+    await expect.poll(() => calls.clarity.length).toBe(1);
+    expect(await clarityCalls(page)).toContainEqual(CLARITY_GRANTED);
     await page.locator('a[href^="tel:"]').first().dispatchEvent('click');
     const after = await gtagCalls(page);
     expect(after.some((c) => c[0] === 'event' && c[1] === 'click_to_call')).toBe(true);
@@ -202,7 +222,52 @@ test.describe('cookie consent', () => {
     await expect(banner(page)).toBeHidden();
     await page.waitForLoadState('networkidle');
     expect(calls.google.length).toBe(1); // nothing new after withdrawing
+    expect(calls.clarity.length).toBe(1);
     expect(await gtagCalls(page)).toEqual([]);
+    expect(await clarityCalls(page)).toEqual([]);
+  });
+
+  test('marketing only: Microsoft Clarity does not load', async ({ page, baseURL }) => {
+    const calls = await stubThirdParties(page, baseURL!);
+    await page.goto('/');
+    await banner(page).getByRole('button', { name: 'Cookie settings' }).click();
+    const dialog = page.getByRole('dialog', { name: 'Cookie settings' });
+    await dialog.getByRole('checkbox', { name: /Marketing/ }).check();
+    await page.getByRole('button', { name: 'Save my choices' }).click();
+    await expect.poll(() => calls.google.length).toBe(1);
+    await page.waitForLoadState('networkidle');
+    expect(calls.clarity).toEqual([]);
+    expect(await clarityCalls(page)).toEqual([]);
+  });
+
+  test('turning Analytics off later tells Clarity and stops it', async ({ page, baseURL }) => {
+    const calls = await stubThirdParties(page, baseURL!);
+    await page.goto('/');
+    await banner(page).getByRole('button', { name: 'Accept all' }).click();
+    await expect.poll(() => calls.clarity.length).toBe(1);
+    await page.locator('footer').getByRole('button', { name: 'Cookie settings' }).click();
+    const dialog = page.getByRole('dialog', { name: 'Cookie settings' });
+    await expect(dialog.getByRole('checkbox', { name: /Analytics/ })).toBeChecked();
+    // Record what Clarity is told before the page reloads.
+    await page.evaluate(() => {
+      const q = (window as unknown as { clarity: { q: unknown[] } }).clarity.q;
+      const push = q.push.bind(q);
+      q.push = (...items: unknown[]) => {
+        sessionStorage.setItem('clarity-last', JSON.stringify(Array.from(items[0] as never)));
+        return push(...items);
+      };
+    });
+    await dialog.getByRole('checkbox', { name: /Analytics/ }).uncheck();
+    await Promise.all([
+      page.waitForEvent('load'),
+      page.getByRole('button', { name: 'Save my choices' }).click(),
+    ]);
+    expect(
+      JSON.parse((await page.evaluate(() => sessionStorage.getItem('clarity-last')))!),
+    ).toEqual(['consentv2', { ad_Storage: 'denied', analytics_Storage: 'denied' }]);
+    await page.waitForLoadState('networkidle');
+    expect(calls.clarity.length).toBe(1); // not loaded again
+    expect(await clarityCalls(page)).toEqual([]);
   });
 
   test('the bar is slim and never covers the Call / Quote bar', async ({ page }, info) => {
@@ -264,6 +329,8 @@ test.describe('cookie consent', () => {
     await expect.poll(() => calls.google.length).toBe(1);
     expect(await gtagCalls(page)).not.toContainEqual(['config', 'AW-123456789']);
     expect(calls.meta).toEqual([]);
+    // Clarity was added after that choice, so it waits for a new one.
+    expect(calls.clarity).toEqual([]);
     // Accepting loads advertising too, and the bar stays away afterwards.
     await Promise.all([
       page.waitForEvent('load'),
@@ -271,6 +338,7 @@ test.describe('cookie consent', () => {
     ]);
     await expect(banner(page)).toBeHidden();
     await expect.poll(() => calls.meta.length).toBe(1);
+    await expect.poll(() => calls.clarity.length).toBe(1);
     expect(await gtagCalls(page)).toContainEqual(['config', 'AW-123456789']);
     await page.goto('/tree-removal');
     await expect(banner(page)).toBeHidden();
@@ -283,7 +351,38 @@ test.describe('cookie consent', () => {
     await expect(banner(page)).toBeHidden();
   });
 
-  test('no third parties other than Google and Meta are contacted', async ({ page, baseURL }) => {
+  test('an earlier Analytics choice does not switch Clarity on', async ({ page, baseURL }) => {
+    const calls = await stubThirdParties(page, baseURL!);
+    // Everything accepted before Clarity was added (no `tools` list).
+    await page.addInitScript(() => {
+      if (!sessionStorage.getItem('seeded')) {
+        localStorage.setItem(
+          'cawley-consent',
+          JSON.stringify({
+            v: 1,
+            analytics: true,
+            marketing: true,
+            ts: Date.now(),
+            asked: ['analytics', 'marketing'],
+          }),
+        );
+        sessionStorage.setItem('seeded', '1');
+      }
+    });
+    await page.goto('/');
+    await expect(banner(page)).toBeVisible();
+    await expect.poll(() => calls.google.length).toBe(1);
+    expect(calls.clarity).toEqual([]);
+    // Accepting again turns Clarity on, without a reload.
+    await banner(page).getByRole('button', { name: 'Accept all' }).click();
+    await expect.poll(() => calls.clarity.length).toBe(1);
+    expect(await clarityCalls(page)).toContainEqual(CLARITY_GRANTED);
+  });
+
+  test('no third parties other than Google, Meta and Clarity are contacted', async ({
+    page,
+    baseURL,
+  }) => {
     const calls = await stubThirdParties(page, baseURL!);
     await page.goto('/');
     await banner(page).getByRole('button', { name: 'Accept all' }).click();

@@ -78,6 +78,14 @@ const email = provided(business.contact.email);
               are visited and how the website is used. Cookies: _ga, _ga_*. Kept for up to 2 years.
             </li>
           )}
+          {tracking.clarityId && (
+            <li>
+              <strong>Analytics (Microsoft Clarity, Microsoft Ireland Operations Ltd):</strong>{' '}
+              shows how pages are used, through heatmaps and recordings of clicks, scrolling and
+              mouse movement, so we can make the website easier to use. Anything typed into forms is
+              masked and not recorded. Cookies: _clck (up to 1 year) and _clsk (1 day).
+            </li>
+          )}
           {tracking.googleAds && (
             <li>
               <strong>Marketing (Google Ads, Google Ireland Ltd):</strong> tells us whether our
