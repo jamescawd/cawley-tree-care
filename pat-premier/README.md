@@ -87,6 +87,26 @@ switches from "coming soon" to a review grid automatically.
 **Fill a pending detail.** Set it in `src/config/business.ts` (e.g. `established`,
 `credentials`, `social`, `reviewLink`) and remove it from `docs/CONTENT-NEEDED.md`.
 
+## Preview link (Cloudflare Pages)
+
+Create a separate Pages project from this repository: Workers & Pages →
+Create → Pages → Connect to Git → `jamescawd/cawley-tree-care`, then:
+
+| Setting                | Value              |
+| ---------------------- | ------------------ |
+| Project name           | `pat-premier`      |
+| Production branch      | `main`             |
+| Framework preset       | Astro              |
+| Build command          | `pnpm build`       |
+| Build output directory | `dist`             |
+| Root directory         | `pat-premier`      |
+| Build watch paths      | include `pat-premier/*` |
+
+Every branch push then gets a preview address such as
+`https://<branch>.pat-premier.pages.dev`. Previews stay out of Google (noindex,
+robots.txt Disallow) because `ALLOW_INDEXING` is not set. The quote form runs
+through `functions/api/quote.ts` on Pages.
+
 ## Deployment (when approved)
 
 Designed for Cloudflare Workers with static assets (`wrangler.jsonc`), like the
