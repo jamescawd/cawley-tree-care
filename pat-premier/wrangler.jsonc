@@ -2,7 +2,7 @@
 // Build: `pnpm build` → static site in ./dist. worker/index.ts handles
 // POST /api/quote; every other request is a static file.
 {
-  "name": "pat-premier-roofing",
+  "name": "pat-premier",
   "main": "worker/index.ts",
   "compatibility_date": "2026-10-01",
   "assets": {
