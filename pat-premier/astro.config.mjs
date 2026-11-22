@@ -20,7 +20,11 @@ const FONTS = {
 export default defineConfig({
   site: SITE_URL,
   trailingSlash: 'never',
-  build: { format: 'file' },
+  build: {
+    format: 'file',
+    // Inline the (single, small) stylesheet: no render-blocking CSS request.
+    inlineStylesheets: 'always',
+  },
 
   // Self-hosted variable fonts (no third-party requests).
   //   Archivo (width + weight axes): display headings
@@ -50,9 +54,9 @@ export default defineConfig({
       options: {
         variants: [
           {
-            src: [`${FONTS.body}/instrument-sans-latin-wdth-normal.woff2`],
+            // Weight-only file (body text never changes width): 30 KB not 57 KB.
+            src: [`${FONTS.body}/instrument-sans-latin-wght-normal.woff2`],
             weight: '400 700',
-            stretch: '75% 100%',
             style: 'normal',
           },
         ],

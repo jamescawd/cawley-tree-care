@@ -1,0 +1,23 @@
+---
+import CategoryHub from '@/components/service/CategoryHub.astro';
+import { interiorServices } from '@/data/services';
+---
+
+<CategoryHub
+  category="interiors"
+  metaTitle="Interior Work | Media Walls, Flooring & Knock-Throughs | Pat Premier"
+  description="Interior work by Pat Premier: built-in media walls, hardwood and laminate flooring, and knock-throughs for open-plan living, across Leinster, Munster and the Midlands."
+  eyebrow="Interiors"
+  title="Interiors, finished to the same standard"
+  intro="Media walls, hardwood and laminate flooring, and knock-throughs that open up your home, by the same team that builds and roofs."
+  image="mediaWallBoarded"
+  images={['mediaWallFrame', 'mediaWallBoarded', 'laminateFlooring']}
+  statement="The care we put into a roof goes into every room too. We open up walls, build media walls and lay floors, so the inside of your home is finished as well as the outside."
+  services={interiorServices}
+  landing={['building-contractors-leinster', 'building-contractors-munster']}
+  faqs={[
+    { q: 'What interior work do you do?', a: 'Media walls, hardwood and laminate flooring, knock-throughs and wall openings, and interior plastering.' },
+    { q: 'Can you do a whole room at once?', a: 'Yes. A knock-through, media wall and new floor can all be done as one project.' },
+    { q: 'Do you give free quotations for interior work?', a: 'Yes. Call 087 365 4209 or request a quote online.' },
+  ]}
+/>

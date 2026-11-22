@@ -21,7 +21,7 @@ const { title, description, image, noindex = false, schema = [], type = 'website
 const site = Astro.site ?? new URL('http://localhost:4321');
 const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', site).href;
 const fullTitle = pageTitle(title);
-const og = await getImage({ src: image ?? getMedia('heroHouse').src, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const og = await getImage({ src: image ?? getMedia('slateReroof').src, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
 const ogUrl = new URL(og.src, site).href;
 const robots = ALLOW_INDEXING && !noindex ? 'index, follow, max-image-preview:large' : 'noindex, nofollow';
 const ld = [organisationSchema(site), ...schema];

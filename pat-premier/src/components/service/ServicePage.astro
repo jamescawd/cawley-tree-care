@@ -19,13 +19,13 @@ interface Props {
 }
 const { service: s } = Astro.props;
 const site = Astro.site ?? new URL('http://localhost:4321');
-const catName = s.category === 'roofing' ? 'Roofing' : 'Building';
+const catName = { roofing: 'Roofing', building: 'Building', interiors: 'Interiors' }[s.category];
 const trail = [
   { name: 'Home', href: '/' },
   { name: catName, href: `/${s.category}` },
   { name: s.name, href: serviceUrl(s) },
 ];
-const quoteHref = `/contact?service=${encodeURIComponent(s.name)}#quote`;
+const quoteHref = `/quote?service=${encodeURIComponent(s.name)}`;
 const flip = ['split', 'offset'].includes(s.hero.layout);
 ---
 

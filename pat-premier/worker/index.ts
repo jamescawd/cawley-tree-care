@@ -62,6 +62,8 @@ async function handleQuote(request: Request, env: Env, url: URL): Promise<Respon
   const location = clean(form.get('location'), 120);
   const service = clean(form.get('service'), 120);
   const message = clean(form.get('message'), 5000);
+  const propertyType = clean(form.get('propertyType'), 60);
+  const timescale = clean(form.get('timescale'), 60);
   if (!name || !phone || !email || !location || !service || !message) return redirect(url, '/enquiry-error');
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return redirect(url, '/enquiry-error');
 
@@ -86,6 +88,8 @@ async function handleQuote(request: Request, env: Env, url: URL): Promise<Respon
     ['Email', email],
     ['Location', location],
     ['Service', service],
+    ['Property', propertyType || 'Not given'],
+    ['Timescale', timescale || 'Not given'],
   ];
   const html = `<h2>New quote request</h2><table cellpadding="6">${rows
     .map(([k, v]) => `<tr><th align="left">${k}</th><td>${escapeHtml(v!)}</td></tr>`)

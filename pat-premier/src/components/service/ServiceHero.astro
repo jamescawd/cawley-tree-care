@@ -18,12 +18,15 @@ interface Props {
   title: string;
   intro: string;
   image: MediaKey;
+  /** For 'framed': up to three photos shown side by side. */
+  images?: MediaKey[] | undefined;
   trail: { name: string; href: string }[];
   quoteHref: string;
   /** Hide the call button (e.g. on the contact page). */
   hideCall?: boolean;
 }
-const { layout, eyebrow, title, intro, image, trail, quoteHref, hideCall = false } = Astro.props;
+const { layout, eyebrow, title, intro, image, images, trail, quoteHref, hideCall = false } = Astro.props;
+const trio = (images?.length ? images : [image]).slice(0, 3);
 ---
 
 {
@@ -89,9 +92,18 @@ const { layout, eyebrow, title, intro, image, trail, quoteHref, hideCall = false
           </div>
         </div>
       </div>
-      <div class="wrap mt-12 lg:mt-16">
-        <Photo media={image} eager class="aspect-[4/3] sm:aspect-[16/8] lg:aspect-[21/9]" sizes="(min-width: 90rem) 86rem, 100vw" />
+      <div class="wrap mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:mt-16">
+        {trio.map((key, i) => (
+          <Photo
+            media={key}
+            eager={i === 0}
+            class:list={['aspect-[4/5]', i === 0 && 'col-span-2 sm:col-span-1', i === 1 && 'sm:translate-y-10']}
+            sizes="(min-width: 40rem) 30vw, (min-width: 0px) 50vw"
+            widths={[400, 600, 900, 1200]}
+          />
+        ))}
       </div>
+      <div class="h-10 max-sm:hidden" aria-hidden="true" />
     </section>
   )
 }
@@ -115,8 +127,8 @@ const { layout, eyebrow, title, intro, image, trail, quoteHref, hideCall = false
           </div>
         </div>
       </div>
-      <div class="wrap -mt-16 lg:absolute lg:inset-x-0 lg:bottom-[-6rem] lg:mt-0 lg:grid lg:grid-cols-12">
-        <Photo media={image} eager class="aspect-[4/3] lg:col-span-5 lg:col-start-8 lg:aspect-[4/5]" sizes="(min-width: 64rem) 38vw, 100vw" />
+      <div class="wrap -mt-16 lg:pointer-events-none lg:absolute lg:inset-x-0 lg:bottom-[-6rem] lg:mt-0 lg:grid lg:grid-cols-12">
+        <Photo media={image} eager class="aspect-[4/3] lg:pointer-events-auto lg:col-span-5 lg:col-start-8 lg:aspect-[4/5]" sizes="(min-width: 64rem) 38vw, 100vw" />
       </div>
       <div class="hidden lg:block lg:h-24" aria-hidden="true" />
     </section>

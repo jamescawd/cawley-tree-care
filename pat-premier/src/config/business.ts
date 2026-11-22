@@ -42,10 +42,13 @@ export const business = {
   established: null as null | number,
   /** Insurance, memberships, qualifications (not supplied). */
   credentials: [] as string[],
-  /** Social profiles: icons appear on the artwork, but no links were supplied. */
+  /** Owner (confirmed: Pat, who posts the company's videos on TikTok). */
+  owner: 'Pat',
+  /** Social profiles (supplied by the business). Most job videos are posted here. */
   social: {
-    facebook: null as string | null,
-    tiktok: null as string | null,
+    facebook: 'https://www.facebook.com/share/1AYy9uFgGR/' as string | null,
+    tiktok: 'https://www.tiktok.com/@premier.roofing.b' as string | null,
+    tiktokHandle: '@premier.roofing.b',
     /** WhatsApp is not confirmed for 087 365 4209, so no WhatsApp link yet. */
     whatsapp: null as string | null,
   },

@@ -92,8 +92,8 @@ export const landingPages: LandingPage[] = [
     title: 'Roofing contractors covering all of Leinster',
     intro:
       'From the Dublin commuter belt to the Wexford coast, Pat Premier repairs, restores and replaces roofs on homes and commercial buildings in every county of Leinster.',
-    image: 'brickHouseTiled',
-    secondaryImage: 'rooftopsStreet',
+    image: 'tiledRoofBefore',
+    secondaryImage: 'extensionFlatRoofFascia',
     counties: leinsterCounties,
     context: {
       heading: 'Roofing across Leinster',
@@ -135,8 +135,8 @@ export const landingPages: LandingPage[] = [
     title: 'Roofing contractors covering all of Munster',
     intro:
       'Munster’s roofs face the full force of the Atlantic. Pat Premier repairs, restores and replaces roofs on homes and commercial buildings across Cork, Kerry, Clare, Limerick, Tipperary and Waterford.',
-    image: 'slateHouseSunset',
-    secondaryImage: 'rooferRidge',
+    image: 'flatRoofFinished',
+    secondaryImage: 'rooferStrippingTiles',
     counties: munsterCounties,
     context: {
       heading: 'Roofing across Munster',
@@ -178,8 +178,8 @@ export const landingPages: LandingPage[] = [
     title: 'Roofing contractors in the heart of the Midlands',
     intro:
       'Bungalows, farmhouses, town homes and commercial buildings: Pat Premier carries out roofing work across Westmeath, Offaly, Laois, Longford and the surrounding Midlands.',
-    image: 'greyRoofStone',
-    secondaryImage: 'whiteHouseGreyRoof',
+    image: 'reroofMembraneChimney',
+    secondaryImage: 'fasciaFitting',
     counties: midlandsCounties,
     context: {
       heading: 'Roofing across the Midlands',
@@ -217,8 +217,8 @@ export const landingPages: LandingPage[] = [
     title: 'Building contractors covering all of Leinster',
     intro:
       'Extensions, renovations and general building work across Dublin, the commuter counties and the rest of Leinster, with roofing handled by the same company.',
-    image: 'extensionGlazed',
-    secondaryImage: 'kitchen',
+    image: 'extensionBlockwork',
+    secondaryImage: 'knockThroughOpeningKitchen',
     counties: leinsterCounties,
     context: {
       heading: 'Building across Leinster',
@@ -256,8 +256,8 @@ export const landingPages: LandingPage[] = [
     title: 'Building contractors covering all of Munster',
     intro:
       'From renovating traditional farmhouses to extending family homes in Cork and Limerick, Pat Premier carries out building work across all six Munster counties.',
-    image: 'renovationStripped',
-    secondaryImage: 'interiorStairs',
+    image: 'knockThroughPropped',
+    secondaryImage: 'plasteredRoom',
     counties: munsterCounties,
     context: {
       heading: 'Building across Munster',

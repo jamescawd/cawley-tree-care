@@ -33,7 +33,7 @@ const tradeWord = p.trade === 'roofing' ? 'roofing' : 'building';
 ---
 
 <BaseLayout title={p.metaTitle} description={p.metaDescription} image={getMedia(p.image).src} schema={[breadcrumbSchema(site, trail)]}>
-  <ServiceHero layout={p.trade === 'roofing' ? 'split' : 'full'} eyebrow={p.label} title={p.title} intro={p.intro} image={p.image} trail={trail} quoteHref="/contact#quote" />
+  <ServiceHero layout={p.trade === 'roofing' ? 'split' : 'offset'} eyebrow={p.label} title={p.title} intro={p.intro} image={p.image} trail={trail} quoteHref="/quote" />
 
   <section class="section" aria-labelledby="ctx-h">
     <div class="wrap grid gap-12 lg:grid-cols-12">

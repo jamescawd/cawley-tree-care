@@ -41,7 +41,7 @@ const n = (i: number) => String(i + 1).padStart(2, '0');
           <h2 id="feature-h" class="t-d1 mt-5">{f.heading}</h2>
           <p class="t-lead mt-6 text-muted">{f.intro}</p>
         </div>
-        <div class="mt-14 grid gap-4 lg:grid-cols-3 lg:gap-0">
+        <div class:list={['mt-14 grid gap-4 lg:gap-0', f.columns.length === 2 ? 'lg:grid-cols-2' : 'lg:grid-cols-3']}>
           {f.columns.map((c, i) => {
             const hi = i === 1;
             return (

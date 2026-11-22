@@ -1,4 +1,4 @@
-import { buildingServices, roofingServices, serviceUrl } from '@/data/services';
+import { buildingServices, interiorServices, roofingServices, serviceUrl } from '@/data/services';
 
 export interface NavLink {
   label: string;
@@ -16,10 +16,11 @@ export const mainNav: NavItem[] = [
   { label: 'Home', href: '/' },
   { label: 'Roofing', href: '/roofing', children: toLinks(roofingServices) },
   { label: 'Building', href: '/building', children: toLinks(buildingServices) },
+  { label: 'Interiors', href: '/interiors', children: toLinks(interiorServices) },
   { label: 'Our Projects', href: '/projects' },
   { label: 'About Us', href: '/about' },
   { label: 'Areas We Cover', href: '/areas' },
   { label: 'Contact', href: '/contact' },
 ];
 
-export const QUOTE_HREF = '/contact#quote';
+export const QUOTE_HREF = '/quote';

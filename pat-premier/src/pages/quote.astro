@@ -1,0 +1,108 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Photo from '@/components/ui/Photo.astro';
+import SocialLinks from '@/components/ui/SocialLinks.astro';
+import QuoteForm from '@/components/sections/QuoteForm.astro';
+import { business, mailHref, telHref } from '@/config/business';
+import { quoteOptions } from '@/data/quoteOptions';
+import { breadcrumbSchema } from '@/lib/seo';
+
+const site = Astro.site ?? new URL('http://localhost:4321');
+const trail = [
+  { name: 'Home', href: '/' },
+  { name: 'Request a Quote', href: '/quote' },
+];
+const steps = [
+  'Fill in the form, with photographs if you can.',
+  'We get back to you to talk through the job and arrange to see it where needed.',
+  'You receive your free, no-obligation quotation.',
+];
+---
+
+<BaseLayout
+  title="Request a Free Quote | Roofing, Building & Interiors"
+  description="Request a free quotation from Pat Premier Roofing and Building for roofing, extensions, renovations, groundworks, media walls and flooring across Leinster, Munster and the Midlands."
+  schema={[breadcrumbSchema(site, trail)]}
+>
+  <section class="surface-paper" aria-labelledby="page-h">
+    <div class="wrap grid gap-10 pb-16 pt-10 lg:grid-cols-12 lg:gap-12 lg:pb-24 lg:pt-14">
+      <div class="lg:col-span-4 lg:row-start-1">
+        <Breadcrumbs trail={trail} />
+        <p class="eyebrow mt-10">Free quotations</p>
+        <h1 id="page-h" class="t-d1 mt-5">Request a free quote</h1>
+        <p class="t-lead mt-6 text-muted">
+          Roofing, building or interior work: tell us what you need and where. Photographs help us price it accurately.
+        </p>
+      </div>
+
+      <div class="-mx-(--gutter) bg-white p-6 shadow-[0_24px_60px_-30px_rgb(6_18_41/0.25)] sm:mx-0 sm:p-10 lg:col-span-8 lg:col-start-5 lg:row-span-2 lg:row-start-1 lg:self-start lg:p-12">
+        <h2 class="t-d3">Your project</h2>
+        <p class="mt-2 text-sm text-muted">All fields are required unless marked optional.</p>
+        <div class="mt-8">
+          <QuoteForm id="quote-page-form" />
+        </div>
+      </div>
+      <div class="lg:col-span-4 lg:row-start-2">
+        <div class="grid gap-5 border-t border-line pt-8 lg:mt-0">
+          <a href={telHref} class="group flex items-center gap-4" data-track="call">
+            <span class="grid size-11 place-items-center bg-navy-900 text-white"><Icon name="phone" size={19} /></span>
+            <span>
+              <span class="block text-sm text-muted">Prefer to talk?</span>
+              <span class="block text-xl font-semibold text-ink group-hover:text-royal-700">{business.phone.display}</span>
+            </span>
+          </a>
+          <a href={mailHref} class="group flex items-center gap-4">
+            <span class="grid size-11 place-items-center border border-line-strong text-ink"><Icon name="mail" size={19} /></span>
+            <span>
+              <span class="block text-sm text-muted">Email</span>
+              <span class="block break-all font-semibold text-ink group-hover:text-royal-700">{business.email}</span>
+            </span>
+          </a>
+        </div>
+
+        <ol class="mt-10 space-y-4 border-t border-line pt-8">
+          {
+            steps.map((s, i) => (
+              <li class="flex gap-4 text-[0.95rem]">
+                <span class="grid size-7 shrink-0 place-items-center rounded-full bg-royal-600 text-[0.8rem] font-semibold text-white">{i + 1}</span>
+                <span class="pt-0.5 text-body">{s}</span>
+              </li>
+            ))
+          }
+        </ol>
+
+        <div class="mt-10 hidden border-t border-line pt-8 lg:block">
+          <Photo media="slateReroof" class="aspect-[4/5] w-3/4" sizes="20vw" widths={[300, 450, 600]} />
+          <p class="mt-4 text-sm text-muted">See more of our work on TikTok and Facebook.</p>
+          <SocialLinks class="mt-3" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="work-h">
+    <div class="wrap">
+      <h2 id="work-h" class="t-d2">Work we quote for</h2>
+      <div class="mt-10 grid gap-10 sm:grid-cols-3">
+        {
+          quoteOptions.map((g) => (
+            <div>
+              <h3 class="border-b border-line pb-3 text-lg font-semibold">{g.group}</h3>
+              <ul class="mt-4 space-y-2 text-body">
+                {g.options.map((o) => (
+                  <li class="flex items-start gap-2.5">
+                    <Icon name="check" size={17} class="mt-1 shrink-0 text-royal-600" />
+                    {o.label}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+      <p class="mt-10 text-muted">{business.coverage.summary}. {business.coverage.nationwide}</p>
+    </div>
+  </section>
+</BaseLayout>

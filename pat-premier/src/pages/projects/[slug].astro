@@ -6,15 +6,18 @@ import Photo from '@/components/ui/Photo.astro';
 import Icon from '@/components/ui/Icon.astro';
 import BeforeAfter from '@/components/sections/BeforeAfter.astro';
 import ProjectCard from '@/components/sections/ProjectCard.astro';
-import CtaBand from '@/components/sections/CtaBand.astro';
 import { getService, serviceUrl } from '@/data/services';
+import { business, telHref } from '@/config/business';
 import { breadcrumbSchema } from '@/lib/seo';
 
 export async function getStaticPaths() {
   const all = await getCollection('projects');
   return all.map((project) => ({ params: { slug: project.id }, props: { project, all } }));
 }
-const { project, all } = Astro.props as { project: CollectionEntry<'projects'>; all: CollectionEntry<'projects'>[] };
+const { project, all } = Astro.props as {
+  project: CollectionEntry<'projects'>;
+  all: CollectionEntry<'projects'>[];
+};
 const d = project.data;
 const { Content } = await render(project);
 const site = Astro.site ?? new URL('http://localhost:4321');
@@ -24,88 +27,101 @@ const trail = [
   { name: d.title, href: `/projects/${project.id}` },
 ];
 const services = d.services.map(getService);
+// The cover is already shown at the top, so it is not repeated below.
+const notCover = (ph: { src: { src: string } }) => ph.src.src !== d.cover.src.src;
 const stages = [
-  { id: 'before', title: 'Before', photos: d.before },
-  { id: 'during', title: 'During the work', photos: d.during },
-  { id: 'after', title: 'Completed', photos: d.after },
-].filter((s) => s.photos.length);
-const others = all.filter((p) => p.id !== project.id).sort((a, b) => a.data.order - b.data.order).slice(0, 2);
+  { id: 'before', title: 'Before', photos: d.before.filter(notCover) },
+  { id: 'during', title: 'During the work', photos: d.during.filter(notCover) },
+  { id: 'after', title: 'Completed', photos: d.after.filter(notCover) },
+].filter((s) => s.photos.length && !(d.compare && s.id !== 'during'));
+const others = all
+  .filter((p) => p.id !== project.id && p.data.category === d.category)
+  .sort((a, b) => a.data.order - b.data.order)
+  .slice(0, 3);
+const quoteHref = `/quote?service=${encodeURIComponent(services[0]?.name ?? '')}`;
 ---
 
 <BaseLayout
-  title={`${d.title}${d.demo ? ' (demonstration)' : `, ${d.location}`}`}
+  title={`${d.title}${d.location ? `, ${d.location}` : ''} | Our Projects`}
   description={d.summary}
   image={d.cover.src}
   noindex={d.demo}
   type="article"
   schema={[breadcrumbSchema(site, trail)]}
 >
-  {
-    d.demo && (
-      <div class="bg-royal-100 text-ink">
-        <p class="wrap py-3 text-sm">
-          <strong>Demonstration project.</strong> Built from stock photographs to show the layout. This is not a Pat Premier job.
-        </p>
-      </div>
-    )
-  }
-  <section aria-labelledby="page-h">
-    <div class="wrap pt-10 lg:pt-14">
-      <Breadcrumbs trail={trail} />
-      <div class="mt-10 grid gap-8 lg:mt-14 lg:grid-cols-12 lg:items-end">
-        <div class="lg:col-span-8">
+  <section class="border-b border-line" aria-labelledby="page-h">
+    <div class="wrap grid gap-10 pb-14 pt-10 lg:grid-cols-12 lg:gap-12 lg:pb-20 lg:pt-14">
+      <div class="flex flex-col lg:col-span-6">
+        <Breadcrumbs trail={trail} />
+        <div class="mt-10 lg:mt-auto lg:pt-16">
           <p class="eyebrow">{d.workType}</p>
           <h1 id="page-h" class="t-d1 mt-5">{d.title}</h1>
+          <p class="t-lead mt-6 max-w-xl text-muted">{d.summary}</p>
+          <dl class="mt-10 grid gap-6 border-t border-line pt-6 sm:grid-cols-2">
+            {
+              d.location && (
+                <div>
+                  <dt class="index">Location</dt>
+                  <dd class="mt-1.5 flex items-center gap-2 font-semibold text-ink">
+                    <Icon name="pin" size={17} class="text-royal-600" />
+                    {d.location}
+                  </dd>
+                </div>
+              )
+            }
+            <div>
+              <dt class="index">Type of work</dt>
+              <dd class="mt-1.5 font-semibold text-ink">{d.workType}</dd>
+            </div>
+            <div>
+              <dt class="index">Services</dt>
+              <dd class="mt-1.5">
+                <ul class="space-y-1">
+                  {services.map((s) => <li><a href={serviceUrl(s)} class="link">{s.name}</a></li>)}
+                </ul>
+              </dd>
+            </div>
+            {
+              d.completed && (
+                <div>
+                  <dt class="index">Completed</dt>
+                  <dd class="mt-1.5 font-semibold text-ink">{d.completed}</dd>
+                </div>
+              )
+            }
+          </dl>
         </div>
-        <p class="flex items-center gap-2.5 text-lg text-muted lg:col-span-4 lg:justify-end">
-          <Icon name="pin" size={19} class="text-royal-600" />{d.location}
-        </p>
       </div>
-    </div>
-    <div class="wrap mt-10 lg:mt-14">
-      <Photo src={d.cover.src} alt={d.cover.alt} demo={d.demo} eager class="aspect-[4/3] sm:aspect-[16/8]" sizes="(min-width: 90rem) 86rem, 100vw" />
+      <div class="lg:col-span-5 lg:col-start-8">
+        <Photo
+          src={d.cover.src}
+          alt={d.cover.alt}
+          demo={d.demo}
+          eager
+          class="aspect-[4/5]"
+          sizes="(min-width: 64rem) 38vw, 100vw"
+          widths={[480, 720, 960, 1200]}
+        />
+      </div>
     </div>
   </section>
 
   <section class="section" aria-label="About this project">
-    <div class="wrap grid gap-12 lg:grid-cols-12">
-      <dl class="grid content-start gap-6 border-t border-line pt-6 sm:grid-cols-2 lg:col-span-4 lg:grid-cols-1">
-        <div>
-          <dt class="index">Location</dt>
-          <dd class="mt-1.5 font-semibold text-ink">{d.location}</dd>
-        </div>
-        <div>
-          <dt class="index">Type of work</dt>
-          <dd class="mt-1.5 font-semibold text-ink">{d.workType}</dd>
-        </div>
-        <div>
-          <dt class="index">Services</dt>
-          <dd class="mt-1.5">
-            <ul class="space-y-1">
-              {services.map((s) => <li><a href={serviceUrl(s)} class="link">{s.name}</a></li>)}
-            </ul>
-          </dd>
-        </div>
-        {d.completed && (
-          <div>
-            <dt class="index">Completed</dt>
-            <dd class="mt-1.5 font-semibold text-ink">{d.completed}</dd>
-          </div>
-        )}
-      </dl>
-      <div class="prose-pp max-w-2xl text-lg lg:col-span-7 lg:col-start-6">
-        <Content />
-      </div>
+    <div class="wrap-narrow prose-pp text-lg">
+      <Content />
     </div>
   </section>
 
   {
-    d.before[0] && d.after[0] && (
+    d.compare && d.before[0] && d.after[0] && (
       <section class="section surface-paper" aria-labelledby="ba-h">
-        <div class="wrap">
-          <p class="eyebrow">Compare</p>
-          <h2 id="ba-h" class="t-d2 mt-5">Before and after</h2>
-          <div class="mt-10">
+        <div class="wrap grid gap-10 lg:grid-cols-12 lg:items-center">
+          <div class="lg:col-span-5">
+            <p class="eyebrow">Compare</p>
+            <h2 id="ba-h" class="t-d2 mt-5">Before and after</h2>
+            <p class="mt-5 max-w-md text-muted">Drag the handle, or use the arrow keys, to compare the roof before and after.</p>
+          </div>
+          <div class="w-full max-w-lg lg:col-span-6 lg:col-start-7">
             <BeforeAfter before={d.before[0]} after={d.after[0]} demo={d.demo} />
           </div>
         </div>
@@ -114,22 +130,60 @@ const others = all.filter((p) => p.id !== project.id).sort((a, b) => a.data.orde
   }
 
   {
+    d.video && (
+      <section class="section" aria-labelledby="video-h">
+        <div class="wrap grid gap-10 lg:grid-cols-12 lg:items-center">
+          <div class="lg:col-span-5">
+            <p class="eyebrow">Video</p>
+            <h2 id="video-h" class="t-d2 mt-5">Watch the job</h2>
+            <p class="mt-5 max-w-md text-muted">
+              More videos like this on TikTok ({business.social.tiktokHandle}) and Facebook.
+            </p>
+            <a href={business.social.tiktok} target="_blank" rel="noopener" class="btn btn-outline mt-7">
+              Watch on TikTok <Icon name="arrow-up-right" size={18} />
+            </a>
+          </div>
+          <div class="w-full max-w-xs lg:col-span-4 lg:col-start-8">
+            <div class="overflow-hidden rounded-[1.25rem] border-[6px] border-navy-950 bg-navy-950">
+              <video
+                controls
+                playsinline
+                preload="none"
+                poster={d.video.replace(/\.mp4$/, '.webp')}
+                width="480"
+                height="854"
+                class="block aspect-[9/16] h-auto w-full object-cover"
+                aria-label={`Video: ${d.title}`}
+              >
+                <source src={d.video} type="video/mp4" />
+              </video>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
     stages.map((st, si) => (
-      <section class="section" aria-labelledby={`st-${st.id}`}>
+      <section class:list={['section', si % 2 === 1 && 'surface-paper']} aria-labelledby={`st-${st.id}`}>
         <div class="wrap">
           <div class="flex items-baseline gap-4 border-b border-line pb-5">
             <span class="index">{String(si + 1).padStart(2, '0')}</span>
             <h2 id={`st-${st.id}`} class="t-d3">{st.title}</h2>
-            <span class="ml-auto text-sm text-muted">{st.photos.length} photograph{st.photos.length > 1 ? 's' : ''}</span>
+            <span class="ml-auto text-sm text-muted">
+              {st.photos.length} photograph{st.photos.length > 1 ? 's' : ''}
+            </span>
           </div>
-          <div class:list={['mt-8 grid gap-4', st.photos.length === 1 ? '' : 'sm:grid-cols-2', st.photos.length >= 3 && 'lg:grid-cols-3']}>
+          <div class="mt-8 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3">
             {st.photos.map((ph, i) => (
               <Photo
                 src={ph.src}
                 alt={ph.alt}
                 demo={d.demo}
-                class:list={[st.photos.length === 1 ? 'aspect-[16/9] lg:w-2/3' : 'aspect-[4/3]', st.photos.length >= 3 && i === 0 && 'lg:col-span-2 lg:row-span-2 lg:aspect-auto lg:h-full']}
-                sizes="(min-width: 64rem) 45vw, 100vw"
+                class:list={['aspect-[4/5]', st.photos.length === 1 && 'col-span-2 lg:col-span-1', i % 3 === 1 && 'lg:translate-y-8']}
+                sizes="(min-width: 64rem) 30vw, 50vw"
+                widths={[360, 540, 720, 1080]}
               />
             ))}
           </div>
@@ -138,21 +192,32 @@ const others = all.filter((p) => p.id !== project.id).sort((a, b) => a.data.orde
     ))
   }
 
+  <section class="section pt-0" aria-label="Get a quote">
+    <div class="wrap">
+      <div class="flex flex-col gap-6 border-t border-line pt-12 sm:flex-row sm:items-center sm:justify-between">
+        <p class="t-d3 max-w-xl">Want something similar done? Quotations are free.</p>
+        <div class="flex flex-col gap-3 sm:flex-row">
+          <a href={quoteHref} class="btn" data-track="quote">Request a Quote <Icon name="arrow" size={18} /></a>
+          <a href={telHref} class="btn btn-outline" data-track="call"><Icon name="phone" size={18} /> {business.phone.display}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   {
     others.length > 0 && (
       <section class="section surface-paper" aria-labelledby="more-h">
         <div class="wrap">
           <div class="flex flex-wrap items-end justify-between gap-4">
-            <h2 id="more-h" class="t-d2">More projects</h2>
+            <h2 id="more-h" class="t-d2">More {d.category} projects</h2>
             <a href="/projects" class="link">All projects</a>
           </div>
-          <div class="mt-12 grid gap-10 md:grid-cols-2">
-            {others.map((p) => <ProjectCard project={p} size="small" sizes="(min-width: 48rem) 46vw, 100vw" />)}
+          <div class="mt-12 grid gap-10 md:grid-cols-3">
+            {others.map((p) => <ProjectCard project={p} size="medium" sizes="(min-width: 48rem) 30vw, 100vw" />)}
           </div>
         </div>
       </section>
     )
   }
 
-  <CtaBand heading="Have a similar project in mind?" image={d.demo ? 'slateHouseSunset' : 'rooferRidge'} />
 </BaseLayout>

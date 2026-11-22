@@ -1,6 +1,7 @@
 ---
 import Icon from '@/components/ui/Icon.astro';
-import { buildingServices, roofingServices, type ServiceSlug } from '@/data/services';
+import type { ServiceSlug } from '@/data/services';
+import { propertyTypes, quoteOptions, timescales } from '@/data/quoteOptions';
 
 /**
  * Quotation request form.
@@ -47,13 +48,38 @@ const { service, id = 'quote-form', compact = false } = Astro.props;
       <label for={`${id}-service`}>Service required</label>
       <select class="control" id={`${id}-service`} name="service" required>
         <option value="" disabled selected={!service}>Choose a service</option>
-        <optgroup label="Roofing">
-          {roofingServices.map((s) => <option value={s.name} selected={s.slug === service}>{s.name}</option>)}
-        </optgroup>
-        <optgroup label="Building">
-          {buildingServices.map((s) => <option value={s.name} selected={s.slug === service}>{s.name}</option>)}
-        </optgroup>
+        {
+          quoteOptions.map((g) => (
+            <optgroup label={g.group}>
+              {g.options.map((o) => (
+                <option value={o.label} data-service={o.serviceName} selected={!!service && o.service === service}>
+                  {o.label}
+                </option>
+              ))}
+            </optgroup>
+          ))
+        }
         <option value="Other / not sure">Other / not sure</option>
+      </select>
+    </div>
+    <fieldset class="field">
+      <legend class="mb-1.5 text-sm font-semibold text-ink">Property type <span class="hint">(optional)</span></legend>
+      <div class="flex flex-wrap gap-2">
+        {
+          propertyTypes.map((t, i) => (
+            <label class="choice">
+              <input type="radio" name="propertyType" value={t} id={`${id}-pt-${i}`} />
+              <span>{t}</span>
+            </label>
+          ))
+        }
+      </div>
+    </fieldset>
+    <div class="field">
+      <label for={`${id}-timescale`}>When would you like it done? <span class="hint">(optional)</span></label>
+      <select class="control" id={`${id}-timescale`} name="timescale">
+        <option value="">Choose a timescale</option>
+        {timescales.map((t) => <option value={t}>{t}</option>)}
       </select>
     </div>
     <div class:list={['field', !compact && 'sm:col-span-2']}>
@@ -91,6 +117,38 @@ const { service, id = 'quote-form', compact = false } = Astro.props;
 </form>
 
 <style>
+  .choice {
+    position: relative;
+    margin: 0;
+    display: inline-flex;
+    cursor: pointer;
+  }
+  .choice input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    cursor: pointer;
+  }
+  .choice span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: 999px;
+    font-size: 0.925rem;
+    color: var(--color-ink);
+    transition: all 0.2s;
+  }
+  .choice input:checked + span {
+    background: var(--color-navy-900);
+    border-color: var(--color-navy-900);
+    color: var(--color-white);
+  }
+  .choice input:focus-visible + span {
+    outline: 2px solid var(--color-royal-600);
+    outline-offset: 3px;
+  }
   .upload {
     display: flex;
     align-items: center;
@@ -141,7 +199,7 @@ const { service, id = 'quote-form', compact = false } = Astro.props;
     const wanted = new URLSearchParams(location.search).get('service');
     const select = form.querySelector<HTMLSelectElement>('select[name="service"]');
     if (wanted && select) {
-      const match = Array.from(select.options).find((o) => o.value === wanted);
+      const match = Array.from(select.options).find((o) => o.value === wanted || o.dataset.service === wanted);
       if (match) match.selected = true;
     }
   });

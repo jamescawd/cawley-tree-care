@@ -1,0 +1,63 @@
+---
+import SocialLinks from '@/components/ui/SocialLinks.astro';
+import { business } from '@/config/business';
+import { videos } from '@/data/videos';
+---
+
+<section class="section surface-paper" aria-labelledby="videos-h">
+  <div class="wrap grid gap-12 lg:grid-cols-12 lg:items-center">
+    <div class="lg:col-span-5" data-reveal>
+      <p class="eyebrow">Watch us at work</p>
+      <h2 id="videos-h" class="t-d1 mt-5">Follow the job from start to finish</h2>
+      <p class="t-lead mt-6 max-w-md text-muted">
+        Most of our videos are on TikTok and Facebook, where {business.owner} shares jobs as they happen: roofs stripped, slated and finished.
+      </p>
+      <SocialLinks variant="pill" class="mt-8" />
+      <p class="mt-4 text-sm text-muted">TikTok: {business.social.tiktokHandle}</p>
+    </div>
+    <ul class="grid grid-cols-2 gap-4 sm:gap-6 lg:col-span-6 lg:col-start-7">
+      {
+        videos.map((v, i) => (
+          <li class:list={[i === 1 && 'mt-10 sm:mt-16']} data-reveal>
+            <figure>
+              <div class="video-frame">
+                <video
+                  controls
+                  playsinline
+                  preload="none"
+                  poster={v.poster}
+                  width="480"
+                  height="854"
+                  aria-label={v.title}
+                >
+                  <source src={v.src} type="video/mp4" />
+                </video>
+              </div>
+              <figcaption class="mt-3">
+                <span class="block font-semibold text-ink">{v.title}</span>
+                <span class="block text-sm text-muted">{v.caption}</span>
+              </figcaption>
+            </figure>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .video-frame {
+    overflow: hidden;
+    aspect-ratio: 9 / 16;
+    background: var(--color-navy-950);
+    border: 6px solid var(--color-navy-950);
+    border-radius: 1.25rem;
+    box-shadow: 0 24px 50px -24px rgb(6 18 41 / 0.45);
+  }
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+</style>

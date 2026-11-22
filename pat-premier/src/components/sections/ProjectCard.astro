@@ -11,7 +11,7 @@ interface Props {
 }
 const { project, size = 'medium', index, sizes } = Astro.props;
 const d = project.data;
-const ratio = size === 'large' ? 'aspect-[4/3] lg:aspect-[4/5]' : size === 'small' ? 'aspect-[4/3]' : 'aspect-[5/4]';
+const ratio = size === 'small' ? 'aspect-[4/3]' : 'aspect-[4/5]';
 ---
 
 <article class="project-card group relative">
@@ -34,7 +34,7 @@ const ratio = size === 'large' ? 'aspect-[4/3] lg:aspect-[4/5]' : size === 'smal
           {d.workType}
         </p>
         <h3 class:list={['mt-2', size === 'large' ? 't-d3' : 'text-xl font-[620] leading-tight']}>{d.title}</h3>
-        <p class="mt-1.5 text-sm text-muted">{d.location}</p>
+        <p class="mt-1.5 text-sm text-muted">{d.location ?? d.summary}</p>
       </div>
       <span class="mt-1 grid size-11 shrink-0 place-items-center rounded-full border border-line text-ink transition-colors duration-300 group-hover:border-navy-900 group-hover:bg-navy-900 group-hover:text-white">
         <Icon name="arrow-up-right" size={18} />

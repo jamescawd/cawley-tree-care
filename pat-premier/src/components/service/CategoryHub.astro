@@ -7,11 +7,13 @@ import Coverage from '@/components/service/Coverage.astro';
 import Faq from '@/components/sections/Faq.astro';
 import CtaBand from '@/components/sections/CtaBand.astro';
 import { getMedia, type MediaKey } from '@/data/media';
-import { serviceUrl, type Service, type LandingSlug } from '@/data/services';
+import { serviceUrl, type Category, type Service, type LandingSlug } from '@/data/services';
 import { breadcrumbSchema } from '@/lib/seo';
 
 interface Props {
-  category: 'roofing' | 'building';
+  category: Category;
+  /** Photos for the framed hero (building and interiors). */
+  images?: MediaKey[];
   title: string;
   metaTitle: string;
   description: string;
@@ -25,7 +27,7 @@ interface Props {
 }
 const p = Astro.props;
 const site = Astro.site ?? new URL('http://localhost:4321');
-const name = p.category === 'roofing' ? 'Roofing' : 'Building';
+const name = { roofing: 'Roofing', building: 'Building', interiors: 'Interiors' }[p.category];
 const trail = [
   { name: 'Home', href: '/' },
   { name, href: `/${p.category}` },
@@ -33,7 +35,7 @@ const trail = [
 ---
 
 <BaseLayout title={p.metaTitle} description={p.description} image={getMedia(p.image).src} schema={[breadcrumbSchema(site, trail)]}>
-  <ServiceHero layout={p.category === 'roofing' ? 'full' : 'framed'} eyebrow={p.eyebrow} title={p.title} intro={p.intro} image={p.image} trail={trail} quoteHref="/contact#quote" />
+  <ServiceHero layout={p.category === 'roofing' ? 'split' : 'framed'} eyebrow={p.eyebrow} title={p.title} intro={p.intro} image={p.image} images={p.images} trail={trail} quoteHref="/quote" />
 
   <section class="section" aria-labelledby="hub-intro">
     <div class="wrap grid gap-10 lg:grid-cols-12">
@@ -50,7 +52,7 @@ const trail = [
           p.services.map((s, i) => (
             <li class:list={[i % 2 === 1 && 'md:mt-24']} data-reveal>
               <a href={serviceUrl(s)} class="group block">
-                <Photo media={s.hero.image} class={i % 3 === 0 ? 'aspect-[4/5]' : 'aspect-[5/4]'} imgClass="transition-transform duration-[1.2s] ease-(--ease-premium) group-hover:scale-[1.035]" sizes="(min-width: 48rem) 46vw, 100vw" />
+                <Photo media={s.hero.image} class={i % 3 === 0 ? 'aspect-[4/5]' : 'aspect-square'} imgClass="transition-transform duration-[1.2s] ease-(--ease-premium) group-hover:scale-[1.035]" sizes="(min-width: 48rem) 46vw, 100vw" />
                 <div class="mt-6 grid grid-cols-[3rem_1fr_auto] gap-3 border-t border-line pt-5">
                   <span class="index pt-1.5">{String(i + 1).padStart(2, '0')}</span>
                   <div>
@@ -71,5 +73,5 @@ const trail = [
 
   <div class="surface-paper"><Faq faqs={p.faqs} heading={`${name} questions`} /></div>
   <div class="pt-(--section)"><Coverage serviceName={name} landing={p.landing} /></div>
-  <CtaBand image={p.category === 'roofing' ? 'rooferRidge' : 'extensionTimber'} />
+  <CtaBand image={{ roofing: 'rooferStrippingTiles', building: 'extensionFlatRoofFascia', interiors: 'mediaWallBoarded' }[p.category] as MediaKey} />
 </BaseLayout>

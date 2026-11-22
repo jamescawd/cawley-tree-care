@@ -4,6 +4,9 @@ Premium, conversion-focused website for **Pat Premier Roofing and Building**
 (087 365 4209 · pcandson84@outlook.ie), covering all of Leinster, all of
 Munster and the Midlands. Tagline: *Built on Trust, Covered in Quality.*
 
+All photos and videos are Pat Premier's own work. Social: TikTok
+@premier.roofing.b and Facebook.
+
 **Status:** complete build, **not deployed**. Search indexing is off
 (`noindex`, `robots.txt: Disallow`) until launch is approved. The quote form is
 **not yet connected** to an email service (see `docs/FORMS.md`).
@@ -36,6 +39,8 @@ pnpm verify     # type check + build + all tests
 | Home          | `/`                                                                                        |
 | Roofing       | `/roofing`, `/roofing/roof-repairs`, `/roofing/roof-restoration`, `/roofing/new-roofs-and-re-roofing`, `/roofing/flat-roofing`, `/roofing/fascias-soffits-and-guttering` |
 | Building      | `/building`, `/building/extensions`, `/building/property-renovations`, `/building/general-building-work` |
+| Interiors     | `/interiors`, `/interiors/media-walls`, `/interiors/flooring`, `/interiors/knock-throughs`   |
+| Quote         | `/quote` (all services; every “Request a Quote” button links here)                        |
 | Projects      | `/projects`, `/projects/{slug}`                                                            |
 | Areas         | `/areas`, `/roofing-contractors-leinster`, `/roofing-contractors-munster`, `/roofing-contractors-midlands`, `/building-contractors-leinster`, `/building-contractors-munster`, `/areas/{county}` (only when published) |
 | Company       | `/about`, `/contact` (quote form at `/contact#quote`), `/privacy`                          |
@@ -58,16 +63,19 @@ docs/                      content still needed, forms, credits
 
 ## Common updates
 
-**Replace a demonstration photo.** Put the real photo in `src/assets/work/`,
-then in `src/data/media.ts` point that key's `src` at it, write a factual
-`alt` and set `demo: false`. Every page using that key updates.
+**Add or swap a photo.** Put it in `src/assets/work/` (around 1600px, no
+location data), then add or change a key in `src/data/media.ts` with a factual
+`alt`. Every page using that key updates.
+
+**Add a video.** Put a compressed `.mp4` and a `.webp` poster with the same name
+in `public/video/`, then list it in `src/data/videos.ts` or set `video:` on a project.
 
 **Add a project.** Copy `src/content/projects/_template.md.example` to
 `src/content/projects/<name>.md`, add photos under `src/assets/projects/<name>/`
 (before / during / after), fill in the frontmatter and description.
 Set `featured: true` to show it on the homepage. Projects with both before and
-after photos get the comparison slider automatically, on the project page and on
-the related service pages. Delete the `demo-*.md` files once real projects exist.
+after photos from the same viewpoint can set `compare: true` to get the
+drag-to-compare slider.
 
 **Add a review.** Add it word for word to `src/data/reviews.ts`. The homepage
 switches from "coming soon" to a review grid automatically.

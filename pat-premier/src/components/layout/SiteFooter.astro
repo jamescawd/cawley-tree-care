@@ -1,9 +1,10 @@
 ---
 import Logo from '@/components/ui/Logo.astro';
 import Icon from '@/components/ui/Icon.astro';
+import SocialLinks from '@/components/ui/SocialLinks.astro';
 import { business, mailHref, telHref } from '@/config/business';
 import { QUOTE_HREF } from '@/config/navigation';
-import { buildingServices, roofingServices, serviceUrl } from '@/data/services';
+import { buildingServices, interiorServices, roofingServices, serviceUrl } from '@/data/services';
 import { landingPages, landingUrl } from '@/data/regions';
 
 const year = new Date().getFullYear();
@@ -31,6 +32,8 @@ const year = new Date().getFullYear();
           <li><a href={telHref} class="inline-flex items-center gap-2.5 text-white hover:text-royal-300" data-track="call"><Icon name="phone" size={17} />{business.phone.display}</a></li>
           <li><a href={mailHref} class="inline-flex items-center gap-2.5 text-white hover:text-royal-300"><Icon name="mail" size={17} />{business.email}</a></li>
         </ul>
+        <p class="mt-8 text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-royal-300">Watch our work</p>
+        <SocialLinks variant="pill" tone="dark" class="mt-3" />
       </div>
       <nav aria-labelledby="f-roof" class="lg:col-span-2">
         <h2 id="f-roof" class="footer-h">Roofing</h2>
@@ -43,10 +46,15 @@ const year = new Date().getFullYear();
         <ul class="footer-list">
           {buildingServices.map((s) => <li><a href={serviceUrl(s)}>{s.short}</a></li>)}
         </ul>
+        <h2 class="footer-h mt-8">Interiors</h2>
+        <ul class="footer-list">
+          {interiorServices.map((s) => <li><a href={serviceUrl(s)}>{s.short}</a></li>)}
+        </ul>
         <h2 class="footer-h mt-8">Company</h2>
         <ul class="footer-list">
           <li><a href="/projects">Our Projects</a></li>
           <li><a href="/about">About Us</a></li>
+          <li><a href="/quote">Request a Quote</a></li>
           <li><a href="/contact">Contact</a></li>
         </ul>
       </nav>
@@ -61,10 +69,7 @@ const year = new Date().getFullYear();
 
     <div class="flex flex-col gap-4 border-t border-white/15 py-8 text-[0.8125rem] sm:flex-row sm:items-start sm:justify-between">
       <p>© {year} {business.name}. All rights reserved.</p>
-      <p class="max-w-xl sm:text-right">
-        Photographs marked “Demonstration image” are illustrative and will be replaced with Pat Premier’s own project photography.
-        <a href="/privacy" class="ml-1 text-white underline underline-offset-4">Privacy</a>
-      </p>
+      <p><a href="/privacy" class="text-white underline underline-offset-4">Privacy notice</a></p>
     </div>
   </div>
 </footer>

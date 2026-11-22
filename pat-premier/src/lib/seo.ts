@@ -20,6 +20,7 @@ export function organisationSchema(site: URL) {
     logo: new URL('/brand/logo-on-light.svg', site).href,
     telephone: business.phone.e164,
     email: business.email,
+    sameAs: [business.social.facebook, business.social.tiktok].filter(Boolean),
     areaServed: [
       { '@type': 'AdministrativeArea', name: 'Leinster' },
       { '@type': 'AdministrativeArea', name: 'Munster' },

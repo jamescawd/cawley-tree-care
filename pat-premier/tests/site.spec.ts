@@ -11,6 +11,9 @@ const SERVICES = [
   '/building/extensions',
   '/building/property-renovations',
   '/building/general-building-work',
+  '/interiors/media-walls',
+  '/interiors/flooring',
+  '/interiors/knock-throughs',
 ];
 const LANDING = [
   '/roofing-contractors-leinster',
@@ -23,10 +26,14 @@ export const PAGES = [
   '/',
   '/roofing',
   '/building',
+  '/interiors',
   ...SERVICES,
   '/projects',
-  '/projects/demo-kitchen-extension',
-  '/projects/demo-period-renovation',
+  '/projects/sagging-roof-re-slated',
+  '/projects/media-wall-and-laminate-floor',
+  '/projects/kitchen-living-room-knock-through',
+  '/projects/fascia-and-rafter-ends-rebuilt',
+  '/quote',
   '/about',
   '/areas',
   ...LANDING,
@@ -100,15 +107,35 @@ test('quote form has every required field', async ({ page }) => {
   await expect(form).toHaveAttribute('action', '/api/quote');
 });
 
-test('quote link preselects the service', async ({ page }) => {
-  await page.goto('/contact?service=Flat%20Roofing#quote');
-  await expect(page.locator('#quote select[name="service"]')).toHaveValue('Flat Roofing');
+test('quote page lists every service and preselects from service pages', async ({ page }) => {
+  await page.goto('/roofing/flat-roofing');
+  await page.locator('main a[href^="/quote?service="]').first().click();
+  const select = page.locator('#quote-page-form select[name="service"]');
+  await expect(select).toHaveValue('Flat roofing (GRP)');
+  for (const label of ['Media wall', 'Hardwood flooring', 'Laminate flooring', 'Extension', 'Metal roof sheeting']) {
+    await expect(select.locator('option', { hasText: label }).first()).toBeAttached();
+  }
+  await expect(page.locator('#quote-page-form input[name="propertyType"]')).toHaveCount(3);
 });
 
-test('demonstration projects are labelled and not indexed', async ({ page }) => {
-  await page.goto('/projects/demo-slate-re-roof');
-  await expect(page.getByText('Demonstration project.', { exact: false }).first()).toBeVisible();
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', /noindex/);
+test('no stock or demonstration photos remain', async ({ page }) => {
+  for (const path of ['/', '/projects', '/roofing/roof-repairs', '/interiors']) {
+    await page.goto(path);
+    await expect(page.locator('.demo-tag')).toHaveCount(0);
+  }
+});
+
+test('TikTok and Facebook links are present', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('footer a[href="https://www.tiktok.com/@premier.roofing.b"]')).toHaveCount(1);
+  await expect(page.locator('footer a[href="https://www.facebook.com/share/1AYy9uFgGR/"]')).toHaveCount(1);
+});
+
+test('videos load nothing until played', async ({ page }) => {
+  await page.goto('/');
+  const videos = page.locator('video');
+  await expect(videos).toHaveCount(2);
+  for (const v of await videos.all()) await expect(v).toHaveAttribute('preload', 'none');
 });
 
 test('robots.txt blocks crawling until launch is approved', async ({ request }) => {
@@ -159,7 +186,7 @@ test.describe('desktop navigation', () => {
 });
 
 test('before/after slider responds to the keyboard', async ({ page }) => {
-  await page.goto('/projects/demo-period-renovation');
+  await page.goto('/projects/sagging-roof-re-slated');
   const range = page.locator('[data-ba-range]').first();
   await range.focus();
   await page.keyboard.press('ArrowLeft');

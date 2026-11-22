@@ -12,7 +12,7 @@ import type { MediaKey } from './media';
  * guarantees, timescales, prices, certifications or years of experience
  * unless Pat Premier has confirmed them (see src/config/business.ts).
  */
-export type Category = 'roofing' | 'building';
+export type Category = 'roofing' | 'building' | 'interiors';
 
 export type ServiceSlug =
   | 'roof-repairs'
@@ -22,7 +22,10 @@ export type ServiceSlug =
   | 'fascias-soffits-and-guttering'
   | 'extensions'
   | 'property-renovations'
-  | 'general-building-work';
+  | 'general-building-work'
+  | 'media-walls'
+  | 'flooring'
+  | 'knock-throughs';
 
 export type LandingSlug =
   | 'roofing-contractors-leinster'
@@ -64,6 +67,8 @@ export interface Service {
     title: string;
     intro: string;
     image: MediaKey;
+    /** Three photos for the 'framed' layout (portrait triptych). */
+    images?: MediaKey[];
     layout: 'split' | 'full' | 'framed' | 'offset';
   };
   overview: { heading: string; paragraphs: string[]; pull?: string; image: MediaKey };
@@ -96,7 +101,7 @@ export const services: Service[] = [
       title: 'Roof repairs that find the cause, not just the drip',
       intro:
         'A stain on the ceiling is rarely where the water got in. We trace leaks back to their source and repair slates, tiles, ridges, valleys and flashing properly, so the problem stays fixed.',
-      image: 'rooferRidge',
+      image: 'rooferStrippingTiles',
       layout: 'split',
     },
     overview: {
@@ -106,7 +111,7 @@ export const services: Service[] = [
         'Pat Premier repairs pitched and flat roofs on homes and commercial buildings. We look at the whole roof, explain what we find in plain language and repair what needs repairing, nothing more.',
       ],
       pull: 'We explain what we find before any work starts, so you can make the decision.',
-      image: 'slateHouseSunset',
+      image: 'tiledRoofBefore',
     },
     work: {
       heading: 'Repairs we carry out',
@@ -152,7 +157,7 @@ export const services: Service[] = [
         { title: 'Water marks in the attic', text: 'On rafters, felt or insulation after heavy rain.' },
       ],
     },
-    gallery: ['rooferRidge', 'slateHouseSunset', 'greyRoofStone', 'rooferShingle'],
+    gallery: ['tiledRoofBefore', 'rooferStrippingTiles', 'reroofMembraneChimney', 'fasciaNewTimber'],
     faqs: [
       {
         q: 'How do I know whether my roof needs repairing or replacing?',
@@ -196,7 +201,7 @@ export const services: Service[] = [
       title: 'Restore the roof you have before you replace it',
       intro:
         'Many roofs that look tired are structurally sound. A thorough restoration renews the parts that wear out first, such as ridges, verges, valleys, flashing and damaged slates or tiles, and can add years to the life of the roof.',
-      image: 'greyRoofStone',
+      image: 'reroofMembraneChimney',
       layout: 'full',
     },
     overview: {
@@ -206,7 +211,7 @@ export const services: Service[] = [
         'It suits roofs where the timbers and the majority of slates or tiles are still in good order, but the details that keep the weather out have aged. We assess the roof first and only recommend restoration where it makes sense.',
       ],
       pull: 'Where restoration is not the right answer, we will say so.',
-      image: 'tiledRoofHouse',
+      image: 'reroofMembraneBattens',
     },
     work: {
       heading: 'What a restoration can include',
@@ -247,7 +252,7 @@ export const services: Service[] = [
         },
       ],
     },
-    gallery: ['greyRoofStone', 'tiledRoofHouse', 'brickHouseGarden', 'rooferShingle'],
+    gallery: ['tiledRoofBefore', 'reroofMembraneChimney', 'reroofMembraneBattens', 'fasciaFitting'],
     faqs: [
       {
         q: 'What is the difference between roof restoration and a new roof?',
@@ -287,7 +292,8 @@ export const services: Service[] = [
       title: 'New roofs and re-roofs, built to last',
       intro:
         'When a roof has reached the end of its life, patching only delays the inevitable. We strip, prepare and re-roof homes and commercial buildings, and build new roofs for new builds and extensions.',
-      image: 'heroHouse',
+      image: 'slateReroof',
+      images: ['reroofBattensBrown', 'slateReroof', 'slateFixing'],
       layout: 'framed',
     },
     overview: {
@@ -297,7 +303,7 @@ export const services: Service[] = [
         'We take care over those hidden layers as much as the finished surface, and we keep you informed from strip-off to the final ridge.',
       ],
       pull: 'Most of what makes a roof last is hidden once it is finished.',
-      image: 'rooferShingle',
+      image: 'reroofMembraneBattens',
     },
     work: {
       heading: 'New roof and re-roofing work',
@@ -309,6 +315,7 @@ export const services: Service[] = [
         { title: 'Tile roofs', text: 'New tile roofs and tile re-roofs.' },
         { title: 'Roofs for extensions', text: 'Pitched and flat roofs for new extensions, tied in neatly to the existing roof.' },
         { title: 'New-build roofs', text: 'Roofing for new homes and buildings.' },
+        { title: 'Metal roof sheeting', text: 'Corrugated and profiled metal sheet roofs for sheds, garages and outbuildings.' },
         { title: 'Roofline included', text: 'Fascias, soffits and guttering renewed as part of the job where required.' },
       ],
     },
@@ -326,7 +333,7 @@ export const services: Service[] = [
         { title: 'Finish and clear-up', text: 'Roofline and gutters completed, site cleared and the job walked through with you.' },
       ],
     },
-    gallery: ['heroHouse', 'rooferShingle', 'brickHouseTiled', 'rooftopsStreet'],
+    gallery: ['slateReroof', 'reroofBattensBrown', 'metalRoofSheets', 'extensionRafters'],
     faqs: [
       {
         q: 'How do I know if I need a new roof?',
@@ -366,7 +373,7 @@ export const services: Service[] = [
       title: 'Flat roofs that shed water, not leak it',
       intro:
         'Flat roofs on extensions, garages, dormers and commercial buildings need the right system and careful detailing at every edge and upstand. We install, replace and repair flat roofs, including GRP rubber-coated roofs.',
-      image: 'extensionFlatRoof',
+      image: 'flatRoofFinished',
       layout: 'offset',
     },
     overview: {
@@ -376,7 +383,7 @@ export const services: Service[] = [
         'A good flat roof starts with a sound, properly falling deck and finishes with careful work at every trim, outlet and junction with the main building.',
       ],
       pull: 'The finish you see is only as good as the deck beneath it.',
-      image: 'extensionRender',
+      image: 'flatRoofDeck',
     },
     work: {
       heading: 'Flat roofing work',
@@ -407,7 +414,7 @@ export const services: Service[] = [
         },
       ],
     },
-    gallery: ['extensionFlatRoof', 'extensionRender', 'extensionTimber', 'glassHouseNight'],
+    gallery: ['feltRoofBefore', 'flatRoofDeck', 'flatRoofFinished', 'extensionFlatRoofFascia'],
     faqs: [
       {
         q: 'What is a GRP roof?',
@@ -447,7 +454,7 @@ export const services: Service[] = [
       title: 'The roofline: where the roof hands water to the ground',
       intro:
         'Fascias, soffits and gutters carry every drop that lands on your roof safely away from walls and foundations. When they fail, water ends up where it does real damage. We repair and renew the full roofline.',
-      image: 'whiteHouseGreyRoof',
+      image: 'fasciaFitting',
       layout: 'split',
     },
     overview: {
@@ -456,7 +463,7 @@ export const services: Service[] = [
         'An overflowing gutter can saturate a wall for years before damp shows inside. Rotten fascia boards stop gutters from holding their line, and damaged soffits let in birds, draughts and weather at the eaves.',
         'Renewing the roofline at the same time as other roof work is often the most economical approach, but we also take on roofline and gutter jobs on their own.',
       ],
-      image: 'gablesFascia',
+      image: 'fasciaNewTimber',
     },
     work: {
       heading: 'Roofline and gutter work',
@@ -482,7 +489,7 @@ export const services: Service[] = [
         { title: 'Downpipe', text: 'Carries water to the drains. Leaks here soak walls and foundations.' },
       ],
     },
-    gallery: ['whiteHouseGreyRoof', 'gablesFascia', 'ladderWork', 'brickHouseTiled'],
+    gallery: ['fasciaBefore', 'fasciaNewTimber', 'fasciaFitting', 'flatRoofFinished'],
     faqs: [
       {
         q: 'Why are my gutters overflowing?',
@@ -520,8 +527,9 @@ export const services: Service[] = [
       title: 'Don’t move. Extend.',
       intro:
         'An extension can give you the kitchen, living space or bedroom you need without leaving the home and the area you love. We build extensions from the ground up, and because we are roofers too, the roof is built by the same team.',
-      image: 'extensionGlazed',
-      layout: 'full',
+      image: 'extensionBlockwork',
+      images: ['extensionJoistsSteel', 'extensionBlockwork', 'extensionFlatRoofFascia'],
+      layout: 'framed',
     },
     overview: {
       heading: 'One team from foundations to roof',
@@ -530,7 +538,7 @@ export const services: Service[] = [
         'We build single-storey and two-storey extensions to the plans and permissions for your project, with pitched or flat roofs to suit.',
       ],
       pull: 'Building and roofing under one company, so the most important junction stays in one pair of hands.',
-      image: 'extensionTimber',
+      image: 'extensionRafters',
     },
     work: {
       heading: 'Extension work',
@@ -558,7 +566,7 @@ export const services: Service[] = [
         { title: 'Finishing', text: 'Plastering and finishing work, then the new space is opened up to the house.' },
       ],
     },
-    gallery: ['extensionGlazed', 'extensionTimber', 'kitchen', 'interiorOpenPlan'],
+    gallery: ['foundations', 'extensionWallPlate', 'extensionRafters', 'extensionBlockwork'],
     faqs: [
       {
         q: 'Do I need planning permission for an extension?',
@@ -594,7 +602,7 @@ export const services: Service[] = [
       title: 'Renovations that start with a sound building',
       intro:
         'A beautiful finish means little if the roof leaks or the walls are damp. We renovate homes and commercial properties from the outside in, putting the structure right first and then transforming the spaces within.',
-      image: 'interiorOpenPlan',
+      image: 'knockThroughOpening',
       layout: 'split',
     },
     overview: {
@@ -603,7 +611,7 @@ export const services: Service[] = [
         'Many renovation projects, especially in older Irish homes, begin with the building envelope: a roof that needs attention, walls that need repair, openings that need altering. Because we are roofers and builders, we can take on that structural work as well as the renovation itself.',
         'Whether it is a family home, an older house you have just bought, or a commercial premises, we will talk through what you want to achieve and what the building needs.',
       ],
-      image: 'renovationStripped',
+      image: 'knockThroughPropped',
     },
     work: {
       heading: 'Renovation work',
@@ -627,7 +635,7 @@ export const services: Service[] = [
         { title: 'Inside', items: ['Plastering', 'Reconfigured rooms', 'Kitchens and living spaces', 'Final finishes'] },
       ],
     },
-    gallery: ['renovationStripped', 'interiorOpenPlan', 'interiorStairs', 'bathroom'],
+    gallery: ['knockThroughBefore', 'knockThroughPropped', 'plasteredRoom', 'mediaWallBoarded'],
     faqs: [
       {
         q: 'Do you renovate older houses?',
@@ -646,7 +654,7 @@ export const services: Service[] = [
         a: 'Call 087 365 4209 or use the quote form. Photographs and any drawings you have help us understand the project from the start.',
       },
     ],
-    related: ['extensions', 'general-building-work', 'roof-restoration'],
+    related: ['knock-throughs', 'extensions', 'flooring'],
     landing: ['building-contractors-leinster', 'building-contractors-munster'],
   },
   {
@@ -654,7 +662,7 @@ export const services: Service[] = [
     category: 'building',
     name: 'General Building Work',
     short: 'General Building Work',
-    summary: 'Block laying, plastering, alterations and all general building work.',
+    summary: 'Foundations, concrete, block laying, groundworks, plastering and alterations.',
     metaTitle: 'General Building Work | Block Laying & Plastering | Pat Premier',
     metaDescription:
       'All general building work undertaken: block laying, plastering, alterations and repairs for homes and businesses across Leinster, Munster and the Midlands. Call 087 365 4209.',
@@ -663,7 +671,7 @@ export const services: Service[] = [
       title: 'All building work undertaken',
       intro:
         'Not every job is a roof or an extension. From block laying and plastering to alterations and repairs, we take on general building work for homes and businesses, large or small.',
-      image: 'carpentry',
+      image: 'foundations',
       layout: 'offset',
     },
     overview: {
@@ -672,7 +680,7 @@ export const services: Service[] = [
         'Plenty of building jobs fall between trades: a wall to build, a ceiling to re-plaster, an opening to form, a repair after other work. Rather than coordinating several contractors, you can bring it to one company.',
         'Tell us what you need and we will tell you plainly whether it is work we can take on.',
       ],
-      image: 'buildingSite',
+      image: 'floorSlab',
     },
     work: {
       heading: 'General building work',
@@ -683,7 +691,10 @@ export const services: Service[] = [
         { title: 'Plastering', text: 'Internal and external plastering and repairs.' },
         { title: 'Alterations', text: 'Forming openings and reconfiguring spaces.' },
         { title: 'Building repairs', text: 'Repairs to walls, chimneys and structures.' },
-        { title: 'Outbuildings', text: 'Garages, sheds and outbuildings built or repaired.' },
+        { title: 'Foundations and floor slabs', text: 'Strip foundations, damp-proof membranes and concrete floor slabs.' },
+        { title: 'Concrete and groundworks', text: 'Concrete yards, paths and bases, dug out and finished properly.' },
+        { title: 'Driveway bases', text: 'Driveways dug out and laid with a compacted stone base.' },
+        { title: 'Garden walls', text: 'Old walls taken down safely and new ones built.' },
         { title: 'Commercial work', text: 'Building work for shops, offices and premises.' },
       ],
     },
@@ -694,11 +705,15 @@ export const services: Service[] = [
       groups: [
         { title: 'Walls', items: ['Block walls', 'Boundary walls', 'Wall repairs'] },
         { title: 'Finishes', items: ['Internal plastering', 'External plastering', 'Patch repairs'] },
-        { title: 'Alterations', items: ['New openings', 'Removing walls', 'Small structures'] },
+        { title: 'Groundworks', items: ['Foundations', 'Concrete floors and yards', 'Driveway and patio bases'] },
       ],
     },
-    gallery: ['carpentry', 'buildingSite', 'timberFrame', 'insulation'],
+    gallery: ['gardenWallDemolished', 'drivewayBase', 'concreteScreeding', 'floorSlab'],
     faqs: [
+      {
+        q: 'Do you do concrete work and groundworks?',
+        a: 'Yes, including foundations, floor slabs, concrete yards and paths, and stone bases for driveways and patios.',
+      },
       {
         q: 'Do you take on small building jobs?',
         a: 'Yes. Get in touch with the details and we will let you know.',
@@ -715,10 +730,233 @@ export const services: Service[] = [
     related: ['extensions', 'property-renovations', 'roof-repairs'],
     landing: ['building-contractors-leinster', 'building-contractors-munster'],
   },
+  // ───────────────────────────── INTERIORS ─────────────────────────────
+  {
+    slug: 'media-walls',
+    category: 'interiors',
+    name: 'Media Walls',
+    short: 'Media Walls',
+    summary: 'Built-in media walls with recesses for your TV, shelving and display.',
+    metaTitle: 'Media Walls | Built-In TV & Feature Walls | Pat Premier',
+    metaDescription:
+      'Bespoke media walls built in timber and plasterboard, with recessed niches for your TV, shelving and display, across Leinster, Munster and the Midlands. Call 087 365 4209.',
+    hero: {
+      eyebrow: 'Interiors · Media walls',
+      title: 'A media wall built around the way you live',
+      intro:
+        'A media wall turns a plain living room wall into a built-in feature: a recess for the TV, niches for shelving and display, and cables kept out of sight. We frame, board and finish media walls to suit your room.',
+      image: 'mediaWallBoarded',
+      layout: 'split',
+    },
+    overview: {
+      heading: 'Built properly behind the finish',
+      paragraphs: [
+        'A good media wall starts with a straight, solid frame. We build a timber stud frame across the wall, set out every recess and shelf to your measurements, and plan where cables need to run before anything is closed in.',
+        'The frame is then boarded, the edges of every niche are finished with corner beads for crisp lines, and the wall is ready for plastering and decoration.',
+      ],
+      pull: 'Every recess is set out to your TV, your shelving and your room before a single board goes on.',
+      image: 'mediaWallFrame',
+    },
+    work: {
+      heading: 'What we build',
+      intro: 'Designed around your room and what you want on display.',
+      layout: 'grid',
+      items: [
+        { title: 'TV recesses', text: 'A recess sized for your TV, so it sits neatly into the wall.' },
+        { title: 'Display niches', text: 'Recessed niches and shelves either side for books, ornaments and lighting.' },
+        { title: 'Timber stud frames', text: 'A solid, level frame fixed to the wall to carry the boards.' },
+        { title: 'Plasterboard and beads', text: 'Boarded and finished with corner beads for sharp, straight edges.' },
+        { title: 'Hidden cable routes', text: 'Cable routes planned in the frame so wires are kept out of sight.' },
+        { title: 'Ready to decorate', text: 'Finished for plastering and painting to match the room.' },
+      ],
+    },
+    feature: {
+      kind: 'steps',
+      heading: 'How a media wall comes together',
+      intro: 'The stages you can see in our own photographs, from bare wall to boarded media wall.',
+      steps: [
+        { title: 'Measure and design', text: 'We agree the layout: TV size, niches, shelves and any fire or speaker space.' },
+        { title: 'Timber frame', text: 'A stud frame is built and fixed across the wall, level and square.' },
+        { title: 'Cable routes', text: 'Cable runs are planned into the frame before it is closed in.' },
+        { title: 'Boarding', text: 'The frame is boarded and every recess formed.' },
+        { title: 'Beads and finishing', text: 'Corner beads go on every edge, ready for plastering and decorating.' },
+      ],
+    },
+    gallery: ['mediaWallFrame', 'mediaWallBoarded', 'laminateFlooring', 'plasteredRoom'],
+    faqs: [
+      {
+        q: 'Can you build a media wall around my existing TV?',
+        a: 'Yes. Tell us the size of your TV (and anything else you want built in) and the recess is set out to suit.',
+      },
+      {
+        q: 'Do you do the electrics for a media wall?',
+        a: 'Please ask when you get in touch and we will talk you through how sockets and lighting will be handled for your wall.',
+      },
+      {
+        q: 'Can you do the flooring at the same time?',
+        a: 'Yes. We also fit hardwood and laminate flooring, so the whole room can be done together.',
+      },
+      {
+        q: 'Do you give free quotations for media walls?',
+        a: 'Yes. Call 087 365 4209 or request a quote online, with a photo of the wall if you can.',
+      },
+    ],
+    related: ['flooring', 'knock-throughs', 'property-renovations'],
+    landing: ['building-contractors-leinster', 'building-contractors-munster'],
+  },
+  {
+    slug: 'flooring',
+    category: 'interiors',
+    name: 'Hardwood & Laminate Flooring',
+    short: 'Hardwood & Laminate Flooring',
+    summary: 'Hardwood and laminate floors, fitted over the right underlay.',
+    metaTitle: 'Hardwood & Laminate Flooring Fitted | Pat Premier',
+    metaDescription:
+      'Hardwood and laminate flooring supplied and fitted by Pat Premier, including water-resistant laminate, over the right underlay. Leinster, Munster and the Midlands. Free quotes.',
+    hero: {
+      eyebrow: 'Interiors · Flooring',
+      title: 'Hardwood and laminate floors, laid right',
+      intro:
+        'A floor is only as good as what is under it. We prepare the subfloor, lay the correct underlay and fit hardwood and laminate flooring neatly from wall to wall.',
+      image: 'laminateFlooring',
+      layout: 'offset',
+    },
+    overview: {
+      heading: 'Preparation first, then the floor',
+      paragraphs: [
+        'Most floor problems, such as creaks, gaps, lifting and damp, come from what is underneath. Before any boards go down, the subfloor is cleared and checked, and the right underlay is laid for the room and the floor being fitted.',
+        'Then the boards are laid in straight, staggered rows, with expansion gaps at the walls and tidy finishing at doorways and edges.',
+      ],
+      pull: 'Clean subfloor, correct underlay, straight rows: the difference you feel every day.',
+      image: 'flooringUnderlay',
+    },
+    work: {
+      heading: 'Flooring we fit',
+      intro: 'For living rooms, kitchens, hallways and bedrooms.',
+      layout: 'rows',
+      items: [
+        { title: 'Hardwood flooring', text: 'Real wood floors with natural grain and character, fitted with care.' },
+        { title: 'Laminate flooring', text: 'Hard-wearing laminate in a wide range of wood-effect finishes.' },
+        { title: 'Water-resistant laminate', text: 'Laminate designed for kitchens, hallways and busy family rooms.' },
+        { title: 'Underlay', text: 'The right underlay for the floor and subfloor, laid before the boards.' },
+        { title: 'Subfloor preparation', text: 'Old coverings lifted and the floor cleared and checked before fitting.' },
+        { title: 'Whole-room finishing', text: 'Floors fitted as part of a media wall, knock-through or full renovation.' },
+      ],
+    },
+    feature: {
+      kind: 'compare',
+      heading: 'Hardwood or laminate?',
+      intro: 'Both look superb when fitted well. Here is how they differ. We are happy to talk it through for your room.',
+      columns: [
+        {
+          title: 'Hardwood',
+          when: 'Real timber, for warmth and character that lasts.',
+          points: ['Natural grain, every board different', 'Can often be sanded and refinished', 'A premium finish for living spaces'],
+        },
+        {
+          title: 'Laminate',
+          when: 'Practical, hard-wearing and great value.',
+          points: ['Wide choice of wood-effect finishes', 'Water-resistant ranges for kitchens and halls', 'Quick to fit with minimal disruption'],
+        },
+      ],
+    },
+    gallery: ['flooringUnderlay', 'laminateFlooring', 'mediaWallFrame', 'plasteredRoom'],
+    faqs: [
+      {
+        q: 'Do you fit both hardwood and laminate flooring?',
+        a: 'Yes, we fit both. Tell us the rooms and the look you are after and we will advise on what suits.',
+      },
+      {
+        q: 'Is laminate suitable for a kitchen?',
+        a: 'Water-resistant laminate ranges are designed for kitchens, hallways and other busy areas. We can talk you through the options.',
+      },
+      {
+        q: 'Do I need new underlay?',
+        a: 'In most cases, yes. The right underlay helps with comfort, sound and levelling, and some floors require a specific type.',
+      },
+      {
+        q: 'Can you lift my old floor first?',
+        a: 'Yes. Old coverings can be lifted and the subfloor prepared as part of the job.',
+      },
+    ],
+    related: ['media-walls', 'knock-throughs', 'property-renovations'],
+    landing: ['building-contractors-leinster', 'building-contractors-munster'],
+  },
+  {
+    slug: 'knock-throughs',
+    category: 'interiors',
+    name: 'Knock-Throughs & Open-Plan Living',
+    short: 'Knock-Throughs & Open-Plan',
+    summary: 'Walls opened up to join kitchens and living rooms into brighter spaces.',
+    metaTitle: 'Knock-Throughs & Wall Removal | Open-Plan Living | Pat Premier',
+    metaDescription:
+      'Walls opened up and knocked through to create open-plan kitchens and living rooms, with temporary support, making good and plastering. Pat Premier, call 087 365 4209.',
+    hero: {
+      eyebrow: 'Interiors · Knock-throughs',
+      title: 'Open up your home without moving',
+      intro:
+        'Joining a kitchen and living room, or widening a doorway, can transform how a house feels. We open up walls safely, support them while the work is done, and leave the opening ready to finish.',
+      image: 'knockThroughOpeningKitchen',
+      images: ['knockThroughBefore', 'knockThroughPropped', 'knockThroughOpeningKitchen'],
+      layout: 'framed',
+    },
+    overview: {
+      heading: 'Careful work on the walls that hold your house up',
+      paragraphs: [
+        'Many internal walls carry load from the floors and roof above. Before an opening is formed, the wall above is supported temporarily, and a correctly sized lintel or beam goes in to carry the load permanently. Where a wall is load-bearing, a structural engineer’s specification is usually needed, and we will talk you through it.',
+        'Once the opening is formed, the edges are made good and the walls plastered, ready for flooring and decorating to tie the two rooms together.',
+      ],
+      pull: 'Support first, opening second, finish last.',
+      image: 'plasteredRoom',
+    },
+    work: {
+      heading: 'Knock-through work',
+      intro: 'From a wider doorway to a fully open-plan ground floor.',
+      layout: 'columns',
+      items: [
+        { title: 'Kitchen to living room', text: 'Opening the wall between kitchen and living space.' },
+        { title: 'Wider openings', text: 'Widening doorways and openings between rooms.' },
+        { title: 'Temporary support', text: 'The wall above supported while the opening is formed.' },
+        { title: 'Lintels and beams', text: 'A lintel or beam installed to carry the load permanently.' },
+        { title: 'Making good', text: 'Edges, reveals and floors made good after the opening.' },
+        { title: 'Plastering', text: 'Walls and ceilings plastered, ready to decorate.' },
+      ],
+    },
+    feature: {
+      kind: 'steps',
+      heading: 'From wall to open plan',
+      intro: 'The sequence shown in our own photographs of a kitchen–living room knock-through.',
+      steps: [
+        { title: 'Plan and check', text: 'We check what the wall carries and what runs through it.' },
+        { title: 'Prepare', text: 'Floors and furniture protected; the opening marked out.' },
+        { title: 'Support', text: 'The wall above is supported temporarily.' },
+        { title: 'Open up', text: 'The opening is formed and the lintel or beam installed.' },
+        { title: 'Make good', text: 'Edges and reveals made good, then plastered.' },
+      ],
+    },
+    gallery: ['knockThroughBefore', 'knockThroughPropped', 'knockThroughOpening', 'plasteredRoom'],
+    faqs: [
+      {
+        q: 'Can any wall be knocked through?',
+        a: 'Most walls can be opened up, but load-bearing walls need a properly sized lintel or beam and temporary support while the work is done. We will check the wall with you first.',
+      },
+      {
+        q: 'Do I need an engineer?',
+        a: 'For a load-bearing wall, a structural engineer’s specification for the beam is usually needed. We will talk you through what applies to your wall.',
+      },
+      {
+        q: 'Can you finish the room afterwards?',
+        a: 'Yes. We plaster the walls and can fit new flooring and build media walls, so the new space is finished as one.',
+      },
+    ],
+    related: ['property-renovations', 'flooring', 'media-walls'],
+    landing: ['building-contractors-leinster', 'building-contractors-munster'],
+  },
 ];
 
 export const roofingServices = services.filter((s) => s.category === 'roofing');
 export const buildingServices = services.filter((s) => s.category === 'building');
+export const interiorServices = services.filter((s) => s.category === 'interiors');
 
 export const serviceUrl = (s: Pick<Service, 'category' | 'slug'>) => `/${s.category}/${s.slug}`;
 

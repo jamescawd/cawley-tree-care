@@ -4,8 +4,9 @@ import ServiceHero from '@/components/service/ServiceHero.astro';
 import Photo from '@/components/ui/Photo.astro';
 import Pending from '@/components/ui/Pending.astro';
 import CtaBand from '@/components/sections/CtaBand.astro';
+import SocialLinks from '@/components/ui/SocialLinks.astro';
 import { business } from '@/config/business';
-import { roofingServices, buildingServices, serviceUrl } from '@/data/services';
+import { roofingServices, buildingServices, interiorServices, serviceUrl } from '@/data/services';
 import { breadcrumbSchema } from '@/lib/seo';
 
 const site = Astro.site ?? new URL('http://localhost:4321');
@@ -31,9 +32,10 @@ const process = [
     eyebrow="About Pat Premier"
     title="Built on Trust, Covered in Quality."
     intro="A roofing and building company for homes and commercial properties across Leinster, Munster and the Midlands."
-    image="rooftopsStreet"
+    image="extensionFlatRoofFascia"
+    images={['rooferStrippingTiles', 'slateReroof', 'fasciaFitting']}
     trail={trail}
-    quoteHref="/contact#quote"
+    quoteHref="/quote"
   />
 
   <section class="section" aria-labelledby="story-h">
@@ -50,7 +52,7 @@ const process = [
             We repair, restore and replace roofs, from slate and tile to GRP flat roofs, and we take care of the fascias, soffits and gutters that protect the walls below.
           </p>
           <p>
-            We also build: extensions, renovations, block laying, plastering and general building work. Our approach is simple. Do the job properly, communicate clearly, and leave customers with work they never have to think about again.
+            We also build: extensions, renovations, foundations, concrete, block laying and plastering. And inside, we build media walls, lay hardwood and laminate floors, and open up rooms. Our approach is simple: do the job properly, communicate clearly, and leave work you never have to think about again.
           </p>
         </div>
       </div>
@@ -86,7 +88,7 @@ const process = [
       <div class="lg:col-span-5" data-reveal>
         <p class="eyebrow">How we work</p>
         <h2 id="process-h" class="t-d1 mt-5">From first call to finished job</h2>
-        <Photo media="carpentry" class="mt-10 aspect-[4/3]" sizes="(min-width: 64rem) 38vw, 100vw" />
+        <Photo media="extensionRafters" class="mt-10 aspect-[4/3]" sizes="(min-width: 64rem) 38vw, 100vw" />
       </div>
       <ol class="lg:col-span-6 lg:col-start-7">
         {
@@ -107,11 +109,12 @@ const process = [
   <section class="section surface-dark" aria-labelledby="services-h">
     <div class="wrap grid gap-12 lg:grid-cols-12">
       <h2 id="services-h" class="t-d1 lg:col-span-5">What we do</h2>
-      <div class="grid gap-10 sm:grid-cols-2 lg:col-span-6 lg:col-start-7">
+      <div class="grid gap-10 sm:grid-cols-3 lg:col-span-7 lg:col-start-6">
         {
           [
             { name: 'Roofing', href: '/roofing', list: roofingServices },
             { name: 'Building', href: '/building', list: buildingServices },
+            { name: 'Interiors', href: '/interiors', list: interiorServices },
           ].map((g) => (
             <div>
               <h3 class="border-b border-white/20 pb-4 text-xl font-semibold">
@@ -125,6 +128,21 @@ const process = [
             </div>
           ))
         }
+      </div>
+    </div>
+  </section>
+
+  <section class="section surface-paper" aria-labelledby="social-h">
+    <div class="wrap grid gap-8 lg:grid-cols-12 lg:items-center">
+      <div class="lg:col-span-7">
+        <p class="eyebrow">Follow the work</p>
+        <h2 id="social-h" class="t-d2 mt-5">See our jobs as they happen</h2>
+        <p class="mt-5 max-w-xl text-lg text-muted">
+          {business.owner}, the owner, posts our jobs on TikTok ({business.social.tiktokHandle}), and you will find more on our Facebook page.
+        </p>
+      </div>
+      <div class="lg:col-span-4 lg:col-start-9 lg:justify-self-end">
+        <SocialLinks variant="pill" />
       </div>
     </div>
   </section>
@@ -146,8 +164,12 @@ const process = [
           <dd class="sm:col-span-2">{business.coverage.summary}. {business.coverage.nationwide}</dd>
         </div>
         <div class="grid gap-2 border-b border-line py-5 sm:grid-cols-3">
+          <dt class="font-semibold text-ink">Owner</dt>
+          <dd class="sm:col-span-2">{business.owner}</dd>
+        </div>
+        <div class="grid gap-2 border-b border-line py-5 sm:grid-cols-3">
           <dt class="font-semibold text-ink">Work undertaken</dt>
-          <dd class="sm:col-span-2">Residential and commercial roofing and building</dd>
+          <dd class="sm:col-span-2">Residential and commercial roofing, building and interior work</dd>
         </div>
         <div class="grid gap-2 border-b border-line py-5 sm:grid-cols-3">
           <dt class="font-semibold text-ink">Established</dt>
@@ -169,5 +191,5 @@ const process = [
     </div>
   </section>
 
-  <CtaBand image="rooferRidge" />
+  <CtaBand image="rooferStrippingTiles" />
 </BaseLayout>

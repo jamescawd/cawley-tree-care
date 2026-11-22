@@ -9,8 +9,8 @@ site in the repository root; that site's rules do not apply here, and vice versa
   guarantees, reviews, prices, team members, addresses, completed projects.
   Confirmed facts live only in `src/config/business.ts`; anything else stays
   `null` and shows a `<Pending>` marker. Keep `docs/CONTENT-NEEDED.md` current.
-- **Demonstration images and projects are always labelled** (`demo: true`).
-  Never describe them as Pat Premier’s work.
+- All photos are Pat Premier’s own job photos. Describe only what a photo shows;
+  never invent a project location or detail. Any stock placeholder must be `demo: true`.
 - Do not claim the quote form works until the email service is configured
   and a live test submission has been received (see `docs/FORMS.md`).
 - Irish English (`en-IE`): colour, centre, organise, Co. Kildare, Eircode.
@@ -23,6 +23,7 @@ site in the repository root; that site's rules do not apply here, and vice versa
 - Logo: `src/components/ui/Logo.astro` (`on="light"` / `on="dark"`), vector-traced
   from the supplied artwork. Replace `public/brand/*.svg` if a master vector is supplied.
 - Type: Archivo (semi-expanded) for display headings; Instrument Sans for everything else.
+- Photos are portrait (phone): prefer 4:5 frames; avoid wide crops.
 - Look: white-led, editorial, large photography, 1px rules, square-ish corners,
   restrained motion (respect `prefers-reduced-motion`).
 - Component `<style>` blocks are unlayered and beat Tailwind utilities: never

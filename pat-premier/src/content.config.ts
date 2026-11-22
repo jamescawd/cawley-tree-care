@@ -22,6 +22,9 @@ const services = z.enum([
   'extensions',
   'property-renovations',
   'general-building-work',
+  'media-walls',
+  'flooring',
+  'knock-throughs',
 ]);
 
 const projects = defineCollection({
@@ -30,10 +33,10 @@ const projects = defineCollection({
     const photo = z.object({ src: image(), alt: z.string().min(8) });
     return z.object({
       title: z.string(),
-      /** Town / area, e.g. "Naas, Co. Kildare". */
-      location: z.string(),
+      /** Town / area, e.g. "Naas, Co. Kildare". Leave out if not confirmed. */
+      location: z.string().optional(),
       county: z.string().optional(),
-      category: z.enum(['roofing', 'building']),
+      category: z.enum(['roofing', 'building', 'interiors']),
       services: z.array(services).min(1),
       /** Short label shown on cards, e.g. "Slate re-roof". */
       workType: z.string(),
@@ -47,6 +50,10 @@ const projects = defineCollection({
       during: z.array(photo).default([]),
       after: z.array(photo).default([]),
       order: z.number().default(100),
+      /** Show a drag-to-compare slider (only when before and after are taken from the same viewpoint). */
+      compare: z.boolean().default(false),
+      /** Optional job video in public/video/, e.g. "/video/reroof.mp4" (poster: same name .webp). */
+      video: z.string().optional(),
     });
   },
 });

@@ -2,12 +2,12 @@
 import Photo from '@/components/ui/Photo.astro';
 import type { MediaKey } from '@/data/media';
 
+/** Portrait-first gallery: a staggered row of four frames (2×2 on phones). */
 interface Props {
   images: MediaKey[];
   heading: string;
 }
 const { images, heading } = Astro.props;
-const [a, b, c, d] = images;
 ---
 
 <section class="section" aria-labelledby="gallery-h">
@@ -19,11 +19,17 @@ const [a, b, c, d] = images;
       </div>
       <a href="/projects" class="link">See our projects</a>
     </div>
-    <div class="mt-12 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-12 lg:auto-rows-[clamp(14rem,21vw,21rem)]">
-      {a && <Photo media={a} class="col-span-2 aspect-[4/3] lg:col-span-7 lg:row-span-2 lg:aspect-auto lg:h-full" sizes="(min-width: 64rem) 56vw, 100vw" />}
-      {b && <Photo media={b} class="aspect-square lg:col-span-5 lg:aspect-auto lg:h-full" sizes="(min-width: 64rem) 40vw, 50vw" />}
-      {c && <Photo media={c} class="aspect-square lg:col-span-3 lg:aspect-auto lg:h-full" sizes="(min-width: 64rem) 24vw, 50vw" />}
-      {d && <Photo media={d} class="col-span-2 aspect-[16/9] lg:col-span-2 lg:aspect-auto lg:h-full" sizes="(min-width: 64rem) 16vw, 100vw" />}
+    <div class="mt-12 grid grid-cols-2 gap-3 pb-6 sm:gap-4 lg:grid-cols-4 lg:pb-12">
+      {
+        images.slice(0, 4).map((key, i) => (
+          <Photo
+            media={key}
+            class:list={['aspect-[4/5]', i % 2 === 1 && 'translate-y-6 lg:translate-y-12']}
+            sizes="(min-width: 64rem) 23vw, 50vw"
+            widths={[360, 540, 720, 1080]}
+          />
+        ))
+      }
     </div>
   </div>
 </section>
