@@ -26,6 +26,12 @@ export const reviews: Review[] = [
     text: "Pat recently replaced my full roof the slates, battons and the old felt. He arrived and put up his scaffolding and got to work stripping the old and replacing it all! He tidied up after him took away all the rubbish! I can't fault his work and Pat and Jason were out in all sorts of weather and it was a very fair price! I would definitely recommend Pat Premier for any jobs.",
   },
   {
+    name: 'Jenny Murphy',
+    service: 'Driveway',
+    source: 'Facebook recommendation',
+    text: "Reliable and professional. Pat did a great job on my driveway. Grass and Cobblestone removed and fully concreted. Leaves the area clean and tidy and removes all the rubbish/debris. Pat also did a small plumbing job for me. Pricing is affordable and not over the top. Lovely lads to deal with.",
+  },
+  {
     name: 'Aoife Reeves',
     service: 'Roof repair after a storm',
     source: 'Facebook comment on the Pat Premier page',
