@@ -33,6 +33,8 @@ export const PAGES = [
   '/projects/media-wall-and-laminate-floor',
   '/projects/kitchen-living-room-knock-through',
   '/projects/fascia-and-rafter-ends-rebuilt',
+  '/projects/extension-build-finished',
+  '/projects/roof-deck-new-boards',
   '/quote',
   '/about',
   '/areas',
@@ -134,7 +136,7 @@ test('TikTok and Facebook links are present', async ({ page }) => {
 test('videos load nothing until played', async ({ page }) => {
   await page.goto('/');
   const videos = page.locator('video');
-  await expect(videos).toHaveCount(2);
+  await expect(videos).toHaveCount(4);
   for (const v of await videos.all()) await expect(v).toHaveAttribute('preload', 'none');
 });
 
