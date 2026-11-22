@@ -1,0 +1,29 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageIntro from '@/components/ui/PageIntro.astro';
+import Pending from '@/components/ui/Pending.astro';
+import { business } from '@/config/business';
+---
+
+<BaseLayout title="Privacy Notice" description="How Pat Premier Roofing and Building uses the personal information you send through this website.">
+  <PageIntro eyebrow="Privacy" title="Privacy notice" trail={[{ name: 'Home', href: '/' }, { name: 'Privacy', href: '/privacy' }]} />
+  <section class="section pt-14">
+    <div class="wrap-narrow prose-pp text-lg">
+      <p class="pending">Draft: to be reviewed and approved by Pat Premier before launch.</p>
+      <h2 class="t-d3 pt-4">Who we are</h2>
+      <p>{business.name} (“we”). Contact: <a href={`mailto:${business.email}`}>{business.email}</a>, {business.phone.display}. Business address: <Pending what="business address" /></p>
+      <h2 class="t-d3 pt-4">What we collect</h2>
+      <p>When you send an enquiry we receive the details you enter: your name, telephone number, email address, location, the service you need, your description of the work and any photographs you attach.</p>
+      <h2 class="t-d3 pt-4">Why we use it</h2>
+      <p>Only to respond to your enquiry and, if you go ahead, to arrange and carry out the work. The legal basis is taking steps at your request before entering into a contract.</p>
+      <h2 class="t-d3 pt-4">Who sees it</h2>
+      <p>Your enquiry is delivered to us by email through an email delivery service acting on our behalf (<Pending what="email delivery provider" />). We do not sell or share your details for marketing.</p>
+      <h2 class="t-d3 pt-4">How long we keep it</h2>
+      <p><Pending what="retention period" /></p>
+      <h2 class="t-d3 pt-4">Cookies</h2>
+      <p>This website does not use advertising or analytics cookies.</p>
+      <h2 class="t-d3 pt-4">Your rights</h2>
+      <p>You can ask to see, correct or delete the information we hold about you by contacting us. You also have the right to complain to the Data Protection Commission (dataprotection.ie).</p>
+    </div>
+  </section>
+</BaseLayout>

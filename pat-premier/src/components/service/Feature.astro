@@ -1,0 +1,243 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import type { Feature } from '@/data/services';
+
+interface Props {
+  feature: Feature;
+}
+const { feature: f } = Astro.props;
+const n = (i: number) => String(i + 1).padStart(2, '0');
+---
+
+{
+  f.kind === 'signs' && (
+    <section class="section surface-dark" aria-labelledby="feature-h">
+      <div class="wrap">
+        <div class="max-w-3xl" data-reveal>
+          <p class="eyebrow">Know the signs</p>
+          <h2 id="feature-h" class="t-d1 mt-5">{f.heading}</h2>
+          <p class="t-lead mt-6 text-on-dark">{f.intro}</p>
+        </div>
+        <ul class="mt-14 grid gap-px overflow-hidden bg-white/15 sm:grid-cols-2 lg:grid-cols-3">
+          {f.items.map((it, i) => (
+            <li class="bg-navy-950 p-8" data-reveal>
+              <span class="index">{n(i)}</span>
+              <h3 class="mt-6 text-xl font-semibold">{it.title}</h3>
+              <p class="mt-2">{it.text}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}
+
+{
+  f.kind === 'compare' && (
+    <section class="section" aria-labelledby="feature-h">
+      <div class="wrap">
+        <div class="max-w-3xl" data-reveal>
+          <p class="eyebrow">Your options</p>
+          <h2 id="feature-h" class="t-d1 mt-5">{f.heading}</h2>
+          <p class="t-lead mt-6 text-muted">{f.intro}</p>
+        </div>
+        <div class="mt-14 grid gap-4 lg:grid-cols-3 lg:gap-0">
+          {f.columns.map((c, i) => {
+            const hi = i === 1;
+            return (
+              <div class:list={['flex flex-col p-8 sm:p-10', hi ? 'surface-dark lg:-my-6 lg:py-16' : 'border border-line bg-white']} data-reveal>
+                <span class="index">{n(i)}</span>
+                <h3 class="t-d2 mt-4">{c.title}</h3>
+                <p class:list={['mt-4 font-semibold', hi ? 'text-white' : 'text-ink']}>{c.when}</p>
+                <ul class="mt-6 space-y-3 border-t border-line pt-6">
+                  {c.points.map((p) => (
+                    <li class="flex gap-3">
+                      <Icon name="check" size={18} class={hi ? 'mt-1 shrink-0 text-royal-300' : 'mt-1 shrink-0 text-royal-600'} />
+                      <span>{p}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+{
+  f.kind === 'steps' && (
+    <section class="section surface-dark overflow-hidden" aria-labelledby="feature-h">
+      <div class="wrap">
+        <div class="grid gap-6 lg:grid-cols-12 lg:items-end" data-reveal>
+          <div class="lg:col-span-7">
+            <p class="eyebrow">Step by step</p>
+            <h2 id="feature-h" class="t-d1 mt-5">{f.heading}</h2>
+          </div>
+          <p class="text-lg text-on-dark lg:col-span-4 lg:col-start-9">{f.intro}</p>
+        </div>
+        <ol class="steps mt-16">
+          {f.steps.map((s, i) => (
+            <li class="step" data-reveal style={`--reveal-delay:${Math.min(i, 4) * 0.06}s`}>
+              <span class="step-dot" aria-hidden="true" />
+              <span class="index">Step {n(i)}</span>
+              <h3 class="mt-3 text-xl font-semibold">{s.title}</h3>
+              <p class="mt-2 text-[0.975rem]">{s.text}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )
+}
+
+{
+  f.kind === 'systems' && (
+    <section class="section" aria-labelledby="feature-h">
+      <div class="wrap grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-4" data-reveal>
+          <p class="eyebrow">Systems</p>
+          <h2 id="feature-h" class="t-d2 mt-5">{f.heading}</h2>
+          <p class="mt-6 text-muted">{f.intro}</p>
+        </div>
+        <ul class="grid gap-5 lg:col-span-8">
+          {f.items.map((it, i) => (
+            <li class:list={['p-8 sm:p-10', it.confirmed ? 'surface-dark' : 'border border-dashed border-royal-600 bg-royal-100/40']} data-reveal>
+              <div class="flex flex-wrap items-center justify-between gap-4">
+                <span class="index">{n(i)}</span>
+                {!it.confirmed && <span class="pending">To be confirmed by Pat Premier</span>}
+              </div>
+              <h3 class="t-d3 mt-5">{it.title}</h3>
+              <p class="mt-3 max-w-2xl">{it.text}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}
+
+{
+  f.kind === 'anatomy' && (
+    <section class="section" aria-labelledby="feature-h">
+      <div class="wrap grid gap-12 lg:grid-cols-12 lg:items-center">
+        <div class="lg:col-span-6" data-reveal>
+          <p class="eyebrow">How it works</p>
+          <h2 id="feature-h" class="t-d1 mt-5">{f.heading}</h2>
+          <p class="t-lead mt-6 text-muted">{f.intro}</p>
+          <ol class="mt-10 border-t border-line">
+            {f.parts.map((p, i) => (
+              <li class="grid grid-cols-[2.5rem_1fr] gap-4 border-b border-line py-5">
+                <span class="grid size-8 place-items-center rounded-full bg-navy-900 text-sm font-semibold text-white">{i + 1}</span>
+                <div>
+                  <h3 class="font-semibold text-ink">{p.title}</h3>
+                  <p class="mt-1 text-body">{p.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <figure class="lg:col-span-5 lg:col-start-8" data-reveal>
+          <svg viewBox="0 0 480 420" class="w-full" role="img" aria-labelledby="anat-t">
+            <title id="anat-t">Cross-section of the eaves showing the fascia, soffit, gutter and downpipe</title>
+            <rect width="480" height="420" fill="var(--color-paper)" />
+            <g fill="none" stroke="var(--color-ink)" stroke-width="2" stroke-linejoin="round">
+              <path d="M30 70 L330 230" stroke-width="14" stroke="var(--color-navy-800)" />
+              <path d="M40 58 L340 218" stroke-width="3" stroke="var(--color-royal-600)" stroke-dasharray="14 6" />
+              <rect x="330" y="215" width="16" height="70" fill="var(--color-white)" />
+              <path d="M180 285 H346" />
+              <rect x="180" y="285" width="166" height="10" fill="var(--color-mist)" />
+              <path d="M346 262 h40 a22 22 0 0 1 -22 30 h-18 z" fill="var(--color-white)" stroke-width="2.5" />
+              <path d="M372 292 v108 M392 292 v108" />
+              <rect x="40" y="295" width="140" height="125" fill="var(--color-white)" />
+              <path d="M40 295 h140 M40 330 h140 M40 365 h140 M40 400 h140 M110 295 v35 M75 330 v35 M145 330 v35 M110 365 v35" stroke="var(--color-line-strong)" stroke-width="1.5" />
+            </g>
+            <g font-family="var(--font-sans)" font-size="13" font-weight="600" fill="var(--color-ink)">
+              <circle cx="300" cy="268" r="13" fill="var(--color-navy-900)" /><text x="300" y="273" text-anchor="middle" fill="#fff">1</text>
+              <path d="M313 262 L330 250" stroke="var(--color-navy-900)" stroke-width="1.5" />
+              <circle cx="250" cy="318" r="13" fill="var(--color-navy-900)" /><text x="250" y="323" text-anchor="middle" fill="#fff">2</text>
+              <path d="M250 305 V295" stroke="var(--color-navy-900)" stroke-width="1.5" />
+              <circle cx="430" cy="250" r="13" fill="var(--color-navy-900)" /><text x="430" y="255" text-anchor="middle" fill="#fff">3</text>
+              <path d="M417 254 L388 268" stroke="var(--color-navy-900)" stroke-width="1.5" />
+              <circle cx="430" cy="350" r="13" fill="var(--color-navy-900)" /><text x="430" y="355" text-anchor="middle" fill="#fff">4</text>
+              <path d="M417 350 H394" stroke="var(--color-navy-900)" stroke-width="1.5" />
+              <text x="44" y="40" fill="var(--color-muted)" font-weight="500">Roof slope</text>
+              <text x="44" y="288" fill="var(--color-muted)" font-weight="500">Wall</text>
+            </g>
+          </svg>
+          <figcaption class="mt-3 text-sm text-muted">Simplified cross-section of the eaves.</figcaption>
+        </figure>
+      </div>
+    </section>
+  )
+}
+
+{
+  f.kind === 'scope' && (
+    <section class="section surface-dark" aria-labelledby="feature-h">
+      <div class="wrap">
+        <div class="max-w-3xl" data-reveal>
+          <p class="eyebrow">Planning the work</p>
+          <h2 id="feature-h" class="t-d1 mt-5">{f.heading}</h2>
+          <p class="t-lead mt-6 text-on-dark">{f.intro}</p>
+        </div>
+        <div class="mt-14 grid gap-10 sm:grid-cols-3">
+          {f.groups.map((g, i) => (
+            <div data-reveal style={`--reveal-delay:${i * 0.08}s`}>
+              <div class="flex items-baseline gap-3 border-b border-white/20 pb-4">
+                <span class="index">{n(i)}</span>
+                <h3 class="t-d3">{g.title}</h3>
+              </div>
+              <ul class="mt-5 space-y-3">
+                {g.items.map((it) => (
+                  <li class="flex items-center gap-3 text-on-dark">
+                    <span class="h-px w-4 bg-royal-300" aria-hidden="true" />
+                    {it}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .steps {
+    display: grid;
+    gap: 2.5rem;
+    position: relative;
+    padding-left: 1.75rem;
+    border-left: 1px solid color-mix(in oklab, var(--color-white) 20%, transparent);
+  }
+  .step {
+    position: relative;
+  }
+  .step-dot {
+    position: absolute;
+    left: calc(-1.75rem - 5px);
+    top: 0.3rem;
+    width: 9px;
+    height: 9px;
+    background: var(--color-royal-300);
+    transform: rotate(45deg);
+  }
+  @media (min-width: 64rem) {
+    .steps {
+      grid-auto-flow: column;
+      grid-auto-columns: minmax(0, 1fr);
+      gap: 1.5rem;
+      padding-left: 0;
+      padding-top: 2rem;
+      border-left: 0;
+      border-top: 1px solid color-mix(in oklab, var(--color-white) 20%, transparent);
+    }
+    .step-dot {
+      left: 0;
+      top: calc(-2rem - 5px);
+    }
+  }
+</style>

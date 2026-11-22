@@ -1,0 +1,51 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageIntro from '@/components/ui/PageIntro.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Pending from '@/components/ui/Pending.astro';
+import HomeContact from '@/components/home/HomeContact.astro';
+import { business, mailHref, telHref } from '@/config/business';
+import { breadcrumbSchema } from '@/lib/seo';
+
+const site = Astro.site ?? new URL('http://localhost:4321');
+const trail = [
+  { name: 'Home', href: '/' },
+  { name: 'Contact', href: '/contact' },
+];
+---
+
+<BaseLayout
+  title="Contact & Free Quotes | Pat Premier Roofing and Building"
+  description="Contact Pat Premier Roofing and Building on 087 365 4209 or pcandson84@outlook.ie, or request a free quotation online. Covering Leinster, Munster and the Midlands."
+  schema={[breadcrumbSchema(site, trail)]}
+>
+  <PageIntro eyebrow="Contact" title="Let’s talk about your project" intro="Call, email or send the details below for a free quotation." trail={trail}>
+    <ul class="mt-14 grid gap-px overflow-hidden border border-line bg-line md:grid-cols-3">
+      <li class="bg-white">
+        <a href={telHref} class="group block h-full p-7 sm:p-9" data-track="call">
+          <Icon name="phone" size={24} class="text-royal-600" />
+          <p class="index mt-8">Call</p>
+          <p class="mt-1 font-display text-[clamp(1.6rem,1.2rem+1.2vw,2.2rem)] font-[600] text-ink [font-stretch:112%] group-hover:text-royal-600">{business.phone.display}</p>
+          <p class="mt-2 text-sm text-muted">Tap to call from your phone</p>
+        </a>
+      </li>
+      <li class="bg-white">
+        <a href={mailHref} class="group block h-full p-7 sm:p-9">
+          <Icon name="mail" size={24} class="text-royal-600" />
+          <p class="index mt-8">Email</p>
+          <p class="mt-1 break-all text-xl font-semibold text-ink group-hover:text-royal-600">{business.email}</p>
+          <p class="mt-2 text-sm text-muted">Photographs of the job are welcome</p>
+        </a>
+      </li>
+      <li class="bg-white p-7 sm:p-9">
+        <Icon name="pin" size={24} class="text-royal-600" />
+        <p class="index mt-8">Coverage</p>
+        <p class="mt-1 text-xl font-semibold text-ink">Leinster, Munster &amp; the Midlands</p>
+        <p class="mt-2 text-sm text-muted">{business.coverage.nationwide}</p>
+      </li>
+    </ul>
+    <p class="mt-5 text-sm text-muted">Opening hours: <Pending what="opening hours" /></p>
+  </PageIntro>
+
+  <HomeContact />
+</BaseLayout>

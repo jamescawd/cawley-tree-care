@@ -1,0 +1,32 @@
+---
+import Photo from '@/components/ui/Photo.astro';
+import type { Service } from '@/data/services';
+
+interface Props {
+  overview: Service['overview'];
+  flip?: boolean;
+}
+const { overview, flip = false } = Astro.props;
+---
+
+<section class="section" aria-labelledby="overview-h">
+  <div class="wrap grid gap-12 lg:grid-cols-12 lg:gap-10">
+    <div class:list={['lg:col-span-6', flip ? 'lg:order-2 lg:col-start-7' : '']} data-reveal>
+      <p class="eyebrow">Overview</p>
+      <h2 id="overview-h" class="t-d2 mt-5">{overview.heading}</h2>
+      <div class="prose-pp mt-7 max-w-xl">
+        {overview.paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+      {
+        overview.pull && (
+          <p class="mt-10 max-w-lg border-l-2 border-royal-600 pl-6 font-display text-xl font-[500] leading-snug text-ink [font-stretch:105%]">
+            {overview.pull}
+          </p>
+        )
+      }
+    </div>
+    <div class:list={['lg:col-span-5', flip ? 'lg:order-1' : 'lg:col-start-8']} data-reveal>
+      <Photo media={overview.image} class="aspect-[4/5]" sizes="(min-width: 64rem) 40vw, 100vw" />
+    </div>
+  </div>
+</section>

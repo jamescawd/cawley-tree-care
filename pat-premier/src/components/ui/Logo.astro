@@ -1,0 +1,26 @@
+---
+/**
+ * The Pat Premier logo, vector-traced from the supplied artwork.
+ * `on="light"` for white/pale surfaces, `on="dark"` for navy surfaces.
+ * Intrinsic ratio 697:208.
+ */
+interface Props {
+  on?: 'light' | 'dark';
+  class?: string;
+  /** Rendered width in px (height follows the ratio). */
+  width?: number;
+  eager?: boolean;
+}
+const { on = 'light', class: cls, width = 220, eager = false } = Astro.props;
+const height = Math.round((width * 208) / 697);
+---
+
+<img
+  src={on === 'light' ? '/brand/logo-on-light.svg' : '/brand/logo-on-dark.svg'}
+  alt="Pat Premier Roofing and Building"
+  width={width}
+  height={height}
+  class={cls}
+  loading={eager ? 'eager' : 'lazy'}
+  decoding="async"
+/>

@@ -1,0 +1,35 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { business, mailHref, telHref } from '@/config/business';
+
+interface Props {
+  title: string;
+  description: string;
+  eyebrow: string;
+  heading: string;
+  text: string;
+  showContact?: boolean;
+}
+const { title, description, eyebrow, heading, text, showContact = true } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} noindex>
+  <section class="section">
+    <div class="wrap-narrow">
+      <p class="eyebrow">{eyebrow}</p>
+      <h1 class="t-d1 mt-5">{heading}</h1>
+      <p class="t-lead mt-6 max-w-2xl text-muted">{text}</p>
+      <slot />
+      {
+        showContact && (
+          <div class="mt-10 flex flex-col gap-3 sm:flex-row">
+            <a href={telHref} class="btn" data-track="call"><Icon name="phone" size={18} /> Call {business.phone.display}</a>
+            <a href={mailHref} class="btn btn-outline"><Icon name="mail" size={18} /> {business.email}</a>
+          </div>
+        )
+      }
+      <a href="/" class="link mt-10 inline-block">Back to the homepage</a>
+    </div>
+  </section>
+</BaseLayout>

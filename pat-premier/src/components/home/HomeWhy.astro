@@ -1,0 +1,53 @@
+---
+import Photo from '@/components/ui/Photo.astro';
+
+/** Points from the brief, described without invented claims or statistics. */
+const points = [
+  {
+    title: 'Quality workmanship',
+    text: 'Work done properly, including the parts nobody sees once the job is finished.',
+  },
+  {
+    title: 'Professional service',
+    text: 'A tidy site, a respectful team and a clear quotation before any work begins.',
+  },
+  {
+    title: 'Reliable communication',
+    text: 'You will know what is happening, what we have found and what comes next.',
+  },
+  {
+    title: 'Roofing and building expertise',
+    text: 'Both trades in one company, so roofs, walls and extensions are joined up properly.',
+  },
+  {
+    title: 'Residential and commercial',
+    text: 'Family homes, farmhouses, shops and commercial premises across Leinster, Munster and the Midlands.',
+  },
+];
+---
+
+<section class="section" aria-labelledby="why-h">
+  <div class="wrap grid gap-14 lg:grid-cols-12 lg:gap-10">
+    <div class="lg:col-span-5" data-reveal>
+      <p class="eyebrow">Why choose Pat Premier</p>
+      <h2 id="why-h" class="t-d1 mt-5">The standard behind every job</h2>
+      <p class="t-lead mt-7 max-w-md text-muted">
+        “Built on Trust, Covered in Quality” is more than a tagline. It is how we work: straightforward, careful and done right.
+      </p>
+      <Photo media="timberFrame" class="mt-12 hidden aspect-[4/5] w-4/5 lg:block" sizes="30vw" />
+    </div>
+    <ol class="lg:col-span-6 lg:col-start-7 lg:pt-4">
+      {
+        points.map((p, i) => (
+          <li class="grid grid-cols-[3rem_1fr] gap-4 border-t border-line py-8 last:border-b sm:py-10" data-reveal>
+            <span class="font-display text-[2.25rem] font-[300] leading-none text-royal-600 [font-stretch:100%]">{i + 1}</span>
+            <div>
+              <h3 class="t-d3">{p.title}</h3>
+              <p class="mt-3 max-w-md text-body">{p.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

@@ -1,0 +1,101 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageIntro from '@/components/ui/PageIntro.astro';
+import ProjectCard from '@/components/sections/ProjectCard.astro';
+import CtaBand from '@/components/sections/CtaBand.astro';
+
+const projects = (await getCollection('projects')).sort(
+  (a, b) => Number(a.data.demo) - Number(b.data.demo) || a.data.order - b.data.order,
+);
+const onlyDemo = projects.every((p) => p.data.demo);
+const filters = [
+  { id: 'all', label: 'All projects' },
+  { id: 'roofing', label: 'Roofing' },
+  { id: 'building', label: 'Building' },
+];
+---
+
+<BaseLayout
+  title="Our Projects | Roofing & Building Work"
+  description="Roofing and building projects by Pat Premier Roofing and Building: re-roofs, repairs, flat roofs, extensions and renovations, with before, during and after photographs."
+>
+  <PageIntro
+    eyebrow="Our projects"
+    title="Roofing and building, shown properly"
+    intro="Each project is presented with its location, the work carried out and photographs from before, during and after."
+    trail={[{ name: 'Home', href: '/' }, { name: 'Our Projects', href: '/projects' }]}
+  />
+
+  <section class="section pt-12 lg:pt-16" aria-label="Project list">
+    <div class="wrap">
+      {
+        onlyDemo && (
+          <p class="mb-12 border-l-2 border-royal-600 bg-paper px-6 py-5 text-[0.95rem] text-body">
+            <strong class="text-ink">Project photography is on its way.</strong> The projects below are demonstrations built from stock photographs to show how Pat Premier’s own completed jobs will be presented. They are not Pat Premier projects.
+          </p>
+        )
+      }
+      <div class="flex flex-wrap gap-2" role="group" aria-label="Filter projects" data-filters hidden>
+        {
+          filters.map((f, i) => (
+            <button type="button" class="filter-btn" data-filter={f.id} aria-pressed={i === 0 ? 'true' : 'false'}>
+              {f.label}
+            </button>
+          ))
+        }
+      </div>
+      <ul class="mt-10 grid gap-x-8 gap-y-16 md:grid-cols-2" data-project-list>
+        {
+          projects.map((p, i) => (
+            <li data-category={p.data.category} class:list={[i % 2 === 1 && 'md:mt-20']} data-reveal>
+              <ProjectCard project={p} size={i % 3 === 0 ? 'large' : 'medium'} index={i + 1} sizes="(min-width: 48rem) 46vw, 100vw" />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand heading="Planning a roofing or building project?" image="extensionGlazed" />
+</BaseLayout>
+
+<style>
+  .filter-btn {
+    min-height: 2.75rem;
+    padding: 0.55rem 1.1rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover {
+    border-color: var(--color-navy-900);
+  }
+  .filter-btn[aria-pressed='true'] {
+    background: var(--color-navy-900);
+    border-color: var(--color-navy-900);
+    color: var(--color-white);
+  }
+</style>
+
+<script>
+  // Progressive enhancement: without JS every project simply shows.
+  const bar = document.querySelector<HTMLElement>('[data-filters]');
+  const items = document.querySelectorAll<HTMLElement>('[data-project-list] > li');
+  if (bar) {
+    bar.hidden = false;
+    bar.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const f = btn.dataset.filter;
+        bar.querySelectorAll('[data-filter]').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+        items.forEach((li) => {
+          li.hidden = f !== 'all' && li.dataset.category !== f;
+        });
+      });
+    });
+  }
+</script>

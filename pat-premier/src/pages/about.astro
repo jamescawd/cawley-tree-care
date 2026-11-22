@@ -1,0 +1,173 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ServiceHero from '@/components/service/ServiceHero.astro';
+import Photo from '@/components/ui/Photo.astro';
+import Pending from '@/components/ui/Pending.astro';
+import CtaBand from '@/components/sections/CtaBand.astro';
+import { business } from '@/config/business';
+import { roofingServices, buildingServices, serviceUrl } from '@/data/services';
+import { breadcrumbSchema } from '@/lib/seo';
+
+const site = Astro.site ?? new URL('http://localhost:4321');
+const trail = [
+  { name: 'Home', href: '/' },
+  { name: 'About Us', href: '/about' },
+];
+const process = [
+  { title: 'Get in touch', text: 'Call, email or send the details and photographs through the quote form.' },
+  { title: 'We look at the job', text: 'We discuss what you need and arrange to see the property where needed.' },
+  { title: 'Free quotation', text: 'You receive a free quotation for the work.' },
+  { title: 'The work', text: 'The job is carried out with care, and the site is left tidy.' },
+];
+---
+
+<BaseLayout
+  title="About Us | Pat Premier Roofing and Building"
+  description="About Pat Premier Roofing and Building: a roofing and building company serving homes and businesses across Leinster, Munster and the Midlands. Built on Trust, Covered in Quality."
+  schema={[breadcrumbSchema(site, trail)]}
+>
+  <ServiceHero
+    layout="framed"
+    eyebrow="About Pat Premier"
+    title="Built on Trust, Covered in Quality."
+    intro="A roofing and building company for homes and commercial properties across Leinster, Munster and the Midlands."
+    image="rooftopsStreet"
+    trail={trail}
+    quoteHref="/contact#quote"
+  />
+
+  <section class="section" aria-labelledby="story-h">
+    <div class="wrap grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-3" data-reveal>
+        <p class="eyebrow">Who we are</p>
+      </div>
+      <div class="lg:col-span-8" data-reveal>
+        <h2 id="story-h" class="t-statement">
+          Pat Premier Roofing and Building brings two trades together under one name: roofing, and the building work that so often goes with it.
+        </h2>
+        <div class="prose-pp mt-10 grid max-w-none gap-8 text-lg md:grid-cols-2 md:gap-12 [&>*+*]:mt-0">
+          <p>
+            We repair, restore and replace roofs, from slate and tile to GRP flat roofs, and we take care of the fascias, soffits and gutters that protect the walls below.
+          </p>
+          <p>
+            We also build: extensions, renovations, block laying, plastering and general building work. Our approach is simple. Do the job properly, communicate clearly, and leave customers with work they never have to think about again.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section surface-paper" aria-labelledby="values-h">
+    <div class="wrap">
+      <div class="grid gap-6 lg:grid-cols-12 lg:items-end">
+        <h2 id="values-h" class="t-d1 lg:col-span-7">What you can expect</h2>
+        <p class="text-lg text-muted lg:col-span-4 lg:col-start-9">The promises on our van and our artwork, and what they mean in practice.</p>
+      </div>
+      <ul class="mt-14 grid gap-px overflow-hidden border border-line bg-line md:grid-cols-3">
+        {
+          [
+            { t: business.values[0], d: 'Careful work at every stage, including the layers and details hidden once a job is finished.' },
+            { t: business.values[1], d: 'Clear communication from first call to final walk-round, and a tidy site throughout.' },
+            { t: business.values[2], d: 'Fair, clearly explained quotations, free of charge, with no pressure.' },
+          ].map((v, i) => (
+            <li class="bg-white p-8 sm:p-10" data-reveal>
+              <span class="index">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="t-d3 mt-8">{v.t}</h3>
+              <p class="mt-3 text-body">{v.d}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="process-h">
+    <div class="wrap grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-5" data-reveal>
+        <p class="eyebrow">How we work</p>
+        <h2 id="process-h" class="t-d1 mt-5">From first call to finished job</h2>
+        <Photo media="carpentry" class="mt-10 aspect-[4/3]" sizes="(min-width: 64rem) 38vw, 100vw" />
+      </div>
+      <ol class="lg:col-span-6 lg:col-start-7">
+        {
+          process.map((s, i) => (
+            <li class="grid grid-cols-[3.5rem_1fr] gap-4 border-t border-line py-8 last:border-b" data-reveal>
+              <span class="font-display text-[2.5rem] font-[300] leading-none text-royal-600">{i + 1}</span>
+              <div>
+                <h3 class="t-d3">{s.title}</h3>
+                <p class="mt-2 text-body">{s.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section surface-dark" aria-labelledby="services-h">
+    <div class="wrap grid gap-12 lg:grid-cols-12">
+      <h2 id="services-h" class="t-d1 lg:col-span-5">What we do</h2>
+      <div class="grid gap-10 sm:grid-cols-2 lg:col-span-6 lg:col-start-7">
+        {
+          [
+            { name: 'Roofing', href: '/roofing', list: roofingServices },
+            { name: 'Building', href: '/building', list: buildingServices },
+          ].map((g) => (
+            <div>
+              <h3 class="border-b border-white/20 pb-4 text-xl font-semibold">
+                <a href={g.href} class="hover:text-royal-300">{g.name}</a>
+              </h3>
+              <ul class="mt-5 space-y-3">
+                {g.list.map((s) => (
+                  <li><a href={serviceUrl(s)} class="text-on-dark hover:text-white hover:underline">{s.name}</a></li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Company details awaiting confirmation. Never fill these with guesses. -->
+  <section class="section" aria-labelledby="details-h">
+    <div class="wrap grid gap-10 lg:grid-cols-12">
+      <div class="lg:col-span-4">
+        <p class="eyebrow">Company details</p>
+        <h2 id="details-h" class="t-d2 mt-5">The facts</h2>
+      </div>
+      <dl class="border-t border-line lg:col-span-7 lg:col-start-6">
+        <div class="grid gap-2 border-b border-line py-5 sm:grid-cols-3">
+          <dt class="font-semibold text-ink">Trading name</dt>
+          <dd class="sm:col-span-2">{business.name}</dd>
+        </div>
+        <div class="grid gap-2 border-b border-line py-5 sm:grid-cols-3">
+          <dt class="font-semibold text-ink">Areas covered</dt>
+          <dd class="sm:col-span-2">{business.coverage.summary}. {business.coverage.nationwide}</dd>
+        </div>
+        <div class="grid gap-2 border-b border-line py-5 sm:grid-cols-3">
+          <dt class="font-semibold text-ink">Work undertaken</dt>
+          <dd class="sm:col-span-2">Residential and commercial roofing and building</dd>
+        </div>
+        <div class="grid gap-2 border-b border-line py-5 sm:grid-cols-3">
+          <dt class="font-semibold text-ink">Established</dt>
+          <dd class="sm:col-span-2">{business.established ?? <Pending what="year established" />}</dd>
+        </div>
+        <div class="grid gap-2 border-b border-line py-5 sm:grid-cols-3">
+          <dt class="font-semibold text-ink">Insurance</dt>
+          <dd class="sm:col-span-2"><Pending what="insurance details" /></dd>
+        </div>
+        <div class="grid gap-2 border-b border-line py-5 sm:grid-cols-3">
+          <dt class="font-semibold text-ink">Qualifications &amp; memberships</dt>
+          <dd class="sm:col-span-2">{business.credentials.length ? business.credentials.join(', ') : <Pending what="qualifications and memberships" />}</dd>
+        </div>
+        <div class="grid gap-2 border-b border-line py-5 sm:grid-cols-3">
+          <dt class="font-semibold text-ink">The team</dt>
+          <dd class="sm:col-span-2"><Pending what="team introduction and photograph" /></dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <CtaBand image="rooferRidge" />
+</BaseLayout>

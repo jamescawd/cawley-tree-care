@@ -1,0 +1,400 @@
+---
+import Logo from '@/components/ui/Logo.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { mainNav, QUOTE_HREF } from '@/config/navigation';
+import { business, mailHref, telHref } from '@/config/business';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`));
+---
+
+<div class="utility surface-dark hidden lg:block">
+  <div class="wrap flex h-9 items-center justify-between gap-6 text-[0.8125rem]">
+    <ul class="flex items-center gap-7" aria-label="Contact details">
+      <li>
+        <a href={telHref} class="inline-flex items-center gap-2 text-on-dark hover:text-white" data-track="call">
+          <Icon name="phone" size={15} /><span>{business.phone.display}</span>
+        </a>
+      </li>
+      <li>
+        <a href={mailHref} class="inline-flex items-center gap-2 text-on-dark hover:text-white">
+          <Icon name="mail" size={15} /><span>{business.email}</span>
+        </a>
+      </li>
+      <li class="inline-flex items-center gap-2"><Icon name="pin" size={15} />Leinster, Munster &amp; the Midlands</li>
+    </ul>
+    <p class="font-medium tracking-wide text-royal-300">{business.tagline}</p>
+  </div>
+</div>
+
+<header class="site-header" data-header>
+  <div class="wrap flex h-(--header-h) items-center justify-between gap-6">
+    <a href="/" class="shrink-0" aria-label="Pat Premier Roofing and Building: home">
+      <Logo on="light" width={204} eager class="h-auto w-[150px] sm:w-[176px] xl:w-[204px]" />
+    </a>
+
+    <nav class="hidden lg:block" aria-label="Main">
+      <ul class="flex items-center gap-[clamp(1rem,1.6vw,2rem)]">
+        {
+          mainNav.map((item, i) => (
+            <li class:list={['nav-item', item.children && 'has-menu']}>
+              <a
+                href={item.href}
+                class:list={['nav-link', isActive(item.href) && 'is-active']}
+                aria-current={path === item.href ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+              {item.children && (
+                <>
+                  <button
+                    type="button"
+                    class="nav-toggle"
+                    aria-expanded="false"
+                    aria-controls={`menu-${i}`}
+                    data-menu-toggle
+                  >
+                    <Icon name="chevron" size={14} label={`${item.label} services`} />
+                  </button>
+                  <div class="mega" id={`menu-${i}`}>
+                    <div class="mega-inner">
+                      <div class="mega-intro">
+                        <p class="eyebrow">{item.label}</p>
+                        <p class="mt-4 text-[0.95rem] leading-relaxed text-muted">
+                          {item.label === 'Roofing'
+                            ? 'Repairs, restoration, new roofs, flat roofs and the roofline, on homes and commercial buildings.'
+                            : 'Extensions, renovations and all general building work, with roofing under the same company.'}
+                        </p>
+                        <a href={item.href} class="link mt-5 inline-block text-[0.95rem]">
+                          All {item.label.toLowerCase()} services
+                        </a>
+                      </div>
+                      <ul class="mega-list">
+                        {item.children.map((c, n) => (
+                          <li>
+                            <a href={c.href} class="mega-link">
+                              <span class="index">{String(n + 1).padStart(2, '0')}</span>
+                              <span>
+                                <span class="block font-semibold text-ink">{c.label}</span>
+                                <span class="mt-1 block text-sm leading-snug text-muted">{c.summary}</span>
+                              </span>
+                              <Icon name="arrow" size={18} class="mega-arrow" />
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-3">
+      <a href={telHref} class="hidden items-center gap-2 font-semibold text-ink 2xl:inline-flex" data-track="call">
+        <Icon name="phone" size={18} class="text-royal-600" />
+        {business.phone.display}
+      </a>
+      <a href={QUOTE_HREF} class="btn btn-sm hidden sm:inline-flex" data-track="quote">
+        Request a Quote <Icon name="arrow" size={16} />
+      </a>
+      <a href={telHref} class="call-pill" aria-label={`Call ${business.phone.display}`} data-track="call">
+        <Icon name="phone" size={19} />
+      </a>
+      <button type="button" class="menu-btn menu-open" aria-haspopup="dialog" aria-controls="mobile-menu" data-menu-open>
+        <Icon name="menu" size={24} />
+        <span class="sr-only">Open menu</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<dialog id="mobile-menu" class="mobile-menu" aria-label="Menu">
+  <div class="flex h-(--header-h) items-center justify-between border-b border-line px-(--gutter)">
+    <Logo on="light" width={150} class="h-auto w-[150px]" />
+    <button type="button" class="menu-btn" data-menu-close>
+      <Icon name="close" size={24} />
+      <span class="sr-only">Close menu</span>
+    </button>
+  </div>
+  <nav aria-label="Mobile" class="px-(--gutter) pb-40">
+    <ul>
+      {
+        mainNav.map((item) =>
+          item.children ? (
+            <li class="border-b border-line">
+              <details class="group">
+                <summary class="flex cursor-pointer list-none items-center justify-between py-4 font-display text-2xl font-semibold text-ink [font-stretch:110%]">
+                  {item.label}
+                  <Icon name="plus" size={22} class="text-royal-600 transition-transform group-open:rotate-45" />
+                </summary>
+                <ul class="pb-4">
+                  <li>
+                    <a href={item.href} class="block py-2.5 font-semibold text-royal-700">
+                      All {item.label.toLowerCase()} services
+                    </a>
+                  </li>
+                  {item.children.map((c) => (
+                    <li>
+                      <a href={c.href} class="block py-2.5 text-body">
+                        {c.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </details>
+            </li>
+          ) : (
+            <li class="border-b border-line">
+              <a
+                href={item.href}
+                class="block py-4 font-display text-2xl font-semibold text-ink [font-stretch:110%]"
+                aria-current={path === item.href ? 'page' : undefined}
+              >
+                {item.label}
+              </a>
+            </li>
+          ),
+        )
+      }
+    </ul>
+    <div class="mt-8 grid gap-3">
+      <a href={QUOTE_HREF} class="btn w-full" data-track="quote" data-menu-close-link>
+        Request a Free Quote <Icon name="arrow" size={18} />
+      </a>
+      <a href={telHref} class="btn btn-outline w-full" data-track="call">
+        <Icon name="phone" size={18} /> Call {business.phone.display}
+      </a>
+    </div>
+    <p class="mt-8 text-sm text-muted">
+      <a href={mailHref} class="underline underline-offset-4">{business.email}</a><br />
+      Leinster, Munster &amp; the Midlands
+    </p>
+  </nav>
+</dialog>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in oklab, var(--color-white) 94%, transparent);
+    backdrop-filter: saturate(1.4) blur(14px);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s;
+  }
+  .site-header.is-scrolled {
+    border-bottom-color: var(--color-line);
+  }
+  .nav-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.15rem;
+  }
+  .nav-link {
+    position: relative;
+    padding-block: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-ink);
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--color-royal-600);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s var(--ease-premium);
+  }
+  .nav-link:hover::after,
+  .nav-link.is-active::after {
+    transform: scaleX(1);
+  }
+  .nav-toggle {
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--color-muted);
+    cursor: pointer;
+    transition: transform 0.3s var(--ease-premium);
+  }
+  .has-menu:hover .nav-toggle,
+  .nav-toggle[aria-expanded='true'] {
+    transform: rotate(180deg);
+    color: var(--color-royal-600);
+  }
+
+  /* Mega dropdown */
+  .mega {
+    position: absolute;
+    top: 100%;
+    left: -2rem;
+    padding-top: 1.1rem;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity 0.25s var(--ease-premium),
+      transform 0.25s var(--ease-premium),
+      visibility 0s 0.25s;
+  }
+  .has-menu:hover .mega,
+  .has-menu:focus-within .mega,
+  .has-menu.is-open .mega {
+    visibility: visible;
+    opacity: 1;
+    transform: none;
+    transition-delay: 0s;
+  }
+  .has-menu.is-closed .mega {
+    visibility: hidden;
+    opacity: 0;
+  }
+  .mega-inner {
+    display: grid;
+    grid-template-columns: 15rem 26rem;
+    gap: 2rem;
+    padding: 1.75rem;
+    background: var(--color-white);
+    border: 1px solid var(--color-line);
+    border-top: 2px solid var(--color-royal-600);
+    box-shadow: 0 24px 60px -24px rgb(6 18 41 / 0.28);
+  }
+  .mega-link {
+    display: grid;
+    grid-template-columns: 2rem 1fr auto;
+    gap: 0.75rem;
+    align-items: start;
+    padding: 0.85rem 0.75rem;
+    margin-inline: -0.75rem;
+    text-decoration: none;
+    border-bottom: 1px solid var(--color-line);
+    transition: background-color 0.2s;
+  }
+  .mega-list li:last-child .mega-link {
+    border-bottom: 0;
+  }
+  .mega-link:hover {
+    background: var(--color-paper);
+  }
+  .mega-link .index {
+    padding-top: 0.15rem;
+  }
+  .mega-arrow {
+    margin-top: 0.15rem;
+    color: var(--color-royal-600);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition:
+      opacity 0.25s,
+      transform 0.25s var(--ease-premium);
+  }
+  .mega-link:hover .mega-arrow {
+    opacity: 1;
+    transform: none;
+  }
+
+  .menu-btn,
+  .call-pill {
+    display: inline-grid;
+    place-items: center;
+    width: 2.9rem;
+    height: 2.9rem;
+    border-radius: 2px;
+    color: var(--color-ink);
+    cursor: pointer;
+  }
+  .call-pill {
+    background: var(--color-navy-900);
+    color: var(--color-white);
+  }
+  @media (min-width: 64rem) {
+    .call-pill,
+    .menu-open {
+      display: none;
+    }
+  }
+
+  /* Mobile menu */
+  .mobile-menu {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: var(--color-white);
+    overflow-y: auto;
+  }
+  .mobile-menu[open] {
+    animation: menu-in 0.35s var(--ease-premium);
+  }
+  .mobile-menu::backdrop {
+    background: rgb(6 18 41 / 0.5);
+  }
+  @keyframes menu-in {
+    from {
+      opacity: 0;
+      transform: translateY(-8px);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu[open] {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Desktop dropdowns: hover/focus open them via CSS; the toggle button
+  // gives keyboard and touch users explicit control, and Escape closes.
+  document.querySelectorAll<HTMLButtonElement>('[data-menu-toggle]').forEach((btn) => {
+    const item = btn.closest('.has-menu');
+    btn.addEventListener('click', () => {
+      const open = btn.getAttribute('aria-expanded') !== 'true';
+      btn.setAttribute('aria-expanded', String(open));
+      item?.classList.toggle('is-open', open);
+      item?.classList.toggle('is-closed', !open);
+    });
+    item?.addEventListener('mouseleave', () => {
+      item.classList.remove('is-closed');
+    });
+    item?.addEventListener('keydown', (e) => {
+      if ((e as KeyboardEvent).key === 'Escape') {
+        btn.setAttribute('aria-expanded', 'false');
+        item.classList.remove('is-open');
+        item.classList.add('is-closed');
+        btn.focus();
+      }
+    });
+    item?.addEventListener('focusout', (e) => {
+      if (!item.contains((e as FocusEvent).relatedTarget as Node)) {
+        btn.setAttribute('aria-expanded', 'false');
+        item.classList.remove('is-open', 'is-closed');
+      }
+    });
+  });
+
+  // Mobile menu (native <dialog>: focus trap and Escape for free)
+  const dialog = document.getElementById('mobile-menu') as HTMLDialogElement | null;
+  document.querySelector('[data-menu-open]')?.addEventListener('click', () => dialog?.showModal());
+  document.querySelector('[data-menu-close]')?.addEventListener('click', () => dialog?.close());
+  dialog?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => dialog.close()));
+</script>

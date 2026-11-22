@@ -1,0 +1,68 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import { reviews } from '@/data/reviews';
+import { business, telHref } from '@/config/business';
+
+/**
+ * Customer reviews. Shows only genuine reviews from src/data/reviews.ts.
+ * While that list is empty, an honest "reviews coming soon" panel appears.
+ */
+interface Props {
+  tone?: 'light' | 'paper';
+}
+const { tone = 'paper' } = Astro.props;
+---
+
+<section class:list={['section', tone === 'paper' && 'surface-paper']} aria-labelledby="reviews-h">
+  <div class="wrap">
+    <div class="grid gap-10 lg:grid-cols-12 lg:items-end">
+      <div class="lg:col-span-6" data-reveal>
+        <p class="eyebrow">Customer reviews</p>
+        <h2 id="reviews-h" class="t-d2 mt-5">In our customers’ words</h2>
+      </div>
+      <p class="text-muted lg:col-span-5 lg:col-start-8" data-reveal>
+        We only publish genuine reviews from Pat Premier customers, word for word.
+      </p>
+    </div>
+
+    {
+      reviews.length > 0 ? (
+        <ul class="mt-14 grid gap-px overflow-hidden border border-line bg-line md:grid-cols-2 xl:grid-cols-3">
+          {reviews.map((r) => (
+            <li class="flex flex-col bg-white p-8" data-reveal>
+              <span aria-hidden="true" class="block font-display text-[4.5rem] leading-[0.6] text-royal-600">“</span>
+              <blockquote class="mt-5 grow text-lg leading-relaxed text-ink">“{r.text}”</blockquote>
+              <p class="mt-6 font-semibold text-ink">{r.name}</p>
+              <p class="text-sm text-muted">
+                {[r.location, r.service, r.source].filter(Boolean).join(' · ')}
+              </p>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <div class="mt-14 grid overflow-hidden border border-line bg-white lg:grid-cols-12" data-reveal>
+          <div class="p-8 sm:p-12 lg:col-span-7">
+            <span aria-hidden="true" class="block font-display text-[4.5rem] leading-[0.6] text-royal-600">“</span>
+            <p class="t-statement mt-6 max-w-2xl">Reviews from Pat Premier customers will be published here.</p>
+            <p class="mt-5 max-w-xl text-muted">
+              Had work done by {business.shortName}? We would be grateful for your feedback. Call or email and let us know how we did.
+            </p>
+          </div>
+          <div class="flex flex-col justify-center gap-3 border-t border-line bg-paper p-8 sm:p-12 lg:col-span-5 lg:border-l lg:border-t-0">
+            {business.reviewLink && (
+              <a href={business.reviewLink} class="btn" rel="noopener">
+                Leave a review <Icon name="arrow-up-right" size={18} />
+              </a>
+            )}
+            <a href={telHref} class="btn btn-outline" data-track="call">
+              <Icon name="phone" size={18} /> {business.phone.display}
+            </a>
+            <a href={`mailto:${business.email}?subject=Feedback`} class="btn btn-outline">
+              <Icon name="mail" size={18} /> Send feedback by email
+            </a>
+          </div>
+        </div>
+      )
+    }
+  </div>
+</section>

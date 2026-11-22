@@ -1,0 +1,26 @@
+---
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+
+/** Typographic page header for index-style pages (no hero photograph). */
+interface Props {
+  eyebrow: string;
+  title: string;
+  intro?: string | undefined;
+  trail: { name: string; href: string }[];
+}
+const { eyebrow, title, intro, trail } = Astro.props;
+---
+
+<section class="border-b border-line" aria-labelledby="page-h">
+  <div class="wrap pb-14 pt-10 lg:pb-20 lg:pt-14">
+    <Breadcrumbs trail={trail} />
+    <div class="mt-12 grid gap-8 lg:mt-16 lg:grid-cols-12 lg:items-end">
+      <div class="lg:col-span-8">
+        <p class="eyebrow">{eyebrow}</p>
+        <h1 id="page-h" class="t-hero mt-6">{title}</h1>
+      </div>
+      {intro && <p class="t-lead text-muted lg:col-span-4">{intro}</p>}
+    </div>
+    <slot />
+  </div>
+</section>

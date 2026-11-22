@@ -1,0 +1,22 @@
+---
+import CategoryHub from '@/components/service/CategoryHub.astro';
+import { roofingServices } from '@/data/services';
+---
+
+<CategoryHub
+  category="roofing"
+  metaTitle="Roofing Services | Repairs, New Roofs & Flat Roofs | Pat Premier"
+  description="Roofing services from Pat Premier: roof repairs, restoration, new roofs and re-roofing, flat roofing, fascias, soffits and guttering across Leinster, Munster and the Midlands."
+  eyebrow="Roofing"
+  title="Roofing, done properly"
+  intro="Repairs, restoration, complete re-roofs, flat roofs and the roofline, for homes and commercial buildings across Leinster, Munster and the Midlands."
+  image="slateHouseSunset"
+  statement="A roof is the one part of a building that has to work every single day. We repair, restore and replace slate, tile and flat roofs, and the fascias, soffits and gutters that carry the water away."
+  services={roofingServices}
+  landing={['roofing-contractors-leinster', 'roofing-contractors-munster', 'roofing-contractors-midlands']}
+  faqs={[
+    { q: 'What types of roof do you work on?', a: 'Pitched slate and tile roofs, and flat roofs including GRP rubber-coated roofs, on residential and commercial properties.' },
+    { q: 'Should I repair, restore or replace my roof?', a: 'It depends on the condition of the roof as a whole. Isolated faults can be repaired; several aged details suit a restoration; widespread failure usually means re-roofing. We will tell you honestly which applies.' },
+    { q: 'Do you give free roofing quotations?', a: 'Yes. Call 087 365 4209 or request a quote online.' },
+  ]}
+/>

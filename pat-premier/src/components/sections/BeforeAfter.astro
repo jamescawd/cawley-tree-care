@@ -1,0 +1,132 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+/**
+ * Before/after comparison. Works without JS (side by side on narrow
+ * screens; slider at 50% elsewhere); JS enables dragging via a range input,
+ * which is keyboard and screen-reader accessible.
+ */
+interface Props {
+  before: { src: ImageMetadata; alt: string };
+  after: { src: ImageMetadata; alt: string };
+  demo?: boolean;
+  caption?: string;
+}
+const { before, after, demo = false, caption } = Astro.props;
+const uid = `ba-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<figure class="ba" data-ba>
+  <div class="ba-stage">
+    <Image src={after.src} alt={`After: ${after.alt}`} widths={[640, 1024, 1600]} sizes="(min-width: 64rem) 70vw, 100vw" class="ba-img" layout="full-width" />
+    <div class="ba-before" data-ba-before>
+      <Image src={before.src} alt={`Before: ${before.alt}`} widths={[640, 1024, 1600]} sizes="(min-width: 64rem) 70vw, 100vw" class="ba-img" layout="full-width" />
+    </div>
+    <span class="ba-label left-3">Before</span>
+    <span class="ba-label right-3">After</span>
+    <div class="ba-handle" aria-hidden="true"><span></span></div>
+    <label for={uid} class="sr-only">Drag to compare before and after</label>
+    <input id={uid} class="ba-range" type="range" min="0" max="100" value="50" data-ba-range />
+    {demo && <span class="demo-tag" style="bottom:auto;top:0.6rem;left:50%;transform:translateX(-50%)">Demonstration images</span>}
+  </div>
+  {caption && <figcaption class="mt-3 text-sm text-muted">{caption}</figcaption>}
+</figure>
+
+<style>
+  .ba-stage {
+    --pos: 50%;
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: var(--color-mist);
+    user-select: none;
+  }
+  .ba-stage :global(.ba-img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    max-width: none;
+  }
+  .ba-before {
+    position: absolute;
+    inset: 0;
+    clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+  }
+  .ba-handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: var(--pos);
+    width: 2px;
+    margin-left: -1px;
+    background: var(--color-white);
+    pointer-events: none;
+  }
+  .ba-handle span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 3rem;
+    height: 3rem;
+    margin: -1.5rem 0 0 -1.5rem;
+    border-radius: 999px;
+    background: var(--color-white);
+    box-shadow: 0 6px 20px rgb(6 18 41 / 0.3);
+  }
+  .ba-handle span::before,
+  .ba-handle span::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 0.5rem;
+    height: 0.5rem;
+    border: solid var(--color-navy-900);
+    border-width: 0 0 2px 2px;
+  }
+  .ba-handle span::before {
+    left: 0.85rem;
+    transform: translateY(-50%) rotate(45deg);
+  }
+  .ba-handle span::after {
+    right: 0.85rem;
+    transform: translateY(-50%) rotate(-135deg);
+  }
+  .ba-label {
+    position: absolute;
+    bottom: 0.75rem;
+    padding: 0.3rem 0.6rem;
+    background: var(--color-navy-950);
+    color: var(--color-white);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .ba-range {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: ew-resize;
+    margin: 0;
+  }
+  .ba-range:focus-visible ~ .ba-handle span,
+  .ba-stage:has(.ba-range:focus-visible) .ba-handle span {
+    outline: 3px solid var(--color-royal-600);
+    outline-offset: 2px;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-ba]').forEach((el) => {
+    const stage = el.querySelector<HTMLElement>('.ba-stage');
+    const range = el.querySelector<HTMLInputElement>('[data-ba-range]');
+    const set = () => stage?.style.setProperty('--pos', `${range?.value ?? 50}%`);
+    range?.addEventListener('input', set);
+    set();
+  });
+</script>

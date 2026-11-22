@@ -1,0 +1,46 @@
+---
+import Photo from '@/components/ui/Photo.astro';
+import { business } from '@/config/business';
+---
+
+<section class="section" aria-labelledby="intro-h">
+  <div class="wrap">
+    <div class="grid gap-10 lg:grid-cols-12">
+      <div class="lg:col-span-3" data-reveal>
+        <p class="eyebrow">Pat Premier</p>
+        <h2 id="intro-h" class="sr-only">About Pat Premier Roofing and Building</h2>
+      </div>
+      <div class="lg:col-span-9" data-reveal>
+        <p class="t-statement max-w-[52rem]">
+          Pat Premier Roofing and Building looks after the roofs, walls and living spaces that keep homes and businesses sound, from a single slipped slate to a complete re-roof or a brand-new extension.
+        </p>
+      </div>
+    </div>
+
+    <div class="mt-16 grid gap-12 lg:mt-24 lg:grid-cols-12 lg:gap-8">
+      <div class="relative lg:col-span-7" data-reveal>
+        <Photo media="rooferRidge" class="aspect-[4/5] w-[82%] sm:aspect-[5/4] lg:aspect-[6/5]" sizes="(min-width: 64rem) 48vw, 82vw" />
+        <Photo media="slateHouseSunset" class="absolute -bottom-10 right-0 aspect-square w-[44%] border-[6px] border-white sm:-bottom-14 lg:w-[40%]" sizes="(min-width: 64rem) 22vw, 44vw" />
+      </div>
+      <div class="flex flex-col justify-center pt-8 lg:col-span-4 lg:col-start-9 lg:pt-0" data-reveal>
+        <p>
+          We are a roofing and building company working on residential and commercial properties right across Leinster, Munster and the Midlands, with nationwide enquiries welcome.
+        </p>
+        <p class="mt-5">
+          Because roofing and building sit under one company, the work that matters most, where a new roof meets an old wall or an extension joins the house, stays in the same hands from start to finish.
+        </p>
+        <ul class="mt-9 border-t border-line">
+          {
+            business.values.map((v, i) => (
+              <li class="flex items-baseline gap-5 border-b border-line py-4">
+                <span class="index">{String(i + 1).padStart(2, '0')}</span>
+                <span class="font-semibold text-ink">{v}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <a href="/about" class="link mt-8 self-start">More about Pat Premier</a>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,24 @@
+---
+interface Props {
+  trail: { name: string; href: string }[];
+  tone?: 'light' | 'dark';
+}
+const { trail, tone = 'light' } = Astro.props;
+---
+
+<nav aria-label="Breadcrumb" class:list={['text-[0.8125rem]', tone === 'dark' ? 'text-on-dark' : 'text-muted']}>
+  <ol class="flex flex-wrap items-center gap-x-2 gap-y-1">
+    {
+      trail.map((t, i) => (
+        <li class="flex items-center gap-2">
+          {i > 0 && <span aria-hidden="true" class="opacity-50">/</span>}
+          {i === trail.length - 1 ? (
+            <span aria-current="page" class={tone === 'dark' ? 'text-white' : 'text-ink'}>{t.name}</span>
+          ) : (
+            <a href={t.href} class="underline-offset-4 hover:underline">{t.name}</a>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>

@@ -1,0 +1,124 @@
+---
+import Photo from '@/components/ui/Photo.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import { business, telHref } from '@/config/business';
+import type { MediaKey } from '@/data/media';
+
+/**
+ * Page hero with four compositions, so pages do not all open the same way:
+ *  split  – text left on white, tall photograph bleeding off the right edge
+ *  full   – full-bleed photograph, text on a navy gradient
+ *  framed – oversized headline on white, wide cinematic photograph below
+ *  offset – navy panel with a photograph that overlaps into the next section
+ */
+interface Props {
+  layout: 'split' | 'full' | 'framed' | 'offset';
+  eyebrow: string;
+  title: string;
+  intro: string;
+  image: MediaKey;
+  trail: { name: string; href: string }[];
+  quoteHref: string;
+  /** Hide the call button (e.g. on the contact page). */
+  hideCall?: boolean;
+}
+const { layout, eyebrow, title, intro, image, trail, quoteHref, hideCall = false } = Astro.props;
+---
+
+{
+  layout === 'split' && (
+    <section class="relative overflow-hidden border-b border-line" aria-labelledby="page-h">
+      <div class="wrap grid lg:min-h-[42rem] lg:grid-cols-12">
+        <div class="flex flex-col justify-center py-12 lg:col-span-6 lg:py-20 lg:pr-12">
+          <Breadcrumbs trail={trail} />
+          <p class="eyebrow mt-10">{eyebrow}</p>
+          <h1 id="page-h" class="t-d1 mt-5">{title}</h1>
+          <p class="t-lead mt-7 max-w-xl text-muted">{intro}</p>
+          <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+            <a href={quoteHref} class="btn" data-track="quote">Request a Free Quote <Icon name="arrow" size={18} /></a>
+            {!hideCall && <a href={telHref} class="btn btn-outline" data-track="call"><Icon name="phone" size={18} /> {business.phone.display}</a>}
+          </div>
+        </div>
+        <div class="relative -mx-(--gutter) aspect-[4/3] lg:col-span-6 lg:mx-0 lg:aspect-auto">
+          <Photo media={image} eager class="h-full lg:absolute lg:inset-y-0 lg:left-0 lg:w-[calc(100%+var(--gutter)+max(0px,(100vw-90rem)/2))]" sizes="(min-width: 64rem) 50vw, 100vw" />
+        </div>
+      </div>
+    </section>
+  )
+}
+
+{
+  layout === 'full' && (
+    <section class="surface-dark relative isolate overflow-hidden" aria-labelledby="page-h">
+      <Photo media={image} eager class="absolute inset-0 -z-20" sizes="100vw" hideTag />
+      <div class="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgb(6_18_41/0.55),rgb(6_18_41/0.7)_35%,rgb(6_18_41/0.94))] lg:bg-[linear-gradient(90deg,rgb(6_18_41/0.9),rgb(6_18_41/0.55)_45%,rgb(6_18_41/0.1)),linear-gradient(0deg,rgb(6_18_41/0.6),transparent_45%)]" />
+      <div class="wrap flex min-h-[36rem] flex-col justify-between gap-16 py-10 lg:min-h-[44rem] lg:py-14">
+        <Breadcrumbs trail={trail} tone="dark" />
+        <div class="max-w-3xl">
+          <p class="eyebrow">{eyebrow}</p>
+          <h1 id="page-h" class="t-hero mt-6">{title}</h1>
+          <p class="t-lead mt-7 max-w-xl text-on-dark">{intro}</p>
+          <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+            <a href={quoteHref} class="btn btn-light" data-track="quote">Request a Free Quote <Icon name="arrow" size={18} /></a>
+            {!hideCall && <a href={telHref} class="btn btn-ghost-light" data-track="call"><Icon name="phone" size={18} /> {business.phone.display}</a>}
+          </div>
+        </div>
+      </div>
+      <span class="demo-tag" style="left:auto;right:var(--gutter);bottom:auto;top:1rem">Demonstration image</span>
+    </section>
+  )
+}
+
+{
+  layout === 'framed' && (
+    <section aria-labelledby="page-h">
+      <div class="wrap pt-10 lg:pt-14">
+        <Breadcrumbs trail={trail} />
+        <div class="mt-10 grid gap-8 lg:mt-14 lg:grid-cols-12 lg:items-end">
+          <div class="lg:col-span-8">
+            <p class="eyebrow">{eyebrow}</p>
+            <h1 id="page-h" class="t-hero mt-6">{title}</h1>
+          </div>
+          <div class="lg:col-span-4 lg:pb-2">
+            <p class="text-lg text-muted">{intro}</p>
+            <div class="mt-7 flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
+              <a href={quoteHref} class="btn" data-track="quote">Request a Free Quote <Icon name="arrow" size={18} /></a>
+              {!hideCall && <a href={telHref} class="btn btn-outline" data-track="call"><Icon name="phone" size={18} /> {business.phone.display}</a>}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wrap mt-12 lg:mt-16">
+        <Photo media={image} eager class="aspect-[4/3] sm:aspect-[16/8] lg:aspect-[21/9]" sizes="(min-width: 90rem) 86rem, 100vw" />
+      </div>
+    </section>
+  )
+}
+
+{
+  layout === 'offset' && (
+    <section aria-labelledby="page-h" class="relative">
+      <div class="surface-dark pb-24 lg:pb-0">
+        <div class="wrap grid gap-10 pt-10 lg:grid-cols-12 lg:pt-14">
+          <div class="lg:col-span-12">
+            <Breadcrumbs trail={trail} tone="dark" />
+          </div>
+          <div class="lg:col-span-6 lg:pb-28 lg:pt-6">
+            <p class="eyebrow">{eyebrow}</p>
+            <h1 id="page-h" class="t-d1 mt-5">{title}</h1>
+            <p class="t-lead mt-7 max-w-xl text-on-dark">{intro}</p>
+            <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+              <a href={quoteHref} class="btn btn-light" data-track="quote">Request a Free Quote <Icon name="arrow" size={18} /></a>
+              {!hideCall && <a href={telHref} class="btn btn-ghost-light" data-track="call"><Icon name="phone" size={18} /> {business.phone.display}</a>}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wrap -mt-16 lg:absolute lg:inset-x-0 lg:bottom-[-6rem] lg:mt-0 lg:grid lg:grid-cols-12">
+        <Photo media={image} eager class="aspect-[4/3] lg:col-span-5 lg:col-start-8 lg:aspect-[4/5]" sizes="(min-width: 64rem) 38vw, 100vw" />
+      </div>
+      <div class="hidden lg:block lg:h-24" aria-hidden="true" />
+    </section>
+  )
+}

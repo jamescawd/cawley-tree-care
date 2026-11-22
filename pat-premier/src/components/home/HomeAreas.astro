@@ -1,0 +1,62 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import { leinsterCounties, midlandsCounties, munsterCounties, landingPages, landingUrl } from '@/data/regions';
+import { business } from '@/config/business';
+
+const groups = [
+  { name: 'Leinster', counties: leinsterCounties, href: '/roofing-contractors-leinster' },
+  { name: 'Munster', counties: munsterCounties, href: '/roofing-contractors-munster' },
+  { name: 'Midlands', counties: midlandsCounties, href: '/roofing-contractors-midlands' },
+];
+---
+
+<section class="section surface-paper" aria-labelledby="areas-h">
+  <div class="wrap">
+    <div class="grid gap-10 lg:grid-cols-12">
+      <div class="lg:col-span-4" data-reveal>
+        <p class="eyebrow">Areas we cover</p>
+        <h2 id="areas-h" class="t-d1 mt-5">Leinster, Munster &amp; the Midlands</h2>
+        <p class="mt-6 max-w-sm text-muted">
+          {business.coverage.summary}. {business.coverage.nationwide}
+        </p>
+        <ul class="mt-8 border-t border-line">
+          {
+            landingPages.map((p) => (
+              <li class="border-b border-line">
+                <a href={landingUrl(p.slug)} class="group flex items-center justify-between gap-4 py-3.5 text-[0.95rem] font-semibold text-ink">
+                  {p.trade === 'roofing' ? 'Roofing' : 'Building'} contractors, {p.region.replace('the ', '')}
+                  <Icon name="arrow" size={17} class="text-royal-600 transition-transform duration-300 group-hover:translate-x-1" />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="grid gap-px self-start overflow-hidden border border-line bg-line sm:grid-cols-3 lg:col-span-7 lg:col-start-6" data-reveal>
+        {
+          groups.map((g) => (
+            <div class="flex flex-col bg-white p-7 sm:p-8">
+              <p class="index">{String(g.counties.length).padStart(2, '0')} counties</p>
+              <h3 class="t-d3 mt-3">
+                <a href={g.href} class="hover:text-royal-600">{g.name}</a>
+              </h3>
+              <ul class="mt-6 space-y-2 text-[0.95rem] text-body">
+                {g.counties.map((c) => (
+                  <li class="flex items-center gap-2.5">
+                    <span class="h-px w-3 bg-royal-600" aria-hidden="true" />
+                    Co. {c.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+        <p class="bg-navy-900 p-6 text-[0.95rem] text-white sm:col-span-3 sm:px-8">
+          <strong class="font-semibold">Outside these areas?</strong>
+          <span class="text-on-dark"> Nationwide enquiries are welcome. Call {business.phone.display}.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

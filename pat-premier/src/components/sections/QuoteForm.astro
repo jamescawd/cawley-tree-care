@@ -1,0 +1,148 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import { buildingServices, roofingServices, type ServiceSlug } from '@/data/services';
+
+/**
+ * Quotation request form.
+ * Posts multipart data to /api/quote (worker/index.ts), which emails the
+ * enquiry once the email service is configured. Until then the worker sends
+ * visitors to /enquiry-error, which shows the phone number and email, so no
+ * enquiry is silently lost. See docs/FORMS.md.
+ */
+interface Props {
+  /** Preselect a service. */
+  service?: ServiceSlug;
+  id?: string;
+  compact?: boolean;
+}
+const { service, id = 'quote-form', compact = false } = Astro.props;
+---
+
+<form
+  id={id}
+  class="quote-form"
+  method="post"
+  action="/api/quote"
+  enctype="multipart/form-data"
+  data-quote-form
+>
+  <div class:list={['grid gap-5', !compact && 'sm:grid-cols-2']}>
+    <div class="field">
+      <label for={`${id}-name`}>Full name</label>
+      <input class="control" id={`${id}-name`} name="name" type="text" autocomplete="name" required maxlength="120" />
+    </div>
+    <div class="field">
+      <label for={`${id}-phone`}>Telephone number</label>
+      <input class="control" id={`${id}-phone`} name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="40" />
+    </div>
+    <div class="field">
+      <label for={`${id}-email`}>Email</label>
+      <input class="control" id={`${id}-email`} name="email" type="email" autocomplete="email" required maxlength="200" />
+    </div>
+    <div class="field">
+      <label for={`${id}-location`}>Location <span class="hint">(town and county)</span></label>
+      <input class="control" id={`${id}-location`} name="location" type="text" autocomplete="address-level2" placeholder="e.g. Naas, Co. Kildare" required maxlength="120" />
+    </div>
+    <div class:list={['field', !compact && 'sm:col-span-2']}>
+      <label for={`${id}-service`}>Service required</label>
+      <select class="control" id={`${id}-service`} name="service" required>
+        <option value="" disabled selected={!service}>Choose a service</option>
+        <optgroup label="Roofing">
+          {roofingServices.map((s) => <option value={s.name} selected={s.slug === service}>{s.name}</option>)}
+        </optgroup>
+        <optgroup label="Building">
+          {buildingServices.map((s) => <option value={s.name} selected={s.slug === service}>{s.name}</option>)}
+        </optgroup>
+        <option value="Other / not sure">Other / not sure</option>
+      </select>
+    </div>
+    <div class:list={['field', !compact && 'sm:col-span-2']}>
+      <label for={`${id}-message`}>Description of work</label>
+      <textarea class="control" id={`${id}-message`} name="message" required maxlength="5000" placeholder="What needs doing? Any details about the property help, e.g. roof type, size, access."></textarea>
+    </div>
+    <div class:list={['field', !compact && 'sm:col-span-2']}>
+      <span class="mb-1.5 block text-sm font-semibold text-ink">Photographs <span class="hint">(optional, up to 3)</span></span>
+      <label for={`${id}-photos`} class="upload">
+        <Icon name="upload" size={22} class="text-royal-600" />
+        <span>
+          <span class="block font-semibold text-ink" data-upload-label>Add photographs of the job</span>
+          <span class="block text-sm text-muted">JPG, PNG or HEIC, up to 5 MB each</span>
+        </span>
+      </label>
+      <input class="sr-only" id={`${id}-photos`} name="photos" type="file" accept="image/*" multiple data-upload />
+    </div>
+  </div>
+
+  <!-- Spam protection: hidden from people, tempting to bots. -->
+  <div class="hidden" aria-hidden="true">
+    <label for={`${id}-website`}>Leave this field empty</label>
+    <input id={`${id}-website`} name="website" type="text" tabindex="-1" autocomplete="off" />
+  </div>
+  <input type="hidden" name="started" value="" data-started />
+
+  <div class="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <p class="max-w-md text-sm text-muted">
+      We use your details only to respond to your enquiry. See our <a href="/privacy" class="underline underline-offset-4">privacy notice</a>.
+    </p>
+    <button type="submit" class="btn btn-royal shrink-0" data-track="quote-submit">
+      Request my free quote <Icon name="arrow" size={18} />
+    </button>
+  </div>
+</form>
+
+<style>
+  .upload {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 1.2rem;
+    border: 1px dashed var(--color-line-strong);
+    border-radius: 2px;
+    background: var(--color-paper);
+    cursor: pointer;
+    transition:
+      border-color 0.2s,
+      background-color 0.2s;
+  }
+  .upload:hover {
+    border-color: var(--color-royal-600);
+    background: var(--color-royal-100);
+  }
+  input[type='file']:focus-visible + .upload,
+  .upload:has(+ input:focus-visible) {
+    outline: 2px solid var(--color-royal-600);
+    outline-offset: 3px;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-quote-form]').forEach((form) => {
+    const started = form.querySelector<HTMLInputElement>('[data-started]');
+    if (started) started.value = String(Date.now());
+
+    const input = form.querySelector<HTMLInputElement>('[data-upload]');
+    const label = form.querySelector<HTMLElement>('[data-upload-label]');
+    input?.addEventListener('change', () => {
+      const files = Array.from(input.files ?? []);
+      if (files.length > 3) {
+        input.setCustomValidity('Please choose up to 3 photographs.');
+        input.reportValidity();
+      } else {
+        input.setCustomValidity('');
+      }
+      if (label) {
+        label.textContent = files.length
+          ? files.map((f) => f.name).join(', ')
+          : 'Add photographs of the job';
+      }
+    });
+
+    // Preselect a service from ?service=Roof%20Repairs links.
+    const wanted = new URLSearchParams(location.search).get('service');
+    const select = form.querySelector<HTMLSelectElement>('select[name="service"]');
+    if (wanted && select) {
+      const match = Array.from(select.options).find((o) => o.value === wanted);
+      if (match) match.selected = true;
+    }
+  });
+</script>

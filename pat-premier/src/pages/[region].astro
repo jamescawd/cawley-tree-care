@@ -1,0 +1,147 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ServiceHero from '@/components/service/ServiceHero.astro';
+import Photo from '@/components/ui/Photo.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Faq from '@/components/sections/Faq.astro';
+import CtaBand from '@/components/sections/CtaBand.astro';
+import ProjectCard from '@/components/sections/ProjectCard.astro';
+import { getMedia } from '@/data/media';
+import { getService, serviceUrl } from '@/data/services';
+import { landingPages, landingUrl, type LandingPage } from '@/data/regions';
+import { business } from '@/config/business';
+import { breadcrumbSchema } from '@/lib/seo';
+
+export function getStaticPaths() {
+  return landingPages.map((page) => ({ params: { region: page.slug }, props: { page } }));
+}
+const { page: p } = Astro.props as { page: LandingPage };
+const site = Astro.site ?? new URL('http://localhost:4321');
+const trail = [
+  { name: 'Home', href: '/' },
+  { name: 'Areas We Cover', href: '/areas' },
+  { name: p.label.replace(' · ', ', '), href: landingUrl(p.slug) },
+];
+const services = p.services.map(getService);
+const countyNames = new Set(p.counties.map((c) => c.name));
+const localProjects = (await getCollection('projects')).filter(
+  (x) => !x.data.demo && x.data.county && countyNames.has(x.data.county),
+);
+const others = landingPages.filter((x) => x.slug !== p.slug);
+const tradeWord = p.trade === 'roofing' ? 'roofing' : 'building';
+---
+
+<BaseLayout title={p.metaTitle} description={p.metaDescription} image={getMedia(p.image).src} schema={[breadcrumbSchema(site, trail)]}>
+  <ServiceHero layout={p.trade === 'roofing' ? 'split' : 'full'} eyebrow={p.label} title={p.title} intro={p.intro} image={p.image} trail={trail} quoteHref="/contact#quote" />
+
+  <section class="section" aria-labelledby="ctx-h">
+    <div class="wrap grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-7" data-reveal>
+        <p class="eyebrow">{p.region.replace('the ', 'The ')}</p>
+        <h2 id="ctx-h" class="t-d2 mt-5">{p.context.heading}</h2>
+        <div class="prose-pp mt-7 max-w-2xl text-lg">
+          {p.context.paragraphs.map((t) => <p>{t}</p>)}
+        </div>
+      </div>
+      <div class="lg:col-span-4 lg:col-start-9" data-reveal>
+        <Photo media={p.secondaryImage} class="aspect-[4/5]" sizes="(min-width: 64rem) 32vw, 100vw" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section surface-dark" aria-labelledby="cons-h">
+    <div class="wrap">
+      <p class="eyebrow">Local knowledge</p>
+      <h2 id="cons-h" class="t-d2 mt-5 max-w-3xl">What {tradeWord} in {p.region} usually involves</h2>
+      <ul class="mt-12 grid gap-px overflow-hidden bg-white/15 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          p.considerations.map((c, i) => (
+            <li class="bg-navy-950 p-7" data-reveal>
+              <span class="index">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="mt-6 text-lg font-semibold">{c.title}</h3>
+              <p class="mt-2">{c.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="svc-h">
+    <div class="wrap grid gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-4" data-reveal>
+        <p class="eyebrow">Services</p>
+        <h2 id="svc-h" class="t-d2 mt-5">Our {tradeWord} services in {p.region}</h2>
+      </div>
+      <ul class="border-t border-line lg:col-span-7 lg:col-start-6">
+        {
+          services.map((s) => (
+            <li class="border-b border-line">
+              <a href={serviceUrl(s)} class="group grid grid-cols-[1fr_auto] items-center gap-6 py-6">
+                <span>
+                  <span class="block text-xl font-semibold text-ink">{s.name}</span>
+                  <span class="mt-1 block text-muted">{s.summary}</span>
+                </span>
+                <Icon name="arrow" size={20} class="text-royal-600 transition-transform duration-300 group-hover:translate-x-1" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section surface-paper" aria-labelledby="counties-h">
+    <div class="wrap grid gap-10 lg:grid-cols-12">
+      <div class="lg:col-span-4">
+        <p class="eyebrow">Counties</p>
+        <h2 id="counties-h" class="t-d2 mt-5">Counties we cover</h2>
+        <p class="mt-5 text-muted">{business.coverage.nationwide}</p>
+      </div>
+      <ul class="grid grid-cols-2 gap-px self-start overflow-hidden border border-line bg-line sm:grid-cols-3 lg:col-span-8">
+        {
+          p.counties.map((c) => (
+            <li class="bg-white px-5 py-4 font-semibold text-ink">
+              {c.published ? <a href={`/areas/${c.slug}`} class="link">Co. {c.name}</a> : <>Co. {c.name}</>}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  {
+    localProjects.length > 0 && (
+      <section class="section" aria-labelledby="lp-h">
+        <div class="wrap">
+          <h2 id="lp-h" class="t-d2">Projects in {p.region}</h2>
+          <div class="mt-10 grid gap-10 md:grid-cols-2">
+            {localProjects.slice(0, 4).map((x) => <ProjectCard project={x} size="small" />)}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <Faq faqs={p.faqs} heading={`${p.trade === 'roofing' ? 'Roofing' : 'Building'} in ${p.region}: questions`} />
+
+  <section class="pb-(--section)" aria-labelledby="other-h">
+    <div class="wrap border-t border-line pt-14">
+      <h2 id="other-h" class="text-sm font-semibold uppercase tracking-[0.14em] text-muted">Other areas and trades</h2>
+      <ul class="mt-6 flex flex-wrap gap-3">
+        {
+          others.map((o) => (
+            <li>
+              <a href={landingUrl(o.slug)} class="inline-flex items-center gap-2 border border-line px-4 py-2.5 text-[0.95rem] font-semibold text-ink transition-colors hover:border-navy-900">
+                {o.trade === 'roofing' ? 'Roofing' : 'Building'} contractors, {o.region.replace('the ', '')}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand heading={`Free ${tradeWord} quotes across ${p.region}`} image={p.image} />
+</BaseLayout>

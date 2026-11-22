@@ -1,0 +1,22 @@
+---
+import CategoryHub from '@/components/service/CategoryHub.astro';
+import { buildingServices } from '@/data/services';
+---
+
+<CategoryHub
+  category="building"
+  metaTitle="Building Services | Extensions, Renovations & Building Work | Pat Premier"
+  description="Building services from Pat Premier: extensions, property renovations, block laying, plastering and all general building work across Leinster, Munster and the Midlands."
+  eyebrow="Building"
+  title="Don’t move… improve."
+  intro="Extensions, renovations and all general building work, with the roof built by the same company."
+  image="extensionGlazed"
+  statement="Whether it is an extension, a renovation or a wall that needs building, we bring the same care to building work as we do to roofing, and because we do both, the two always meet properly."
+  services={buildingServices}
+  landing={['building-contractors-leinster', 'building-contractors-munster']}
+  faqs={[
+    { q: 'What building work do you do?', a: 'Extensions, property renovations and general building work including block laying, plastering and alterations, for residential and commercial properties.' },
+    { q: 'Can you build the roof on my extension?', a: 'Yes. As a roofing and building company, our own team builds the roof as part of the project.' },
+    { q: 'Do you give free building quotations?', a: 'Yes. Call 087 365 4209 or request a quote online.' },
+  ]}
+/>

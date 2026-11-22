@@ -1,0 +1,50 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import { getLanding, landingUrl } from '@/data/regions';
+import type { LandingSlug } from '@/data/services';
+import { business } from '@/config/business';
+
+interface Props {
+  serviceName: string;
+  landing: LandingSlug[];
+}
+const { serviceName, landing } = Astro.props;
+const pages = landing.map(getLanding);
+---
+
+<section class="pb-(--section)" aria-labelledby="coverage-h">
+  <div class="wrap">
+  <div class="grid gap-10 border-t border-line pt-(--section) lg:grid-cols-12">
+    <div class="lg:col-span-5" data-reveal>
+      <p class="eyebrow">Coverage</p>
+      <h2 id="coverage-h" class="t-d2 mt-5">{serviceName} across Leinster, Munster &amp; the Midlands</h2>
+    </div>
+    <div class="lg:col-span-6 lg:col-start-7" data-reveal>
+      <p class="text-lg">
+        We carry out {serviceName.toLowerCase()} for homes and businesses in every county of Leinster and Munster, and throughout the Midlands. {business.coverage.nationwide}
+      </p>
+      <ul class="mt-8 grid gap-3 sm:grid-cols-2">
+        {
+          pages.map((p) => (
+            <li>
+              <a href={landingUrl(p.slug)} class="group flex items-center justify-between gap-3 border border-line px-5 py-4 font-semibold text-ink transition-colors hover:border-navy-900">
+                <span class="flex items-center gap-3">
+                  <Icon name="pin" size={18} class="text-royal-600" />
+                  {p.region.replace('the ', 'The ')}
+                </span>
+                <Icon name="arrow" size={17} class="text-royal-600 transition-transform group-hover:translate-x-1" />
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a href="/areas" class="group flex items-center justify-between gap-3 border border-line px-5 py-4 font-semibold text-ink transition-colors hover:border-navy-900">
+            All areas we cover
+            <Icon name="arrow" size={17} class="text-royal-600 transition-transform group-hover:translate-x-1" />
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  </div>
+</section>

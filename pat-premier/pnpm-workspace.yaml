@@ -1,0 +1,4 @@
+# Standalone project (not part of the Cawley's workspace).
+onlyBuiltDependencies:
+  - esbuild
+  - sharp

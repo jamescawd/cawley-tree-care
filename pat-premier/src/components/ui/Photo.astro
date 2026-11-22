@@ -1,0 +1,49 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { getMedia, type MediaKey } from '@/data/media';
+
+/**
+ * A photograph from the media registry (by key) or a direct image.
+ * Demonstration images always carry a visible "Demonstration image" label.
+ */
+interface Props {
+  media?: MediaKey;
+  src?: ImageMetadata;
+  alt?: string;
+  demo?: boolean;
+  /** CSS `sizes` hint. */
+  sizes?: string;
+  widths?: number[];
+  eager?: boolean;
+  class?: string;
+  imgClass?: string;
+  focus?: string;
+  /** Hide the label (only where a parent already labels the set). */
+  hideTag?: boolean;
+}
+const p = Astro.props;
+const item = p.media ? getMedia(p.media) : undefined;
+const src = p.src ?? item?.src;
+const alt = p.alt ?? item?.alt ?? '';
+const demo = p.demo ?? item?.demo ?? false;
+const focus = p.focus ?? item?.focus;
+if (!src) throw new Error('Photo needs `media` or `src`.');
+const widths = p.widths ?? [480, 768, 1080, 1440, 1920];
+---
+
+<div class:list={['photo', p.class]}>
+  <Image
+    src={src}
+    alt={alt}
+    widths={widths.filter((w) => w <= src.width)}
+    sizes={p.sizes ?? '100vw'}
+    loading={p.eager ? 'eager' : 'lazy'}
+    fetchpriority={p.eager ? 'high' : 'auto'}
+    layout="full-width"
+    class={p.imgClass}
+    style={focus ? `object-position:${focus}` : undefined}
+  />
+  {demo && !p.hideTag && <span class="demo-tag">Demonstration image</span>}
+  <slot />
+</div>

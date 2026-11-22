@@ -1,0 +1,74 @@
+---
+import Photo from '@/components/ui/Photo.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { business, telHref } from '@/config/business';
+import { QUOTE_HREF } from '@/config/navigation';
+---
+
+<section class="hero surface-dark relative isolate overflow-hidden" aria-labelledby="hero-h">
+  <Photo media="heroHouse" eager class="hero-photo absolute inset-0 -z-20" imgClass="hero-img" sizes="100vw" widths={[640, 960, 1280, 1600, 1920, 2400]} hideTag />
+  <div class="hero-shade absolute inset-0 -z-10" aria-hidden="true"></div>
+
+  <div class="wrap relative flex min-h-[calc(100svh-var(--header-h)-3.5rem)] flex-col justify-end pb-10 pt-28 sm:min-h-[44rem] lg:min-h-[calc(100svh-var(--header-h)-2.25rem)] lg:max-h-[60rem] lg:pb-16">
+    <div class="max-w-[50rem]">
+      <p class="eyebrow hero-in" style="--d:0.05s">Roofing &amp; Building Contractors</p>
+      <h1 id="hero-h" class="t-hero hero-in mt-6" style="--d:0.15s">
+        Quality Roofing &amp; Building Services <span class="text-royal-300">Across Ireland</span>
+      </h1>
+      <p class="t-lead hero-in mt-7 max-w-[38rem] text-on-dark" style="--d:0.3s">
+        Professional roofing and building solutions for residential and commercial properties throughout Leinster, Munster and the Midlands.
+      </p>
+      <div class="hero-in mt-9 flex flex-col gap-3 sm:flex-row" style="--d:0.42s">
+        <a href={QUOTE_HREF} class="btn btn-light" data-track="quote">Request a Free Quote <Icon name="arrow" size={18} /></a>
+        <a href={telHref} class="btn btn-ghost-light" data-track="call"><Icon name="phone" size={18} /> Call {business.phone.display}</a>
+      </div>
+    </div>
+
+    <div class="hero-in mt-12 grid gap-y-3 border-t border-white/20 pt-6 text-[0.875rem] text-on-dark sm:grid-cols-3 lg:mt-16" style="--d:0.55s">
+      <p class="flex items-center gap-2.5"><Icon name="pin" size={17} class="text-royal-300" />Leinster, Munster &amp; the Midlands</p>
+      <p class="flex items-center gap-2.5"><Icon name="check" size={17} class="text-royal-300" />Residential &amp; commercial</p>
+      <p class="flex items-center gap-2.5 sm:justify-end"><Icon name="check" size={17} class="text-royal-300" />Free, no-obligation quotations</p>
+    </div>
+  </div>
+
+  <span class="demo-tag hidden sm:block" style="left:auto;right:var(--gutter);bottom:auto;top:1.25rem">Demonstration image</span>
+</section>
+
+<style>
+  .hero :global(.hero-img) {
+    object-position: 62% 40%;
+    transform-origin: 60% 40%;
+  }
+  .hero-shade {
+    background:
+      linear-gradient(180deg, rgb(6 18 41 / 0.15) 0%, rgb(6 18 41 / 0.2) 35%, rgb(6 18 41 / 0.92) 100%),
+      linear-gradient(90deg, rgb(6 18 41 / 0.7) 0%, rgb(6 18 41 / 0.15) 60%, transparent 100%);
+  }
+  @media (min-width: 64rem) {
+    .hero-shade {
+      background:
+        linear-gradient(90deg, rgb(6 18 41 / 0.92) 0%, rgb(6 18 41 / 0.7) 38%, rgb(6 18 41 / 0.08) 72%),
+        linear-gradient(0deg, rgb(6 18 41 / 0.7) 0%, transparent 40%);
+    }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero :global(.hero-img) {
+      animation: hero-settle 2.4s var(--ease-premium) both;
+    }
+    .hero-in {
+      animation: hero-rise 1.1s var(--ease-premium) both;
+      animation-delay: var(--d, 0s);
+    }
+  }
+  @keyframes hero-settle {
+    from {
+      transform: scale(1.06);
+    }
+  }
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+  }
+</style>

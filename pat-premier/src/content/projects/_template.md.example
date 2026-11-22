@@ -1,0 +1,31 @@
+---
+# Copy this file to e.g. naas-slate-re-roof.md (no leading underscore).
+# Put photos in src/assets/projects/naas-slate-re-roof/ and reference them
+# relative to this file, as below. Every photo needs a factual alt text.
+title: Slate re-roof on a detached home
+location: Naas, Co. Kildare
+county: Kildare
+category: roofing # roofing | building
+services: [new-roofs-and-re-roofing] # one or more service slugs
+workType: Re-roof
+summary: One or two sentences for the project card (max 220 characters).
+demo: false
+featured: true # show on the homepage
+completed: 2026-09
+order: 1 # lower numbers appear first
+cover:
+  src: ../../assets/projects/naas-slate-re-roof/after-1.jpg
+  alt: Finished slate roof on a detached home in Naas
+before:
+  - src: ../../assets/projects/naas-slate-re-roof/before-1.jpg
+    alt: Old roof with slipped slates before work began
+during:
+  - src: ../../assets/projects/naas-slate-re-roof/during-1.jpg
+    alt: New membrane and battens being fitted
+after:
+  - src: ../../assets/projects/naas-slate-re-roof/after-1.jpg
+    alt: Finished slate roof on a detached home in Naas
+---
+
+Describe the job: what the client needed, what was found, the work carried
+out and the result. Plain, factual, no exaggeration.

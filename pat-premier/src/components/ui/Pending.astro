@@ -1,0 +1,12 @@
+---
+/**
+ * Visible placeholder for a business detail Pat Premier has not yet confirmed.
+ * Every use is listed in docs/CONTENT-NEEDED.md. Never replace with a guess.
+ */
+interface Props {
+  what: string;
+}
+const { what } = Astro.props;
+---
+
+<span class="pending" data-pending={what}>To be confirmed: {what}</span>

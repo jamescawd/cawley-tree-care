@@ -1,0 +1,44 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import { business, telHref } from '@/config/business';
+import { QUOTE_HREF } from '@/config/navigation';
+---
+
+<div class="mobile-bar" aria-label="Quick contact">
+  <a href={telHref} class="mobile-bar-btn bg-navy-900 text-white" data-track="call">
+    <Icon name="phone" size={18} /> Call {business.phone.display}
+  </a>
+  <a href={QUOTE_HREF} class="mobile-bar-btn bg-royal-600 text-white" data-track="quote">
+    Free Quote <Icon name="arrow" size={18} />
+  </a>
+</div>
+
+<style>
+  .mobile-bar {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 40;
+    display: grid;
+    grid-template-columns: 1.35fr 1fr;
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--color-navy-900);
+    box-shadow: 0 -8px 24px -12px rgb(6 18 41 / 0.35);
+  }
+  @media (min-width: 64rem) {
+    .mobile-bar {
+      display: none;
+    }
+  }
+  .mobile-bar-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3.5rem;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+</style>

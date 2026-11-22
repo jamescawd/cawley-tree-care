@@ -1,0 +1,89 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageIntro from '@/components/ui/PageIntro.astro';
+import Icon from '@/components/ui/Icon.astro';
+import Photo from '@/components/ui/Photo.astro';
+import { landingPages, landingUrl, leinsterCounties, munsterCounties, midlandsCounties } from '@/data/regions';
+import { business, telHref } from '@/config/business';
+
+const regions = [
+  {
+    name: 'Leinster',
+    text: 'All twelve counties, from Dublin and the commuter belt to the Wexford and Louth coasts.',
+    counties: leinsterCounties,
+    image: 'rooftopsStreet' as const,
+    links: landingPages.filter((p) => p.region === 'Leinster'),
+  },
+  {
+    name: 'Munster',
+    text: 'All six counties, from Atlantic-facing Kerry and Clare to Cork, Limerick, Tipperary and Waterford.',
+    counties: munsterCounties,
+    image: 'slateHouseSunset' as const,
+    links: landingPages.filter((p) => p.region === 'Munster'),
+  },
+  {
+    name: 'The Midlands',
+    text: 'Westmeath, Offaly, Laois and Longford, and the towns and countryside around them.',
+    counties: midlandsCounties,
+    image: 'greyRoofStone' as const,
+    links: landingPages.filter((p) => p.region === 'the Midlands'),
+  },
+];
+---
+
+<BaseLayout
+  title="Areas We Cover | Leinster, Munster & the Midlands"
+  description="Pat Premier Roofing and Building covers all of Leinster, all of Munster and the Midlands, with nationwide enquiries welcome. See the counties we cover."
+>
+  <PageIntro
+    eyebrow="Areas we cover"
+    title="Leinster, Munster and the Midlands"
+    intro={`${business.coverage.summary}. ${business.coverage.nationwide}`}
+    trail={[{ name: 'Home', href: '/' }, { name: 'Areas We Cover', href: '/areas' }]}
+  />
+
+  {
+    regions.map((r, i) => (
+      <section class:list={['section', i % 2 === 1 && 'surface-paper']} aria-labelledby={`r-${i}`}>
+        <div class="wrap grid gap-12 lg:grid-cols-12 lg:items-center">
+          <div class:list={['lg:col-span-5', i % 2 === 1 && 'lg:order-2 lg:col-start-8']} data-reveal>
+            <Photo media={r.image} class="aspect-[4/3] lg:aspect-[4/5]" sizes="(min-width: 64rem) 40vw, 100vw" />
+          </div>
+          <div class:list={['lg:col-span-6', i % 2 === 1 ? 'lg:order-1' : 'lg:col-start-7']} data-reveal>
+            <p class="index">{String(r.counties.length).padStart(2, '0')} counties</p>
+            <h2 id={`r-${i}`} class="t-d1 mt-3">{r.name}</h2>
+            <p class="t-lead mt-5 text-muted">{r.text}</p>
+            <ul class="mt-8 flex flex-wrap gap-2">
+              {r.counties.map((c) => (
+                <li class="border border-line bg-white px-3.5 py-1.5 text-[0.9rem] font-medium text-ink">
+                  {c.published ? <a href={`/areas/${c.slug}`}>Co. {c.name}</a> : <>Co. {c.name}</>}
+                </li>
+              ))}
+            </ul>
+            <ul class="mt-9 grid gap-3 sm:grid-cols-2">
+              {r.links.map((l) => (
+                <li>
+                  <a href={landingUrl(l.slug)} class="btn btn-outline w-full justify-between">
+                    {l.trade === 'roofing' ? 'Roofing' : 'Building'} in {r.name.replace('The ', 'the ')}
+                    <Icon name="arrow" size={18} />
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <section class="section surface-dark" aria-labelledby="nat-h">
+    <div class="wrap grid gap-8 lg:grid-cols-12 lg:items-end">
+      <h2 id="nat-h" class="t-d1 lg:col-span-7">Elsewhere in Ireland?</h2>
+      <div class="lg:col-span-5">
+        <p class="t-lead text-on-dark">{business.coverage.nationwide} Tell us where the property is and what needs doing.</p>
+        <a href={telHref} class="btn btn-light mt-7" data-track="call"><Icon name="phone" size={18} /> {business.phone.display}</a>
+      </div>
+    </div>
+  </section>
+
+</BaseLayout>

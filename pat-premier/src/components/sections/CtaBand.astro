@@ -1,0 +1,36 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import Photo from '@/components/ui/Photo.astro';
+import { business, telHref } from '@/config/business';
+import { QUOTE_HREF } from '@/config/navigation';
+import type { MediaKey } from '@/data/media';
+
+interface Props {
+  heading?: string;
+  text?: string;
+  image?: MediaKey;
+  quoteHref?: string;
+}
+const {
+  heading = 'Tell us about your roof or building project',
+  text = 'Call for a chat or send the details and a few photographs. Quotations are free.',
+  image = 'slateHouseSunset',
+  quoteHref = QUOTE_HREF,
+} = Astro.props;
+---
+
+<section class="surface-dark relative isolate overflow-hidden" aria-labelledby="cta-h">
+  <Photo media={image} class="absolute inset-0 -z-10 h-full opacity-30" sizes="100vw" hideTag />
+  <div class="absolute inset-0 -z-10 bg-gradient-to-r from-navy-950 via-navy-950/90 to-navy-950/40"></div>
+  <div class="wrap grid gap-10 py-[clamp(4rem,8vw,7.5rem)] lg:grid-cols-12 lg:items-end">
+    <div class="lg:col-span-7" data-reveal>
+      <p class="eyebrow">Free quotations</p>
+      <h2 id="cta-h" class="t-d1 mt-5">{heading}</h2>
+      <p class="t-lead mt-6 max-w-xl text-on-dark">{text}</p>
+    </div>
+    <div class="flex flex-col gap-3 sm:flex-row lg:col-span-5 lg:justify-end" data-reveal>
+      <a href={quoteHref} class="btn btn-light" data-track="quote">Request a Free Quote <Icon name="arrow" size={18} /></a>
+      <a href={telHref} class="btn btn-ghost-light" data-track="call"><Icon name="phone" size={18} /> Call {business.phone.display}</a>
+    </div>
+  </div>
+</section>

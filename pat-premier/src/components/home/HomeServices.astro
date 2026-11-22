@@ -1,0 +1,127 @@
+---
+import Photo from '@/components/ui/Photo.astro';
+import Icon from '@/components/ui/Icon.astro';
+import { buildingServices, roofingServices, serviceUrl } from '@/data/services';
+import type { MediaKey } from '@/data/media';
+
+const buildingImages: Record<string, MediaKey> = {
+  extensions: 'extensionGlazed',
+  'property-renovations': 'interiorOpenPlan',
+  'general-building-work': 'carpentry',
+};
+---
+
+<section class="section surface-paper" aria-labelledby="services-h">
+  <div class="wrap">
+    <div class="grid gap-8 lg:grid-cols-12 lg:items-end">
+      <div class="lg:col-span-7" data-reveal>
+        <p class="eyebrow">Our services</p>
+        <h2 id="services-h" class="t-d1 mt-5">Two trades.<br />One company.</h2>
+      </div>
+      <p class="t-lead text-muted lg:col-span-4 lg:col-start-9" data-reveal>
+        Roofing and building under one roof, for homes and commercial properties.
+      </p>
+    </div>
+
+    <!-- Roofing: image + numbered index -->
+    <div class="mt-16 grid gap-10 lg:mt-24 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-5" data-reveal>
+        <div class="lg:sticky lg:top-[calc(var(--header-h)+2rem)]">
+          <Photo media="rooferShingle" class="aspect-[4/3] lg:aspect-[4/5]" sizes="(min-width: 64rem) 38vw, 100vw" />
+          <div class="mt-6 flex items-baseline justify-between gap-4">
+            <h3 class="t-d2">Roofing</h3>
+            <a href="/roofing" class="link text-[0.95rem]">All roofing</a>
+          </div>
+        </div>
+      </div>
+      <ol class="lg:col-span-7" data-reveal>
+        {
+          roofingServices.map((s, i) => (
+            <li>
+              <a href={serviceUrl(s)} class="svc-row group">
+                <span class="index pt-1.5">{String(i + 1).padStart(2, '0')}</span>
+                <span>
+                  <span class="block font-display text-[clamp(1.35rem,1.1rem+1vw,2rem)] font-[600] leading-tight tracking-[-0.02em] text-ink [font-stretch:110%]">
+                    {s.name}
+                  </span>
+                  <span class="mt-2 block max-w-lg text-muted">{s.summary}</span>
+                </span>
+                <span class="svc-arrow">
+                  <Icon name="arrow" size={20} />
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+
+    <!-- Building: three image cards -->
+    <div class="mt-20 border-t border-line pt-14 lg:mt-28 lg:pt-20">
+      <div class="flex flex-wrap items-baseline justify-between gap-4" data-reveal>
+        <h3 class="t-d2">Building</h3>
+        <a href="/building" class="link text-[0.95rem]">All building services</a>
+      </div>
+      <ul class="mt-10 grid gap-x-6 gap-y-12 md:grid-cols-3">
+        {
+          buildingServices.map((s, i) => (
+            <li data-reveal style={`--reveal-delay:${i * 0.08}s`}>
+              <a href={serviceUrl(s)} class="group block">
+                <Photo
+                  media={buildingImages[s.slug] ?? 'buildingSite'}
+                  class:list={['aspect-[4/5]', i === 1 && 'md:mt-16']}
+                  imgClass="transition-transform duration-[1.2s] ease-(--ease-premium) group-hover:scale-[1.04]"
+                  sizes="(min-width: 48rem) 31vw, 100vw"
+                />
+                <div class="mt-5 flex items-start justify-between gap-4">
+                  <div>
+                    <p class="index">{String(i + 6).padStart(2, '0')}</p>
+                    <p class="mt-1.5 text-xl font-semibold text-ink">{s.name}</p>
+                    <p class="mt-1.5 text-muted">{s.summary}</p>
+                  </div>
+                  <Icon name="arrow-up-right" size={20} class="mt-1 shrink-0 text-royal-600 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </div>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .svc-row {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr auto;
+    gap: 1rem;
+    align-items: start;
+    padding-block: clamp(1.4rem, 2.4vw, 2rem);
+    border-top: 1px solid var(--color-line);
+    text-decoration: none;
+    transition: padding 0.4s var(--ease-premium);
+  }
+  li:last-child .svc-row {
+    border-bottom: 1px solid var(--color-line);
+  }
+  .svc-arrow {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: 1px solid var(--color-line-strong);
+    border-radius: 999px;
+    color: var(--color-ink);
+    transition: all 0.35s var(--ease-premium);
+  }
+  .svc-row:hover .svc-arrow {
+    background: var(--color-navy-900);
+    border-color: var(--color-navy-900);
+    color: var(--color-white);
+  }
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .svc-row:hover {
+      padding-left: 0.75rem;
+    }
+  }
+</style>

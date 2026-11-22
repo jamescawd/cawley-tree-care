@@ -1,0 +1,35 @@
+name: Pat Premier site
+
+on:
+  push:
+    branches: [main]
+    paths: ['pat-premier/**', '.github/workflows/pat-premier.yml']
+  pull_request:
+    paths: ['pat-premier/**', '.github/workflows/pat-premier.yml']
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    working-directory: pat-premier
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: pat-premier/package.json
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: pat-premier/.node-version
+          cache: pnpm
+          cache-dependency-path: pat-premier/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm check
+      - run: pnpm build
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test

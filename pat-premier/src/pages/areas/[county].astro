@@ -1,0 +1,40 @@
+---
+/**
+ * County pages: generated ONLY for counties marked `published: true` with
+ * genuine local content in src/data/regions.ts. None are published yet, so
+ * this route currently produces no pages (by design: no thin pages).
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import PageIntro from '@/components/ui/PageIntro.astro';
+import CtaBand from '@/components/sections/CtaBand.astro';
+import { publishedCounties, landingUrl, type County } from '@/data/regions';
+import { roofingServices, buildingServices, serviceUrl } from '@/data/services';
+
+export function getStaticPaths() {
+  return publishedCounties.map((county) => ({ params: { county: county.slug }, props: { county } }));
+}
+const { county: c } = Astro.props as { county: County };
+const regional = c.province === 'Leinster' ? 'roofing-contractors-leinster' : 'roofing-contractors-munster';
+---
+
+<BaseLayout
+  title={`Roofing & Building in Co. ${c.name}`}
+  description={`Roofing and building services in Co. ${c.name} from Pat Premier Roofing and Building. Call 087 365 4209 for a free quote.`}
+>
+  <PageIntro
+    eyebrow={`Co. ${c.name}`}
+    title={`Roofing and building in Co. ${c.name}`}
+    intro={c.intro}
+    trail={[{ name: 'Home', href: '/' }, { name: 'Areas We Cover', href: '/areas' }, { name: `Co. ${c.name}`, href: `/areas/${c.slug}` }]}
+  />
+  <section class="section">
+    <div class="wrap-narrow prose-pp text-lg">
+      {c.notes?.map((n) => <p>{n}</p>)}
+      <p>
+        See all our <a href={landingUrl(regional)}>services across {c.province}</a>:
+        {[...roofingServices, ...buildingServices].map((s, i, a) => <><a href={serviceUrl(s)}>{s.name}</a>{i < a.length - 1 ? ', ' : '.'}</>)}
+      </p>
+    </div>
+  </section>
+  <CtaBand heading={`Free quotes in Co. ${c.name}`} />
+</BaseLayout>

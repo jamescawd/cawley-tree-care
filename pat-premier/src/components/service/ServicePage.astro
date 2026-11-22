@@ -1,0 +1,57 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import ServiceHero from '@/components/service/ServiceHero.astro';
+import Overview from '@/components/service/Overview.astro';
+import WorkTypes from '@/components/service/WorkTypes.astro';
+import Feature from '@/components/service/Feature.astro';
+import Gallery from '@/components/service/Gallery.astro';
+import ServiceProjects from '@/components/service/ServiceProjects.astro';
+import Coverage from '@/components/service/Coverage.astro';
+import Related from '@/components/service/Related.astro';
+import Faq from '@/components/sections/Faq.astro';
+import CtaBand from '@/components/sections/CtaBand.astro';
+import { getMedia } from '@/data/media';
+import { serviceUrl, type Service } from '@/data/services';
+import { breadcrumbSchema, serviceSchema } from '@/lib/seo';
+
+interface Props {
+  service: Service;
+}
+const { service: s } = Astro.props;
+const site = Astro.site ?? new URL('http://localhost:4321');
+const catName = s.category === 'roofing' ? 'Roofing' : 'Building';
+const trail = [
+  { name: 'Home', href: '/' },
+  { name: catName, href: `/${s.category}` },
+  { name: s.name, href: serviceUrl(s) },
+];
+const quoteHref = `/contact?service=${encodeURIComponent(s.name)}#quote`;
+const flip = ['split', 'offset'].includes(s.hero.layout);
+---
+
+<BaseLayout
+  title={s.metaTitle}
+  description={s.metaDescription}
+  image={getMedia(s.hero.image).src}
+  schema={[
+    breadcrumbSchema(site, trail),
+    serviceSchema(site, { name: s.name, description: s.metaDescription, url: serviceUrl(s) }),
+  ]}
+>
+  <ServiceHero {...s.hero} trail={trail} quoteHref={quoteHref} />
+  <div class:list={[s.hero.layout === 'offset' && 'lg:pt-16']}>
+    <Overview overview={s.overview} flip={flip} />
+  </div>
+  <WorkTypes work={s.work} />
+  <Feature feature={s.feature} />
+  <Gallery images={s.gallery} heading={`${s.name} in pictures`} />
+  <ServiceProjects slug={s.slug} name={s.name} />
+  <Faq faqs={s.faqs} heading={`${s.name}: your questions`} />
+  <Coverage serviceName={s.name} landing={s.landing} />
+  <Related slugs={s.related} />
+  <CtaBand
+    heading={`Get a free quote for ${s.name.toLowerCase()}`}
+    image={s.gallery[1] ?? s.hero.image}
+    quoteHref={quoteHref}
+  />
+</BaseLayout>

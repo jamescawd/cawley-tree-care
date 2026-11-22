@@ -1,0 +1,64 @@
+---
+import '@/styles/global.css';
+import Head, { type SeoProps } from '@/components/seo/Head.astro';
+import SiteHeader from '@/components/layout/SiteHeader.astro';
+import SiteFooter from '@/components/layout/SiteFooter.astro';
+import MobileBar from '@/components/layout/MobileBar.astro';
+
+type Props = SeoProps;
+const props = Astro.props;
+---
+
+<!doctype html>
+<html lang="en-IE">
+  <head>
+    <Head {...props} />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
+  </head>
+  <body class="pb-[calc(3.5rem+env(safe-area-inset-bottom))] lg:pb-0">
+    <a href="#main" class="skip-link">Skip to content</a>
+    <SiteHeader />
+    <main id="main" tabindex="-1" class="outline-none">
+      <slot />
+    </main>
+    <SiteFooter />
+    <MobileBar />
+    <script>
+      // Gentle scroll reveals (visible by default; skipped for reduced motion).
+      const els = document.querySelectorAll<HTMLElement>('[data-reveal]');
+      if (matchMedia('(prefers-reduced-motion: no-preference)').matches && 'IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-in');
+                io.unobserve(e.target);
+              }
+            }
+          },
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
+        );
+        els.forEach((el) => io.observe(el));
+      } else {
+        els.forEach((el) => el.classList.add('is-in'));
+      }
+    </script>
+    <style is:global>
+      .skip-link {
+        position: absolute;
+        left: 1rem;
+        top: -4rem;
+        z-index: 100;
+        padding: 0.75rem 1rem;
+        background: var(--color-navy-900);
+        color: var(--color-white);
+        font-weight: 600;
+      }
+      .skip-link:focus {
+        top: 1rem;
+      }
+    </style>
+  </body>
+</html>

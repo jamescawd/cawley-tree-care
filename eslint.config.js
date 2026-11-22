@@ -12,6 +12,8 @@ export default defineConfig(
       'node_modules/',
       'test-results/',
       'playwright-report/',
+      // Separate site (Pat Premier) with its own tooling.
+      'pat-premier/',
     ],
   },
   tseslint.configs.recommended,

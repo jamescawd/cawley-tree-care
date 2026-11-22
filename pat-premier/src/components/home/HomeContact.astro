@@ -1,0 +1,51 @@
+---
+import Icon from '@/components/ui/Icon.astro';
+import QuoteForm from '@/components/sections/QuoteForm.astro';
+import { business, mailHref, telHref } from '@/config/business';
+
+const steps = [
+  'Send the details, with photographs if you can.',
+  'We get back to you to discuss the job and arrange to see it where needed.',
+  'You receive your free quotation.',
+];
+---
+
+<section class="section" id="quote" aria-labelledby="contact-h">
+  <div class="wrap">
+    <div class="grid overflow-hidden border border-line lg:grid-cols-12">
+      <div class="surface-dark relative p-8 sm:p-12 lg:col-span-5 lg:p-14">
+        <p class="eyebrow">Contact</p>
+        <h2 id="contact-h" class="t-d1 mt-5">Request a free quote</h2>
+        <p class="mt-6 text-on-dark">
+          Tell us about your roof or building project. The more detail and photographs you can share, the better.
+        </p>
+
+        <a href={telHref} class="group mt-10 block" data-track="call">
+          <span class="text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-royal-300">Call</span>
+          <span class="mt-1 block font-display text-[clamp(1.9rem,1.4rem+1.8vw,2.75rem)] font-[600] text-white [font-stretch:112%] group-hover:text-royal-300">
+            {business.phone.display}
+          </span>
+        </a>
+        <a href={mailHref} class="group mt-6 block">
+          <span class="text-[0.8125rem] font-semibold uppercase tracking-[0.14em] text-royal-300">Email</span>
+          <span class="mt-1 block break-all text-lg font-semibold text-white group-hover:text-royal-300">{business.email}</span>
+        </a>
+
+        <ol class="mt-12 space-y-5 border-t border-white/15 pt-10">
+          {
+            steps.map((s, i) => (
+              <li class="flex gap-4 text-[0.95rem]">
+                <span class="grid size-7 shrink-0 place-items-center rounded-full border border-royal-300/60 text-[0.8rem] font-semibold text-royal-300">{i + 1}</span>
+                <span class="pt-0.5 text-on-dark">{s}</span>
+              </li>
+            ))
+          }
+        </ol>
+        <p class="mt-10 flex items-center gap-2.5 text-sm text-on-dark-muted"><Icon name="pin" size={17} />{business.coverage.summary}</p>
+      </div>
+      <div class="bg-white p-6 sm:p-12 lg:col-span-7 lg:p-14">
+        <QuoteForm />
+      </div>
+    </div>
+  </div>
+</section>

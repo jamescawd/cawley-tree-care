@@ -1,0 +1,55 @@
+---
+import { getCollection } from 'astro:content';
+import ProjectCard from '@/components/sections/ProjectCard.astro';
+import BeforeAfter from '@/components/sections/BeforeAfter.astro';
+import type { ServiceSlug } from '@/data/services';
+
+interface Props {
+  slug: ServiceSlug;
+  name: string;
+}
+const { slug, name } = Astro.props;
+const all = (await getCollection('projects'))
+  .filter((p) => p.data.services.includes(slug))
+  .sort((a, b) => Number(a.data.demo) - Number(b.data.demo) || a.data.order - b.data.order);
+const withBA = all.find((p) => p.data.before.length && p.data.after.length);
+const cards = all.slice(0, 2);
+---
+
+{
+  cards.length > 0 && (
+    <section class="section surface-paper" aria-labelledby="sp-h">
+      <div class="wrap">
+        <div class="flex flex-wrap items-end justify-between gap-4" data-reveal>
+          <div>
+            <p class="eyebrow">Projects</p>
+            <h2 id="sp-h" class="t-d2 mt-5">{name} projects</h2>
+          </div>
+          <a href="/projects" class="link">All projects</a>
+        </div>
+
+        {withBA && (
+          <div class="mt-12 grid gap-8 lg:grid-cols-12 lg:items-end" data-reveal>
+            <div class="lg:col-span-8">
+              <BeforeAfter before={withBA.data.before[0]!} after={withBA.data.after[0]!} demo={withBA.data.demo} />
+            </div>
+            <div class="lg:col-span-4">
+              <p class="index">Before &amp; after</p>
+              <h3 class="t-d3 mt-3">{withBA.data.title}</h3>
+              <p class="mt-3 text-muted">{withBA.data.summary}</p>
+              <a href={`/projects/${withBA.id}`} class="link mt-6 inline-block">View the project</a>
+            </div>
+          </div>
+        )}
+
+        <div class="mt-14 grid gap-10 md:grid-cols-2">
+          {cards.map((p) => (
+            <div data-reveal>
+              <ProjectCard project={p} size="small" sizes="(min-width: 48rem) 46vw, 100vw" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
