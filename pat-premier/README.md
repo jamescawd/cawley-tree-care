@@ -87,6 +87,12 @@ switches from "coming soon" to a review grid automatically.
 **Fill a pending detail.** Set it in `src/config/business.ts` (e.g. `established`,
 `credentials`, `social`, `reviewLink`) and remove it from `docs/CONTENT-NEEDED.md`.
 
+## Test address (Cloudflare Workers)
+
+The Cloudflare project `pat-premier` builds the branch `ccr-5d86e5ee-3dx8z1`
+for testing (its production branch is set to that branch). Before launch, set
+the production branch back to `main` once this work is merged.
+
 ## Preview link (Cloudflare Pages)
 
 Create a separate Pages project from this repository: Workers & Pages →
