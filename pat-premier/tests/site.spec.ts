@@ -35,6 +35,7 @@ export const PAGES = [
   '/projects/fascia-and-rafter-ends-rebuilt',
   '/projects/extension-build-finished',
   '/projects/roof-deck-new-boards',
+  '/projects/roof-stripping-semi-detached',
   '/quote',
   '/about',
   '/areas',
